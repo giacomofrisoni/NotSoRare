@@ -6,12 +6,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './components/heroes.component';
 import { HeroService } from './services/hero.service';
+import { HomeComponent } from './pages/home.component';
+import { TopBarComponent } from './components/top-bar.component';
+import { DivbuttonComponent } from './components/divbutton.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeroesComponent
+    HeroesComponent,
+    HomeComponent,
+    TopBarComponent,
+    DivbuttonComponent,
   ],
   imports: [
     BrowserModule,
