@@ -8,7 +8,8 @@ mongoose.Promise = global.Promise;
 const env = require('./env/environment');
 
 // Set up the connection uri
-const mongoUri = `mongodb://${env.username}:${encodeURIComponent(`${env.key}`)}@${env.username}:${env.mongoPort}/${env.dbName}?ssl=true`;
+const mongoUri = `mongodb://${env.username}:${env.password}@${env.host1}:${env.port1},${env.host2}:${env.port2},${env.host3}:${env.port3}/${env.dbName}?ssl=true&replicaSet=${env.replicaSet}&authSource=admin`;
+
 
 function connect() {
     mongoose.connect(mongoUri);
