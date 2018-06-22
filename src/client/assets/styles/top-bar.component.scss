@@ -1,7 +1,20 @@
-@import 'colors';
+@import 'common-values';
+
+$top-bar-updown-padding: 5px;
+$top-bar-lateral-padding: 15px;
 
 .top-bar {
-    height: 48px;
-    max-height: 48px;
-    min-height: 48px;
+    height: $nav-size;
+    max-height: $nav-size;
+    min-height: $nav-size;
+}
+
+img {
+    max-height: $nav-size - ($top-bar-updown-padding * 2);
+    margin-left: $top-bar-lateral-padding;
+    margin-right: $top-bar-lateral-padding;
+}
+
+.margined > * {
+    margin-right: 20px;
 }

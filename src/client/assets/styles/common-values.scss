@@ -1,0 +1,58 @@
+/* FONTS */
+@font-face {
+    font-family: 'Trebuchet MS';
+    src: url('../fonts/TrebuchetMS.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Segoe UI';
+    src: url('../fonts/SegoeUI.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Segoe UI Light';
+    src: url('../fonts/SegoeUILight.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Segoe UI Bold';
+    src: url('../fonts/SegoeUIBold.ttf') format('truetype');
+}
+
+
+/* COLORS */
+$accent-color: #EB5E64;
+$accent-dark-color: #E22B2D;
+$background-color: radial-gradient(#e7e7e7, #d5d5d5);
+
+$button-hover-overlay: #00000012;
+$button-pressed-overlay: #00000024;
+
+$card-background-color: white;
+
+$text-color: #494949;
+$text-light-color: #888888;
+$text-dark-color: #403f3f;
+
+/* EFFECTS */
+$card-shadow: 0 1px 10px 0 rgba(0,0,0,0.5);
+
+/* DIMENSIONS */
+$nav-size: 48px;
+
+/*mixins*/
+@mixin setWidth($value) {
+    min-width: $value;
+    max-width: $value;
+    width: $value;
+}
+
+@mixin setHeight($value) {
+    min-height: $value;
+    max-height: $value;
+    height: $value;
+}
+
+
+
+

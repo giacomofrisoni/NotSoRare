@@ -1,0 +1,28 @@
+@import 'common-values';
+
+.middle {
+    margin-top: -10%;
+    width: 50%;
+    text-align: center;
+
+    & > * {
+        margin-bottom: 50px;
+    }
+}
+
+input {
+    box-sizing: border-box;
+    width: 70%;
+    border: 2px solid $accent-dark-color;
+    border-radius: 5px 0px 0px 5px;
+    padding: 20px;
+    height: 38px;
+}
+
+
+app-divbutton {
+    @include setHeight(40px);
+    width: 100px;
+    border: 2px solid $accent-dark-color;
+    border-radius: 0px 5px 5px 0px;
+}

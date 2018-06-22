@@ -1,0 +1,10 @@
+@import 'common-values';
+
+app-root {
+    display: block;
+    height: 100%;
+}
+
+.main-frame {
+    flex-grow: 1;
+}

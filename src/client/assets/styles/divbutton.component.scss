@@ -1,0 +1,59 @@
+@import 'common-values';
+
+.divbutton {
+    box-sizing: border-box;
+    background: $accent-dark-color;
+    color: white;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    height: 100%;
+    width: 100%;
+
+    &.small {
+        color: $accent-dark-color;
+        width: $nav-size;
+        height: $nav-size;
+
+        .divbutton-overlay {
+            border-radius: 0px;
+            padding: 0;
+        }
+    }
+
+    .divbutton-overlay {
+        padding: 3px;
+        padding-left: 20px;
+        padding-right: 20px;
+
+        flex-grow: 1;
+        text-align: center;
+
+        &:hover {
+            background: $button-hover-overlay;
+            cursor: pointer;
+        }
+    
+        &:active {
+            background: $button-pressed-overlay;
+        }
+    }
+
+    &.bordered {
+        border-radius: 5px;
+        border: 2px solid $accent-dark-color;
+        background: white;
+    }
+}
+
+#icon, #badge {
+    position: relative;
+}
+
+#icon {
+    top: 25%;
+}
+
+#badge {
+    top: -25%;
+}
