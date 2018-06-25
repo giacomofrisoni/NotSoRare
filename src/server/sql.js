@@ -1,43 +1,32 @@
+// Import the modules for the db connection
 var Connection = require("tedious").Connection;
-var Request = require("tedious").Request;
+
+// Import the module with data environment for db connection
+const env = require('./env/sql_environment');
 
 // Create connection to database
 var config = {
-    userName: "StandardUser",
-    password: "L!vX;c4$MseLm3SL",
-    server: "notsorareserver.database.windows.net",
+    userName: env.username,
+    password: env.password,
+    server: env.server,
     options: {
-        database: "NotSoRareDB",
+        database: env.dbName,
         encrypt: true
     }
 };
+
+// Get the connection
 var connection = new Connection(config);
 
 // Attempt to connect and execute queries if connection goes through
-connection.on("connect", function (err) {
+connection.on('connect', function(err) {
     if (err) {
         console.log(err);
     } else {
-        queryDatabase();
+        console.log("Connected to Azure Sql Database");
     }
 });
 
-function queryDatabase() {
-    console.log('Reading rows from the Table...');
-
-    // Read all rows from table
-    request = new Request(
-        "SELECT Name FROM Administrator",
-        function (err, rowCount, rows) {
-            console.log(rowCount + ' row(s) returned');
-            process.exit();
-        }
-    );
-
-    request.on('row', function (columns) {
-        columns.forEach(function (column) {
-            console.log("%s\t%s", column.metadata.colName, column.value);
-        });
-    });
-    connection.execSql(request);
-}
+module.exports = {
+    connection
+};
