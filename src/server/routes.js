@@ -1,7 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-const heroService = require('./hero.service');
+const validate = require('express-validation');
+const signupSchema = require('./validation/signup_schema');
+
+const signupService = require('./services/signup.service');
+const heroService = require('./services/hero.service');
+
+
+router.post('/signup', validate(signupSchema), (req, res) => {
+    signupService.signup(req, res);
+});
 
 router.get('/heroes', (req, res) => {
     heroService.getHeroes(req, res);

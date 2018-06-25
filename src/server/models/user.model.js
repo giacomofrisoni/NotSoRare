@@ -1,30 +1,39 @@
 // Import the mongoose module
 const mongoose = require('mongoose');
-require('mongoose-type-email');
 
 // Define the User schema
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     id: { type: Number, required: true, unique: true },
-    email: { type: mongoose.SchemaTypes.Email, required: true, unique: true },
-    first_name: { type: String, required: true, max: [100, 'Too long name'] },
-    last_name: { type: String, required: true, max: [100, 'Too long name'] },
-    gender: { type: String, required: true, enum: ['M', 'F'] },
-    birth_date: { type: Date },
-    nationality: { type: Schema.ObjectId, ref: 'Nation' },
-    biografy: { type: String, max: 50000 },
+    first_name: { type: String, max: [15, 'Too long name'] },
+    last_name: { type: String, max: [15, 'Too long surname'] },
+    gender: { type: String, enum: ['M', 'F'] },
     image: { data: Buffer, contentType: String },
-    registration_date: { type: Date, required: true, defualt: Date.now },
-    ban_date: Date
+    birth_date: { type: Date },
+    is_anonymous: { data: Boolean, required: true }
 }, {
     collection: 'Users'
 });
 
 // Virtual for user's full name
 UserSchema
-.virtual('name')
+.virtual('fullname')
 .get(function() {
     return this.first_name + ' ' + this.last_name;
+});
+
+// Virtual for user's age
+UserSchema
+.virtual('age')
+.get(function() {
+    return Math.floor((Date.now() - this.birth_date.getTime()) / (1000 * 3600 * 24 * 365));
+});
+
+// Virtual for user's URL
+UserSchema
+.virtual('url')
+.get(function() {
+    return '/users/' + this.id;
 });
 
 // Compile model from schema

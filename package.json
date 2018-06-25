@@ -22,13 +22,18 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "async": "^2.6.1",
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
     "core-js": "^2.4.1",
     "express": "^4.16.3",
+    "express-validation": "^1.0.2",
+    "joi": "^13.4.0",
+    "joi-country-extension": "^1.0.0",
     "mongoose": "^5.0.14",
     "mongoose-type-email": "^1.0.5",
     "rxjs": "^5.5.6",
     "tedious": "^2.6.1",
+    "uuid": "^3.2.1",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
