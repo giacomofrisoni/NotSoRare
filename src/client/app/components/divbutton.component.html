@@ -1,8 +1,13 @@
-<div class="button" [class.iconed]="isIconed == true">
-    <div class="button-overlay">
-        B1
-        <div ng-show="isNotified" class="notifier">
-            5
+<div class="divbutton" [ngClass]="{'small': isIconic}">
+    <div class="divbutton-overlay" *ngIf="isIconic">
+        <i id="icon" class="{{icon}}"></i>
+
+        <div id="badge" *ngIf="isNotifyBadgeSet" class="notify-badge">
+            <span>{{badgeCount}}</span>
         </div>
-    </div>   
+    </div>
+
+    <div class="divbutton-overlay" *ngIf="!isIconic" [ngClass]="{'bordered': isBordered}">
+        <span>{{text}}</span>
+    </div>
 </div>

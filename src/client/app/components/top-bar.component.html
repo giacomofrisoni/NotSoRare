@@ -1,14 +1,21 @@
-<div class="flexbox card top-bar">
+<div class="flexbox-container spaced card top-bar">
     <!-- Left -->
-    <div>
-        <p>LOGO HERE</p>
+    <div class="flexbox-container left-components">
+        <img src="../../assets/images/logo.png">
+        <h1>Not So <b>Rare</b></h1>
     </div>
 
-    <!-- Right -->
-    <div>
-        <div class="button iconed">B1</div>
-        <div class="button iconed">B2</div>
-        <div class="button iconed">B3</div>
-        <div class="button iconed">B4</div>
+    <!-- Right REGISTERED -->
+    <div *ngIf="isSessionValid" class="flexbox-container right-components">
+        <app-divbutton isSmall="true" icon="fa fa-bell" isNotifyBadgeSet="true" badgeCount="9+"></app-divbutton>
+        <app-divbutton isSmall="true" icon="fa fa-user"></app-divbutton>
+        <app-divbutton isSmall="true" icon="fa fa-bars"></app-divbutton>
+    </div>
+
+    <!-- Right UNREGISTERED -->
+    <div *ngIf="!isSessionValid" class="flexbox-container right-components margined">
+        <app-divbutton text="Registrati" isBordered="true"></app-divbutton>
+        <app-divbutton text="Login"></app-divbutton>
+        <app-divbutton isIconic="true" icon="fa fa-bars"></app-divbutton>
     </div>
 </div>
