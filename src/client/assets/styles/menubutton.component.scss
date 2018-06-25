@@ -1,0 +1,39 @@
+@import 'common-values';
+
+.menubutton {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    box-sizing: border-box;
+    background: white;
+    color: $accent-dark-color;
+    text-align: center;
+    width: $nav-size;
+    height: $nav-size;
+
+
+    .menubutton-overlay {
+        flex-grow: 1;
+        
+        &:hover {
+            background: $button-hover-overlay;
+            cursor: pointer;
+        }
+    
+        &:active {
+            background: $button-pressed-overlay;
+        }
+    }
+}
+
+#icon, #badge {
+    position: relative;
+}
+
+#icon {
+    top: 25%;
+}
+
+#badge {
+    top: -25%;
+}

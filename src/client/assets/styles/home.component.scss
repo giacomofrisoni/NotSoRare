@@ -1,7 +1,6 @@
 @import 'common-values';
 
 .middle {
-    margin-top: -10%;
     width: 50%;
     text-align: center;
 
@@ -10,19 +9,19 @@
     }
 }
 
+
+$input-height: 38px;
+
 input {
     box-sizing: border-box;
     width: 70%;
     border: 2px solid $accent-dark-color;
     border-radius: 5px 0px 0px 5px;
     padding: 20px;
-    height: 38px;
+    height: $input-height
 }
 
-
-app-divbutton {
-    @include setHeight(40px);
-    width: 100px;
-    border: 2px solid $accent-dark-color;
-    border-radius: 0px 5px 5px 0px;
+#button-search {
+    height: $input-height + 5;
+    line-height: $input-height + 5;
 }

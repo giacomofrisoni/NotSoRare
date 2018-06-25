@@ -7,15 +7,15 @@
 
     <!-- Right REGISTERED -->
     <div *ngIf="isSessionValid" class="flexbox-container right-components">
-        <app-divbutton isSmall="true" icon="fa fa-bell" isNotifyBadgeSet="true" badgeCount="9+"></app-divbutton>
-        <app-divbutton isSmall="true" icon="fa fa-user"></app-divbutton>
-        <app-divbutton isSmall="true" icon="fa fa-bars"></app-divbutton>
+        <app-menubutton icon="fa fa-bell" badge="9"></app-menubutton>
+        <app-menubutton icon="fa fa-user"></app-menubutton>
+        <app-menubutton icon="fa fa-bars"></app-menubutton>
     </div>
 
     <!-- Right UNREGISTERED -->
     <div *ngIf="!isSessionValid" class="flexbox-container right-components margined">
-        <app-divbutton text="Registrati" isBordered="true"></app-divbutton>
-        <app-divbutton text="Login"></app-divbutton>
-        <app-divbutton isIconic="true" icon="fa fa-bars"></app-divbutton>
+        <app-divbutton text="Iscriviti" isBordered="true"></app-divbutton>
+        <app-divbutton text="Accedi"></app-divbutton>
+        <app-menubutton icon="fa fa-bars"></app-menubutton>
     </div>
 </div>

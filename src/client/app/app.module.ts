@@ -10,6 +10,7 @@ import { HomeComponent } from './pages/home.component';
 import { TopBarComponent } from './components/top-bar.component';
 import { DivbuttonComponent } from './components/divbutton.component';
 import { RootComponent } from './pages/root.component';
+import { MenubuttonComponent } from './components/menubutton.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { RootComponent } from './pages/root.component';
     TopBarComponent,
     DivbuttonComponent,
     RootComponent,
+    MenubuttonComponent,
   ],
   imports: [
     BrowserModule,
