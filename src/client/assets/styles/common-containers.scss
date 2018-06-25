@@ -17,7 +17,6 @@ html, body {
     padding: 0;
 
     &.centered {
-        height: 100%;
         justify-content: center;
     }
 
@@ -40,6 +39,10 @@ html, body {
     &.stretch {
         align-content: stretch;
         align-items: stretch;
+    }
+
+    &.top {
+        justify-content: flex-start;
     }
 }
 
