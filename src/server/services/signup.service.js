@@ -57,8 +57,8 @@ function signup(req, res) {
                              * Prepares the SQL statement with parameters for SQL-injection avoidance,
                              * in order to register the new user account.
                              */
-                            request = new Request("INSERT StandardUser (Id, Email, Password, Name, Surname, Gender, BirthDate, Nationality, RegistrationDate, PatientYN) " +
-                                "VALUES (@Id, @Email, @Password, @Name, @Surname, @Gender, @BirthDate, @Nationality, CURRENT_TIMESTAMP, @PatientYN);", (queryError, rowCount) => {
+                            request = new Request("INSERT StandardUser (Id, Email, Password, Name, Surname, Gender, BirthDate, Nationality, RegistrationDate, PatientYN, ActivationCode) " +
+                                "VALUES (@Id, @Email, @Password, @Name, @Surname, @Gender, @BirthDate, @Nationality, CURRENT_TIMESTAMP, @PatientYN, @ActivationCode);", (queryError, rowCount) => {
                                 if (queryError) {
                                     console.log(queryError);
                                     res.status(500).send(queryError);
@@ -98,6 +98,7 @@ function signup(req, res) {
                             request.addParameter('BirthDate', TYPES.Date, req.body.birthDate);
                             request.addParameter('Nationality', TYPES.NVarChar, req.body.nationality);
                             request.addParameter('PatientYN', TYPES.Bit, req.body.patientYN);
+                            request.addParameter('ActivationCode', TYPES.NChar, activationCode);
 
                             // Performs the insertion query on the relational database
                             sql.connection.execSql(request);
