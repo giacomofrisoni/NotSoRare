@@ -20,12 +20,14 @@
       "prefix": "app",
       "styles": [
         "../../node_modules/font-awesome/css/font-awesome.css",
+        "../../node_modules/@fengyuanchen/datepicker/dist/datepicker.css",
         "./assets/styles/common-values.scss",
         "./assets/styles/common-containers.scss",
         "./assets/styles/common-text.scss"
       ],
       "scripts": [
-        "../../node_modules/jquery/dist/jquery.min.js"
+        "../../node_modules/jquery/dist/jquery.min.js",
+        "../../node_modules/@fengyuanchen/datepicker/dist/datepicker.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

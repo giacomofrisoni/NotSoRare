@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "@fengyuanchen/datepicker": "^0.6.5",
     "async": "^2.6.1",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",

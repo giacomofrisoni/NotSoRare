@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.accountTypeOptions = true;
+    $('#birthDate').datepicker();
   }
 
 }
