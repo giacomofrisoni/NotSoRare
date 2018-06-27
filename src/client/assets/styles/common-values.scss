@@ -25,8 +25,8 @@ $accent-color: #EB5E64;
 $accent-dark-color: #E22B2D;
 $background-color: radial-gradient(#e7e7e7, #d5d5d5);
 
-$button-hover-overlay: #00000012;
-$button-pressed-overlay: #00000024;
+$button-hover-overlay: #00000009;
+$button-pressed-overlay: #00000015;
 
 $card-background-color: white;
 
@@ -38,7 +38,7 @@ $text-dark-color: #403f3f;
 $card-shadow: 0 1px 10px 0 rgba(0,0,0,0.5);
 
 /* DIMENSIONS */
-$nav-size: 48px;
+$nav-size: 55px;
 
 /*mixins*/
 @mixin setWidth($value) {

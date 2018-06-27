@@ -44,9 +44,10 @@
 }
 
 .half-cornered {
-    border-radius: 0px 10px 10px 0px;
+    border: 2px solid $accent-dark-color;
+    border-radius: 0px 5px 5px 0px;
 
     .divbutton-overlay {
-        border-radius: 0px 10px 10px 0px;
+        border-radius: 0px 5px 5px 0px;
     }
 }
