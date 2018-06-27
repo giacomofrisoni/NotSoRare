@@ -1,15 +1,24 @@
 @import 'common-values';
 
-app-root {
-    display: block;
-    height: 100%;
-}
-
 app-top-bar {
     z-index: 999999;
 }
 
+.root > *:not(app-top-bar):not(router-outlet) {
+    margin-top: -$nav-size;
+    flex-grow: 1;
+    height: 100%;
+}
+
+/*
+app-home, app-register {
+    margin-top: -$nav-size;
+    flex-grow: 1;
+    height: 100%;
+}*/
+
+/*
 .main-frame {
     margin-top: -$nav-size;
     flex-grow: 1;
-}
+}*/
