@@ -60,7 +60,6 @@ function signup(req, res) {
                             request = new Request("INSERT StandardUser (Id, Email, Password, Name, Surname, Gender, BirthDate, Nationality, RegistrationDate, PatientYN, ActivationCode) " +
                                 "VALUES (@Id, @Email, @Password, @Name, @Surname, @Gender, @BirthDate, @Nationality, CURRENT_TIMESTAMP, @PatientYN, @ActivationCode);", (queryError, rowCount) => {
                                 if (queryError) {
-                                    console.log(queryError);
                                     res.status(500).send(queryError);
                                 } else {
                                     console.log("User '" + req.body.name + " " + req.body.surname + "' successfully registered.");
