@@ -1,6 +1,57 @@
 <div>
-    <div class="card">
-        <h2>Iscriviti</h2>
+    <div class="page-card">
+        <h3>Iscriviti</h3>
         <hr/>
+        <i>Tutti i campi contrassegnati con <b>*</b> sono obbligatori</i>
+        <form class="flex-container register-form">
+            <div>
+                <label class="title" for="accountType">Seleziona il tipo di account</label>
+                <fieldset id="accountTypeSet">
+                    <input type="radio" [(ngModel)]="accountTypeOptions" [value]="true" [checked]="accountTypeOptions" name="accountType" id="radioAccountType1" value="patiens"/>
+                    <label for="radioAccountType1">Paziente</label>
+
+                    <input type="radio" [(ngModel)]="accountTypeOptions" [value]="false" [checked]="!accountTypeOptions" name="accountType" id="radioAccountType1" value="family"/>
+                    <label for="radioAccountType1">Famigliare</label>
+                </fieldset>
+
+                <span class="info" *ngIf="accountTypeOptions">
+                    Un account di tipo "Paziente" serve al diretto malato. Esso può confrontarsi direttamente per qualsiasi cosa disponibile sul sito.
+                </span>
+
+                <span class="info" *ngIf="!accountTypeOptions">
+                    Un account di tipo "Famigliare" è studiato per dare l'accesso alla piattaforma anche ai famigliari del malato, affinchè, se direttamente
+                    incapace, possa comunque ricevere aiuto da parte della comunità.
+                </span>
+            </div>
+
+            <div>
+                <fieldset>
+                    <div class="field">
+                        <label class="title" for="name">Nome</label>
+                        <input type="text" id="name"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="title" for="surname">Cognome</label>
+                        <input type="text" id="surname"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="title" for="gender">Sesso</label>
+                        <fieldset>
+                            <input type="radio" name="gender" id="genderMale" value="m"/>
+                            <label for="genderMale">Maschio</label>
+        
+                            <input type="radio" name="gender" id="genderFemale" value="f"/>
+                            <label for="genderFemale">Femmina</label>
+                        </fieldset>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div>
+                
+            </div>
+        </form>
     </div>
 </div>

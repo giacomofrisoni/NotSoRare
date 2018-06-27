@@ -5,10 +5,14 @@ app-top-bar {
 }
 
 .root > *:not(app-top-bar):not(router-outlet) {
-    margin-top: -$nav-size;
     flex-grow: 1;
     height: 100%;
 }
+
+.root app-home {
+    margin-top: -$nav-size;
+}
+
 
 /*
 app-home, app-register {
