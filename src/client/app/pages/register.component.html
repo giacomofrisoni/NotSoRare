@@ -53,17 +53,33 @@
             </div>
 
             <div class="field">
+                <label class="title" for="birthDate">Nazionalità <span class="highlight">(*)</span></label>
+                <select></select>
+            </div>
+
+            <div class="field">
                 <label class="title" for="biography">Biografia</label>
-                <textarea class="only-vertical" [formControl]="biographyControl"></textarea>
+                <textarea class="only-vertical" (input)="onTextareaValueChange($event)"></textarea>
                 <div class="small-text">
-                    <span>{{text.get('text').value.length}}</span>/<span>4000</span>
-                    <span *ngIf="text.get('text').value.length < 100"> Devi immettere almeno 100 caratteri!</span>
+                    <span>{{charCount}}</span>/<span>4000</span>
+                    <span style="padding-left: 20px;" *ngIf="charCount > 0 && charCount < 100">Devi immettere almeno 100 caratteri!</span>
                 </div>
             </div>
         </div>
 
         <div class="page-card half-paged">
             <h4>Dati dell'utente</h4>
+
+            <div class="field flexbox-container centered">
+                <div>
+                    <img [src]="photoUrl"/>
+                </div>
+
+                <label for="uploadedFile">
+                    <input type="file" id="uploadedFile" accept="image/*" (change)="readUrl($event)"/>
+                    <app-divbutton text="Carica foto"></app-divbutton>
+                </label>
+            </div>
 
             <div class="field">
                 <label class="title" for="email">Indirizzo E-Mail <span class="highlight">(*)</span></label>

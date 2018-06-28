@@ -18,3 +18,15 @@
 .half-paged {
     width: 45%;
 }
+
+img {
+    border: 1px solid $accent-dark-color;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+input[type=file] {
+    display: none;
+}

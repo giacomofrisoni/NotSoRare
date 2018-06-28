@@ -13,7 +13,6 @@ export class RadiogroupComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.radiobuttons);
   }
 
   onRadioSelected(radiobutton: any): void {
