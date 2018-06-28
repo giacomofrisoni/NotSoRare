@@ -10,6 +10,10 @@ html, body {
     color: $text-color;
 }
 
+*:active {
+    outline: none;
+}
+
 .flexbox-container {
     display: flex;
     align-items: center;
@@ -22,6 +26,12 @@ html, body {
 
     &.spaced {
         justify-content: space-between;
+    }
+
+    &.spaced-alter {
+        justify-content: center;
+        align-items: center;
+        align-content: center;
     }
 
     &.horizontal {
@@ -44,17 +54,19 @@ html, body {
     &.top {
         justify-content: flex-start;
     }
+
+    &.top-aligned {
+        align-items: flex-start;
+    }
 }
 
 .page-card {
-    margin: 15%;
-    margin-top: 30px;
-    margin-bottom: 30px;
     padding: 30px;
+    margin-bottom: 30px;
     background: $card-background-color;
-    -webkit-box-shadow: 1px 1px 2px 0px gray;
-    -moz-box-shadow: 1px 1px 2px 0px gray;
-    box-shadow: 1px 1px 2px 0px gray;
+    -webkit-box-shadow: $card-light-shadow;
+    -moz-box-shadow: $card-light-shadow;
+    box-shadow: $card-light-shadow;
     border-radius: 5px;
 }
 
@@ -77,6 +89,12 @@ html, body {
     color: $text-color;
     width: 100%;
     height: 100%;
+}
+
+.container {
+    margin: 15%;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 
@@ -110,10 +128,7 @@ fieldset {
     margin-bottom: 15px;
 }
 
-input[type=text] {
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    line-height: 25px;
-    padding-left: 10px;
-    padding-right: 10px;
+.small-text {
+    font-size: 0.7em;
+    font-style: italic;
 }

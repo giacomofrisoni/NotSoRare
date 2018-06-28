@@ -12,6 +12,7 @@ import { DivbuttonComponent } from './components/divbutton.component';
 import { RootComponent } from './pages/root.component';
 import { MenubuttonComponent } from './components/menubutton.component';
 import { RegisterComponent } from './pages/register.component';
+import { RadiogroupComponent } from './components/radiogroup.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,6 +28,7 @@ const appRoutes: Routes = [
     RootComponent,
     MenubuttonComponent,
     RegisterComponent,
+    RadiogroupComponent
   ],
   imports: [
     BrowserModule,

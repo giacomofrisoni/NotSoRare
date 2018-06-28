@@ -8,13 +8,21 @@ import * as $ from 'jquery';
 })
 export class RegisterComponent implements OnInit {
 
-  accountTypeOptions: boolean = true;
+  isPatientAccount: boolean = true;
+  radioButtons: any[] = [
+    { key: "patient", value: "Paziente" },
+    { key: "family", value: "Famigliare" }
+  ];
 
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
-    this.accountTypeOptions = true;
-    $('#birthDate').datepicker();
+  }
+
+  onAccountTypeSelected(radiobutton: any) {
+    this.isPatientAccount = (radiobutton == this.radioButtons[0]);
   }
 
 }

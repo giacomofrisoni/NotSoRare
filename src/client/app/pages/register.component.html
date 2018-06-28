@@ -1,62 +1,84 @@
-<div>
+<div class="container">
+    <h3>Iscriviti</h3>
+
     <div class="page-card">
-            <script src="../../node_modules/@fengyuanchen/datepicker/dist/datepicker.js"></script>
-        <h3>Iscriviti</h3>
-        <hr/>
-        <i>Tutti i campi contrassegnati con <b>*</b> sono obbligatori</i>
-        <form class="flex-container register-form">
-            <div>
-                <label class="title" for="accountType">Seleziona il tipo di account</label>
-                <fieldset id="accountTypeSet">
-                    <input type="radio" [(ngModel)]="accountTypeOptions" [value]="true" [checked]="accountTypeOptions" name="accountType" id="radioAccountType1" value="patiens"/>
-                    <label for="radioAccountType1">Paziente</label>
+        <i>Tutti i campi contrassegnati con <span class="highlight">(*)</span> sono obbligatori</i>
+    </div>
 
-                    <input type="radio" [(ngModel)]="accountTypeOptions" [value]="false" [checked]="!accountTypeOptions" name="accountType" id="radioAccountType1" value="family"/>
-                    <label for="radioAccountType1">Famigliare</label>
-                </fieldset>
+    <div class="page-card centered">
+        <h4>Seleziona il tipo di account <span class="highlight">(*)</span></h4>
+        <app-radiogroup
+            [radiobuttons]="radioButtons"
+            (onSelected)="onAccountTypeSelected($event[0])">
+        </app-radiogroup>
 
-                <span class="info" *ngIf="accountTypeOptions">
-                    Un account di tipo "Paziente" serve al diretto malato. Esso può confrontarsi direttamente per qualsiasi cosa disponibile sul sito.
-                </span>
+        <span class="info" *ngIf="isPatientAccount">
+            Un account di tipo "Paziente" serve al diretto malato. Esso può confrontarsi direttamente per qualsiasi cosa disponibile sul sito.
+        </span>
 
-                <span class="info" *ngIf="!accountTypeOptions">
-                    Un account di tipo "Famigliare" è studiato per dare l'accesso alla piattaforma anche ai famigliari del malato, affinchè, se direttamente
-                    incapace, possa comunque ricevere aiuto da parte della comunità.
-                </span>
+        <span class="info" *ngIf="!isPatientAccount">
+            Un account di tipo "Famigliare" è studiato per dare l'accesso alla piattaforma anche ai famigliari del malato, affinchè, se direttamente
+            incapace, possa comunque ricevere aiuto da parte della comunità.
+        </span>
+    </div>
+
+    <div class="flexbox-container spaced top-aligned">
+        <div class="page-card half-paged">
+            <h4>Dati personali</h4>
+
+            <div class="field">
+                <label class="title" for="name">Nome <span class="highlight">(*)</span></label>
+                <input type="text" id="name"/>
             </div>
 
-            <div>
+            <div class="field">
+                <label class="title" for="surname">Cognome <span class="highlight">(*)</span></label>
+                <input type="text" id="surname"/>
+            </div>
+
+            <div class="field">
+                <label class="title" for="gender">Sesso <span class="highlight">(*)</span></label>
                 <fieldset>
-                    <div class="field">
-                        <label class="title" for="name">Nome</label>
-                        <input type="text" id="name"/>
-                    </div>
+                    <input type="radio" name="gender" id="genderMale" value="m"/>
+                    <label for="genderMale">Maschio</label>
 
-                    <div class="field">
-                        <label class="title" for="surname">Cognome</label>
-                        <input type="text" id="surname"/>
-                    </div>
-
-                    <div class="field">
-                        <label class="title" for="gender">Sesso</label>
-                        <fieldset>
-                            <input type="radio" name="gender" id="genderMale" value="m"/>
-                            <label for="genderMale">Maschio</label>
-        
-                            <input type="radio" name="gender" id="genderFemale" value="f"/>
-                            <label for="genderFemale">Femmina</label>
-                        </fieldset>
-                    </div>
+                    <input type="radio" name="gender" id="genderFemale" value="f"/>
+                    <label for="genderFemale">Femmina</label>
                 </fieldset>
             </div>
 
-            <div>
-                <label class="title" for="birthDate">Data di nascita</label>
-                <input id="birthDate" data-toggle="datepicker"/>
+            <div class="field">
+                <label class="title" for="birthDate">Data di nascita <span class="highlight">(*)</span></label>
+                <input type="date" id="birthDate"/>
             </div>
 
+            <div class="field">
+                <label class="title" for="biography">Biografia</label>
+                <textarea class="only-vertical" [formControl]="biographyControl"></textarea>
+                <div class="small-text">
+                    <span>{{text.get('text').value.length}}</span>/<span>4000</span>
+                    <span *ngIf="text.get('text').value.length < 100"> Devi immettere almeno 100 caratteri!</span>
+                </div>
+            </div>
+        </div>
 
+        <div class="page-card half-paged">
+            <h4>Dati dell'utente</h4>
 
-        </form>
+            <div class="field">
+                <label class="title" for="email">Indirizzo E-Mail <span class="highlight">(*)</span></label>
+                <input type="email" id="email"/>
+            </div>
+
+            <div class="field">
+                <label class="title" for="password">Password <span class="highlight">(*)</span></label>
+                <input type="password" id="surname"/>
+            </div>
+
+            <div class="field">
+                <label class="title" for="repeatPassword">Ripeti password <span class="highlight">(*)</span></label>
+                <input type="password" id="repeatPassword"/>
+            </div>
+        </div>
     </div>
 </div>
