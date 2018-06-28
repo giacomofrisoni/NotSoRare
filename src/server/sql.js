@@ -11,7 +11,8 @@ var config = {
     server: env.server,
     options: {
         database: env.dbName,
-        encrypt: true
+        encrypt: true,
+        rowCollectionOnRequestCompletion: true
     }
 };
 

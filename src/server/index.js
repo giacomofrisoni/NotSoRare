@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const i18n = require('i18n-2');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -9,9 +10,15 @@ const ev = require('express-validation');
 
 const root = './';
 const port = process.env.Port || 3000;
+
+/**
+ * Creating a new express app.
+ */
 const app = express();
 
-// Attaches the i18n property to the express request object
+/**
+ * Attaches the i18n property to the express request object.
+ */
 i18n.expressBind(app, {
     // Setups some locales - other locales default to en silently
     locales: ['en', 'it', 'pl'],
@@ -25,10 +32,26 @@ i18n.expressBind(app, {
     extension: '.json'
 });
 
+/**
+ * For being able to read request bodies.
+ */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 app.use(express.static(path.join(root, 'dist')));
+
+/**
+ * Session handler.
+ */
+app.use(session({
+    // It is used to sign the session ID cookie (hashing): without it, access to the session would essentially be "denied"
+    secret: 'h)ZD$H/+d5K7KE_m',
+    // Saves the session whenever a change is directly made to it
+    resave: false,
+    // Does not save cookies and sessions at page visiting in order to not take up any unneeded storage space on server
+    saveUninitialized: false
+}));
 
 /*
  * Language control executed for each request.
@@ -49,7 +72,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// Error handler
+/**
+ * Error handler.
+ */
 app.use((err, req, res, next) => {
     // Specific for validation errors
     if (err instanceof ev.ValidationError) return res.status(err.status).json(err);
@@ -65,4 +90,8 @@ app.use('/api', routes);
 app.get('*', (req, res) => {
     res.sendFile('dist/index.html', { root });
 });
+
+/**
+ * Listening on port.
+ */
 app.listen(port, () => console.log(`API running on localhost:${port}`));
