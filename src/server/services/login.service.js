@@ -20,7 +20,7 @@ function login(req, res) {
             res.status(500).send(queryError);
         } else {
             if (rowCount == 0) {
-                res.status(401).send("The specified email address is not associated to any registered account");
+                res.status(401).send(req.i18n.__("Err_Login_InvalidEmail"));
             }
         }
     });
@@ -31,7 +31,7 @@ function login(req, res) {
         columns.forEach((column) => {
 
             if (column.value === null) {
-                res.status(500).send("Not valid password retrieving result during login request");
+                res.status(500).send(req.i18n.__("Err_Login_PasswordRetrieving"));
             } else {
 
                 bcrypt.compare(req.body.password, column.value, (bcryptError, match) => {
@@ -39,10 +39,9 @@ function login(req, res) {
                         res.status(500).send(bcryptError);
                     } else {
                         if (match) {
-                            console.log("Login completed");
-                            res.status(201).send("OK");
+                            res.status(201).send(req.i18n.__("Login_Completed"));
                         } else {
-                            res.status(401).send("Invalid password");
+                            res.status(401).send(req.i18n.__("Err_Login_InvalidPassword"));
                         }
                     }
                 });

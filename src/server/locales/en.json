@@ -1,0 +1,12 @@
+{
+    "Err_Login_InvalidEmail": "The specified email address is not associated to any registered account",
+    "Err_Login_PasswordRetrieving": "Not valid password retrieving result during login request",
+    "Err_Login_InvalidPassword": "Invalid password",
+    "Login_Completed": "Login completed",
+    "Err_Signup_EmailChecking": "Not valid email checking result during signup request",
+    "Err_Signup_AlreadyUsedEmail": "The specified email is already associated to an existing account",
+    "Err_Signup_EmailSending": "An error occurred during activation code email sending. %s",
+    "Signup_Completed": "Signup completed",
+    "Signup_EmailSubject": "Welcome to NotSoRare",
+    "Signup_HTMLEmailContent": "<p><span style=\"font - size:14px; \">Hi %s %s,</span></p><h1><strong>Welcome to <span style = \"color:#e22b2d;\">NotSoRare</span>!</strong></h1><h2>The first website entirely dedicated to rare disease patients.</h2><hr/><p>Enter this activation&nbsp;code in&nbsp; to start using it immediately: <strong>%s</strong>.</p><p><strong>What are you waiting for?</strong></p><p>&nbsp;</p><p><em>This is an email generated automatically by NotSoRare. Do not respond to this email address.</em></p>"
+}

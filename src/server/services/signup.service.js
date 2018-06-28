@@ -34,12 +34,12 @@ function signup(req, res) {
         columns.forEach((column) => {
 
             if (column.value === null) {
-                res.status(500).send("Not valid email checking result during signup request");
+                res.status(500).send(req.i18n.__("Err_Signup_EmailChecking"));
             } else {
                 
                 // Checks if there is a registered account with the same email
                 if (column.value >= 1) {
-                    res.status(500).send("The specified email is already associated to an existing account");
+                    res.status(500).send(req.i18n.__("Err_Signup_AlreadyUsedEmail"));
                 } else {
 
                     // Performs the hashing operation on the specified password in order to store it as encrypted text
@@ -67,21 +67,14 @@ function signup(req, res) {
 
                                     email.sendHTML(
                                         req.body.name + " " + req.body.surname + " <" + req.body.email + ">",
-                                        "Welcome to NotSoRare",
-                                        "<p><span style=\"font - size:14px; \">Hi " + req.body.name + " " + req.body.surname + ",</span></p>" +
-                                        "<h1><strong>Welcome to <span style = \"color:#e22b2d;\">NotSoRare</span>!</strong></h1>" +
-                                        "<h2>The first website entirely dedicated to rare disease patients.</h2>" +
-                                        "<hr/>" +
-                                        "<p>Enter this activation&nbsp;code in&nbsp; to start using it immediately: <strong>" + activationCode + "</strong>.</p>" +
-                                        "<p><strong>What are you waiting for?</strong></p>" +
-                                        "<p>&nbsp;</p>" +
-                                        "<p><em>This is an email generated automatically by NotSoRare. Do not respond to this email address.</em></p>",
+                                        req.i18n.__("Signup_EmailSubject"),
+                                        req.i18n.__("Signup_HTMLEmailContent", req.body.name, req.body.surname, activationCode),
                                         (error, info) => {
                                             if (error) {
-                                                res.status(500).send("An error occurred during activation code email sending. " + error);
+                                                res.status(500).send(req.i18n.__("Err_Signup_EmailSending", error));
                                             } else {
                                                 console.log("Mail message sent: " + info.messageId);
-                                                res.status(201).send("OK");
+                                                res.status(201).send(req.i18n.__("Signup_Completed"));
                                             }
                                         }
                                     )
