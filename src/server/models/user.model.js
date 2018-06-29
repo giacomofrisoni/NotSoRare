@@ -4,13 +4,13 @@ const mongoose = require('mongoose');
 // Define the User schema
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
-    id: { type: Number, required: true, unique: true },
+    code: { type: Number, required: true, unique: true },
     first_name: { type: String, max: [15, 'Too long name'] },
     last_name: { type: String, max: [15, 'Too long surname'] },
     gender: { type: String, enum: ['M', 'F'] },
     image: { data: Buffer, contentType: String },
     birth_date: { type: Date },
-    is_anonymous: { data: Boolean, required: true }
+    is_anonymous: { type: Boolean, required: true }
 }, {
     collection: 'Users'
 });

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // Define the ForumThread schema
 const Schema = mongoose.Schema;
 const ForumThreadSchema = new Schema({
-    id: { type: Number, required: true, unique: true },
+    code: { type: Number, required: true, unique: true },
     title: { type: String, max: [50, 'Too long title'], required: true },
     description: { type: String, max: [1000, 'Too long description'], required: true },
     creation_date: { type: Date, default: Date.now, required: true },

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // Define the Hero schema
 const Schema = mongoose.Schema;
 const HeroSchema = new Schema({
-    id: { type: Number, required: true, unique: true },
+    code: { type: Number, required: true, unique: true },
     name: String,
     saying: String
 }, {

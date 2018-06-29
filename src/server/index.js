@@ -1,15 +1,17 @@
 const express = require('express');
 const session = require('express-session');
+const ev = require('express-validation');
 const i18n = require('i18n-2');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const routes = require('./routes');
 
-const ev = require('express-validation');
-
 const root = './';
 const port = process.env.Port || 3000;
+
+// Connects to mongo db
+require('./mongo').connect();
 
 /**
  * Creating a new express app.

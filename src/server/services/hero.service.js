@@ -1,6 +1,5 @@
 const Hero = require('../models/hero.model');
 
-require('../mongo').connect();
 
 function getHeroes(req, res) {
     const docquery = Hero.find({});

@@ -1,6 +1,5 @@
 const User = require('../models/user.model');
 
-require('../mongo').connect();
 
 function getUsers(req, res) {
     const docquery = User.find({});

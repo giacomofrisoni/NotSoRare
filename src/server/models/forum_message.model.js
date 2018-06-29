@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // Define the ForumMessage schema
 const Schema = mongoose.Schema;
 const ForumMessageSchema = new Schema({
-    id: { type: Number, required: true, unique: true },
+    code: { type: Number, required: true, unique: true },
     content: { type: String, max: [5000, 'Too long message content'], required: true },
     creation_date: { type: Date, default: Date.now, required: true },
     update_date: { type: Date, default: Date.now, required: true },
