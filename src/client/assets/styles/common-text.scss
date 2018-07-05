@@ -84,8 +84,48 @@ input[type=text], input[type=date], input[type=email], input[type=password], tex
     line-height: 25px;
     padding-left: 10px;
     padding-right: 10px;
+    box-shadow: none;
 
-    &:focus, &:active {
+    &:focus, &:active, &:invalid {
+        border: 1px solid gray;
+        box-shadow: none;
+    }
+
+    &.error {
+        border: 1px solid $accent-dark-color;
+        box-shadow: none;
+    }
+
+}
+
+app-countries-selector.error * {
+    .ng-select .ng-select-container {
+        border-radius: 5px;
         border: 1px solid $accent-dark-color;
     }
+    
+}
+
+.ng-select {
+    .custom-select {
+        border-radius: 5px;
+        border: 1px solid lightgray;
+
+        .ng-select-container {
+            border: none;
+        }
+
+        &.error {
+            border: 1px solid $accent-dark-color;
+        }
+
+        &:focus, &:active {
+            border: 1px solid gray;
+        }
+    }
+}
+
+.ng-select.ng-select-opened > .ng-select-container {
+    border-radius: 5px;
+    border: 1px solid lightgray;
 }

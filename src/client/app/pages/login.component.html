@@ -1,0 +1,25 @@
+<div class="container">
+    <h3>Login</h3>
+
+    <div class="page-card">
+        <div class="flexbox-container wrapped">
+            <div class="field">
+                <label class="title" for="email">Indirizzo E-Mail</label>
+                <input type="email" id="email" [(ngModel)]="email"/>
+            </div>
+    
+            <div class="field">
+                <label class="title" for="password">Password</label>
+                <input type="password" id="password" [(ngModel)]="password"/>
+            </div>
+        </div>
+
+        <div class="flexbox-container vertical centered">
+            <div class="login-button">
+                <app-divbutton text="Login" (click)="onLogin($event)"></app-divbutton>
+            </div>
+
+            <span class="info small-text" *ngIf='error != ""'>{{error}}</span>
+        </div>
+    </div>
+</div>

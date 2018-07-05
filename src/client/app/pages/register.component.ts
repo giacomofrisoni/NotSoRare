@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { SignupData } from '../models/signup-data';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +15,7 @@ export class RegisterComponent implements OnInit {
   charCount: number = 0;
   isPhotoUploaded: boolean = false;
   photoUrl: string = "../..//assets/images/default-user.png";
+  errors: any = {};
 
   radioButtons: any[] = [
     { key: "patient", value: "Paziente" },
@@ -28,7 +30,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.signupData = new SignupData();
     this.signupData.isPatient = true;
-    console.log(this.signupData);
   }
 
   onTextareaValueChange($event) {
@@ -67,12 +68,36 @@ export class RegisterComponent implements OnInit {
 
   onRegister(event: any) {
     console.log(this.signupData);
+    $(".error").removeClass("error");
+
     this.userService.signUp(this.signupData).subscribe((resp: any) => {
       console.log(resp);
       console.log("Registrazione effettuata con successo");
     }, (errorResp) => {
-      console.log(errorResp);
-      console.log("qualcosa è andato storto");
+      // Some error occurred
+      this.errors = {};
+
+      // If there are errors related with inputs
+      if (errorResp.error.errors != null && errorResp.error.errors != undefined) {
+        //Foreach error
+        errorResp.error.errors.forEach(element => {
+          //The field will be RED
+          $("#" + element.field[0]).addClass("error");
+
+          //And the error message will display
+          this.errors[element.field[0]] = element.messages[0];
+        });
+      }
+
+      if (errorResp.error.error != null && errorResp.error.error != undefined) {
+        errorResp.error.errors.forEach(element => {
+          this.errors.push(element.messages[0]);
+        });
+      }
+
+      console.log(errorResp.error.errors);
+      console.log(this.errors);
+
     });
   }
 

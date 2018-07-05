@@ -122,13 +122,21 @@ hr {
 }
 
 fieldset {
-    border: none;
-    padding: 0;
+    border: 0px solid lightgray;
+    border-radius: 5px;
+    padding: 3px 5px;
     margin: 0;
-    margin-bottom: 15px;
+
+    &.error {
+        border: 1px solid $accent-dark-color;
+    }
+
+    & label {
+        margin-right: 15px;
+    }
 }
 
 .small-text {
-    font-size: 0.7em;
+    font-size: 0.8em;
     font-style: italic;
 }

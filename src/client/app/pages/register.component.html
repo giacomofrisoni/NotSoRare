@@ -29,39 +29,45 @@
                 <div class="field">
                     <label class="title" for="name">Nome <span class="highlight">(*)</span></label>
                     <input type="text" id="name" [(ngModel)]="signupData.name"/>
+                    <span class="info small-text" *ngIf='errors.name != undefined && errors.name != ""'>{{errors.name}}</span>
                 </div>
 
                 <div class="field">
                     <label class="title" for="surname">Cognome <span class="highlight">(*)</span></label>
                     <input type="text" id="surname" [(ngModel)]="signupData.surname"/>
+                    <span class="info small-text" *ngIf='errors.surname != undefined && errors.surname != ""'>{{errors.surname}}</span>
                 </div>
 
                 <div class="field">
                     <label class="title" for="gender">Sesso <span class="highlight">(*)</span></label>
-                    <fieldset>
+                    <fieldset id="gender">
                         <input type="radio" name="gender" id="genderMale" (change)="onGenderChanged('M')"/>
                         <label for="genderMale">Maschio</label>
 
                         <input type="radio" name="gender" id="genderFemale" (change)="onGenderChanged('F')"/>
                         <label for="genderFemale">Femmina</label>
                     </fieldset>
+
+                    <span class="info small-text" *ngIf='errors.gender != undefined && errors.gender != ""'>{{errors.gender}}</span>
                 </div>
 
                 <div class="field">
                     <label class="title" for="birthDate">Data di nascita <span class="highlight">(*)</span></label>
                     <input type="date" id="birthDate" [(ngModel)]="signupData.birthDate"/>
+                    <span class="info small-text" *ngIf='errors.birthDate != undefined && errors.birthDate != ""'>{{errors.birthDate}}</span>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="countries">Nazionalità <span class="highlight">(*)</span></label>
-                    <app-countries-selector id="countries" (onSelected)="onCountrySelected($event[0])"></app-countries-selector>
+                    <label class="title" for="nationality">Nazionalità <span class="highlight">(*)</span></label>
+                    <app-countries-selector id="nationality" (onSelected)="onCountrySelected($event[0])"></app-countries-selector>
+                    <span class="info small-text" *ngIf='errors.nationality != undefined && errors.nationality != ""'>{{errors.nationality}}</span>
                 </div>
             </div>
 
             <div class="half-paged">
                 <div class="field">
                     <label class="title" for="biography">Biografia</label>
-                    <textarea class="only-vertical" (input)="onTextareaValueChange($event)" [(ngModel)]="signupData.biography"></textarea>
+                    <textarea id="biography" class="only-vertical" (input)="onTextareaValueChange($event)" [(ngModel)]="signupData.biography"></textarea>
                     <div class="small-text">
                         <span>{{charCount}}</span>/<span>4000</span>
                         <span style="padding-left: 20px;" *ngIf="charCount > 0 && charCount < 10">Devi immettere almeno 10 caratteri!</span>
@@ -94,16 +100,19 @@
                 <div class="field">
                     <label class="title" for="email">Indirizzo E-Mail <span class="highlight">(*)</span></label>
                     <input type="email" id="email" [(ngModel)]="signupData.email"/>
+                    <span class="info small-text" *ngIf='errors.email != undefined && errors.email != ""'>{{errors.email}}</span>
                 </div>
     
                 <div class="field">
-                    <label class="title" for="password">Password <span class="info">(minimo 8 caratteri) </span><span class="highlight">(*)</span></label>
+                    <label class="title" for="password">Password <span class="info small-text">(minimo 8 caratteri) </span><span class="highlight">(*)</span></label>
                     <input type="password" id="password" [(ngModel)]="signupData.password"/>
+                    <span class="info small-text" *ngIf='errors.password != undefined && errors.password != ""'>{{errors.password}}</span>
                 </div>
     
                 <div class="field">
                     <label class="title" for="passwordConfirm">Ripeti password <span class="highlight">(*)</span></label>
                     <input type="password" id="passwordConfirm"  [(ngModel)]="signupData.passwordConfirm"/>
+                    <span class="info small-text" *ngIf='errors.passwordConfirm != undefined && errors.passwordConfirm != ""'>{{errors.passwordConfirm}}</span>
                 </div>
             </div>
         </div>

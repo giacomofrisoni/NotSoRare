@@ -13,6 +13,8 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   signUp(signupData: SignupData) {
+    console.log("Hello!");
+
     return this.http.post(`${api}/signup`, {
       email: signupData.email,
       password: signupData.password,
@@ -24,11 +26,20 @@ export class UserService {
       biography: signupData.biography,
       photo: signupData.photo,
       nationality: signupData.nationality,
-      patientYN: signupData.isPatient,
+      patientYN: signupData.isPatient ? "1" : "0",
       patientName: signupData.patientName,
       patientSurname: signupData.patientSurname,
       patientBirthDate: signupData.patientBirthDate,
       patientNationality: signupData.patientNationality
+    },{
+      withCredentials: true
+    });
+  }
+
+  signIn(email: string, password: string) {
+    return this.http.post(`${api}/login`, {
+      email: email,
+      password: password
     },{
       withCredentials: true
     });

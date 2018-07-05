@@ -21,18 +21,18 @@
 
 
 /* COLORS */
-$accent-color: #EB5E64;
-$accent-dark-color: #E22B2D;
+$accent-color: unquote("#EB5E64");
+$accent-dark-color: unquote("#E22B2D");
 $background-color: radial-gradient(#e7e7e7, #d5d5d5);
 
-$button-hover-overlay: #00000009;
-$button-pressed-overlay: #00000015;
+$button-hover-overlay: unquote("#00000009");
+$button-pressed-overlay: unquote("#00000015");
 
 $card-background-color: white;
 
-$text-color: #494949;
-$text-light-color: #888888;
-$text-dark-color: #403f3f;
+$text-color: unquote("#494949");
+$text-light-color: unquote("#888888");
+$text-dark-color: unquote("#403f3f");
 
 /* EFFECTS */
 $card-shadow: 0 1px 10px 0 rgba(0,0,0,0.5);

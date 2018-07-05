@@ -19,11 +19,13 @@ import { RegisterComponent } from './pages/register.component';
 import { RadiogroupComponent } from './components/radiogroup.component';
 import { CountriesSelectorComponent } from './components/countries-selector.component';
 import { UserService } from './services/user.service';
+import { LoginComponent } from './pages/login.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({
@@ -36,6 +38,7 @@ const appRoutes: Routes = [
     RegisterComponent,
     RadiogroupComponent,
     CountriesSelectorComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
