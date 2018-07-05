@@ -87,48 +87,58 @@ function getUsersStats(req, res) {
 
 
 function getUser(req, res) {
-    
+
     const id = parseInt(req.params.id, 10);
 
     /**
-     * Prepares the SQL statement with parameters for SQL-injection avoidance,
-     * in order to obtain the registered user data.
+     * Only a logged user whit the same code of the request can retrieve the data.
      */
-    userRequest = new Request(
-        "SELECT Email, Surname, Name, Gender, BirthDate, Nationality, AnonymousYN, Photo, Biography, RegistrationDate, PatientYN, PatientName, PatientSurname, PatientGender, PatientBirthDate, PatientNationality " +
-        "FROM StandardUser WHERE CodUser = @CodUser;", (queryError, rowCount, rows) => {
-            if (queryError) {
-                res.status(500).send({
-                    errorMessage: req.i18n.__("Err_Users_UserInfo", queryError)
-                });
-            } else {
-                // The select operation concerns a single row
-                if (rowCount == 0) {
-                    res.status(404).send({
-                        errorMessage: req.i18n.__("Err_Users_UserNotFound")
+    if (req.session.user == id) {
+
+        /**
+         * Prepares the SQL statement with parameters for SQL-injection avoidance,
+         * in order to obtain the registered user data.
+         */
+        userRequest = new Request(
+            "SELECT Email, Surname, Name, Gender, BirthDate, Nationality, AnonymousYN, Photo, Biography, RegistrationDate, PatientYN, PatientName, PatientSurname, PatientGender, PatientBirthDate, PatientNationality " +
+            "FROM StandardUser WHERE CodUser = @CodUser;", (queryError, rowCount, rows) => {
+                if (queryError) {
+                    res.status(500).send({
+                        errorMessage: req.i18n.__("Err_Users_UserInfo", queryError)
                     });
                 } else {
+                    // The select operation concerns a single row
+                    if (rowCount == 0) {
+                        res.status(404).send({
+                            errorMessage: req.i18n.__("Err_Users_UserNotFound")
+                        });
+                    } else {
 
-                    // Parses the data from each of the row and populate the user statistics json array
-                    var userInfo = {};
-                    var singleRowData = rows[0];
-                    for (var colIndex = 0; colIndex < singleRowData.length; colIndex++) {
-                        var tempColName = singleRowData[colIndex].metadata.colName;
-                        var tempColData = singleRowData[colIndex].value;
-                        userInfo[tempColName] = tempColData;
+                        // Parses the data from each of the row and populate the user statistics json array
+                        var userInfo = {};
+                        var singleRowData = rows[0];
+                        for (var colIndex = 0; colIndex < singleRowData.length; colIndex++) {
+                            var tempColName = singleRowData[colIndex].metadata.colName;
+                            var tempColData = singleRowData[colIndex].value;
+                            userInfo[tempColName] = tempColData;
+                        }
+                        
+                        res.status(200).json(userInfo);
+
                     }
-                    
-                    res.status(200).json(userInfo);
-
                 }
             }
-        }
-    );
+        );
+        userRequest.addParameter('CodUser', TYPES.Numeric, id);
 
-    userRequest.addParameter('CodUser', TYPES.Numeric, id);
+        // Performs the info selection query on the relational database
+        sql.connection.execSql(userRequest);
 
-    // Performs the info selection query on the relational database
-    sql.connection.execSql(userRequest);
+    } else {
+        res.status(401).send({
+            errorMessage: req.i18n.__("Err_Users_UnauthorizedUser")
+        });
+    }
 
 }
 
@@ -138,124 +148,135 @@ function putUser(req, res) {
     const id = parseInt(req.params.id, 10);
 
     /**
-     * Handles a transaction in order to rollback from sql update if the mongo one fails
-     * or another error occurres.
+     * Only a logged user whit the same code of the request can update the data.
      */
-    sql.connection.transaction((error, done) => {
-        if (error) {
-            res.status(500).send({
-                errorMessage: req.i18n.__("Err_Users_BeginUpdateTransaction")
-            });
-        } else {
-            /**
-             * Prepares the SQL statement with parameters for SQL-injection avoidance,
-             * in order to update the registered user account.
-             */
-            updateRequest = new Request(
-                "UPDATE StandardUser " +
-                "SET Email = @Email, Name = @Name, Surname = @Surname, Gender = @Gender, BirthDate = @BirthDate, Nationality = @Nationality, AnonymousYN = @AnonymousYN, Photo = " + (req.body.photo ? "@Photo" : "NULL") + ", Biography = " + (req.body.biography ? "@Biography" : "NULL") + " " +
-                "WHERE CodUser = @CodUser;", (queryError, rowCount) => {
-                    if (queryError) {
-                        res.status(500).send({
-                            errorMessage: req.i18n.__("Err_Users_UserUpdate", queryError)
-                        });
-                    } else {
+    if (req.session.user == id) {
 
-                        /**
-                         * The operation concerns a single row.
-                         * If zero rows are affected, it means that there is no user with the specified id code.
-                         */
-                        if (rowCount == 0) {
-                            done(null, () => {
-                                res.status(404).send({
-                                    errorMessage: req.i18n.__("Err_Users_UserNotFound")
-                                });
+        /**
+         * Handles a transaction in order to rollback from sql update if the mongo one fails
+         * or another error occurres.
+         */
+        sql.connection.transaction((error, done) => {
+            if (error) {
+                res.status(500).send({
+                    errorMessage: req.i18n.__("Err_Users_BeginUpdateTransaction")
+                });
+            } else {
+                /**
+                 * Prepares the SQL statement with parameters for SQL-injection avoidance,
+                 * in order to update the registered user account.
+                 */
+                updateRequest = new Request(
+                    "UPDATE StandardUser " +
+                    "SET Email = @Email, Name = @Name, Surname = @Surname, Gender = @Gender, BirthDate = @BirthDate, Nationality = @Nationality, AnonymousYN = @AnonymousYN, Photo = " + (req.body.photo ? "@Photo" : "NULL") + ", Biography = " + (req.body.biography ? "@Biography" : "NULL") + " " +
+                    "WHERE CodUser = @CodUser;", (queryError, rowCount) => {
+                        if (queryError) {
+                            res.status(500).send({
+                                errorMessage: req.i18n.__("Err_Users_UserUpdate", queryError)
                             });
                         } else {
+
                             /**
-                             * The update on relational database was successful.
-                             * Now updates data on mongo database.
+                             * The operation concerns a single row.
+                             * If zero rows are affected, it means that there is no user with the specified id code.
                              */
-                            var updatedUser = {
-                                first_name: req.body.name,
-                                last_name: req.body.surname,
-                                gender: req.body.gender,
-                                birth_date: req.body.birthDate,
-                                is_anonymous: req.body.isAnonymous
-                            };
-                            if (req.body.photo) {
-                                updatedUser.photo = req.body.photo;
-                            }
-                            User.findOne({ code: id }, (error, user) => {
-                                // Checks server error
-                                if (error) {
-                                    // Rollback the sql update if the mongo one fails
-                                    done(error, () => {
-                                        res.status(500).send({
-                                            errorMessage: req.i18n.__("Err_Users_UserUpdate", error)
-                                        });
+                            if (rowCount == 0) {
+                                done(null, () => {
+                                    res.status(404).send({
+                                        errorMessage: req.i18n.__("Err_Users_UserNotFound")
                                     });
-                                } else {
-                                    // Checks that the user has been found
-                                    if (!user) {
-                                        // Rollback the sql update
+                                });
+                            } else {
+                                /**
+                                 * The update on relational database was successful.
+                                 * Now updates data on mongo database.
+                                 */
+                                var updatedUser = {
+                                    first_name: req.body.name,
+                                    last_name: req.body.surname,
+                                    gender: req.body.gender,
+                                    birth_date: req.body.birthDate,
+                                    is_anonymous: req.body.isAnonymous
+                                };
+                                if (req.body.photo) {
+                                    updatedUser.photo = req.body.photo;
+                                }
+                                User.findOne({ code: id }, (error, user) => {
+                                    // Checks server error
+                                    if (error) {
+                                        // Rollback the sql update if the mongo one fails
                                         done(error, () => {
-                                            res.status(404).send({
-                                                errorMessage: req.i18n.__("Err_Users_UserNotFound", error)
+                                            res.status(500).send({
+                                                errorMessage: req.i18n.__("Err_Users_UserUpdate", error)
                                             });
                                         });
                                     } else {
-                                        user.first_name = updatedUser.first_name;
-                                        user.last_name = updatedUser.last_name;
-                                        user.gender = updatedUser.gender;
-                                        user.birth_date = updatedUser.birth_date;
-                                        user.is_anonymous = updatedUser.is_anonymous;
-                                        if (req.body.photo) {
-                                            user.photo = updatedUser.photo;
-                                        }
-                                        user.save(error => {
-                                            if (error) {
-                                                // Rollback the sql update if the mongo one fails
-                                                done(error, () => {
-                                                    res.status(500).send({
-                                                        errorMessage: req.i18n.__("Err_Users_UserUpdate", error)
-                                                    });
+                                        // Checks that the user has been found
+                                        if (!user) {
+                                            // Rollback the sql update
+                                            done(error, () => {
+                                                res.status(404).send({
+                                                    errorMessage: req.i18n.__("Err_Users_UserNotFound", error)
                                                 });
-                                            } else {
-                                                // Commit the transaction
-                                                done(null, () => {
-                                                    res.status(200).send(req.i18n.__("UserUpdate_Completed"));
-                                                });
+                                            });
+                                        } else {
+                                            user.first_name = updatedUser.first_name;
+                                            user.last_name = updatedUser.last_name;
+                                            user.gender = updatedUser.gender;
+                                            user.birth_date = updatedUser.birth_date;
+                                            user.is_anonymous = updatedUser.is_anonymous;
+                                            if (req.body.photo) {
+                                                user.photo = updatedUser.photo;
                                             }
-                                        });
+                                            user.save(error => {
+                                                if (error) {
+                                                    // Rollback the sql update if the mongo one fails
+                                                    done(error, () => {
+                                                        res.status(500).send({
+                                                            errorMessage: req.i18n.__("Err_Users_UserUpdate", error)
+                                                        });
+                                                    });
+                                                } else {
+                                                    // Commit the transaction
+                                                    done(null, () => {
+                                                        res.status(200).send(req.i18n.__("UserUpdate_Completed"));
+                                                    });
+                                                }
+                                            });
+                                        }
                                     }
-                                }
-                            })
+                                })
+                            }
+
                         }
-
                     }
+                );
+                updateRequest.addParameter('Email', TYPES.NVarChar, req.body.email);
+                updateRequest.addParameter('Name', TYPES.NVarChar, req.body.name);
+                updateRequest.addParameter('Surname', TYPES.NVarChar, req.body.surname);
+                updateRequest.addParameter('Gender', TYPES.Char, req.body.gender);
+                updateRequest.addParameter('BirthDate', TYPES.Date, req.body.birthDate);
+                updateRequest.addParameter('Nationality', TYPES.NVarChar, req.body.nationality);
+                updateRequest.addParameter('AnonymousYN', TYPES.Bit, req.body.isAnonymous);
+                if (req.body.photo) {
+                    updateRequest.addParameter('Photo', TYPES.VarBinary, req.body.photo);
                 }
-            );
-            updateRequest.addParameter('Email', TYPES.NVarChar, req.body.email);
-            updateRequest.addParameter('Name', TYPES.NVarChar, req.body.name);
-            updateRequest.addParameter('Surname', TYPES.NVarChar, req.body.surname);
-            updateRequest.addParameter('Gender', TYPES.Char, req.body.gender);
-            updateRequest.addParameter('BirthDate', TYPES.Date, req.body.birthDate);
-            updateRequest.addParameter('Nationality', TYPES.NVarChar, req.body.nationality);
-            updateRequest.addParameter('AnonymousYN', TYPES.Bit, req.body.isAnonymous);
-            if (req.body.photo) {
-                updateRequest.addParameter('Photo', TYPES.VarBinary, req.body.photo);
-            }
-            if (req.body.biography) {
-                updateRequest.addParameter('Biography', TYPES.NVarChar, req.body.biography);
-            }
-            updateRequest.addParameter('CodUser', TYPES.Numeric, id);
+                if (req.body.biography) {
+                    updateRequest.addParameter('Biography', TYPES.NVarChar, req.body.biography);
+                }
+                updateRequest.addParameter('CodUser', TYPES.Numeric, id);
 
-            // Performs the update query on the relational database
-            sql.connection.execSql(updateRequest);
-        }
-    }, "USER_UPDATE_TRANSACTION", ISOLATION_LEVEL.SNAPSHOT);
+                // Performs the update query on the relational database
+                sql.connection.execSql(updateRequest);
+            }
+        }, "USER_UPDATE_TRANSACTION", ISOLATION_LEVEL.SNAPSHOT);
 
+    } else {
+        res.status(401).send({
+            errorMessage: req.i18n.__("Err_Users_UnauthorizedUser")
+        });
+    }
+    
 }
 
 
@@ -264,80 +285,92 @@ function deleteUser(req, res) {
     const id = parseInt(req.params.id, 10);
 
     /**
-     * Handles a transaction in order to rollback from sql delete if the mongo one fails
-     * or another error occurres.
+     * Only a logged user whit the same code of the request can update the data.
      */
-    sql.connection.transaction((error, done) => {
-        if (error) {
-            res.status(500).send({
-                errorMessage: req.i18n.__("Err_Users_BeginDeleteTransaction")
-            });
-        } else {
-            /**
-             * Prepares the SQL statement with parameters for SQL-injection avoidance,
-             * in order to delete the registered user account.
-             */
-            deleteRequest = new Request(
-                "DELETE FROM StandardUser WHERE CodUser = @CodUser;", (queryError, rowCount) => {
-                    if (queryError) {
-                        res.status(500).send({
-                            errorMessage: req.i18n.__("Err_Users_UserDelete", queryError)
-                        });
-                    } else {
+    if (req.session.user == id) {
 
-                        /**
-                         * The operation concerns a single row.
-                         * If zero rows are affected, it means that there is no user with the specified id code.
-                         */
-                        if (rowCount == 0) {
-                            done(null, () => {
-                                res.status(404).send({
-                                    errorMessage: req.i18n.__("Err_Users_UserNotFound")
-                                });
+        /**
+         * Handles a transaction in order to rollback from sql delete if the mongo one fails
+         * or another error occurres.
+         */
+        sql.connection.transaction((error, done) => {
+            if (error) {
+                res.status(500).send({
+                    errorMessage: req.i18n.__("Err_Users_BeginDeleteTransaction")
+                });
+            } else {
+                /**
+                 * Prepares the SQL statement with parameters for SQL-injection avoidance,
+                 * in order to delete the registered user account.
+                 */
+                deleteRequest = new Request(
+                    "DELETE FROM StandardUser WHERE CodUser = @CodUser;", (queryError, rowCount) => {
+                        if (queryError) {
+                            res.status(500).send({
+                                errorMessage: req.i18n.__("Err_Users_UserDelete", queryError)
                             });
                         } else {
+
                             /**
-                             * The deletion on relational database was successful.
-                             * Now deletes data on mongo database.
+                             * The operation concerns a single row.
+                             * If zero rows are affected, it means that there is no user with the specified id code.
                              */
-                            User.findOneAndRemove({ code: id })
-                                .then(user => {
-                                    // Checks that the user has been found
-                                    if (!user) {
-                                        // Rollback the sql update
-                                        done(error, () => {
-                                            res.status(404).send({
-                                                errorMessage: req.i18n.__("Err_Users_UserNotFound", error)
-                                            });
-                                        });
-                                    } else {
-                                        // Commit the transaction
-                                        done(null, () => {
-                                            res.status(200).send(req.i18n.__("UserDeletion_Completed"));
-                                        });
-                                    }
-                                })
-                                .catch(error => {
-                                    if (error) {
-                                        // Rollback the sql update
-                                        done(error, () => {
-                                            res.status(404).send({
-                                                errorMessage: req.i18n.__("Err_Users_UserDelete", error)
-                                            });
-                                        });
-                                    }
+                            if (rowCount == 0) {
+                                done(null, () => {
+                                    res.status(404).send({
+                                        errorMessage: req.i18n.__("Err_Users_UserNotFound")
+                                    });
                                 });
+                            } else {
+                                /**
+                                 * The deletion on relational database was successful.
+                                 * Now deletes data on mongo database.
+                                 */
+                                User.findOneAndRemove({ code: id })
+                                    .then(user => {
+                                        // Checks that the user has been found
+                                        if (!user) {
+                                            // Rollback the sql update
+                                            done(error, () => {
+                                                res.status(404).send({
+                                                    errorMessage: req.i18n.__("Err_Users_UserNotFound", error)
+                                                });
+                                            });
+                                        } else {
+                                            // Commit the transaction
+                                            done(null, () => {
+                                                res.status(200).send(req.i18n.__("UserDeletion_Completed"));
+                                            });
+                                        }
+                                    })
+                                    .catch(error => {
+                                        if (error) {
+                                            // Rollback the sql update
+                                            done(error, () => {
+                                                res.status(404).send({
+                                                    errorMessage: req.i18n.__("Err_Users_UserDelete", error)
+                                                });
+                                            });
+                                        }
+                                    });
+                            }
                         }
                     }
-                }
-            );
+                );
 
-            deleteRequest.addParameter('CodUser', TYPES.Numeric, id);
+                deleteRequest.addParameter('CodUser', TYPES.Numeric, id);
 
-            // Performs the update query on the relational database
-            sql.connection.execSql(deleteRequest);
-        }
-    }, "USER_DELETE_TRANSACTION", ISOLATION_LEVEL.SNAPSHOT);
+                // Performs the update query on the relational database
+                sql.connection.execSql(deleteRequest);
+            }
+        }, "USER_DELETE_TRANSACTION", ISOLATION_LEVEL.SNAPSHOT);
+
+    } else {
+        res.status(401).send({
+            errorMessage: req.i18n.__("Err_Users_UnauthorizedUser")
+        });
+    }
+
 }
 
 
