@@ -51,6 +51,15 @@ export class UserService {
     });
   }
 
+  activate(email: string, activationCode: string) {
+    return this.http.post(`${api}/activation`, {
+      email: email,
+      activationCode: activationCode
+    },{
+      withCredentials: true
+    });
+  }
+
   /*getUsers() {
     return this.http.get<Array<User>>(`${api}/users`);
   }

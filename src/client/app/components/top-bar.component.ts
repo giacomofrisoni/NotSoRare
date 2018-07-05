@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -7,12 +8,20 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TopBarComponent implements OnInit {
 
-  @Input() isSessionValid: boolean;
+  isSessionValid: boolean = false;
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.isSessionValid = false;
+    this.userService.isLoggedIn().subscribe((resp: any) =>{
+      if (resp.loggedIn) {
+        this.isSessionValid = true;
+      }
+    }, (errorResp) => {
+      console.log("error!");
+      console.log(errorResp);
+      this.isSessionValid = false;
+    });
   }
 
 }

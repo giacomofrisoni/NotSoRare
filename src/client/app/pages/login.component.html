@@ -28,7 +28,7 @@
             Ti manca solo un passo da fare: dovresti aver ricevuto una mail con un codice da inserire qui sotto, per verificare il tuo account.
         </p>
 
-        <input class="verification-code" type="text" maxlength="6"/>
+        <input class="verification-code" type="text" maxlength="6" [(ngModel)]="verificationCode"/>
 
         <div class="login-button">
             <app-divbutton text="Verifica" (click)="onCodeCheck($event)"></app-divbutton>
