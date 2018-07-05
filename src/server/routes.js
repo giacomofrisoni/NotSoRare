@@ -3,6 +3,7 @@ const router = express.Router();
 
 const validate = require('express-validation');
 const signupSchema = require('./validation/signup_schema');
+const activationSchema = require('./validation/activation_schema');
 const loginSchema = require('./validation/login_schema');
 const isLoggedInSchema = require('./validation/is_logged_in_schema');
 const userUpdateSchema = require('./validation/user_update_schema')
@@ -32,6 +33,13 @@ router.post('/signup', validatePayloadMiddleware, validate(signupSchema), (req, 
 });
 
 /**
+ * Activate the user.
+ */
+router.post('/activation', validatePayloadMiddleware, validate(activationSchema), (req, res) => {
+    signupService.activate(req, res);
+})
+
+/**
  * Logs the user in.
  */
 router.post('/login', validatePayloadMiddleware, validate(loginSchema), (req, res) => {
@@ -41,7 +49,7 @@ router.post('/login', validatePayloadMiddleware, validate(loginSchema), (req, re
 /**
  * Checks if user is logged in.
  */
-router.get('/login', validatePayloadMiddleware, validate(isLoggedInSchema), (req, res) => {
+router.get('/login', (req, res) => {
     authenticationService.isLoggedIn(req, res);
 })
 

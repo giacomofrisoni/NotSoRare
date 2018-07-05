@@ -15,7 +15,7 @@ function login(req, res) {
       * Prepares the SQL statement with parameters for SQL-injection avoidance,
       * in order to get the stored hashed user password if already exists an account with the specified email address.
       */
-    checkRequest = new Request("SELECT CodUser, Password FROM StandardUser WHERE Email = @Email;", (queryError, rowCount, rows) => {
+    checkRequest = new Request("SELECT CodUser, IsActivated, Password FROM StandardUser WHERE Email = @Email;", (queryError, rowCount, rows) => {
         if (queryError) {
             res.status(500).send({
                 errorMessage: queryError
@@ -47,25 +47,34 @@ function login(req, res) {
                     userData.push(rowObject);
                 }
 
-                // Checks for password mathing
-                bcrypt.compare(req.body.password, userData[0].Password, (bcryptError, match) => {
-                    if (bcryptError) {
-                        res.status(500).send({
-                            errorMessage: bcryptError
-                        });
-                    } else {
-                        if (match) {
-                            req.session.user = userData[0].CodUser; // Stores the code of the logged user into the session
-                            res.status(200).send({
-                                infoMessage: req.i18n.__("Login_Completed", userData[0].CodUser)
+                // Checks if the account has been activated
+                if (userData[0].IsActivated) {
+
+                    // Checks for password mathing
+                    bcrypt.compare(req.body.password, userData[0].Password, (bcryptError, match) => {
+                        if (bcryptError) {
+                            res.status(500).send({
+                                errorMessage: bcryptError
                             });
                         } else {
-                            res.status(401).send({
-                                errorMessage: req.i18n.__("Err_Login_InvalidPassword")
-                            });
+                            if (match) {
+                                req.session.user = userData[0].CodUser; // Stores the code of the logged user into the session
+                                res.status(200).send({
+                                    infoMessage: req.i18n.__("Login_Completed", userData[0].CodUser)
+                                });
+                            } else {
+                                res.status(401).send({
+                                    errorMessage: req.i18n.__("Err_Login_InvalidPassword")
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+
+                } else {
+                    res.status(401).send({
+                        inactive: req.i18n.__("Err_Login_InactiveAccount")
+                    });
+                }
 
             }
 

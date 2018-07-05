@@ -246,6 +246,94 @@ function signup(req, res) {
 }
 
 
+function activate(req, res) {
+
+    /**
+     * Prepares the SQL statement with parameters for SQL-injection avoidance,
+     * in order to retrieve the activation code for the account with the specified email address.
+     */
+    codeRequest = new Request("SELECT IsActivated, ActivationCode FROM StandardUser WHERE Email = @Email;", (queryError, rowCount, rows) => {
+        if (queryError) {
+            res.status(500).send({
+                errorMessage: req.i18n.__("Err_Activation", queryError)
+            });
+        } else {
+
+            /**
+             * The operation concerns a single row.
+             * If zero rows are affected, it means that there is no user with the specified id code.
+             */
+            if (rowCount == 0) {
+                res.status(500).send({
+                    errorMessage: req.i18n.__("Err_Activation_InvalidEmail")
+                });
+            } else {
+                var userData = [];
+
+                // Parses the data from each of the row and populate the user data json array 
+                for (var rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+                    var rowObject = {};
+                    var singleRowData = rows[rowIndex];
+                    for (var colIndex = 0; colIndex < singleRowData.length; colIndex++) {
+                        var tempColName = singleRowData[colIndex].metadata.colName;
+                        var tempColData = singleRowData[colIndex].value;
+                        if (tempColData === null) {
+                            res.status(500).send({
+                                errorMessage: req.i18n.__("Err_Activation", "Invalid value")
+                            });
+                        }
+                        rowObject[tempColName] = tempColData;
+                    }
+                    userData.push(rowObject);
+                }
+
+                 // Checks if the account has been activated
+                if (userData[0].IsActivated) {
+                    res.status(500).send({
+                        errorMessage: req.i18n.__("Err_Activation_AlreadyActivated")
+                    });
+                } else {
+                    // Checks if the specified code is valid
+                    if (userData[0].ActivationCode == req.body.activationCode) {
+                        /**
+                         * Prepares the SQL statement with parameters for SQL-injection avoidance,
+                         * in order to activate the account.
+                         */
+                        activationRequest = new Request("UPDATE StandardUser SET IsActivated = 1 WHERE Email = @Email;", (queryError) => {
+                            if (queryError) {
+                                res.status(500).send({
+                                    errorMessage: req.i18n.__("Err_Activation", queryError)
+                                });
+                            } else {
+                                res.status(200).send({
+                                    infoMessage: req.i18n.__("Activation_Completed")
+                                });
+                            }
+                        });
+                        activationRequest.addParameter('Email', TYPES.NVarChar, req.body.email);
+
+                        // Performs the account activation on the relational database
+                        sql.connection.execSql(activationRequest);
+                    } else {
+                        // Invalid code
+                        res.status(401).send({
+                            errorMessage: req.i18n.__("Err_Activation_InvalidCode")
+                        });
+                    }
+                }
+
+            }
+        }
+    });
+    codeRequest.addParameter('Email', TYPES.NVarChar, req.body.email);
+
+    // Performs the activation code retrieving on the relational database
+    sql.connection.execSql(codeRequest);
+
+}
+
+
 module.exports = {
-    signup
+    signup,
+    activate
 };
