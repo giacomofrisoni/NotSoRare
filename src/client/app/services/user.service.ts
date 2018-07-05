@@ -45,6 +45,12 @@ export class UserService {
     });
   }
 
+  isLoggedIn() {
+    return this.http.get(`${api}/login`,{
+      withCredentials: true
+    });
+  }
+
   /*getUsers() {
     return this.http.get<Array<User>>(`${api}/users`);
   }

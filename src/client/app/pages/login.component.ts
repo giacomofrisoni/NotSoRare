@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-login',
@@ -9,13 +10,22 @@ import { UserService } from '../services/user.service';
 export class LoginComponent implements OnInit {
 
   error: string = "";
+  isToVerify: boolean = false;
   email: string;
   password: string;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.userService.isLoggedIn().subscribe((resp: any) =>{
+      console.log("already logged in!");
+      console.log(resp);
 
+      $("#login-card").html("<p>Login già effettuato!</p>");
+    }, (errorResp) => {
+      console.log("error!");
+      console.log(errorResp);
+    });
   }
 
 
@@ -29,6 +39,11 @@ export class LoginComponent implements OnInit {
     (errorResp) => {
       // Some error occurred
       console.log(errorResp);
+
+      /*this.isToVerify = true;
+      $("#login-card").html("<p>Login effettuato con successo!</p>");*/
     });;
+
+
   }
 }
