@@ -12,6 +12,6 @@ module.exports = {
         biography: Joi.string().min(10).max(4000),
         photo: Joi.binary(),
         nationality: Joi.string().country().required(),
-        isAnonymous: Joi.boolean().required()
+        isAnonymous: Joi.number().only(0, 1).required()
     })
 };

@@ -136,7 +136,7 @@ function getUser(req, res) {
 
     } else {
         res.status(401).send({
-            errorMessage: req.i18n.__("Err_Users_UnauthorizedUser")
+            errorMessage: req.i18n.__("Err_UnauthorizedUser")
         });
     }
 
@@ -273,7 +273,7 @@ function putUser(req, res) {
 
     } else {
         res.status(401).send({
-            errorMessage: req.i18n.__("Err_Users_UnauthorizedUser")
+            errorMessage: req.i18n.__("Err_UnauthorizedUser")
         });
     }
     
@@ -367,7 +367,7 @@ function deleteUser(req, res) {
 
     } else {
         res.status(401).send({
-            errorMessage: req.i18n.__("Err_Users_UnauthorizedUser")
+            errorMessage: req.i18n.__("Err_UnauthorizedUser")
         });
     }
 

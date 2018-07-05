@@ -174,7 +174,9 @@ function signup(req, res) {
                                                                                             });
                                                                                         } else {
                                                                                             console.log("Mail message sent: " + info.messageId);
-                                                                                            res.status(201).send(req.i18n.__("Signup_Completed"));
+                                                                                            res.status(201).send({
+                                                                                                infoMessage: req.i18n.__("Signup_Completed")
+                                                                                            });
                                                                                         }
                                                                                     }
                                                                                 )
@@ -242,6 +244,7 @@ function signup(req, res) {
     sql.connection.execSql(checkRequest);
 
 }
+
 
 module.exports = {
     signup

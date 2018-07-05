@@ -14,7 +14,7 @@ module.exports = {
         biography: Joi.string().min(10).max(4000),
         photo: Joi.binary(),
         nationality: Joi.string().country().required(),
-        patientYN: Joi.string().only('0', '1').required(),
+        patientYN: Joi.number().only('0', '1').required(),
         patientName: Joi.string().regex(/^[A-z]+$/, { name: 'alpha' }).max(15).when('patientYN', { is: '0', then: Joi.required(), otherwise: Joi.only(null) }),
         patientSurname: Joi.string().regex(/^[A-z]+$/, { name: 'alpha' }).max(15).when('patientYN', { is: '0', then: Joi.required(), otherwise: Joi.only(null) }),
         patientGender: Joi.string().only('M', 'F').when('patientYN', { is: '0', then: Joi.required(), otherwise: Joi.only(null) }),
