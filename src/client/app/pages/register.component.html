@@ -12,11 +12,11 @@
             (onSelected)="onAccountTypeSelected($event[0])">
         </app-radiogroup>
 
-        <span class="info" *ngIf="isPatientAccount">
+        <span class="info" *ngIf="signupData.isPatient">
             Un account di tipo "Paziente" serve al diretto malato. Esso può confrontarsi direttamente per qualsiasi cosa disponibile sul sito.
         </span>
 
-        <span class="info" *ngIf="!isPatientAccount">
+        <span class="info" *ngIf="!signupData.isPatient">
             Un account di tipo "Famigliare" è studiato per dare l'accesso alla piattaforma anche ai famigliari del malato, affinchè, se direttamente
             incapace, possa comunque ricevere aiuto da parte della comunità.
         </span>
@@ -28,43 +28,43 @@
             <div class="half-paged">
                 <div class="field">
                     <label class="title" for="name">Nome <span class="highlight">(*)</span></label>
-                    <input type="text" id="name"/>
+                    <input type="text" id="name" [(ngModel)]="signupData.name"/>
                 </div>
 
                 <div class="field">
                     <label class="title" for="surname">Cognome <span class="highlight">(*)</span></label>
-                    <input type="text" id="surname"/>
+                    <input type="text" id="surname" [(ngModel)]="signupData.surname"/>
                 </div>
 
                 <div class="field">
                     <label class="title" for="gender">Sesso <span class="highlight">(*)</span></label>
                     <fieldset>
-                        <input type="radio" name="gender" id="genderMale" value="m"/>
+                        <input type="radio" name="gender" id="genderMale" (change)="onGenderChanged('M')"/>
                         <label for="genderMale">Maschio</label>
 
-                        <input type="radio" name="gender" id="genderFemale" value="f"/>
+                        <input type="radio" name="gender" id="genderFemale" (change)="onGenderChanged('F')"/>
                         <label for="genderFemale">Femmina</label>
                     </fieldset>
                 </div>
 
                 <div class="field">
                     <label class="title" for="birthDate">Data di nascita <span class="highlight">(*)</span></label>
-                    <input type="date" id="birthDate"/>
+                    <input type="date" id="birthDate" [(ngModel)]="signupData.birthDate"/>
                 </div>
 
                 <div class="field">
                     <label class="title" for="countries">Nazionalità <span class="highlight">(*)</span></label>
-                    <app-countries-selector id="countries"></app-countries-selector>
+                    <app-countries-selector id="countries" (onSelected)="onCountrySelected($event[0])"></app-countries-selector>
                 </div>
             </div>
 
             <div class="half-paged">
                 <div class="field">
                     <label class="title" for="biography">Biografia</label>
-                    <textarea class="only-vertical" (input)="onTextareaValueChange($event)"></textarea>
+                    <textarea class="only-vertical" (input)="onTextareaValueChange($event)" [(ngModel)]="signupData.biography"></textarea>
                     <div class="small-text">
                         <span>{{charCount}}</span>/<span>4000</span>
-                        <span style="padding-left: 20px;" *ngIf="charCount > 0 && charCount < 100">Devi immettere almeno 100 caratteri!</span>
+                        <span style="padding-left: 20px;" *ngIf="charCount > 0 && charCount < 10">Devi immettere almeno 10 caratteri!</span>
                     </div>
                 </div>
             </div>
@@ -93,54 +93,59 @@
             <div class="half-paged">
                 <div class="field">
                     <label class="title" for="email">Indirizzo E-Mail <span class="highlight">(*)</span></label>
-                    <input type="email" id="email"/>
+                    <input type="email" id="email" [(ngModel)]="signupData.email"/>
                 </div>
     
                 <div class="field">
-                    <label class="title" for="password">Password <span class="highlight">(*)</span></label>
-                    <input type="password" id="password"/>
+                    <label class="title" for="password">Password <span class="info">(minimo 8 caratteri) </span><span class="highlight">(*)</span></label>
+                    <input type="password" id="password" [(ngModel)]="signupData.password"/>
                 </div>
     
                 <div class="field">
-                    <label class="title" for="repeatPassword">Ripeti password <span class="highlight">(*)</span></label>
-                    <input type="password" id="repeatPassword"/>
+                    <label class="title" for="passwordConfirm">Ripeti password <span class="highlight">(*)</span></label>
+                    <input type="password" id="passwordConfirm"  [(ngModel)]="signupData.passwordConfirm"/>
                 </div>
             </div>
         </div>
     </div>
 
     <h4 *ngIf="!isPatientAccount">Dati del paziente</h4>
-    <div class="page-card" *ngIf="!isPatientAccount">
+    <div class="page-card" *ngIf="!signupData.isPatient">
         <p>In quanto registrato come tutore o dottore, inserisci anche dati della persona a cui si farà riferimento</p>
 
         <div class="flexbox-container spaced">
             <div class="half-paged">
                 <div class="field">
-                    <label class="title" for="namePatient">Nome paziente<span class="highlight">(*)</span></label>
-                    <input type="text" id="namePatient"/>
+                    <label class="title" for="patientName">Nome paziente<span class="highlight">(*)</span></label>
+                    <input type="text" id="patientName" [(ngModel)]="signupData.patientName"/>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="surnamePatient">Cognome paziente<span class="highlight">(*)</span></label>
-                    <input type="text" id="surnamePatient"/>
+                    <label class="title" for="patientSurname">Cognome paziente<span class="highlight">(*)</span></label>
+                    <input type="text" id="patientSurname" [(ngModel)]="signupData.patientSurname"/>
+                </div>
+
+                <div class="field">
+                    <label class="title" for="patientBirthDate">Data di nascita paziente<span class="highlight">(*)</span></label>
+                    <input type="date" id="birthDate" [(ngModel)]="signupData.patientBirthDate"/>
                 </div>
             </div>
 
             <div class="half-paged">
                 <div class="field">
-                    <label class="title" for="genderPatient">Sesso del paziente<span class="highlight">(*)</span></label>
+                    <label class="title">Sesso del paziente<span class="highlight">(*)</span></label>
                     <fieldset>
-                        <input type="radio" name="genderP" id="genderMaleP" value="m"/>
-                        <label for="genderMaleP">Maschio</label>
+                        <input type="radio" name="patientGender" id="patientGenderMale" (change)="onPatientGenderChanged('M')"/>
+                        <label for="patientGenderMale">Maschio</label>
 
-                        <input type="radio" name="genderP" id="genderFemaleP" value="f"/>
-                        <label for="genderFemaleP">Femmina</label>
+                        <input type="radio" name="patientGender" id="patientGenderFemale" (change)="onPatientGenderChanged('F')"/>
+                        <label for="patientGenderFemale">Femmina</label>
                     </fieldset>
                 </div>
 
                 <div class="field">
                     <label class="title" for="countriesP">Nazionalità <span class="highlight">(*)</span></label>
-                    <app-countries-selector id="countriesP"></app-countries-selector>
+                    <app-countries-selector id="countriesP" (onSelected)="onCountrySelectedP($event[0])"></app-countries-selector>
                 </div>
             </div>
         </div>
@@ -157,81 +162,4 @@
             <app-divbutton text="Accetto il Regolamento - Registrati" (click)="onRegister($event)"></app-divbutton>
         </div>
     </div>
-
-    <!--
-    <div class="flexbox-container spaced top-aligned">
-        <div class="page-card half-paged">
-            <h4>Dati personali</h4>
-
-            <div class="field">
-                <label class="title" for="name">Nome <span class="highlight">(*)</span></label>
-                <input type="text" id="name"/>
-            </div>
-
-            <div class="field">
-                <label class="title" for="surname">Cognome <span class="highlight">(*)</span></label>
-                <input type="text" id="surname"/>
-            </div>
-
-            <div class="field">
-                <label class="title" for="gender">Sesso <span class="highlight">(*)</span></label>
-                <fieldset>
-                    <input type="radio" name="gender" id="genderMale" value="m"/>
-                    <label for="genderMale">Maschio</label>
-
-                    <input type="radio" name="gender" id="genderFemale" value="f"/>
-                    <label for="genderFemale">Femmina</label>
-                </fieldset>
-            </div>
-
-            <div class="field">
-                <label class="title" for="birthDate">Data di nascita <span class="highlight">(*)</span></label>
-                <input type="date" id="birthDate"/>
-            </div>
-
-            <div class="field">
-                <label class="title" for="birthDate">Nazionalità <span class="highlight">(*)</span></label>
-                <app-countries-selector></app-countries-selector>
-            </div>
-
-            <div class="field">
-                <label class="title" for="biography">Biografia</label>
-                <textarea class="only-vertical" (input)="onTextareaValueChange($event)"></textarea>
-                <div class="small-text">
-                    <span>{{charCount}}</span>/<span>4000</span>
-                    <span style="padding-left: 20px;" *ngIf="charCount > 0 && charCount < 100">Devi immettere almeno 100 caratteri!</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="page-card half-paged">
-            <h4>Dati dell'utente</h4>
-
-            <div class="field flexbox-container centered">
-                <div>
-                    <img class="user" [src]="photoUrl"/>
-                </div>
-
-                <label for="uploadedFile">
-                    <input type="file" id="uploadedFile" accept="image/*" (change)="readUrl($event)"/>
-                    <app-divbutton text="Carica foto"></app-divbutton>
-                </label>
-            </div>
-
-            <div class="field">
-                <label class="title" for="email">Indirizzo E-Mail <span class="highlight">(*)</span></label>
-                <input type="email" id="email"/>
-            </div>
-
-            <div class="field">
-                <label class="title" for="password">Password <span class="highlight">(*)</span></label>
-                <input type="password" id="password"/>
-            </div>
-
-            <div class="field">
-                <label class="title" for="repeatPassword">Ripeti password <span class="highlight">(*)</span></label>
-                <input type="password" id="repeatPassword"/>
-            </div>
-        </div>
-    </div>-->
 </div>

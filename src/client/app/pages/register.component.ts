@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import * as $ from 'jquery';
+import { UserService } from '../services/user.service';
+import { SignupData } from '../models/signup-data';
 
 @Component({
   selector: 'app-register',
@@ -8,20 +9,26 @@ import * as $ from 'jquery';
 })
 export class RegisterComponent implements OnInit {
 
+  signupData: SignupData;
+
   charCount: number = 0;
   isPhotoUploaded: boolean = false;
   photoUrl: string = "../..//assets/images/default-user.png";
-  isPatientAccount: boolean = true;
+
   radioButtons: any[] = [
     { key: "patient", value: "Paziente" },
     { key: "family", value: "Famigliare" }
   ];
 
 
-  constructor() {
+  constructor(private userService: UserService) {
+    this.signupData = new SignupData();
   }
 
   ngOnInit() {
+    this.signupData = new SignupData();
+    this.signupData.isPatient = true;
+    console.log(this.signupData);
   }
 
   onTextareaValueChange($event) {
@@ -29,7 +36,15 @@ export class RegisterComponent implements OnInit {
   }
 
   onAccountTypeSelected(radiobutton: any) {
-    this.isPatientAccount = (radiobutton == this.radioButtons[0]);
+    this.signupData.isPatient = (radiobutton == this.radioButtons[0]);
+  }
+
+  onCountrySelected(country: any) {
+    this.signupData.nationality = country;
+  }
+
+  onCountrySelectedP(country: any) {
+    this.signupData.patientNationality = country;
   }
 
   onReadUrl(event: any) {
@@ -38,19 +53,35 @@ export class RegisterComponent implements OnInit {
     
       reader.onload = (event:any) => {
         this.photoUrl = event.target.result;
-        console.log(event.target.result);
       }
     
       reader.readAsDataURL(event.target.files[0]);
+      this.signupData.photo = event.target.files[0];
     }
   }
 
   onResetUrl(event: any){
     this.photoUrl = "../..//assets/images/default-user.png";
+    this.signupData.photo = null;
   }
 
   onRegister(event: any) {
-    alert("Shish!");
+    console.log(this.signupData);
+    this.userService.signUp(this.signupData).subscribe((resp: any) => {
+      console.log(resp);
+      console.log("Registrazione effettuata con successo");
+    }, (errorResp) => {
+      console.log(errorResp);
+      console.log("qualcosa è andato storto");
+    });
+  }
+
+  onGenderChanged(gender: string) {
+    this.signupData.gender = gender;
+  }
+
+  onPatientGenderChanged(gender: string) {
+    this.signupData.patientGender = gender;
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable, of, Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -10,7 +10,10 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class CountriesSelectorComponent implements OnInit {
 
+  @Output() onSelected: EventEmitter<any> = new EventEmitter();
+
   public items: Subject<any> = new Subject<any>();
+  public selectedItem: any;
 
 
   constructor(private http: Http) { 
@@ -19,6 +22,7 @@ export class CountriesSelectorComponent implements OnInit {
         var realData = [];
         data.forEach(element => {
           //Get known objects
+          var id = element.cca2.toUpperCase();
           var code = element.cca3.toLowerCase();
           var name = element.name.common;
 
@@ -32,10 +36,10 @@ export class CountriesSelectorComponent implements OnInit {
 
           //Push all the data
           realData.push({
-            id: code,
+            id: id,
             name: name,
             translatedName: translatedName,
-            icon: '../../assets/countries/flags/' + element.cca3.toLowerCase() + '.svg'
+            icon: '../../assets/countries/flags/' + code + '.svg'
           });
         });
 
@@ -57,6 +61,10 @@ export class CountriesSelectorComponent implements OnInit {
 
   searchFunction(term: string, item: any): boolean {
     return item.name.toLowerCase().includes(term.toLowerCase()) || item.translatedName.toLowerCase().includes(term.toLowerCase());
+  }
+
+  onItemSelected(): void {
+    this.onSelected.emit([this.selectedItem]);
   }
 
 }

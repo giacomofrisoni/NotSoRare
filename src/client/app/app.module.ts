@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 
+
 //import { HeroesComponent } from './components/heroes.component';
 //import { HeroService } from './services/hero.service';
 import { HomeComponent } from './pages/home.component';
@@ -17,6 +18,7 @@ import { MenubuttonComponent } from './components/menubutton.component';
 import { RegisterComponent } from './pages/register.component';
 import { RadiogroupComponent } from './components/radiogroup.component';
 import { CountriesSelectorComponent } from './components/countries-selector.component';
+import { UserService } from './services/user.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -46,7 +48,7 @@ const appRoutes: Routes = [
       { enableTracing: false }    //TRUE to debug routes
     )
   ],
-  //providers: [HeroService],
+  providers: [UserService],
   bootstrap: [RootComponent]
   //bootstrap: [AppComponent]
 })
