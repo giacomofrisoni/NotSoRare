@@ -20,12 +20,15 @@ import { RadiogroupComponent } from './components/radiogroup.component';
 import { CountriesSelectorComponent } from './components/countries-selector.component';
 import { UserService } from './services/user.service';
 import { LoginComponent } from './pages/login.component';
+import { ProfileComponent } from './pages/profile.component';
+import { TranslatorService } from './services/translator.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'profile', component: ProfileComponent }
 ];
 
 @NgModule({
@@ -39,6 +42,7 @@ const appRoutes: Routes = [
     RadiogroupComponent,
     CountriesSelectorComponent,
     LoginComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,8 +55,10 @@ const appRoutes: Routes = [
       { enableTracing: false }    //TRUE to debug routes
     )
   ],
-  providers: [UserService],
+  providers: [
+    UserService, 
+    TranslatorService
+  ],
   bootstrap: [RootComponent]
-  //bootstrap: [AppComponent]
 })
 export class AppModule { }

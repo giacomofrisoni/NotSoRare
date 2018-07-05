@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { User } from '../models/user';
 import { SignupData } from '../models/signup-data';
 
 const api = '/api';
@@ -13,8 +12,6 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   signUp(signupData: SignupData) {
-    console.log("Hello!");
-
     return this.http.post(`${api}/signup`, {
       email: signupData.email,
       password: signupData.password,
@@ -36,7 +33,7 @@ export class UserService {
     });
   }
 
-  signIn(email: string, password: string) {
+  login(email: string, password: string) {
     return this.http.post(`${api}/login`, {
       email: email,
       password: password
@@ -58,6 +55,10 @@ export class UserService {
     },{
       withCredentials: true
     });
+  }
+
+  logout() {
+    return this.http.post(`${api}/logout`, null, { withCredentials: true });
   }
 
   /*getUsers() {

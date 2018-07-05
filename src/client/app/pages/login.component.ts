@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
 
 
   onLogin() {
-    this.userService.signIn(this.email, this.password).subscribe((resp: any) => {
+    this.userService.login(this.email, this.password).subscribe((resp: any) => {
       this.loginIsOk("Login effettuato con successo! Verrai reindirizzato tra poco", true);
     }, 
     

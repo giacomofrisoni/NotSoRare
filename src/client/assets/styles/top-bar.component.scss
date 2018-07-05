@@ -10,13 +10,28 @@ $top-bar-lateral-padding: 15px;
 }
 
 img {
-    max-height: $nav-size - ($top-bar-updown-padding * 2);
-    margin-left: $top-bar-lateral-padding;
-    margin-right: $top-bar-lateral-padding;
+    &.logo {
+        max-height: $nav-size - ($top-bar-updown-padding * 2);
+        margin-left: $top-bar-lateral-padding;
+        margin-right: $top-bar-lateral-padding;
+    }
+
+    &.icon {
+        border: 1px solid lightgray;
+        max-height: 10px;
+        max-width: 13px;
+        width: 13px;
+        min-width: 13px;
+        margin-right: 8px;
+    }
 }
 
 .margined > * {
     margin-right: 20px;
+}
+
+ng-select.custom-select {
+    min-width: 80px;
 }
 
 .left-components {

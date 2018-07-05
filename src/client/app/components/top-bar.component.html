@@ -1,21 +1,50 @@
 <div class="flexbox-container spaced card top-bar">
     <!-- Left -->
     <div class="flexbox-container left-components" routerLink="/home">
-        <img src="../../assets/images/logo.png">
+        <img class="logo" src="../../assets/images/logo.png">
         <h1>Not So <b>Rare</b></h1>
     </div>
 
-    <!-- Right REGISTERED -->
-    <div *ngIf="isSessionValid" class="flexbox-container right-components">
-        <app-menubutton icon="fa fa-bell" badge="9"></app-menubutton>
-        <app-menubutton icon="fa fa-user"></app-menubutton>
-        <app-menubutton icon="fa fa-bars"></app-menubutton>
-    </div>
 
-    <!-- Right UNREGISTERED -->
-    <div *ngIf="!isSessionValid" class="flexbox-container right-components margined">
-        <app-divbutton text="Iscriviti" isBordered="true" routerLink="/register"></app-divbutton>
-        <app-divbutton text="Accedi" routerLink="/login"></app-divbutton>
+
+
+    <div class="flexbox-container right-components margined">
+        <!-- Right REGISTERED -->
+        <div class="flexbox-container margined" *ngIf="sessionStatus == 1">
+            <app-menubutton icon="fa fa-bell" badge="9"></app-menubutton>
+            <app-menubutton icon="fa fa-user" routerLink="/profile"></app-menubutton>
+        </div>
+
+        <!-- Right UNREGISTERED -->
+        <div class="flexbox-container margined" *ngIf="sessionStatus == 2">
+            <app-divbutton text="Iscriviti" isBordered="true" routerLink="/register"></app-divbutton>
+            <app-divbutton text="Accedi" routerLink="/login"></app-divbutton>
+        </div>
+
+        <!-- Right Common for all -->
+        <ng-select 
+            class="custom-select"
+            [items]="avaiableTranslations|async"
+            [clearable]="false"
+            bindValue="code2Letters"
+            [(ngModel)]="selectedLanguage" 
+            [searchable]="false">
+
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                <div class="div-option">
+                    <img class="icon" [src]="item.icon"/>
+                    <span>{{item.code2Letters}}</span>
+                </div>
+            </ng-template>
+    
+            <ng-template ng-label-tmp let-item="item" let-index="index" let-search="searchTerm">
+                <div class="div-option">
+                    <img class="icon" [src]="item.icon"/>
+                    <span>{{item.code2Letters}}</span>
+                </div>
+            </ng-template>
+        </ng-select>
+
         <app-menubutton icon="fa fa-bars"></app-menubutton>
     </div>
 </div>
