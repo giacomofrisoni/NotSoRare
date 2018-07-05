@@ -56,7 +56,9 @@ function login(req, res) {
                     } else {
                         if (match) {
                             req.session.user = userData[0].CodUser; // Stores the code of the logged user into the session
-                            res.status(200).send(req.i18n.__("Login_Completed", userData[0].CodUser));
+                            res.status(200).send({
+                                infoMessage: req.i18n.__("Login_Completed", userData[0].CodUser)
+                            });
                         } else {
                             res.status(401).send({
                                 errorMessage: req.i18n.__("Err_Login_InvalidPassword")
@@ -78,7 +80,9 @@ function login(req, res) {
 
 
 function isLoggedIn(req, res) {
-    res.status(200).send({ loggedIn: req.session.user });
+    res.status(200).send({
+        loggedIn: req.session.user
+    });
 }
 
 
@@ -89,7 +93,9 @@ function logout(req, res) {
                 errorMessage: req.i18n.__("Err_Logout")
             });
         } else {
-            res.status(200).send(req.i18n.__("LogoutCompleted"));
+            res.status(200).send({
+                infoMessage: req.i18n.__("LogoutCompleted")
+            });
         }
     })
 }
