@@ -49,7 +49,7 @@ router.post('/login', validatePayloadMiddleware, validate(loginSchema), (req, re
 /**
  * Checks if user is logged in.
  */
-router.get('/login', validatePayloadMiddleware, validate(isLoggedInSchema), (req, res) => {
+router.get('/login', (req, res) => {
     authenticationService.isLoggedIn(req, res);
 })
 
