@@ -5,7 +5,6 @@ const validate = require('express-validation');
 const signupSchema = require('./validation/signup_schema');
 const activationSchema = require('./validation/activation_schema');
 const loginSchema = require('./validation/login_schema');
-const isLoggedInSchema = require('./validation/is_logged_in_schema');
 const userUpdateSchema = require('./validation/user_update_schema')
 
 const signupService = require('./services/signup.service');
