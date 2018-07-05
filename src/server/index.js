@@ -74,6 +74,11 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use('/api', routes);
+app.get('*', (req, res) => {
+    res.sendFile('dist/index.html', { root });
+});
+
 /**
  * Error handler.
  */
@@ -86,11 +91,6 @@ app.use((err, req, res, next) => {
     } else {
         return res.status(500);
     }
-});
-
-app.use('/api', routes);
-app.get('*', (req, res) => {
-    res.sendFile('dist/index.html', { root });
 });
 
 /**

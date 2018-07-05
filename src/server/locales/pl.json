@@ -15,5 +15,15 @@
     "Err_Signup_EmailSending": "An error occurred during activation code email sending. %s",
     "Signup_Completed": "Signup completed",
     "Signup_EmailSubject": "Welcome to NotSoRare",
-    "Signup_HTMLEmailContent": "<p><span style=\"font - size:14px; \">Hi %s %s,</span></p><h1><strong>Welcome to <span style = \"color:#e22b2d;\">NotSoRare</span>!</strong></h1><h2>The first website entirely dedicated to rare disease patients.</h2><hr/><p>Enter this activation&nbsp;code in&nbsp; to start using it immediately: <strong>%s</strong>.</p><p><strong>What are you waiting for?</strong></p><p>&nbsp;</p><p><em>This is an email generated automatically by NotSoRare. Do not respond to this email address.</em></p>"
+    "Signup_HTMLEmailContent": "<p><span style=\"font - size:14px; \">Hi %s %s,</span></p><h1><strong>Welcome to <span style = \"color:#e22b2d;\">NotSoRare</span>!</strong></h1><h2>The first website entirely dedicated to rare disease patients.</h2><hr/><p>Enter this activation&nbsp;code in&nbsp; to start using it immediately: <strong>%s</strong>.</p><p><strong>What are you waiting for?</strong></p><p>&nbsp;</p><p><em>This is an email generated automatically by NotSoRare. Do not respond to this email address.</em></p>",
+    "Err_Users_UserInfo": "An error occurred during the retrieving of user data. %s",
+    "Err_Users_GlobalCount": "An error occurred during the calculation of the total number of registered users. %s",
+    "Err_Users_CountryCount": "An error occurred during the calculation of the total number of registered users in each country. %s",
+    "Err_Users_BeginUpdateTransaction": "An error occurred during user update transaction starting",
+    "Err_Users_UserUpdate": "An error occurred during the update of the user. %s",
+    "Err_Users_UserNotFound": "There is no one registered user with the specified code",
+    "UserUpdate_Completed": "User update completed",
+    "Err_Users_BeginDeleteTransaction": "An error occurred during user deletion transaction starting",
+    "Err_Users_UserDelete": "An error occurred during user deletion",
+    "UserDeletion_Completed": "User deleted successfully"
 }

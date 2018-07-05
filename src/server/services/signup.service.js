@@ -41,14 +41,14 @@ function signup(req, res) {
             } else {
 
                 // Checks for a invalid counter value
-                if (rows[0].value === null) {
+                if (rows[0][0].value === null) {
                     res.status(500).send({
                         errorMessage: req.i18n.__("Err_Signup_EmailChecking")
                     });
                 } else {
 
                     // Checks if there is a registered account with the same email
-                    if (rows[0].value >= 1) {
+                    if (rows[0][0].value >= 1) {
                         res.status(500).send({
                             errorMessage: req.i18n.__("Err_Signup_AlreadyUsedEmail")
                         });
@@ -74,7 +74,7 @@ function signup(req, res) {
                                 sql.connection.transaction((error, done) => {
                                     if (error) {
                                         res.status(500).send({
-                                            errorMessage: req.i18n.__("Err_Signup_UserSaving", queryError)
+                                            errorMessage: req.i18n.__("Err_Signup_BeginTransaction")
                                         });
                                     } else {
 
@@ -83,8 +83,8 @@ function signup(req, res) {
                                          * in order to register the new user account.
                                          */
                                         insertRequest = new Request(
-                                            "INSERT StandardUser (Id, Email, Password, Name, Surname, Gender, BirthDate, Nationality, RegistrationDate, PatientYN, ActivationCode) " +
-                                            "VALUES (@Id, @Email, @Password, @Name, @Surname, @Gender, @BirthDate, @Nationality, CURRENT_TIMESTAMP, @PatientYN, @ActivationCode);", (queryError, rowCount) => {
+                                            "INSERT StandardUser (Id, Email, Password, Name, Surname, Gender, BirthDate, Nationality, RegistrationDate, PatientYN, " + (req.body.patientYN ? "" : "PatientName, PatientSurname, PatientGender, PatientBirthDate, PatientNationality, ") + "ActivationCode, Photo, Biography) " +
+                                            "VALUES (@Id, @Email, @Password, @Name, @Surname, @Gender, @BirthDate, @Nationality, CURRENT_TIMESTAMP, @PatientYN, " + (req.body.patientYN ? "" : "@PatientName, @PatientSurname, @PatientGender, @PatientBirthDate, @PatientNationality, ") + "@ActivationCode, " + (req.body.photo ? "@Photo" : "NULL") + ", " + (req.body.biography ? "@Biography" : "NULL") + ");", (queryError, rowCount) => {
                                             if (queryError) {
                                                 done(null, () => {
                                                     res.status(500).send({
@@ -135,14 +135,16 @@ function signup(req, res) {
                                                                     const codeNewUser = rows[0][0].value;
 
                                                                     // Stores the user data into mongo database
-                                                                    const originalUser = {
+                                                                    var originalUser = {
                                                                         code: codeNewUser,
                                                                         first_name: req.body.name,
                                                                         last_name: req.body.surname,
                                                                         gender: req.body.gender,
-                                                                        image: req.body.image,
                                                                         birth_date: req.body.birthDate,
                                                                         is_anonymous: false
+                                                                    }
+                                                                    if (req.body.photo) {
+                                                                        originalUser.photo = req.body.photo;
                                                                     }
                                                                     const user = new User(originalUser);
                                                                     user.save(error => {
@@ -202,7 +204,20 @@ function signup(req, res) {
                                         insertRequest.addParameter('BirthDate', TYPES.Date, req.body.birthDate);
                                         insertRequest.addParameter('Nationality', TYPES.NVarChar, req.body.nationality);
                                         insertRequest.addParameter('PatientYN', TYPES.Bit, req.body.patientYN);
+                                        if (!req.body.patientYN) {
+                                            insertRequest.addParameter('PatientName', TYPES.NVarChar, req.body.patientName);
+                                            insertRequest.addParameter('PatientSurname', TYPES.NVarChar, req.body.patientSurname);
+                                            insertRequest.addParameter('PatientGender', TYPES.Char, req.body.patientGender);
+                                            insertRequest.addParameter('PatientBirthDate', TYPES.Date, req.body.patientBirthDate);
+                                            insertRequest.addParameter('PatientNationality', TYPES.NVarChar, req.body.patientNationality);
+                                        }
                                         insertRequest.addParameter('ActivationCode', TYPES.NChar, activationCode);
+                                        if (req.body.photo) {
+                                            insertRequest.addParameter('Photo', TYPES.VarBinary, req.body.photo);
+                                        }
+                                        if (req.body.biography) {
+                                            insertRequest.addParameter('Biography', TYPES.NVarChar, req.body.biography);
+                                        }
 
                                         // Performs the insertion query on the relational database
                                         sql.connection.execSql(insertRequest);

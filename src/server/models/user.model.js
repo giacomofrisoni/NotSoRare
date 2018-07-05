@@ -5,11 +5,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     code: { type: Number, required: true, unique: true },
-    first_name: { type: String, max: [15, 'Too long name'] },
-    last_name: { type: String, max: [15, 'Too long surname'] },
-    gender: { type: String, enum: ['M', 'F'] },
-    image: { data: Buffer, contentType: String },
-    birth_date: { type: Date },
+    first_name: { type: String, max: [15, 'Too long name'], required: true },
+    last_name: { type: String, max: [15, 'Too long surname'], required: true },
+    gender: { type: String, enum: ['M', 'F'], required: true },
+    photo: { data: Buffer, contentType: String },
+    birth_date: { type: Date, required: true },
     is_anonymous: { type: Boolean, required: true }
 }, {
     collection: 'Users'

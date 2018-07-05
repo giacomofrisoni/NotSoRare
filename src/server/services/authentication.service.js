@@ -32,7 +32,7 @@ function login(req, res) {
 
                 // Parses the data from each of the row and populate the user data json array 
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                    var rowObject= {};
+                    var rowObject = {};
                     var singleRowData = rows[rowIndex];
                     for (var colIndex = 0; colIndex < singleRowData.length; colIndex++) {
                         var tempColName = singleRowData[colIndex].metadata.colName;

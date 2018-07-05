@@ -4,10 +4,12 @@ const router = express.Router();
 const validate = require('express-validation');
 const signupSchema = require('./validation/signup_schema');
 const loginSchema = require('./validation/login_schema');
+const isLoggedInSchema = require('./validation/is_logged_in_schema');
+const userUpdateSchema = require('./validation/user_update_schema')
 
 const signupService = require('./services/signup.service');
 const authenticationService = require('./services/authentication.service');
-const heroService = require('./services/hero.service');
+const userService = require('./services/user.service');
 
 /**
  * Middleware to check that a payload is present.
@@ -39,31 +41,43 @@ router.post('/login', validatePayloadMiddleware, validate(loginSchema), (req, re
 /**
  * Checks if user is logged in.
  */
-router.get('/login', (req, res) => {
+router.get('/login', validatePayloadMiddleware, validate(isLoggedInSchema), (req, res) => {
     authenticationService.isLoggedIn(req, res);
 })
 
 /**
- * Log the user out of the application.
+ * Logs the user out of the application.
  */
 router.post('/logout', (req, res) => {
     authenticationService.logout(req, res);
 })
 
-router.get('/heroes', (req, res) => {
-    heroService.getHeroes(req, res);
+/**
+ * Gets some statistics about the registered users.
+ */
+router.get('/usersStats', (req, res) => {
+    userService.getUsersStats(req, res);
 });
 
-router.post('/hero', validatePayloadMiddleware, (req, res) => {
-    heroService.postHero(req, res);
+/**
+ * Gets the data of a registered user.
+ */
+router.get('/users/:id', (req, res) => {
+    userService.getUser(req, res);
 });
 
-router.put('/hero/:id', (req, res) => {
-    heroService.putHero(req, res);
+/**
+ * Updates the data of a registered user.
+ */
+router.put('/users/:id', validatePayloadMiddleware, validate(userUpdateSchema), (req, res) => {
+    userService.putUser(req, res);
 });
 
-router.delete('/hero/:id', (req, res) => {
-    heroService.deleteHero(req, res);
+/**
+ * Deletes a registered user.
+ */
+router.delete('/users/:id', (req, res) => {
+    userService.deleteUser(req, res);
 });
 
 module.exports = router;

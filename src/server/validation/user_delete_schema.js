@@ -17,7 +17,6 @@ module.exports = {
         patientYN: Joi.string().only('0', '1').required(),
         patientName: Joi.string().regex(/^[A-z]+$/, { name: 'alpha' }).max(15).when('patientYN', { is: '0', then: Joi.required(), otherwise: Joi.only(null) }),
         patientSurname: Joi.string().regex(/^[A-z]+$/, { name: 'alpha' }).max(15).when('patientYN', { is: '0', then: Joi.required(), otherwise: Joi.only(null) }),
-        patientGender: Joi.string().only('M', 'F').when('patientYN', { is: '0', then: Joi.required(), otherwise: Joi.only(null) }),
         patientBirthDate: Joi.date().min('01-01-1900').max('now').when('patientYN', { is: '0', then: Joi.required(), otherwise: Joi.only(null) }),
         patientNationality: Joi.string().country().when('patientYN', { is: '0', then: Joi.required(), otherwise: Joi.only(null) })
     })
