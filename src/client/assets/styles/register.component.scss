@@ -16,17 +16,31 @@
 }
 
 .half-paged {
-    width: 45%;
+    width: 47%;
 }
 
-img {
-    border: 1px solid $accent-dark-color;
+img.user {
+    border: 1px solid gray;
     border-radius: 50%;
     width: 150px;
     height: 150px;
     object-fit: contain;
+    margin-right: 20px;
 }
 
 input[type=file] {
     display: none;
+}
+
+app-divbutton {
+    margin-right: 1px;
+}
+
+.register-button {
+    max-width: 400px;
+    align-self: center;
+}
+
+textarea {
+    height: 300px;
 }

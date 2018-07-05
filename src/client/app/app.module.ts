@@ -2,7 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 //import { HeroesComponent } from './components/heroes.component';
 //import { HeroService } from './services/hero.service';
@@ -13,6 +16,7 @@ import { RootComponent } from './pages/root.component';
 import { MenubuttonComponent } from './components/menubutton.component';
 import { RegisterComponent } from './pages/register.component';
 import { RadiogroupComponent } from './components/radiogroup.component';
+import { CountriesSelectorComponent } from './components/countries-selector.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,12 +32,15 @@ const appRoutes: Routes = [
     RootComponent,
     MenubuttonComponent,
     RegisterComponent,
-    RadiogroupComponent
+    RadiogroupComponent,
+    CountriesSelectorComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpModule,
     HttpClientModule,
+    NgSelectModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false }    //TRUE to debug routes

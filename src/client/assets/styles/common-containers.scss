@@ -1,4 +1,5 @@
 @import 'common-values';
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 html, body {
     margin: 0;
@@ -10,8 +11,8 @@ html, body {
     color: $text-color;
 }
 
-*:active {
-    outline: none;
+:focus, :active {
+    outline: 0 !important;
 }
 
 .flexbox-container {
@@ -63,11 +64,10 @@ html, body {
 .page-card {
     padding: 30px;
     margin-bottom: 30px;
-    background: $card-background-color;
-    -webkit-box-shadow: $card-light-shadow;
-    -moz-box-shadow: $card-light-shadow;
-    box-shadow: $card-light-shadow;
+    background: white;
+    box-shadow: 0px 3px 0px 0px #bababa;
     border-radius: 5px;
+    border: 1px solid #d8d8d8;
 }
 
 .card {

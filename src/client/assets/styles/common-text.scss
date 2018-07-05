@@ -27,15 +27,14 @@ h2 {
 h3 {
     font-family: 'Segoe UI';
     padding: 0;
-    font-size: 1.5em;
+    font-size: 1.6em;
     margin: 10px;
 }
 
 h4 {
-    margin: 0;
+    margin: 10px;
     padding: 0;
-    font-size: 1.1em;
-    text-align: center;
+    font-size: 1.2em;
 }
 
 .subtitle {
@@ -79,10 +78,14 @@ textarea.only-vertical {
     resize: vertical;
 }
 
-input[type=text], input[type=date], input[type=email], input[type=password] {
+input[type=text], input[type=date], input[type=email], input[type=password], textarea {
     border: 1px solid lightgray;
     border-radius: 5px;
     line-height: 25px;
     padding-left: 10px;
     padding-right: 10px;
+
+    &:focus, &:active {
+        border: 1px solid $accent-dark-color;
+    }
 }

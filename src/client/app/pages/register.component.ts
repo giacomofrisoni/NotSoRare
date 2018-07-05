@@ -24,11 +24,15 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
+  onTextareaValueChange($event) {
+    this.charCount = $event.target.value.length;
+  }
+
   onAccountTypeSelected(radiobutton: any) {
     this.isPatientAccount = (radiobutton == this.radioButtons[0]);
   }
 
-  readUrl(event: any) {
+  onReadUrl(event: any) {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
     
@@ -39,6 +43,14 @@ export class RegisterComponent implements OnInit {
     
       reader.readAsDataURL(event.target.files[0]);
     }
+  }
+
+  onResetUrl(event: any){
+    this.photoUrl = "../..//assets/images/default-user.png";
+  }
+
+  onRegister(event: any) {
+    alert("Shish!");
   }
 
 }

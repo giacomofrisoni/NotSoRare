@@ -5,8 +5,8 @@
         <i>Tutti i campi contrassegnati con <span class="highlight">(*)</span> sono obbligatori</i>
     </div>
 
+    <h4>Tipo di account <span class="highlight">(*)</span></h4>
     <div class="page-card centered">
-        <h4>Seleziona il tipo di account <span class="highlight">(*)</span></h4>
         <app-radiogroup
             [radiobuttons]="radioButtons"
             (onSelected)="onAccountTypeSelected($event[0])">
@@ -22,6 +22,143 @@
         </span>
     </div>
 
+    <h4>Dati personali</h4>
+    <div class="page-card">
+        <div class="flexbox-container spaced top-aligned">
+            <div class="half-paged">
+                <div class="field">
+                    <label class="title" for="name">Nome <span class="highlight">(*)</span></label>
+                    <input type="text" id="name"/>
+                </div>
+
+                <div class="field">
+                    <label class="title" for="surname">Cognome <span class="highlight">(*)</span></label>
+                    <input type="text" id="surname"/>
+                </div>
+
+                <div class="field">
+                    <label class="title" for="gender">Sesso <span class="highlight">(*)</span></label>
+                    <fieldset>
+                        <input type="radio" name="gender" id="genderMale" value="m"/>
+                        <label for="genderMale">Maschio</label>
+
+                        <input type="radio" name="gender" id="genderFemale" value="f"/>
+                        <label for="genderFemale">Femmina</label>
+                    </fieldset>
+                </div>
+
+                <div class="field">
+                    <label class="title" for="birthDate">Data di nascita <span class="highlight">(*)</span></label>
+                    <input type="date" id="birthDate"/>
+                </div>
+
+                <div class="field">
+                    <label class="title" for="countries">Nazionalità <span class="highlight">(*)</span></label>
+                    <app-countries-selector id="countries"></app-countries-selector>
+                </div>
+            </div>
+
+            <div class="half-paged">
+                <div class="field">
+                    <label class="title" for="biography">Biografia</label>
+                    <textarea class="only-vertical" (input)="onTextareaValueChange($event)"></textarea>
+                    <div class="small-text">
+                        <span>{{charCount}}</span>/<span>4000</span>
+                        <span style="padding-left: 20px;" *ngIf="charCount > 0 && charCount < 100">Devi immettere almeno 100 caratteri!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4>Dati dell'utente</h4>
+    <div class="page-card">
+        <div class="flexbox-container spaced">
+            <div class="flexbox-container centered half-paged">
+                <div>
+                    <img class="user" [src]="photoUrl"/>
+                </div>
+
+                <div>
+                    <label style="margin-bottom: 10px;" for="uploadedFile">
+                        <input type="file" id="uploadedFile" accept="image/*" (change)="onReadUrl($event)"/>
+                        <app-divbutton text="Carica foto"></app-divbutton>
+                    </label>
+
+                    <app-divbutton isBordered="true" text="Rimuovi foto" (click)="onResetUrl($event)"></app-divbutton>
+                </div>
+
+            </div>
+
+            <div class="half-paged">
+                <div class="field">
+                    <label class="title" for="email">Indirizzo E-Mail <span class="highlight">(*)</span></label>
+                    <input type="email" id="email"/>
+                </div>
+    
+                <div class="field">
+                    <label class="title" for="password">Password <span class="highlight">(*)</span></label>
+                    <input type="password" id="password"/>
+                </div>
+    
+                <div class="field">
+                    <label class="title" for="repeatPassword">Ripeti password <span class="highlight">(*)</span></label>
+                    <input type="password" id="repeatPassword"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 *ngIf="!isPatientAccount">Dati del paziente</h4>
+    <div class="page-card" *ngIf="!isPatientAccount">
+        <p>In quanto registrato come tutore o dottore, inserisci anche dati della persona a cui si farà riferimento</p>
+
+        <div class="flexbox-container spaced">
+            <div class="half-paged">
+                <div class="field">
+                    <label class="title" for="namePatient">Nome paziente<span class="highlight">(*)</span></label>
+                    <input type="text" id="namePatient"/>
+                </div>
+
+                <div class="field">
+                    <label class="title" for="surnamePatient">Cognome paziente<span class="highlight">(*)</span></label>
+                    <input type="text" id="surnamePatient"/>
+                </div>
+            </div>
+
+            <div class="half-paged">
+                <div class="field">
+                    <label class="title" for="genderPatient">Sesso del paziente<span class="highlight">(*)</span></label>
+                    <fieldset>
+                        <input type="radio" name="genderP" id="genderMaleP" value="m"/>
+                        <label for="genderMaleP">Maschio</label>
+
+                        <input type="radio" name="genderP" id="genderFemaleP" value="f"/>
+                        <label for="genderFemaleP">Femmina</label>
+                    </fieldset>
+                </div>
+
+                <div class="field">
+                    <label class="title" for="countriesP">Nazionalità <span class="highlight">(*)</span></label>
+                    <app-countries-selector id="countriesP"></app-countries-selector>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-card flexbox-container centered vertical">
+        <p>
+            Premendo sul bottone <span class="highlight">registrati</span> accetti per intero il <a href="#">regolamento</a> del nostro servizio. 
+            NotSoRare tiene molto ai tuoi dati: non verrano mai condivisi con nessuno. <br/>
+            Utilizziamo inoltre protocolli di ultima generazione, per garantirtitutta la sicurezza e privacy che ti meriti.
+        </p>
+
+        <div class="register-button">
+            <app-divbutton text="Accetto il Regolamento - Registrati" (click)="onRegister($event)"></app-divbutton>
+        </div>
+    </div>
+
+    <!--
     <div class="flexbox-container spaced top-aligned">
         <div class="page-card half-paged">
             <h4>Dati personali</h4>
@@ -54,7 +191,7 @@
 
             <div class="field">
                 <label class="title" for="birthDate">Nazionalità <span class="highlight">(*)</span></label>
-                <select></select>
+                <app-countries-selector></app-countries-selector>
             </div>
 
             <div class="field">
@@ -72,7 +209,7 @@
 
             <div class="field flexbox-container centered">
                 <div>
-                    <img [src]="photoUrl"/>
+                    <img class="user" [src]="photoUrl"/>
                 </div>
 
                 <label for="uploadedFile">
@@ -88,7 +225,7 @@
 
             <div class="field">
                 <label class="title" for="password">Password <span class="highlight">(*)</span></label>
-                <input type="password" id="surname"/>
+                <input type="password" id="password"/>
             </div>
 
             <div class="field">
@@ -96,5 +233,5 @@
                 <input type="password" id="repeatPassword"/>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
