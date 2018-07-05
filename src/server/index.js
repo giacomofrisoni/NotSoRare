@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const routes = require('./routes');
+const cookiesEnv = require('./env/cookies_environment');
+const joiErrors = require('./validation/custom_joi_errors');
 
 const root = './';
 const port = process.env.Port || 3000;
@@ -25,7 +27,7 @@ i18n.expressBind(app, {
     // Setups some locales - other locales default to en silently
     locales: ['en', 'it', 'pl'],
     // Sets the cookie name
-    cookieName: 'locale',
+    cookieName: cookiesEnv.localeCookieName,
     // Sets the query parameter to switch locale (ie. /home?lang=ch)
     queryParameter: 'lang',
     // Sets the directory in which to find the locale data files
@@ -67,7 +69,7 @@ app.use(session({
 app.use((req, res, next) => {
     if (req.query.lang) {
         req.i18n.setLocaleFromQuery();
-        res.cookie('locale', req.i18n.getLocale());
+        res.cookie(cookiesEnv.localeCookieName, req.i18n.getLocale());
     } else {
         req.i18n.setLocaleFromCookie();
     }
@@ -84,7 +86,7 @@ app.get('*', (req, res) => {
  */
 app.use((err, req, res, next) => {
     // Specific for validation errors
-    if (err instanceof ev.ValidationError) return res.status(err.status).json(err);
+    if (err instanceof ev.ValidationError) return res.status(err.status).json(joiErrors.buildUsefulErrorObject(err.errors));
     // Other type of errors, it *might* also be a Runtime Error
     if (process.env.NODE_ENV !== 'production') {
         return res.status(500).send(err.stack);

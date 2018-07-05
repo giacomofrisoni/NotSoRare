@@ -19,6 +19,9 @@ const email = require('../utilities/email_util');
 // Mongoose model for an user
 const User = require('../models/user.model');
 
+// Module for cookie names
+const cookiesEnv = require('../env/cookies_environment');
+
 
 function signup(req, res) {
 
