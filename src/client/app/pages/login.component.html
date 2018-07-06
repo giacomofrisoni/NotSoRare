@@ -16,7 +16,7 @@
 
         <div class="flexbox-container vertical centered">
             <div class="login-button">
-                <app-divbutton text="Login" (click)="onLogin($event)"></app-divbutton>
+                <app-divbutton #loginButton text="Login" (click)="onLogin($event)"></app-divbutton>
             </div>
 
             <span class="info small-text" *ngIf='error != ""'>{{error}}</span>

@@ -54,7 +54,6 @@ export class TranslatorService {
   }
 
   getAvaiableTranslations(onActionDone: Function, onActionFail: Function) {
-    console.log("trying to get");
     this.getFile().subscribe(
       data => {
         //Create temp structure when store data

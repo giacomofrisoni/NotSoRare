@@ -21,7 +21,22 @@ export class TopBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.isLoggedIn().subscribe((resp: any) =>{
+    // Get the login status of the user
+    this.userService.getLoggedInStatus().subscribe(status => {
+      this.sessionStatus = status;
+    });
+
+    // Take the translation
+    this.translatorService.getAvaiableTranslations(data => {
+      this.avaiableTranslations.next(data);
+      this.selectedLanguage = "GB";
+      this.translatorService.setCurrentLanguage("GB");
+    }, error => {
+      console.log("Reading translations was unsuccesfull");
+      console.log(error);
+    });
+    
+    /*this.userService.isLoggedIn().subscribe((resp: any) =>{
       if (resp.loggedIn) {
         this.sessionStatus = SessionStatus.LoggedIn;
       } else {
@@ -40,7 +55,7 @@ export class TopBarComponent implements OnInit {
     }, error => {
       console.log("Reading translations was unsuccesfull");
       console.log(error);
-    });
+    });*/
   }
 
 }

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { SignupData } from '../models/signup-data';
+import { Subject } from 'rxjs';
+import { SessionStatus } from '../models/session-status.enum';
 
 const api = '/api';
 
@@ -9,7 +11,12 @@ const api = '/api';
 @Injectable()
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  isLoggedIn: Subject<SessionStatus>;
+
+  constructor(private http: HttpClient) { 
+    this.isLoggedIn = new Subject();
+    this.isLoggedIn.next(SessionStatus.Unknown);
+  }
 
   signUp(signupData: SignupData) {
     return this.http.post(`${api}/signup`, {
@@ -42,10 +49,22 @@ export class UserService {
     });
   }
 
-  isLoggedIn() {
-    return this.http.get(`${api}/login`,{
+  getLoggedInStatus() {
+    //First, make a request, for sure
+    this.http.get(`${api}/login`,{
       withCredentials: true
+    }).subscribe((response: any) =>{
+      if (response.loggedIn) {
+        this.isLoggedIn.next(SessionStatus.LoggedIn);
+      } else {
+        this.isLoggedIn.next(SessionStatus.NotLoggedIn);
+      }
+    }, error => {
+      this.isLoggedIn.next(SessionStatus.NotLoggedIn);
     });
+
+    //Then return the object to observe
+    return this.isLoggedIn.asObservable()
   }
 
   activate(email: string, activationCode: string) {
