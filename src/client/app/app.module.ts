@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 
 
@@ -21,7 +23,8 @@ import { CountriesSelectorComponent } from './components/countries-selector.comp
 import { UserService } from './services/user.service';
 import { LoginComponent } from './pages/login.component';
 import { ProfileComponent } from './pages/profile.component';
-import { TranslatorService } from './services/translator.service';
+import { LanguageService } from './services/language.service';
+import { CookiesUtilsService } from './services/cookies-utils.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -30,6 +33,10 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent }
 ];
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -50,6 +57,13 @@ const appRoutes: Routes = [
     HttpModule,
     HttpClientModule,
     NgSelectModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false }    //TRUE to debug routes
@@ -57,7 +71,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     UserService, 
-    TranslatorService
+    LanguageService,
+    CookiesUtilsService
   ],
   bootstrap: [RootComponent]
 })

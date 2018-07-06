@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../services/language.service';
+import { Subscription } from 'rxjs';
+import { Languages } from '../models/languages.enum';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() { 
+    
   }
 
+  ngOnInit() {
+
+  }
+
+  configTranslations() {
+    
+  }
 }

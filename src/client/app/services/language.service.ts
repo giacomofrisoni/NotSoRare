@@ -3,22 +3,34 @@ import { Language } from '../models/language';
 import { Http } from '@angular/http';
 import { Observable, of, Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { Languages } from '../models/languages.enum';
 
 @Injectable()
-export class TranslatorService {
+export class LanguageService {
 
-  translationsConfig: string[] = ["IT", "PL", "GB"];
-  currentLanguage: string;
+  translationsConfig: string[] = Object.values(Languages);
+  currentLanguage: Subject<string>;
 
   constructor(private http: Http) {
+    this.currentLanguage = new Subject();
+    this.currentLanguage.next(Languages.English);
   }
 
   setCurrentLanguage(language: string) {
-    this.currentLanguage = language;
+    this.currentLanguage.next(language);
   }
 
   getCurrentLanguage() {
-    return this.currentLanguage;
+    return this.currentLanguage.asObservable();
+  }
+
+  convertToStandardLanguage(language: string) {
+    switch(language) {
+      case Languages.English: return "en";
+      case Languages.Italian: return "it";
+      case Languages.Polish:  return "pl";
+      default: return "en";
+    }
   }
 
   private getFile() {

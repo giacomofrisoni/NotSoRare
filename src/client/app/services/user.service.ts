@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { SignupData } from '../models/signup-data';
 import { Subject } from 'rxjs';
 import { SessionStatus } from '../models/session-status.enum';
+import { CookiesUtilsService } from './cookies-utils.service';
+import { Languages } from '../models/languages.enum';
+import { LanguageService } from './language.service';
 
 const api = '/api';
+
+const headers = new HttpHeaders()
+  .set('Cookie', 'locale=IT');
 
 
 @Injectable()
@@ -13,13 +19,13 @@ export class UserService {
 
   isLoggedIn: Subject<SessionStatus>;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private cookiesUtils: CookiesUtilsService, private languageService: LanguageService) { 
     this.isLoggedIn = new Subject();
     this.isLoggedIn.next(SessionStatus.Unknown);
   }
 
   signUp(signupData: SignupData) {
-    return this.http.post(`${api}/signup`, {
+    return this.http.post(`${api}/signup` + this.createParameter(), {
       email: signupData.email,
       password: signupData.password,
       passwordConfirm: signupData.passwordConfirm,
@@ -36,23 +42,26 @@ export class UserService {
       patientBirthDate: signupData.patientBirthDate,
       patientNationality: signupData.patientNationality
     },{
-      withCredentials: true
+      withCredentials: true,
+      //headers: this.createCookie()
     });
   }
 
   login(email: string, password: string) {
-    return this.http.post(`${api}/login`, {
+    return this.http.post(`${api}/login` + this.createParameter(), {
       email: email,
       password: password
     },{
-      withCredentials: true
+      withCredentials: true,
+      //headers: this.createCookie()
     });
   }
 
   getLoggedInStatus() {
     //First, make a request, for sure
-    this.http.get(`${api}/login`,{
-      withCredentials: true
+    this.http.get(`${api}/login` + this.createParameter(),{
+      withCredentials: true,
+      //headers: this.createCookie()
     }).subscribe((response: any) =>{
       if (response.loggedIn) {
         this.isLoggedIn.next(SessionStatus.LoggedIn);
@@ -68,31 +77,25 @@ export class UserService {
   }
 
   activate(email: string, activationCode: string) {
-    return this.http.post(`${api}/activation`, {
+    return this.http.post(`${api}/activation` + this.createParameter(), {
       email: email,
       activationCode: activationCode
     },{
-      withCredentials: true
+      withCredentials: true,
+      //headers: this.createCookie()
     });
   }
 
   logout() {
-    return this.http.post(`${api}/logout`, null, { withCredentials: true });
+    return this.http.post(`${api}/logout` + this.createParameter(), null, { 
+      withCredentials: true,
+      //headers: this.createCookie()
+    });
   }
 
-  /*getUsers() {
-    return this.http.get<Array<User>>(`${api}/users`);
-  }
 
-  deleteUser(user: User) {
-    return this.http.delete(`${api}/user/${user.id}`);
-  }
 
-  addUser(user: User) {
-    return this.http.post<User>(`${api}/user`, user);
+  private createParameter() {
+    return "?lang=" + this.languageService.convertToStandardLanguage(this.cookiesUtils.read(Languages.LanguagesCookieName));
   }
-
-  updateUser(user: User) {
-    return this.http.put<User>(`${api}/user/${user.id}`, user);
-  }*/
 }

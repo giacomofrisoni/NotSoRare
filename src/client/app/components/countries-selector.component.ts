@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable, of, Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { TranslatorService } from '../services/translator.service';
+import { LanguageService } from '../services/language.service';
 import { Language } from '../models/language';
 
 @Component({
@@ -18,7 +18,7 @@ export class CountriesSelectorComponent implements OnInit {
   public selectedItem: any;
 
 
-  constructor(private http: Http, private translatorService: TranslatorService) { 
+  constructor(private http: Http, private translatorService: LanguageService) { 
     this.translatorService.getAllCountries(data => {
       this.items.next(data);
     }, error => {

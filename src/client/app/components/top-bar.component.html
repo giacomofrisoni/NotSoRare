@@ -17,8 +17,8 @@
 
         <!-- Right UNREGISTERED -->
         <div class="flexbox-container margined" *ngIf="sessionStatus == 2">
-            <app-divbutton text="Iscriviti" isBordered="true" routerLink="/register"></app-divbutton>
-            <app-divbutton text="Accedi" routerLink="/login"></app-divbutton>
+            <app-divbutton [text]="'Top.Signup' | translate" isBordered="true" routerLink="/register"></app-divbutton>
+            <app-divbutton [text]="'Top.Login' | translate" routerLink="/login"></app-divbutton>
         </div>
 
         <!-- Right Common for all -->
@@ -27,6 +27,7 @@
             [items]="avaiableTranslations|async"
             [clearable]="false"
             bindValue="code2Letters"
+            (change)="onLanguageChanged()"
             [(ngModel)]="selectedLanguage" 
             [searchable]="false">
 

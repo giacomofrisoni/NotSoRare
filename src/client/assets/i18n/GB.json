@@ -1,0 +1,12 @@
+{
+    "Top": {
+        "Signup": "Sign Up",
+        "Login": "Login"
+    },
+
+    "Home": {
+        "Title": "Rare disease are not so rare if we face them <b>togheter</b>",
+        "Subtitle": "Follow your diseases and inquire about particular ones, discover the best organisations and medics for your disease and speak with others, share your experience, get involved and much more",
+        "Placeholder": "Type the name of disease here"
+    }
+}

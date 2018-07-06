@@ -1,0 +1,12 @@
+{
+    "Top": {
+        "Signup": "Iscriviti",
+        "Login": "Login"
+    },
+
+    "Home": {
+        "Title": "Le malattie non sono così rare se le affrontiamo <b>insieme</b>",
+        "Subtitle": "Segui le malattine di tuo interesse e informati su un particolare disturbo, scopri i migliori centri specializzati e i medici di riferimento per la tua patologia, entra in contatto con altri malati rari, condividi la tua esperienza, partecipa alle discussioni e tanto altro ancora.",
+        "Placeholder": "Inserisci il nome della malattia"
+    }
+}

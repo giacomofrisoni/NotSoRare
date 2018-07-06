@@ -1,0 +1,12 @@
+{
+    "Top": {
+        "Signup": "Zarejestruj",
+        "Login": "Zaloguj"
+    },
+
+    "Home": {
+        "Title": "Choroby nie są tak bardzo rzadkie, jeśli będziemy <b>razem</b>",
+        "Subtitle": "Bądź na bierząco za twoimi chorobami, znajdź dokładne informacje o danej chorobie, odkryj najlepsze kliniki i specjalistów dla twoje patologi, zkontaktuj się z innymi chorymi, podziel się swoimi doświadczeniami, dyskutuj na forum i to nie wszystko!",
+        "Placeholder": "Wpisz nazwę choroby"
+    }
+}

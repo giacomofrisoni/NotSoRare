@@ -1,9 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { SessionStatus } from '../models/session-status.enum';
-import { TranslatorService } from '../services/translator.service';
+import { LanguageService } from '../services/language.service';
 
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { CookiesUtilsService } from '../services/cookies-utils.service';
+import { Languages } from '../models/languages.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-top-bar',
@@ -16,7 +19,13 @@ export class TopBarComponent implements OnInit {
   sessionStatus: SessionStatus = SessionStatus.Unknown;
   avaiableTranslations: Subject<any> = new Subject<any>();
 
-  constructor(private userService: UserService, private translatorService: TranslatorService) {
+ //subLanguageService: Subscription;
+
+  constructor(
+    private userService: UserService, 
+    private languageService: LanguageService,
+    private cookiesUtils: CookiesUtilsService) {
+
     this.sessionStatus = SessionStatus.Unknown;
   }
 
@@ -27,35 +36,33 @@ export class TopBarComponent implements OnInit {
     });
 
     // Take the translation
-    this.translatorService.getAvaiableTranslations(data => {
+    this.languageService.getAvaiableTranslations(data => {
+      // Ok, I have all translations avaiable
       this.avaiableTranslations.next(data);
-      this.selectedLanguage = "GB";
-      this.translatorService.setCurrentLanguage("GB");
-    }, error => {
-      console.log("Reading translations was unsuccesfull");
-      console.log(error);
-    });
-    
-    /*this.userService.isLoggedIn().subscribe((resp: any) =>{
-      if (resp.loggedIn) {
-        this.sessionStatus = SessionStatus.LoggedIn;
-      } else {
-        this.sessionStatus = SessionStatus.NotLoggedIn;
-      }
-    }, (errorResp) => {
-      console.log("error!");
-      console.log(errorResp);
-      this.sessionStatus = SessionStatus.NotLoggedIn;
-    });
 
-    this.translatorService.getAvaiableTranslations(data => {
-      this.avaiableTranslations.next(data);
-      this.selectedLanguage = "GB";
-      this.translatorService.setCurrentLanguage("GB");
+      // Get my preference from the cookie!
+      let cookieRead = this.cookiesUtils.read(Languages.LanguagesCookieName);
+
+      // Set the language from the cookie, if it's not undefined
+      if (cookieRead) {
+        this.selectedLanguage = cookieRead;
+        this.languageService.setCurrentLanguage(cookieRead);
+        this.cookiesUtils.write(Languages.LanguagesCookieName, cookieRead);
+      } else {
+        this.selectedLanguage = Languages.English;
+        this.languageService.setCurrentLanguage(Languages.English);
+        this.cookiesUtils.write(Languages.LanguagesCookieName, Languages.English);
+      }
     }, error => {
       console.log("Reading translations was unsuccesfull");
       console.log(error);
-    });*/
+    });
+  }
+
+  onLanguageChanged() {
+    console.log(this.selectedLanguage);
+    this.languageService.setCurrentLanguage(this.selectedLanguage);
+    this.cookiesUtils.write(Languages.LanguagesCookieName, this.selectedLanguage);
   }
 
 }
