@@ -38,9 +38,10 @@ i18n.expressBind(app, {
 
 /**
  * For being able to read request bodies.
+ * Increased size limit for base64 payload support.
  */
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
 app.use(cookieParser());
 app.use(express.static(path.join(root, 'dist')));

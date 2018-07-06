@@ -12,6 +12,9 @@ export class RegisterComponent implements OnInit {
 
   signupData: SignupData;
 
+  readonly photoMaxSize: number = 1048576;  // 1 Mb (1048576 bytes)
+  readonly photoSupportedTypes: string[] = ['image/png', 'image/jpeg'];
+
   charCount: number = 0;
   isPhotoUploaded: boolean = false;
   photoUrl: string = "../..//assets/images/default-user.png";
@@ -52,12 +55,29 @@ export class RegisterComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
     
-      reader.onload = (event:any) => {
+      reader.onloadend = (event:any) => {
         this.photoUrl = event.target.result;
+        const base64string = event.target.result.split(',')[1];
+        this.signupData.photo = base64string;
       }
-    
-      reader.readAsDataURL(event.target.files[0]);
-      this.signupData.photo = event.target.files[0];
+
+      const file = event.target.files[0];
+
+      // Checks file dimension
+      if (file.size > this.photoMaxSize) {
+        alert(file.size + " bytes\nToo big!");
+      } else {
+        // Checks file type
+        if (this.photoSupportedTypes.includes(file.type)) {
+          /**
+           * Converts the file contents to a base64-encoded string which can be used as an
+           * image data URI for the src attribute.
+           */
+          reader.readAsDataURL(file);
+        } else {
+          alert('Unsupported file type!');
+        }
+      }
     }
   }
 

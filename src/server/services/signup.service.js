@@ -19,9 +19,6 @@ const email = require('../utilities/email_util');
 // Mongoose model for an user
 const User = require('../models/user.model');
 
-// Module for cookie names
-const cookiesEnv = require('../env/cookies_environment');
-
 
 function signup(req, res) {
 
@@ -146,10 +143,11 @@ function signup(req, res) {
                                                                         birth_date: req.body.birthDate,
                                                                         is_anonymous: false
                                                                     }
-                                                                    if (req.body.photo) {
-                                                                        originalUser.photo = req.body.photo;
-                                                                    }
                                                                     const user = new User(originalUser);
+                                                                    if (req.body.photo) {
+                                                                        // Converts base64 photo encoding into buffer
+                                                                        user.photo.data = Buffer.from(req.body.photo, "base64");
+                                                                    }
                                                                     user.save(error => {
                                                                         if (error) {
                                                                             // Rollback the sql insertion if the mongo one fails

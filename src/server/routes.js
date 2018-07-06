@@ -87,4 +87,11 @@ router.delete('/users/:id', (req, res) => {
     userService.deleteUser(req, res);
 });
 
+/**
+ * Handles 404.
+ */
+router.all('*', function (req, res) {
+    return res.status(404).send("404: Page Not Found");
+});
+
 module.exports = router;
