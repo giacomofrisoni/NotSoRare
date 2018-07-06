@@ -31,7 +31,7 @@
         <input class="verification-code" type="text" maxlength="6" [(ngModel)]="verificationCode"/>
 
         <div class="login-button">
-            <app-divbutton text="Verifica" (click)="onCodeCheck($event)"></app-divbutton>
+            <app-divbutton #checkButton text="Verifica" (click)="onCodeCheck($event)"></app-divbutton>
         </div>
     </div>
 </div>

@@ -15,11 +15,11 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class TopBarComponent implements OnInit {
 
+  // Binding variables
   selectedLanguage: string;
   sessionStatus: SessionStatus = SessionStatus.Unknown;
   avaiableTranslations: Subject<any> = new Subject<any>();
 
- //subLanguageService: Subscription;
 
   constructor(
     private userService: UserService, 
@@ -60,7 +60,6 @@ export class TopBarComponent implements OnInit {
   }
 
   onLanguageChanged() {
-    console.log(this.selectedLanguage);
     this.languageService.setCurrentLanguage(this.selectedLanguage);
     this.cookiesUtils.write(Languages.LanguagesCookieName, this.selectedLanguage);
   }

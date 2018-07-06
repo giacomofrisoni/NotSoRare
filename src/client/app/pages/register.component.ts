@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { SignupData } from '../models/signup-data';
 import * as $ from 'jquery';
+import { DivbuttonComponent } from '../components/divbutton.component';
 
 @Component({
   selector: 'app-register',
@@ -9,6 +10,9 @@ import * as $ from 'jquery';
   styleUrls: ['../../assets/styles/register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+
+  // View components
+  @ViewChild('registerButton') registerButton: DivbuttonComponent;
 
   signupData: SignupData;
 
@@ -87,13 +91,17 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister(event: any) {
-    console.log(this.signupData);
+    // Start loading, removing all previous errors
+    this.registerButton.icon = "fa fa-spinner fa-spin";
     $(".error").removeClass("error");
 
     this.userService.signUp(this.signupData).subscribe((resp: any) => {
-      console.log(resp);
-      console.log("Registrazione effettuata con successo");
+      // Ok, loading finished - completed!
+      this.registerButton.icon = "";
     }, (errorResp) => {
+      // Ok, loading finished due error
+      this.registerButton.icon = "";
+
       // Some error occurred
       this.errors = {};
 

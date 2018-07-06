@@ -13,27 +13,31 @@ import { DivbuttonComponent } from '../components/divbutton.component';
 })
 export class LoginComponent implements OnInit {
 
+  // Components from the view
   @ViewChild('loginButton') loginButton: DivbuttonComponent;
+  @ViewChild('checkButton') checkButton: DivbuttonComponent;
 
-  error: string = "";
-  isToVerify: boolean = false;
+  // Binding values
   email: string;
   password: string;
+  error: string = "";
+  isToVerify: boolean = false;
   verificationCode: string;
 
-  getLoggedInStatus: Subscription;
-  login: Subscription;
-  activate: Subscription;
+  // Subscriptions to unsubscribe on destroy
+  subGetLoggedInStatus: Subscription;
+  subLogin: Subscription;
+  subActivate: Subscription;
 
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
     // Trying to check the login
-    this.getLoggedInStatus = this.userService.getLoggedInStatus().subscribe(status => {
+    this.subGetLoggedInStatus = this.userService.getLoggedInStatus().subscribe(status => {
       // If something was returned
       if (status == SessionStatus.LoggedIn) {
         // Status ok, you're already logged in!
-        this.loginIsOk("Login già effettuato, verrai reindirizzato tra poco!", true);
+        this.loginIsOk("Login già effettuato, verrai reindirizzato tra poco!", true, $("#login-card"));
       }
     });
   }
@@ -49,9 +53,9 @@ export class LoginComponent implements OnInit {
     this.loginButton.icon = "fa fa-spinner fa-spin";
 
     // First try to login
-    this.login = this.userService.login(this.email, this.password).subscribe((resp: any) => {
+    this.subLogin = this.userService.login(this.email, this.password).subscribe((resp: any) => {
       // Ok, all is clear
-      this.loginIsOk("Login effettuato con successo! Verrai reindirizzato tra poco", true);
+      this.loginIsOk("Login effettuato con successo! Verrai reindirizzato tra poco", true, $("#login-card"));
     }, 
     
     // ERROR or NEED ACTIVATION
@@ -62,7 +66,7 @@ export class LoginComponent implements OnInit {
       // If is inactive, need activation!
       if (errorResp.error.inactive) {
         // Inform that login is OK
-        this.loginIsOk("Login effettuato con successo!", false);
+        this.loginIsOk("Login effettuato con successo!", false, $("#login-card"));
 
         // Activate the activation screen
         this.isToVerify = true;
@@ -73,26 +77,29 @@ export class LoginComponent implements OnInit {
   }
 
   onCodeCheck() {
+    //Activate spinner
+    this.checkButton.icon = "fa fa-spinner fa-spin";
+
     // Try to activate the user
-    this.activate = this.userService.activate(this.email, this.verificationCode).subscribe((resp: any) => {
+    this.subActivate = this.userService.activate(this.email, this.verificationCode).subscribe((resp: any) => {
       // Activation was succesfull
-      $("#verify-code-card").html("<p>" + resp.infoMessage + "</p>");
-      this.loginIsOk("Login e attivazione avvenuti con successo... Reindirizzamento", true);
+      this.loginIsOk(resp.infoMessage + ". Reindirizzamento...", true, $("#verify-code-card"));
     }, 
     
     (errorResp) => {
+      this.checkButton.icon = "";
       console.log(errorResp);
       console.log("Error!");
     });
   }
 
 
-  private loginIsOk(message: string, isToRedirect: boolean) {
-    // Reset the login card 
-    $("#login-card").html("<p><i class='fa fa-spinner fa-spin'></i> " + message + "</p>");
-
+  private loginIsOk(message: string, isToRedirect: boolean, component: any) {
     // If i want also to redirect to home
     if (isToRedirect) {
+      // Reset the login card 
+      component.html("<p><i class='fa fa-spinner fa-spin'></i> " + message + "</p>");
+
       // After 3 seconds
       var timeout = setTimeout(()=>{ 
         // Reset all subscriptions
@@ -107,13 +114,16 @@ export class LoginComponent implements OnInit {
         // Stop calling yourself!
         clearTimeout(timeout);
       }, 2000);
+    } else {
+      // Reset the login card 
+      component.html("<p>" + message + "</p>");
     }
   }
 
   private unsubscribeAll() {
-    if (this.getLoggedInStatus) this.getLoggedInStatus.unsubscribe();
-    if (this.login) this.login.unsubscribe();
-    if (this.activate) this.activate.unsubscribe();
+    if (this.subGetLoggedInStatus) this.subGetLoggedInStatus.unsubscribe();
+    if (this.subLogin) this.subLogin.unsubscribe();
+    if (this.subActivate) this.subActivate.unsubscribe();
   }
 
 }
