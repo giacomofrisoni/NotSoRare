@@ -4,28 +4,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SignupData } from '../models/signup-data';
 import { Subject } from 'rxjs';
 import { SessionStatus } from '../models/session-status.enum';
-import { CookiesUtilsService } from './cookies-utils.service';
-import { Languages } from '../models/languages.enum';
-import { LanguageService } from './language.service';
-
-const api = '/api';
-
-const headers = new HttpHeaders()
-  .set('Cookie', 'locale=IT');
-
+import { GlobalUtilsService } from './global-utils.service';
 
 @Injectable()
 export class UserService {
 
   isLoggedIn: Subject<SessionStatus>;
 
-  constructor(private http: HttpClient, private cookiesUtils: CookiesUtilsService, private languageService: LanguageService) { 
+  constructor(private http: HttpClient, private globalUtils: GlobalUtilsService) { 
     this.isLoggedIn = new Subject();
     this.isLoggedIn.next(SessionStatus.Unknown);
   }
 
   signUp(signupData: SignupData) {
-    return this.http.post(`${api}/signup` + this.createParameter(), {
+    return this.http.post(`${this.globalUtils.apiPath}/signup` + this.globalUtils.createLanguageParameter(), {
       email: signupData.email,
       password: signupData.password,
       passwordConfirm: signupData.passwordConfirm,
@@ -48,7 +40,7 @@ export class UserService {
   }
 
   login(email: string, password: string) {
-    return this.http.post(`${api}/login` + this.createParameter(), {
+    return this.http.post(`${this.globalUtils.apiPath}/login` + this.globalUtils.createLanguageParameter(), {
       email: email,
       password: password
     },{
@@ -59,7 +51,7 @@ export class UserService {
 
   getLoggedInStatus() {
     //First, make a request, for sure
-    this.http.get(`${api}/login` + this.createParameter(),{
+    this.http.get(`${this.globalUtils.apiPath}/login` + this.globalUtils.createLanguageParameter(),{
       withCredentials: true,
       //headers: this.createCookie()
     }).subscribe((response: any) =>{
@@ -77,7 +69,7 @@ export class UserService {
   }
 
   activate(email: string, activationCode: string) {
-    return this.http.post(`${api}/activation` + this.createParameter(), {
+    return this.http.post(`${this.globalUtils.apiPath}/activation` + this.globalUtils.createLanguageParameter(), {
       email: email,
       activationCode: activationCode
     },{
@@ -87,15 +79,10 @@ export class UserService {
   }
 
   logout() {
-    return this.http.post(`${api}/logout` + this.createParameter(), null, { 
+    return this.http.post(`${this.globalUtils.apiPath}/logout` + this.globalUtils.createLanguageParameter(), null, { 
       withCredentials: true,
       //headers: this.createCookie()
     });
   }
 
-
-
-  private createParameter() {
-    return "?lang=" + this.languageService.convertToStandardLanguage(this.cookiesUtils.read(Languages.LanguagesCookieName));
-  }
 }

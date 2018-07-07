@@ -26,6 +26,7 @@ import { ProfileComponent } from './pages/profile.component';
 import { LanguageService } from './services/language.service';
 import { CookiesUtilsService } from './services/cookies-utils.service';
 import { DiseaseService } from './services/disease.service';
+import { GlobalUtilsService } from './services/global-utils.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -74,7 +75,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserService, 
     LanguageService,
     CookiesUtilsService,
-    DiseaseService
+    DiseaseService,
+    GlobalUtilsService
   ],
   bootstrap: [RootComponent]
 })

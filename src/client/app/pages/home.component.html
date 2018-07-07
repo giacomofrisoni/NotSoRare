@@ -4,21 +4,18 @@
 
         <div class="subtitle" [innerHTML]="'Home.Subtitle' | translate"></div>
 
-        <div class="flexbox-container centered">
-            <!--<input type="search" [placeholder]="'Home.Placeholder' | translate"/>-->
-            <ng-select 
-                #searchDisease
-                class="home-select"
-                [items]="results|async" 
-                [(ngModel)]="selectedDisease" 
-                bindLabel="englishName"
-                bindValue="code2Letters"
-                (change)="onDiseaseSelected()"
-                [searchFn]="searchFunction">
-        
-            </ng-select>
-
+        <div class="flexbox-container centered searchbar">
+            <input type="search" [placeholder]="'Home.Placeholder' | translate" (input)="onInputChanged($event.target.value)"/>
             <app-divbutton id="button-search" icon="fa fa-search" isHalfCornered="true"></app-divbutton>
+        </div>
+
+        <div class="results">
+            <div class="first-loading" *ngIf="isFirstLoading">Inserisci nella casella di testo la malattia da ricercare</div>
+            <div class="loading" *ngIf="isLoading"><i class="fa fa-spinner fa-spin"></i> Ricerca...</div>
+            <div class="no-results" *ngIf="isResultEmpty"> Nessun risultato corrispondente</div>
+            <div class="error" *ngIf="isErrorPresent"> Qualcosa è andato storto, riprova!</div>
+
+            <div class="result" *ngFor='let disease of diseases | async' (click)="onDiseaseClick(disease.CodDisease)">{{disease.Name}}</div>
         </div>
     </div>
 </div>
