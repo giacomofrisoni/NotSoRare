@@ -5,10 +5,12 @@ const validate = require('express-validation');
 const signupSchema = require('./validation/signup_schema');
 const activationSchema = require('./validation/activation_schema');
 const loginSchema = require('./validation/login_schema');
-const userUpdateSchema = require('./validation/user_update_schema')
+const rareDiseasesSearchSchema = require('./validation/rare_diseases_search_schema');
+const userUpdateSchema = require('./validation/user_update_schema');
 
 const signupService = require('./services/signup.service');
 const authenticationService = require('./services/authentication.service');
+const rareDiseaseService = require('./services/raredisease.service');
 const userService = require('./services/user.service');
 
 /**
@@ -36,7 +38,7 @@ router.post('/signup', validatePayloadMiddleware, validate(signupSchema), (req, 
  */
 router.post('/activation', validatePayloadMiddleware, validate(activationSchema), (req, res) => {
     signupService.activate(req, res);
-})
+});
 
 /**
  * Logs the user in.
@@ -50,14 +52,21 @@ router.post('/login', validatePayloadMiddleware, validate(loginSchema), (req, re
  */
 router.get('/login', (req, res) => {
     authenticationService.isLoggedIn(req, res);
-})
+});
 
 /**
  * Logs the user out of the application.
  */
 router.post('/logout', (req, res) => {
     authenticationService.logout(req, res);
-})
+});
+
+/**
+ * Searches rare diseases by name.
+ */
+router.post('/rareDiseases/search/', validatePayloadMiddleware, validate(rareDiseasesSearchSchema), (req, res) => {
+    rareDiseaseService.searchRareDiseases(req, res);
+});
 
 /**
  * Gets some statistics about the registered users.

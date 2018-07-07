@@ -23,6 +23,7 @@
 	"Err_Login_InactiveAccount": "L'account non è ancora stato attivato",
 	"Login_Completed": "Login completato. Utente loggato con codice %s",
 	"Err_UnauthorizedUser": "Non hai i permessi per svolgere questa operazione",
+    "Err_RareDiseases_Search": "Si è verificato un errore durante la ricerca delle malattie rare. %s",
 	"Err_Users_UserInfo": "Si è verificato un errore durante il recupero dei dati dell'utente. %s",
 	"Err_Users_GlobalCount": "Si è verificato un errore durante il calcolo del numero totale di utenti. %s",
 	"Err_Users_CountryCount": "Si è verificato un errore durante il calcolo del numero totale di utenti in ogni paese. %s",
