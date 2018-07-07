@@ -5,10 +5,17 @@
         <div class="subtitle" [innerHTML]="'Home.Subtitle' | translate"></div>
 
         <div class="flexbox-container centered searchbar">
-            <input type="search" [placeholder]="'Home.Placeholder' | translate" (input)="onInputChanged($event.target.value)"/>
+            <!--<input type="search" [placeholder]="'Home.Placeholder' | translate" (input)="onInputChanged($event.target.value)"/>-->
+            <input class="search" type="search" [placeholder]="'Home.Placeholder' | translate" matInput [matAutocomplete]="auto" (input)="onInputChanged($event.target.value)">
+                
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let disease of diseases | async" [value]="disease">{{disease.Name}}</mat-option>
+            </mat-autocomplete>
+                  
             <app-divbutton id="button-search" icon="fa fa-search" isHalfCornered="true"></app-divbutton>
         </div>
 
+        <!--
         <div class="results">
             <div class="first-loading" *ngIf="isFirstLoading">Inserisci nella casella di testo la malattia da ricercare</div>
             <div class="loading" *ngIf="isLoading"><i class="fa fa-spinner fa-spin"></i> Ricerca...</div>
@@ -16,6 +23,6 @@
             <div class="error" *ngIf="isErrorPresent"> Qualcosa è andato storto, riprova!</div>
 
             <div class="result" *ngFor='let disease of diseases | async' (click)="onDiseaseClick(disease.CodDisease)">{{disease.Name}}</div>
-        </div>
+        </div>-->
     </div>
 </div>

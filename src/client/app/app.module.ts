@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';              // ReactiveFormsModule for Angular Material
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { NgSelectModule } from '@ng-select/ng-select';                          // Select
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';           // Translator
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';                 // Loader for translator
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';   // Angular Material Animations
+import {MatButtonModule, MatCheckboxModule, MatAutocompleteModule, MatInputModule} from '@angular/material';           // Angular Material
 
 
 
@@ -59,6 +61,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpModule,
     HttpClientModule,
     NgSelectModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -11,14 +11,16 @@
 
 $input-height: 38px;
 
-input, #button-search {
+.search, #button-search {
     height: $input-height;
     max-height: $input-height;
     min-height: $input-height;
     line-height: $input-height;
 }
 
-input {
+.search {
+    padding: 0px;
+    margin: 0px;
     width: 70%;
     padding-left: 20px;
     padding-right: 20px;

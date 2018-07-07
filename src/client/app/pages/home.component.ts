@@ -36,6 +36,11 @@ export class HomeComponent implements OnInit {
     
   }
 
+  displayFn(disease: any): string {
+    console.log(disease);
+    return disease.Name;
+  }
+
 
   onInputChanged(value: string) {
     // Reset all variables

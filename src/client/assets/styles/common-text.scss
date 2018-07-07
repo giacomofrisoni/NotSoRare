@@ -78,7 +78,7 @@ textarea.only-vertical {
     resize: vertical;
 }
 
-input[type=text], input[type=date], input[type=email], input[type=password], textarea {
+input[type=text]:not(.search), input[type=date], input[type=email], input[type=password], textarea {
     border: 1px solid lightgray;
     border-radius: 5px;
     line-height: 25px;
