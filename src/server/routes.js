@@ -69,6 +69,13 @@ router.post('/rareDiseases/search/', validatePayloadMiddleware, validate(rareDis
 });
 
 /**
+ * Gets the data of a rare disease.
+ */
+router.get('/rareDiseases/:id/', (req, res) => {
+    rareDiseaseService.getRareDisease(req, res);
+});
+
+/**
  * Gets some statistics about the registered users.
  */
 router.get('/usersStats', (req, res) => {
