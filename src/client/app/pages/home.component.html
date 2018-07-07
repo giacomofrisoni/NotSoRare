@@ -5,7 +5,19 @@
         <div class="subtitle" [innerHTML]="'Home.Subtitle' | translate"></div>
 
         <div class="flexbox-container centered">
-            <input type="search" [placeholder]="'Home.Placeholder' | translate"/>
+            <!--<input type="search" [placeholder]="'Home.Placeholder' | translate"/>-->
+            <ng-select 
+                #searchDisease
+                class="home-select"
+                [items]="results|async" 
+                [(ngModel)]="selectedDisease" 
+                bindLabel="englishName"
+                bindValue="code2Letters"
+                (change)="onDiseaseSelected()"
+                [searchFn]="searchFunction">
+        
+            </ng-select>
+
             <app-divbutton id="button-search" icon="fa fa-search" isHalfCornered="true"></app-divbutton>
         </div>
     </div>

@@ -133,7 +133,7 @@ app-countries-selector.error * {
     }
 }
 
-.ng-select.ng-select-opened > .ng-select-container {
+.ng-select.custom-select.ng-select-opened > .ng-select-container {
     border-radius: 5px;
     border: 1px solid lightgray;
 }
