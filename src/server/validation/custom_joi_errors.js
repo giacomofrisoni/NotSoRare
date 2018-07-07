@@ -12,7 +12,8 @@ function buildUsefulErrorObject(errors) {
         const error = errors[errorIndex];
         if (!usefulErrors.hasOwnProperty(error.field.join('_'))) {
             usefulErrors[error.field.join('_')] = {
-                msg: `error.${error.field.join('_')}.${error.types[0]}`
+                code: `error.${error.field.join('_')}.${error.types[0]}`,
+                messages: error.messages 
             };
         }
     }
