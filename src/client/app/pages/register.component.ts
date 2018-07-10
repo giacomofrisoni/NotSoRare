@@ -3,6 +3,12 @@ import { UserService } from '../services/user.service';
 import { SignupData } from '../models/signup-data';
 import * as $ from 'jquery';
 import { DivbuttonComponent } from '../components/divbutton.component';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { SimpleDialogType } from '../dialogs/simple-dialog-type.enum';
+import { SimpleDialogComponent } from '../dialogs/simple-dialog.component';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-register',
@@ -23,20 +29,40 @@ export class RegisterComponent implements OnInit {
   isPhotoUploaded: boolean = false;
   photoUrl: string = "../..//assets/images/default-user.png";
   errors: any = {};
+  translations: any = {};
 
-  radioButtons: any[] = [
-    { key: "patient", value: "Paziente" },
-    { key: "family", value: "Famigliare" }
-  ];
-
-
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private dialog: MatDialog, private router: Router, private translate: TranslateService, private languageService: LanguageService) {
     this.signupData = new SignupData();
   }
 
   ngOnInit() {
     this.signupData = new SignupData();
     this.signupData.isPatient = true;
+
+
+    this.languageService.getCurrentLanguage().subscribe(language =>{
+      this.translate.get([
+        "Register.ConfirmRegistrationTitle",
+        "Register.ConfirmRegistrationText",
+        "Register.ErrorTitle", 
+        "Register.ErrorInvalidData",
+        "Register.ErrorGeneric",
+        "Register.ErrorPhoto",
+        "Register.ErrorPhotoFormat",
+        "Register.ErrorName",
+        "Register.ErrorSurname",
+        "Register.ErrorBirthDate",
+        "Register.ErrorNationality",
+        "Register.ErrorGender",
+        "Register.ErrorPassword",
+        "Register.ErrorPasswordConfirm",
+        "Register.ErrorEmail"
+      ]).subscribe((results: any) => {
+        for(let key in results) {
+          this.translations[key.split(".")[1]] = results[key]
+        }
+      });
+    });
   }
 
   onTextareaValueChange($event) {
@@ -44,7 +70,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onAccountTypeSelected(radiobutton: any) {
-    this.signupData.isPatient = (radiobutton == this.radioButtons[0]);
+    this.signupData.isPatient = (radiobutton.key == "patient");
   }
 
   onCountrySelected(country: any) {
@@ -69,7 +95,11 @@ export class RegisterComponent implements OnInit {
 
       // Checks file dimension
       if (file.size > this.photoMaxSize) {
-        alert(file.size + " bytes\nToo big!");
+        this.openDialog(
+          this.translations.ErrorTitle,
+          this.translations.ErrorPhoto,
+          SimpleDialogType.Error
+        );
       } else {
         // Checks file type
         if (this.photoSupportedTypes.includes(file.type)) {
@@ -79,7 +109,11 @@ export class RegisterComponent implements OnInit {
            */
           reader.readAsDataURL(file);
         } else {
-          alert('Unsupported file type!');
+          this.openDialog(
+            this.translations.ErrorTitle,
+            this.translations.ErrorPhotoformat,
+            SimpleDialogType.Error
+          );
         }
       }
     }
@@ -98,33 +132,41 @@ export class RegisterComponent implements OnInit {
     this.userService.signUp(this.signupData).subscribe((resp: any) => {
       // Ok, loading finished - completed!
       this.registerButton.icon = "";
+
+      //Open confirmation dialog!
+      this.openDialog(
+        this.translations.ConfirmRegistrationTitle,
+        this.translations.ConfirmRegistrationText,
+        SimpleDialogType.Confirm,
+        () => { this.router.navigate(['./login']); } 
+      );
+
+
     }, (errorResp) => {
       // Ok, loading finished due error
       this.registerButton.icon = "";
+
+      console.log("Register failed:");
+      console.log(errorResp);
 
       // Some error occurred
       this.errors = {};
 
       // If there are errors related with inputs
-      if (errorResp.error.errors != null && errorResp.error.errors != undefined) {
-        //Foreach error
-        errorResp.error.errors.forEach(element => {
-          //The field will be RED
-          $("#" + element.field[0]).addClass("error");
-
-          //And the error message will display
-          this.errors[element.field[0]] = element.messages[0];
-        });
+      if (errorResp.error != null && errorResp.error != undefined) {
+        // Foreach error
+        for (let key in errorResp.error) {
+          // Give that error
+          $("#" + key).addClass("error");
+          this.errors[key] = this.translations["Error" + this.capitalizeFirstLetter(key)];
+        }
       }
 
-      if (errorResp.error.error != null && errorResp.error.error != undefined) {
-        errorResp.error.errors.forEach(element => {
-          this.errors.push(element.messages[0]);
-        });
-      }
-
-      console.log(errorResp.error.errors);
-      console.log(this.errors);
+      this.openDialog(
+        this.translations.ErrorTitle,
+        this.translations.ErrorInvalidData,
+        SimpleDialogType.Error
+      );
 
     });
   }
@@ -135,6 +177,31 @@ export class RegisterComponent implements OnInit {
 
   onPatientGenderChanged(gender: string) {
     this.signupData.patientGender = gender;
+  }
+
+
+  private openDialog(title: string, text: string, type: SimpleDialogType, action: any = null) {
+    const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+          title: title,
+          text: text,
+          type: type,
+          isAlterEnabled: false,
+          mainButtonText: "OK",
+        };
+    
+        let instance = this.dialog.open(SimpleDialogComponent, dialogConfig);
+        instance.afterClosed().subscribe(event =>{
+          if (action != null) {
+            action();
+          }
+        });
+  }
+
+  private capitalizeFirstLetter(value: string) {
+    return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
 }

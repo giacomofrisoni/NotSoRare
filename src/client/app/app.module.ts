@@ -1,3 +1,4 @@
+// Imported and 3rd-part component
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';              // ReactiveFormsModule for Angular Material
@@ -5,15 +6,15 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';                          // Select
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';           // Translator
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';                 // Loader for translator
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';   // Angular Material Animations
-import {MatButtonModule, MatCheckboxModule, MatAutocompleteModule, MatInputModule} from '@angular/material';           // Angular Material
+import { TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';           // Translator
+import { TranslateHttpLoader} from '@ngx-translate/http-loader';                 // Loader for translator
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';   // Angular Material Animations
+import { MatCheckboxModule, MatAutocompleteModule, MatInputModule} from '@angular/material';           // Angular Material
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 
-
-//import { HeroesComponent } from './components/heroes.component';
-//import { HeroService } from './services/hero.service';
+// Custom Components
 import { HomeComponent } from './pages/home.component';
 import { TopBarComponent } from './components/top-bar.component';
 import { DivbuttonComponent } from './components/divbutton.component';
@@ -22,13 +23,15 @@ import { MenubuttonComponent } from './components/menubutton.component';
 import { RegisterComponent } from './pages/register.component';
 import { RadiogroupComponent } from './components/radiogroup.component';
 import { CountriesSelectorComponent } from './components/countries-selector.component';
-import { UserService } from './services/user.service';
 import { LoginComponent } from './pages/login.component';
 import { ProfileComponent } from './pages/profile.component';
-import { LanguageService } from './services/language.service';
-import { CookiesUtilsService } from './services/cookies-utils.service';
+import { SimpleDialogComponent } from './dialogs/simple-dialog.component';
+
+import { UserService } from './services/user.service';
 import { DiseaseService } from './services/disease.service';
+import { CookiesUtilsService } from './services/cookies-utils.service';
 import { GlobalUtilsService } from './services/global-utils.service';
+import { LanguageService } from './services/language.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -54,6 +57,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CountriesSelectorComponent,
     LoginComponent,
     ProfileComponent,
+    SimpleDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +70,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatCheckboxModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatDialogModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
@@ -86,6 +91,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DiseaseService,
     GlobalUtilsService
   ],
-  bootstrap: [RootComponent]
+  bootstrap: [RootComponent],
+  entryComponents: [SimpleDialogComponent]    // Material Angular Dialog
 })
 export class AppModule { }

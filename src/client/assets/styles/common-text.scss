@@ -115,6 +115,9 @@ app-countries-selector.error * {
 }
 
 .ng-select {
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    
     .custom-select {
         border-radius: 5px;
         border: 1px solid lightgray;

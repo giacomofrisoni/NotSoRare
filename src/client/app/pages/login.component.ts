@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { SessionStatus } from '../models/session-status.enum';
 import { Subscription } from 'rxjs';
 import { DivbuttonComponent } from '../components/divbutton.component';
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { SimpleDialogComponent } from '../dialogs/simple-dialog.component';
+import { SimpleDialogType } from '../dialogs/simple-dialog-type.enum';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +32,7 @@ export class LoginComponent implements OnInit {
   subLogin: Subscription;
   subActivate: Subscription;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit() {
     // Trying to check the login
@@ -70,6 +73,24 @@ export class LoginComponent implements OnInit {
 
         // Activate the activation screen
         this.isToVerify = true;
+      } 
+      // Error
+      else {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+          title: "Errore durante la fase di Login",
+          text: "Molto probabilmente hai sbagliato credenziali. Riprova fra qualche istante!",
+          type: SimpleDialogType.Error,
+          isAlterEnabled: false,
+          mainButtonText: "OK",
+        };
+    
+        let instance = this.dialog.open(SimpleDialogComponent, dialogConfig);
+        instance.afterClosed().subscribe(data => {
+          
+        });
       }
 
       this.loginButton.icon = "";
@@ -125,5 +146,12 @@ export class LoginComponent implements OnInit {
     if (this.subLogin) this.subLogin.unsubscribe();
     if (this.subActivate) this.subActivate.unsubscribe();
   }
+
+
+  private openDialog(title: string, text: string, type: SimpleDialogType, isAlterEnabled: boolean, mainButtonText: string) {
+
+
+  }
+  
 
 }

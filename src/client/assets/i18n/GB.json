@@ -1,6 +1,6 @@
 {
-    "Top": {
-        "Signup": "Sign Up",
+    "Common": {
+        "Signup": "Signup",
         "Login": "Login"
     },
 
@@ -8,5 +8,56 @@
         "Title": "Rare disease are not so rare if we face them <b>togheter</b>",
         "Subtitle": "Follow your diseases and inquire about particular ones, discover the best organisations and medics for your disease and speak with others, share your experience, get involved and much more",
         "Placeholder": "Type the name of disease here"
+    },
+
+    "Register": {
+        "RequiredFieldsInfo": "All fields with <span class='highlight'>(*)</span> are required",
+        "AccountType": "Account type",
+        "AccountTypePatient": "Patient",
+        "AccountTypeFamily": "Family",
+        "AccountTypePatientDescription": "Un account di tipo 'Paziente' serve al diretto malato. Esso può confrontarsi direttamente per qualsiasi cosa disponibile sul sito.",
+        "AccountTypeFamilyDescription": "Un account di tipo 'Famigliare' è studiato per dare l'accesso alla piattaforma anche ai famigliari del malato, affinchè, se direttamente incapace, possa comunque ricevere aiuto da parte della comunità.",
+        "PersonalData": "Personal data",
+        "Name": "Name",
+        "Surname": "Surname",
+        "Gender": "Gender",
+        "Male": "Male",
+        "Female": "Female",
+        "BirthDate": "Birth date",
+        "Nationality": "Nationality",
+        "Biography": "Biography",
+        "BiographyWarning": "Biography must be at least 10 chars long!",
+        "UserData": "User data",
+        "UploadPhoto": "Upload photo",
+        "RemovePhoto": "Remove photo",
+        "Email": "E-Mail Address",
+        "Password": "Password",
+        "PasswordMinLength": " (minimum length is 8)",
+        "RepeatPassword": "Repeat password",
+        "PatientData": "Patient data",
+        "PatientDataDescription": "In quanto registrato come tutore o dottore, inserisci anche dati della persona a cui si farà riferimento",
+        "PatientName": "Patient's name",
+        "PatientSurname": "Patient's surname",
+        "PatientBirthDate": "Patient's birth date",
+        "PatientGender": "Patient's gender",
+        "PatientNationality": "Patient's nationality",
+        "RegisterInfo": "Pressing on <span class='highlight'>register</span> button you'll accept for entire the <a href='#'>terms & conditions</a> of our portal. NotSoRare is very carefull with your data: we'll not share anything for anyone, anytime. <br/> We use latest protocols of security, to guarantee you the privacy you deserve.",
+        "RegisterButton": "I accept Terms & Conditions - Register",
+        "ErrorTitle": "Errore during Registering",
+        "ErrorInvalidData": "Some inputs are invalid. Please check them out and retry",
+        "ErrorGeneric": "There was an error during registering. Please try again later.",
+        "ErrorPhoto": "Photo must be less than 1MB!",
+        "ErrorPhotoformat": "Invalid format of the photo.",
+        "ConfirmRegistrationTitle": "Signup completed!",
+        "ConfirmRegistrationText": "Check your E-Mail address for the verification code: you must insert it after the first login !",
+        "ErrorName": "This is not a valid name",
+        "ErrorSurname": "This is not a valid surname",
+        "ErrorBirthDate": "This is not a valid birth date",
+        "ErrorNationality": "This is not a valid nationality",
+        "ErrorGender": "This is not a valid gender",
+        "ErrorBiography": "This is not a valid biography",
+        "ErrorPassword": "This is not a valid password",
+        "ErrorPasswordConfirm": "Passwords are not the same!",
+        "ErrorEmail": "This is not a valid E-Mail"
     }
 }

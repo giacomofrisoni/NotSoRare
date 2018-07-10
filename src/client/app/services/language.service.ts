@@ -4,6 +4,7 @@ import { Http } from '@angular/http';
 import { Observable, of, Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Languages } from '../models/languages.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class LanguageService {
@@ -11,13 +12,15 @@ export class LanguageService {
   translationsConfig: string[] = Object.values(Languages);
   currentLanguage: Subject<string>;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private translate: TranslateService) {
     this.currentLanguage = new Subject();
     this.currentLanguage.next(Languages.English);
+    this.translate.setDefaultLang(Languages.English);
   }
 
   setCurrentLanguage(language: string) {
     this.currentLanguage.next(language);
+    this.translate.use(language);
   }
 
   getCurrentLanguage() {

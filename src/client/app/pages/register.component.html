@@ -1,64 +1,62 @@
 <div class="container">
-    <h3>Iscriviti</h3>
+    <h3 [innerHTML]="'Common.Signup' | translate"></h3>
 
     <div class="page-card">
-        <i>Tutti i campi contrassegnati con <span class="highlight">(*)</span> sono obbligatori</i>
+        <i [innerHTML]="'Register.RequiredFieldsInfo' | translate"></i>
     </div>
 
-    <h4>Tipo di account <span class="highlight">(*)</span></h4>
+    <h4><span [innerHTML]="'Register.AccountType' | translate"></span><span class="highlight"> (*)</span></h4>
     <div class="page-card centered">
         <app-radiogroup
-            [radiobuttons]="radioButtons"
+            [radiobuttons]="[
+                { key: 'patient', value: 'Register.AccountTypePatient' | translate },
+                { key: 'family', value: 'Register.AccountTypeFamily' | translate }
+            ]"
             (onSelected)="onAccountTypeSelected($event[0])">
         </app-radiogroup>
 
-        <span class="info" *ngIf="signupData.isPatient">
-            Un account di tipo "Paziente" serve al diretto malato. Esso può confrontarsi direttamente per qualsiasi cosa disponibile sul sito.
-        </span>
+        <span class="info" *ngIf="signupData.isPatient" [innerHTML]="'Register.AccountTypePatientDescription' | translate"></span>
 
-        <span class="info" *ngIf="!signupData.isPatient">
-            Un account di tipo "Famigliare" è studiato per dare l'accesso alla piattaforma anche ai famigliari del malato, affinchè, se direttamente
-            incapace, possa comunque ricevere aiuto da parte della comunità.
-        </span>
+        <span class="info" *ngIf="!signupData.isPatient" [innerHTML]="'Register.AccountTypeFamilyDescription' | translate"></span>
     </div>
 
-    <h4>Dati personali</h4>
+    <h4 [innerHTML]="'Register.PersonalData' | translate"></h4>
     <div class="page-card">
         <div class="flexbox-container spaced top-aligned">
             <div class="half-paged">
                 <div class="field">
-                    <label class="title" for="name">Nome <span class="highlight">(*)</span></label>
+                    <label class="title" for="name"><span [innerHTML]="'Register.Name' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="text" id="name" [(ngModel)]="signupData.name"/>
                     <span class="info small-text" *ngIf='errors.name != undefined && errors.name != ""'>{{errors.name}}</span>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="surname">Cognome <span class="highlight">(*)</span></label>
+                    <label class="title" for="surname"><span [innerHTML]="'Register.Surname' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="text" id="surname" [(ngModel)]="signupData.surname"/>
                     <span class="info small-text" *ngIf='errors.surname != undefined && errors.surname != ""'>{{errors.surname}}</span>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="gender">Sesso <span class="highlight">(*)</span></label>
+                    <label class="title" for="gender"><span [innerHTML]="'Register.Gender' | translate"></span><span class="highlight"> (*)</span></label>
                     <fieldset id="gender">
                         <input type="radio" name="gender" id="genderMale" (change)="onGenderChanged('M')"/>
-                        <label for="genderMale">Maschio</label>
+                        <label for="genderMale" [innerHTML]="'Register.Male' | translate"> </label>
 
                         <input type="radio" name="gender" id="genderFemale" (change)="onGenderChanged('F')"/>
-                        <label for="genderFemale">Femmina</label>
+                        <label for="genderFemale" [innerHTML]="'Register.Female' | translate"> </label>
                     </fieldset>
 
                     <span class="info small-text" *ngIf='errors.gender != undefined && errors.gender != ""'>{{errors.gender}}</span>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="birthDate">Data di nascita <span class="highlight">(*)</span></label>
+                    <label class="title" for="birthDate"><span [innerHTML]="'Register.BirthDate' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="date" id="birthDate" [(ngModel)]="signupData.birthDate"/>
                     <span class="info small-text" *ngIf='errors.birthDate != undefined && errors.birthDate != ""'>{{errors.birthDate}}</span>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="nationality">Nazionalità <span class="highlight">(*)</span></label>
+                    <label class="title" for="nationality"><span [innerHTML]="'Register.Nationality' | translate"></span><span class="highlight"> (*)</span></label>
                     <app-countries-selector id="nationality" (onSelected)="onCountrySelected($event[0])"></app-countries-selector>
                     <span class="info small-text" *ngIf='errors.nationality != undefined && errors.nationality != ""'>{{errors.nationality}}</span>
                 </div>
@@ -66,18 +64,18 @@
 
             <div class="half-paged">
                 <div class="field">
-                    <label class="title" for="biography">Biografia</label>
+                    <label class="title" for="biography" [innerHTML]="'Register.Biography' | translate"></label>
                     <textarea id="biography" class="only-vertical" (input)="onTextareaValueChange($event)" [(ngModel)]="signupData.biography"></textarea>
                     <div class="small-text">
                         <span>{{charCount}}</span>/<span>4000</span>
-                        <span style="padding-left: 20px;" *ngIf="charCount > 0 && charCount < 10">Devi immettere almeno 10 caratteri!</span>
+                        <span style="padding-left: 20px;" *ngIf="charCount > 0 && charCount < 10" [innerHTML]="'Register.BiographyWarning' | translate"></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <h4>Dati dell'utente</h4>
+    <h4 [innerHTML]="'Register.UserData' | translate"></h4>
     <div class="page-card">
         <div class="flexbox-container spaced">
             <div class="flexbox-container centered half-paged">
@@ -88,29 +86,29 @@
                 <div>
                     <label style="margin-bottom: 10px;" for="uploadedFile">
                         <input type="file" id="uploadedFile" accept="image/*" (change)="onReadUrl($event)"/>
-                        <app-divbutton text="Carica foto"></app-divbutton>
+                        <app-divbutton [text]="'Register.UploadPhoto' | translate"></app-divbutton>
                     </label>
 
-                    <app-divbutton isBordered="true" text="Rimuovi foto" (click)="onResetUrl($event)"></app-divbutton>
+                    <app-divbutton isBordered="true" [text]="'Register.RemovePhoto' | translate" (click)="onResetUrl($event)"></app-divbutton>
                 </div>
 
             </div>
 
             <div class="half-paged">
                 <div class="field">
-                    <label class="title" for="email">Indirizzo E-Mail <span class="highlight">(*)</span></label>
+                    <label class="title" for="email"><span [innerHTML]="'Register.Email' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="email" id="email" [(ngModel)]="signupData.email"/>
                     <span class="info small-text" *ngIf='errors.email != undefined && errors.email != ""'>{{errors.email}}</span>
                 </div>
     
                 <div class="field">
-                    <label class="title" for="password">Password <span class="info small-text">(minimo 8 caratteri) </span><span class="highlight">(*)</span></label>
+                    <label class="title" for="password"><span [innerHTML]="'Register.Password' | translate"></span><span class="info small-text" [innerHTML]="'Register.PasswordMinLength' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="password" id="password" [(ngModel)]="signupData.password"/>
                     <span class="info small-text" *ngIf='errors.password != undefined && errors.password != ""'>{{errors.password}}</span>
                 </div>
     
                 <div class="field">
-                    <label class="title" for="passwordConfirm">Ripeti password <span class="highlight">(*)</span></label>
+                    <label class="title" for="passwordConfirm"><span [innerHTML]="'Register.RepeatPassword' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="password" id="passwordConfirm"  [(ngModel)]="signupData.passwordConfirm"/>
                     <span class="info small-text" *ngIf='errors.passwordConfirm != undefined && errors.passwordConfirm != ""'>{{errors.passwordConfirm}}</span>
                 </div>
@@ -118,42 +116,42 @@
         </div>
     </div>
 
-    <h4 *ngIf="!isPatientAccount">Dati del paziente</h4>
+    <h4 *ngIf="!signupData.isPatient"><span [innerHTML]="'Register.PatientData' | translate"></span></h4>
     <div class="page-card" *ngIf="!signupData.isPatient">
-        <p>In quanto registrato come tutore o dottore, inserisci anche dati della persona a cui si farà riferimento</p>
+        <p [innerHTML]="'Register.PatientDataDescription' | translate"></p>
 
         <div class="flexbox-container spaced">
             <div class="half-paged">
                 <div class="field">
-                    <label class="title" for="patientName">Nome paziente<span class="highlight">(*)</span></label>
+                    <label class="title" for="patientName"><span [innerHTML]="'Register.PatientName' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="text" id="patientName" [(ngModel)]="signupData.patientName"/>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="patientSurname">Cognome paziente<span class="highlight">(*)</span></label>
+                    <label class="title" for="patientSurname"><span [innerHTML]="'Register.PatientSurname' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="text" id="patientSurname" [(ngModel)]="signupData.patientSurname"/>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="patientBirthDate">Data di nascita paziente<span class="highlight">(*)</span></label>
+                    <label class="title" for="patientBirthDate"><span [innerHTML]="'Register.PatientBirthDate' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="date" id="birthDate" [(ngModel)]="signupData.patientBirthDate"/>
                 </div>
             </div>
 
             <div class="half-paged">
                 <div class="field">
-                    <label class="title">Sesso del paziente<span class="highlight">(*)</span></label>
+                    <label class="title"><span [innerHTML]="'Register.PatientGender' | translate"></span><span class="highlight"> (*)</span></label>
                     <fieldset>
                         <input type="radio" name="patientGender" id="patientGenderMale" (change)="onPatientGenderChanged('M')"/>
-                        <label for="patientGenderMale">Maschio</label>
+                        <label for="patientGenderMale" [innerHTML]="'Register.Male' | translate"></label>
 
                         <input type="radio" name="patientGender" id="patientGenderFemale" (change)="onPatientGenderChanged('F')"/>
-                        <label for="patientGenderFemale">Femmina</label>
+                        <label for="patientGenderFemale" [innerHTML]="'Register.Female' | translate"></label>
                     </fieldset>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="countriesP">Nazionalità <span class="highlight">(*)</span></label>
+                    <label class="title" for="countriesP"><span [innerHTML]="'Register.PatientNationality' | translate"></span><span class="highlight"> (*)</span></label>
                     <app-countries-selector id="countriesP" (onSelected)="onCountrySelectedP($event[0])"></app-countries-selector>
                 </div>
             </div>
@@ -161,14 +159,10 @@
     </div>
 
     <div class="page-card flexbox-container centered vertical">
-        <p>
-            Premendo sul bottone <span class="highlight">registrati</span> accetti per intero il <a href="#">regolamento</a> del nostro servizio. 
-            NotSoRare tiene molto ai tuoi dati: non verrano mai condivisi con nessuno. <br/>
-            Utilizziamo inoltre protocolli di ultima generazione, per garantirtitutta la sicurezza e privacy che ti meriti.
-        </p>
+        <p [innerHTML]="'Register.RegisterInfo' | translate"></p>
 
         <div class="register-button">
-            <app-divbutton #registerButton text="Accetto il Regolamento - Registrati" (click)="onRegister($event)"></app-divbutton>
+            <app-divbutton #registerButton [text]="'Register.RegisterButton' | translate" (click)="onRegister($event)"></app-divbutton>
         </div>
     </div>
 </div>

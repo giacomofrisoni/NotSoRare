@@ -1,5 +1,5 @@
 {
-    "Top": {
+    "Common": {
         "Signup": "Zarejestruj",
         "Login": "Zaloguj"
     },
@@ -8,5 +8,56 @@
         "Title": "Choroby nie są tak bardzo rzadkie, jeśli będziemy <b>razem</b>",
         "Subtitle": "Bądź na bierząco za twoimi chorobami, znajdź dokładne informacje o danej chorobie, odkryj najlepsze kliniki i specjalistów dla twoje patologi, zkontaktuj się z innymi chorymi, podziel się swoimi doświadczeniami, dyskutuj na forum i to nie wszystko!",
         "Placeholder": "Wpisz nazwę choroby"
+    },
+
+    "Register": {
+        "RequiredFieldsInfo": "All fields with <span class='highlight'>(*)</span> are required",
+        "AccountType": "Account type",
+        "AccountTypePatient": "Patient",
+        "AccountTypeFamily": "Family",
+        "AccountTypePatientDescription": "Un account di tipo 'Paziente' serve al diretto malato. Esso può confrontarsi direttamente per qualsiasi cosa disponibile sul sito.",
+        "AccountTypeFamilyDescription": "Un account di tipo 'Famigliare' è studiato per dare l'accesso alla piattaforma anche ai famigliari del malato, affinchè, se direttamente incapace, possa comunque ricevere aiuto da parte della comunità.",
+        "PersonalData": "Personal data",
+        "Name": "Name",
+        "Surname": "Surname",
+        "Gender": "Gender",
+        "Male": "Male",
+        "Female": "Female",
+        "BirthDate": "Birth date",
+        "Nationality": "Nationality",
+        "Biography": "Biography",
+        "BiographyWarning": "Biography must be at least 10 chars long!",
+        "UserData": "User data",
+        "UploadPhoto": "Upload photo",
+        "RemovePhoto": "Remove photo",
+        "Email": "E-Mail Address",
+        "Password": "Password",
+        "PasswordMinLength": " (minimum length is 8)",
+        "RepeatPassword": "Repeat password",
+        "PatientData": "Patient data",
+        "PatientDataDescription": "In quanto registrato come tutore o dottore, inserisci anche dati della persona a cui si farà riferimento",
+        "PatientName": "Patient's name",
+        "PatientSurname": "Patient's surname",
+        "PatientBirthDate": "Patient's birth date",
+        "PatientGender": "Patient's gender",
+        "PatientNationality": "Patient's nationality",
+        "RegisterInfo": "Pressing on <span class='highlight'>register</span> button you'll accept for entire the <a href='#'>terms & conditions</a> of our portal. NotSoRare is very carefull with your data: we'll not share anything for anyone, anytime. <br/> We use latest protocols of security, to guarantee you the privacy you deserve.",
+        "RegisterButton": "I accept Terms & Conditions - Register",
+        "ErrorTitle": "Errore durante la fase di Registrazione",
+        "ErrorInvalidData": "Alcuni dati non sono validi. Correggere e riprovare",
+        "ErrorGeneric": "C'è stato un problema durante la fase di registrazione. Riprovare più tardi.",
+        "ErrorPhoto": "La dimensione della foto supera 1MB!",
+        "ErrorPhotoformat": "Formato della foto non valido.",
+        "ConfirmRegistrationTitle": "Registrazione completata!",
+        "ConfirmRegistrationText": "Controlla la tua casella E-Mail: dovresti aver ricevuto un codice di conferma da inserire al primo login sulla piattaforma!",
+        "ErrorName": "This is not a valid name",
+        "ErrorSurname": "This is not a valid surname",
+        "ErrorBirthDate": "This is not a valid birth date",
+        "ErrorNationality": "This is not a valid nationality",
+        "ErrorGender": "This is not a valid gender",
+        "ErrorBiography": "This is not a valid biography",
+        "ErrorPassword": "This is not a valid password",
+        "ErrorPasswordConfirm": "Passwords are not the same!",
+        "ErrorEmail": "This is not a valid E-Mail"
     }
 }

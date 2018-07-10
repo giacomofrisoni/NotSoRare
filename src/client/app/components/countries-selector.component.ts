@@ -32,7 +32,13 @@ export class CountriesSelectorComponent implements OnInit {
 
 
   searchFunction(term: string, item: any): boolean {
-    return item.name.toLowerCase().includes(term.toLowerCase()) || item.translatedName.toLowerCase().includes(term.toLowerCase());
+    let isIncludedOnTranslatedName: boolean = false;
+
+    if (item.translatedName != null) {
+      isIncludedOnTranslatedName = item.translatedName.toLowerCase().includes(term.toLowerCase())
+    }
+    
+    return item.englishName.toLowerCase().includes(term.toLowerCase()) || isIncludedOnTranslatedName;
   }
 
   onItemSelected(): void {
