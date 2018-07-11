@@ -2,7 +2,7 @@
     <h3 [innerHTML]="'Login.Login' | translate"></h3>
 
     <div id="login-card" class="page-card">
-        <div class="flexbox-container wrapped">
+        <div class="flex wrapped">
             <div class="field">
                 <label class="title" for="email" [innerHTML]="'Common.Email' | translate"></label>
                 <input type="email" id="email" [(ngModel)]="email"/>
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="flexbox-container vertical centered">
+        <div class="flex">
             <div class="login-button">
                 <app-divbutton #loginButton [text]="'Login.Login' | translate" (click)="onLogin($event)"></app-divbutton>
             </div>
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div *ngIf="isToVerify" id="verify-code-card" class="page-card flexbox-container vertical centered">
+    <div *ngIf="isToVerify" id="verify-code-card" class="page-card flex vertical">
         <p [innerHTML]="'Login.ToCheckMessage' | translate"></p>
 
         <input class="verification-code" type="text" maxlength="6" [(ngModel)]="verificationCode"/>

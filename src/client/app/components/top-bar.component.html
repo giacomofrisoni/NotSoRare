@@ -1,6 +1,6 @@
-<div class="flexbox-container spaced card top-bar">
+<div class="flex spaced card top-bar">
     <!-- Left -->
-    <div class="flexbox-container left-components" routerLink="/home">
+    <div class="flex left-components" routerLink="/home">
         <img class="logo" src="../../assets/images/logo.png">
         <h1>Not So <b>Rare</b></h1>
     </div>
@@ -8,15 +8,15 @@
 
 
 
-    <div class="flexbox-container right-components margined">
+    <div class="flex right-components margined">
         <!-- Right REGISTERED -->
-        <div class="flexbox-container margined" *ngIf="sessionStatus == 1">
+        <div class="flex margined" *ngIf="sessionStatus == 1">
             <app-menubutton icon="fa fa-bell" badge="9"></app-menubutton>
             <app-menubutton icon="fa fa-user" routerLink="/profile"></app-menubutton>
         </div>
 
         <!-- Right UNREGISTERED -->
-        <div class="flexbox-container margined" *ngIf="sessionStatus == 2">
+        <div class="flex margined" *ngIf="sessionStatus == 2">
             <app-divbutton [text]="'Common.Signup' | translate" isBordered="true" routerLink="/register"></app-divbutton>
             <app-divbutton [text]="'Common.Login' | translate" routerLink="/login"></app-divbutton>
         </div>

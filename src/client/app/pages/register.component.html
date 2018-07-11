@@ -22,7 +22,7 @@
 
     <h4 [innerHTML]="'Register.PersonalData' | translate"></h4>
     <div class="page-card">
-        <div class="flexbox-container spaced top-aligned">
+        <div class="flex spaced">
             <div class="half-paged">
                 <div class="field">
                     <label class="title" for="name"><span [innerHTML]="'Register.Name' | translate"></span><span class="highlight"> (*)</span></label>
@@ -77,8 +77,8 @@
 
     <h4 [innerHTML]="'Register.UserData' | translate"></h4>
     <div class="page-card">
-        <div class="flexbox-container spaced">
-            <div class="flexbox-container centered half-paged">
+        <div class="flex spaced">
+            <div class="flex half-paged">
                 <div>
                     <img class="user" [src]="photoUrl"/>
                 </div>
@@ -120,7 +120,7 @@
     <div class="page-card" *ngIf="!signupData.isPatient">
         <p [innerHTML]="'Register.PatientDataDescription' | translate"></p>
 
-        <div class="flexbox-container spaced">
+        <div class="flex spaced">
             <div class="half-paged">
                 <div class="field">
                     <label class="title" for="patientName"><span [innerHTML]="'Register.PatientName' | translate"></span><span class="highlight"> (*)</span></label>
@@ -158,7 +158,7 @@
         </div>
     </div>
 
-    <div class="page-card flexbox-container centered vertical">
+    <div class="page-card flex vertical">
         <p [innerHTML]="'Register.RegisterInfo' | translate"></p>
 
         <div class="register-button">

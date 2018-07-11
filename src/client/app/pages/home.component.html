@@ -1,10 +1,10 @@
-<div class="flexbox-container centered main-container">
+<div class="flex main-container">
     <div class="middle">
         <h2 [innerHTML]="'Home.Title' | translate"></h2>
 
         <div class="subtitle" [innerHTML]="'Home.Subtitle' | translate"></div>
 
-        <div class="flexbox-container centered searchbar">
+        <div class="flex searchbar">
             <!--<input type="search" [placeholder]="'Home.Placeholder' | translate" (input)="onInputChanged($event.target.value)"/>-->
             <input class="search" type="search" [placeholder]="'Home.Placeholder' | translate" matInput [matAutocomplete]="auto" (input)="onInputChanged($event.target.value)">
                 

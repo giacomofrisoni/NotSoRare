@@ -1,4 +1,4 @@
-<form class="form flexbox-container spaced-alter">
+<form class="form flex">
 
   <div class="inputGroup" *ngFor="let component of radiobuttons; let index = index">
       <input id="{{component.key}}" name="radio" type="radio" (click)="onRadioSelected(component)" [checked]="index == 0"/>

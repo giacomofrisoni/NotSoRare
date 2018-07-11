@@ -12,9 +12,7 @@ html, body {
     color: $text-color;
 }
 
-*,
-*:before,
-*:after {
+*, *:before, *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -24,24 +22,23 @@ html, body {
     outline: 0 !important;
 }
 
-.flexbox-container {
+.flex {
     display: flex;
     align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: nowrap;
     margin: 0;
     padding: 0;
-
-    &.centered {
-        justify-content: center;
-    }
 
     &.spaced {
         justify-content: space-between;
     }
 
-    &.spaced-alter {
-        justify-content: center;
-        align-items: center;
-        align-content: center;
+    &.stretched {
+        align-content: stretch;
+        align-items: stretch;
+        justify-content: stretch;
     }
 
     &.horizontal {
@@ -50,23 +47,14 @@ html, body {
 
     &.vertical {
         flex-flow: column;
-        align-items: stretch;
-        justify-content: center;
-        align-content: center;
-        height: 100%;
     }
 
-    &.stretch {
-        align-content: stretch;
-        align-items: stretch;
-    }
-
-    &.top {
+    &.start-aligned {
         justify-content: flex-start;
     }
 
-    &.top-aligned {
-        align-items: flex-start;
+    &.wrapped {
+        flex-wrap: wrap;
     }
 }
 
@@ -101,7 +89,7 @@ html, body {
 }
 
 .container {
-    margin: 15%;
+    margin: 10%;
     margin-top: 30px;
     margin-bottom: 30px;
 }
