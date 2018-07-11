@@ -66,7 +66,7 @@ router.post('/logout', (req, res) => {
 /**
  * Searches rare diseases by name.
  */
-router.post('/rareDiseases/search/', validatePayloadMiddleware, validate(rareDiseasesSearchSchema), (req, res) => {
+router.post('/rareDiseases/search', validatePayloadMiddleware, validate(rareDiseasesSearchSchema), (req, res) => {
     rareDiseaseService.searchRareDiseases(req, res);
 });
 
@@ -80,8 +80,15 @@ router.get('/rareDiseases', (req, res) => {
 /**
  * Gets the data of a rare disease.
  */
-router.get('/rareDiseases/:id/', (req, res) => {
+router.get('/rareDiseases/:id', (req, res) => {
     rareDiseaseService.getRareDisease(req, res);
+});
+
+/**
+ * Gets the references for a rare disease.
+ */
+router.get('/rareDiseases/:id/references', (req, res) => {
+    rareDiseaseService.getRareDiseaseReferences(req, res);
 });
 
 /**
