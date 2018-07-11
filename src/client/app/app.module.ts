@@ -32,6 +32,8 @@ import { DiseaseService } from './services/disease.service';
 import { CookiesUtilsService } from './services/cookies-utils.service';
 import { GlobalUtilsService } from './services/global-utils.service';
 import { LanguageService } from './services/language.service';
+import { DiseaseSearchComponent } from './pages/disease-search.component';
+import { DiseaseComponent } from './pages/disease.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -58,6 +60,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginComponent,
     ProfileComponent,
     SimpleDialogComponent,
+    DiseaseSearchComponent,
+    DiseaseComponent,
   ],
   imports: [
     BrowserModule,

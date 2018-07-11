@@ -1,7 +1,9 @@
 {
     "Common": {
         "Signup": "Iscriviti",
-        "Login": "Login"
+        "Login": "Login",
+        "Email": "Indirizzo E-Mail",
+        "Password": "Password"
     },
     
     "Home": {
@@ -30,8 +32,6 @@
         "UserData": "Dati dell'utente",
         "UploadPhoto": "Carica foto",
         "RemovePhoto": "Rimuovi foto",
-        "Email": "Indirizzo E-Mail",
-        "Password": "Password",
         "PasswordMinLength": " (minimo 8 caratteri)",
         "RepeatPassword": "Ripeti password",
         "PatientData": "Dati del paziente",
@@ -59,7 +59,17 @@
         "ErrorPassword": "Questa non è una password valida",
         "ErrorPasswordConfirm": "Le password non corrispondono",
         "ErrorEmail": "Questo non è una e-mail valida"
+    },
 
+    "Login": {
+        "AlreadyLoggedIn": "Login già effettuato.",
+        "LoggedInSuccesfull": "Login effettuato con successo!",
+        "RedirectedSoon": "Verrai reindirizzato tra poco.",
+        "LoginError": "Errore durante il login",
+        "LoginErrorMessage": "C'è stato un errore durante la fase di login",
+        "Login": "Login",
+        "ToCheckMessage": "Ti manca solo un passo da fare: dovresti aver ricevuto una mail con un codice da inserire qui sotto, per verificare il tuo account.",
+        "Check": "Verifica"
     }
     
 }

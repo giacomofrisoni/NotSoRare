@@ -1,22 +1,22 @@
 <div class="container">
-    <h3>Login</h3>
+    <h3 [innerHTML]="'Login.Login' | translate"></h3>
 
     <div id="login-card" class="page-card">
         <div class="flexbox-container wrapped">
             <div class="field">
-                <label class="title" for="email">Indirizzo E-Mail</label>
+                <label class="title" for="email" [innerHTML]="'Common.Email' | translate"></label>
                 <input type="email" id="email" [(ngModel)]="email"/>
             </div>
     
             <div class="field">
-                <label class="title" for="password">Password</label>
+                <label class="title" for="password" [innerHTML]="'Common.Password' | translate"></label>
                 <input type="password" id="password" [(ngModel)]="password"/>
             </div>
         </div>
 
         <div class="flexbox-container vertical centered">
             <div class="login-button">
-                <app-divbutton #loginButton text="Login" (click)="onLogin($event)"></app-divbutton>
+                <app-divbutton #loginButton [text]="'Login.Login' | translate" (click)="onLogin($event)"></app-divbutton>
             </div>
 
             <span class="info small-text" *ngIf='error != ""'>{{error}}</span>
@@ -24,14 +24,12 @@
     </div>
 
     <div *ngIf="isToVerify" id="verify-code-card" class="page-card flexbox-container vertical centered">
-        <p>
-            Ti manca solo un passo da fare: dovresti aver ricevuto una mail con un codice da inserire qui sotto, per verificare il tuo account.
-        </p>
+        <p [innerHTML]="'Login.ToCheckMessage' | translate"></p>
 
         <input class="verification-code" type="text" maxlength="6" [(ngModel)]="verificationCode"/>
 
         <div class="login-button">
-            <app-divbutton #checkButton text="Verifica" (click)="onCodeCheck($event)"></app-divbutton>
+            <app-divbutton #checkButton [text]="'Login.Check' | translate" (click)="onCodeCheck($event)"></app-divbutton>
         </div>
     </div>
 </div>

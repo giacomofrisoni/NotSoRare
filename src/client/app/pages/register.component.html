@@ -96,13 +96,13 @@
 
             <div class="half-paged">
                 <div class="field">
-                    <label class="title" for="email"><span [innerHTML]="'Register.Email' | translate"></span><span class="highlight"> (*)</span></label>
+                    <label class="title" for="email"><span [innerHTML]="'Common.Email' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="email" id="email" [(ngModel)]="signupData.email"/>
                     <span class="info small-text" *ngIf='errors.email != undefined && errors.email != ""'>{{errors.email}}</span>
                 </div>
     
                 <div class="field">
-                    <label class="title" for="password"><span [innerHTML]="'Register.Password' | translate"></span><span class="info small-text" [innerHTML]="'Register.PasswordMinLength' | translate"></span><span class="highlight"> (*)</span></label>
+                    <label class="title" for="password"><span [innerHTML]="'Common.Password' | translate"></span><span class="info small-text" [innerHTML]="'Register.PasswordMinLength' | translate"></span><span class="highlight"> (*)</span></label>
                     <input type="password" id="password" [(ngModel)]="signupData.password"/>
                     <span class="info small-text" *ngIf='errors.password != undefined && errors.password != ""'>{{errors.password}}</span>
                 </div>

@@ -8,6 +8,8 @@ import { DivbuttonComponent } from '../components/divbutton.component';
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { SimpleDialogComponent } from '../dialogs/simple-dialog.component';
 import { SimpleDialogType } from '../dialogs/simple-dialog-type.enum';
+import { LanguageService } from '../services/language.service';
+import { TranslateService } from '../../../../node_modules/@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -32,15 +34,34 @@ export class LoginComponent implements OnInit {
   subLogin: Subscription;
   subActivate: Subscription;
 
-  constructor(private userService: UserService, private router: Router, private dialog: MatDialog) { }
+  // Translations
+  translations: any = {};
+
+  constructor(private userService: UserService, private router: Router, private dialog: MatDialog, private languageService: LanguageService, private translate: TranslateService) { }
 
   ngOnInit() {
+    this.languageService.getCurrentLanguage().subscribe(language =>{
+      this.translate.get([
+        "Login.AlreadyLoggedIn",
+        "Login.LoggedInSuccesfull",
+        "Login.RedirectedSoon",
+        "Login.LoginError",
+        "Login.LoginErrorMessage",
+      ]).subscribe((results: any) => {
+        for(let key in results) {
+          this.translations[key.split(".")[1]] = results[key];
+        }
+
+        console.log(this.translations);
+      });
+    });
+
     // Trying to check the login
     this.subGetLoggedInStatus = this.userService.getLoggedInStatus().subscribe(status => {
       // If something was returned
       if (status == SessionStatus.LoggedIn) {
         // Status ok, you're already logged in!
-        this.loginIsOk("Login già effettuato, verrai reindirizzato tra poco!", true, $("#login-card"));
+        this.loginIsOk(this.translations.AlreadyLoggedIn, true, $("#login-card"));
       }
     });
   }
@@ -58,7 +79,7 @@ export class LoginComponent implements OnInit {
     // First try to login
     this.subLogin = this.userService.login(this.email, this.password).subscribe((resp: any) => {
       // Ok, all is clear
-      this.loginIsOk("Login effettuato con successo! Verrai reindirizzato tra poco", true, $("#login-card"));
+      this.loginIsOk(this.translations.LoggedInSuccesfull + " " + this.translations.RedirectedSoon, true, $("#login-card"));
     }, 
     
     // ERROR or NEED ACTIVATION
@@ -69,7 +90,7 @@ export class LoginComponent implements OnInit {
       // If is inactive, need activation!
       if (errorResp.error.inactive) {
         // Inform that login is OK
-        this.loginIsOk("Login effettuato con successo!", false, $("#login-card"));
+        this.loginIsOk(this.translations.LoggedInSuccesfull, false, $("#login-card"));
 
         // Activate the activation screen
         this.isToVerify = true;
@@ -80,8 +101,8 @@ export class LoginComponent implements OnInit {
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.data = {
-          title: "Errore durante la fase di Login",
-          text: "Molto probabilmente hai sbagliato credenziali. Riprova fra qualche istante!",
+          title: this.translations.LoginError,
+          text: this.translations.LoginErrorMessage + " - " + errorResp.error.errorMessage,
           type: SimpleDialogType.Error,
           isAlterEnabled: false,
           mainButtonText: "OK",
@@ -104,7 +125,7 @@ export class LoginComponent implements OnInit {
     // Try to activate the user
     this.subActivate = this.userService.activate(this.email, this.verificationCode).subscribe((resp: any) => {
       // Activation was succesfull
-      this.loginIsOk(resp.infoMessage + ". Reindirizzamento...", true, $("#verify-code-card"));
+      this.loginIsOk(resp.infoMessage + ". " + this.translations.RedirectedSoon, true, $("#verify-code-card"));
     }, 
     
     (errorResp) => {
