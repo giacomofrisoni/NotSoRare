@@ -34,13 +34,17 @@ import { GlobalUtilsService } from './services/global-utils.service';
 import { LanguageService } from './services/language.service';
 import { DiseaseSearchComponent } from './pages/disease-search.component';
 import { DiseaseComponent } from './pages/disease.component';
+import { NotFoundComponent } from './pages/not-found.component';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '',   redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'profile', component: ProfileComponent },
+  { path: 'disease-search', component: DiseaseSearchComponent },
+  { path: 'disease/:id', component: DiseaseComponent },
+  { path: '**', component: NotFoundComponent }
 ];
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -62,6 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SimpleDialogComponent,
     DiseaseSearchComponent,
     DiseaseComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

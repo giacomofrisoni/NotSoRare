@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { DiseaseService } from '../services/disease.service';
+import { Router } from '../../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +11,9 @@ import { DiseaseService } from '../services/disease.service';
 })
 export class HomeComponent implements OnInit {
 
-  // View components
-  @ViewChild('searchDisease') searchDisease: NgSelectComponent;
-
   // Binding values
   public diseases: Subject<any> = new Subject<any>();
+  public searchedDisease: string = "";
 
   // Loading values
   isFirstLoading = true;
@@ -24,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   lastToSearch: string = "";
 
-  constructor(private diseaseService: DiseaseService) { 
+  constructor(private diseaseService: DiseaseService, private router: Router) { 
     
   }
 
@@ -37,8 +36,11 @@ export class HomeComponent implements OnInit {
   }
 
   displayFn(disease: any): string {
-    console.log(disease);
-    return disease.Name;
+    if (disease) {
+      return disease.Name;
+    } else {
+      return "";
+    }
   }
 
 
@@ -127,6 +129,14 @@ export class HomeComponent implements OnInit {
         this.lastToSearch = "";
         this.isLoading = false;
       });
+    }
+  }
+
+  onSearchClick() {
+    if (this.searchedDisease == "") {
+      this.router.navigate(['./disease-search']);
+    } else {
+
     }
   }
 }

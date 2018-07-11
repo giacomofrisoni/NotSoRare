@@ -70,6 +70,11 @@
         "Login": "Login",
         "ToCheckMessage": "Ti manca solo un passo da fare: dovresti aver ricevuto una mail con un codice da inserire qui sotto, per verificare il tuo account.",
         "Check": "Verifica"
+    },
+
+    "NotFound": {
+        "Title": "Ops! Qualcosa è andato storto",
+        "Text": "Non riesco a trovare una pagina con questo indirizzo. Ti riporto sulla home in..."
     }
     
 }

@@ -70,5 +70,10 @@
         "Login": "Login",
         "ToCheckMessage": "Ti manca solo un passo da fare: dovresti aver ricevuto una mail con un codice da inserire qui sotto, per verificare il tuo account.",
         "Check": "Verifica"
+    },
+
+    "NotFound": {
+        "Title": "Ups! Coś poszło nie tak!",
+        "Text": "Nie mogę znaleźć strony o podanym adresie. Przekieruję cię na stronę główną za..."
     }
 }
