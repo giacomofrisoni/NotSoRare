@@ -23,6 +23,7 @@
 	"Login_Completed": "Login completato. Utente loggato con codice %s",
 	"Err_UnauthorizedUser": "Non hai i permessi per svolgere questa operazione",
 	"Err_RareDiseases_Search": "Si è verificato un errore durante la ricerca delle malattie rare. %s",
+    "Err_RareDiseases_List": "Si è verificato un errore durante l'ottenimento dei dati sulle malattie rare registrate. %s",
     "Err_RareDiseases_Data": "Si è verificato un errore durante l'ottenimento dei dati sulla malattia. %s",
     "Err_RareDiseases_DiseaseNotFound": "Il codice specificato non corrisponde ad alcuna malattia registrata",
 	"Err_Users_UserInfo": "Si è verificato un errore durante il recupero dei dati dell'utente. %s",

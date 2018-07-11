@@ -1,4 +1,4 @@
-function fillArrayFromRows(array, rowCount, rows, nullCheck, doIfNull) {
+function fillArrayFromRows(array, rowCount, rows, eachRow, nullCheck, doIfNull) {
     for (var rowIndex = 0; rowIndex < rowCount; rowIndex++) {
         var rowObject = {};
         var singleRowData = rows[rowIndex];
@@ -11,6 +11,9 @@ function fillArrayFromRows(array, rowCount, rows, nullCheck, doIfNull) {
                 }
             }
             rowObject[tempColName] = tempColData;
+        }
+        if (eachRow) {
+            eachRow(rowObject);
         }
         array.push(rowObject);
     }

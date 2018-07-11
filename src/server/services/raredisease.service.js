@@ -72,6 +72,84 @@ function getRareDiseasesNameViewFromLanguage(codLanguage) {
 }
 
 
+function getRareDiseases(req, res) {
+
+    /**
+     * Prepares the SQL statement with parameters for SQL-injection avoidance,
+     * in order to get the basic information about all the registered rare diseases.
+     */
+    diseasesRequest = new Request(
+        "SELECT Disease.CodSpecialty, SpecialtyTR.Name AS SpecialtyName, Disease.CodDisease, DiseaseTR.Name AS DiseaseName " +
+        "FROM RareDisease AS Disease " +
+        "INNER JOIN SpecialtyTranslation AS SpecialtyTR ON Disease.CodSpecialty = SpecialtyTR.CodSpecialty AND SpecialtyTR.CodLanguage = @CodLanguage " +
+        "INNER JOIN RareDiseaseTranslation AS DiseaseTR ON Disease.CodDisease = DiseaseTR.CodDisease AND DiseaseTR.CodLanguage = @CodLanguage " +
+        "ORDER BY Disease.CodSpecialty, DiseaseTR.Name;", (queryError, rowCount, rows) => {
+            if (queryError) {
+                res.status(500).send({
+                    errorMessage: req.i18n.__("Err_RareDiseases_List", queryError)
+                });
+            } else {
+                // Builds the json object by grouping diseases for specialties
+                var diseases = [];
+                var specialtiesGroups = [];
+                queryResultHandler.fillArrayFromRows(diseases, rowCount, rows, (rowObject) => {
+                    // For each disease...
+                    // Searches the index of the specialty group for the current disease, if already present
+                    var specialtyIndex = -1;
+                    for (var i = 0; i < specialtiesGroups.length; i++) {
+                        if (specialtiesGroups[i].hasOwnProperty('CodSpecialty')) {
+                            if (specialtiesGroups[i].CodSpecialty == rowObject.CodSpecialty) {
+                                specialtyIndex = i;
+                            }
+                        }
+                    }
+                    // If the specialty group is not present, adds it
+                    if (specialtyIndex < 0) {
+                        var specialtyObject = {};
+                        specialtyObject["CodSpecialty"] = rowObject.CodSpecialty;
+                        specialtyObject["SpecialtyName"] = rowObject.SpecialtyName;
+                        specialtyObject["diseases"] = [];   // Empty array
+                        specialtiesGroups.push(specialtyObject);
+                        specialtyIndex = specialtiesGroups.indexOf(specialtyObject);
+                    }
+                    // Stores the current disease in the related specialty group
+                    var diseaseObject = {};
+                    diseaseObject["CodDisease"] = rowObject.CodDisease;
+                    diseaseObject["DiseaseName"] = rowObject.DiseaseName;
+                    specialtiesGroups[specialtyIndex]["diseases"].push(diseaseObject);
+                }, true, () => {
+                    return res.status(500).send({
+                        errorMessage: req.i18n.__("Err_RareDiseases_List", "Invalid data")
+                    });
+                });
+
+                // Orders the groups array by specialty name
+                specialtiesGroups.sort(getSortOrder("SpecialtyName"));
+
+                res.status(200).json(specialtiesGroups);
+            }
+        }
+    );
+    diseasesRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+    
+    // Performs the rare diseases data selection query on the relational database
+    sql.connection.execSql(diseasesRequest);
+
+}
+
+// Comparer function  
+function getSortOrder(property) {
+    return function (a, b) {
+        if (a[property] > b[property]) {
+            return 1;
+        } else if (a[property] < b[property]) {
+            return -1;
+        }
+        return 0;
+    }
+}  
+
+
 function getRareDisease(req, res) {
 
     const id = parseInt(req.params.id, 10);
@@ -335,8 +413,6 @@ function getRareDisease(req, res) {
 
 module.exports = {
     searchRareDiseases,
-    /*
     getRareDiseases,
-    getRareDiseaseStats,*/
     getRareDisease
 };

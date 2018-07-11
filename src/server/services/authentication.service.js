@@ -34,7 +34,7 @@ function login(req, res) {
                 var userData = [];
 
                 // Parses the data from each of the row and populate the user data json array 
-                queryResultHandler.fillArrayFromRows(userData, rowCount, rows, true, () => {
+                queryResultHandler.fillArrayFromRows(userData, rowCount, rows, null, true, () => {
                     return res.status(500).send({
                         errorMessage: req.i18n.__("Err_Login_DataRetrieving")
                     });

@@ -23,6 +23,7 @@
     "Login_Completed": "Login completed. Logged User with code %s",
     "Err_UnauthorizedUser": "You don't have permission to perform this operation",
     "Err_RareDiseases_Search": "An error occurred during the rare diseases research. %s",
+    "Err_RareDiseases_List": "An error occurred during the rare diseases data retrieving. %s",
     "Err_RareDiseases_Data": "An error occurred during the rare disease data retrieving. %s",
     "Err_RareDiseases_DiseaseNotFound": "The specified code is not associated to any registered disease",
     "Err_Users_UserInfo": "An error occurred during the retrieving of user data. %s",
