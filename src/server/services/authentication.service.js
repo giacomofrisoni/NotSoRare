@@ -8,6 +8,9 @@ const TYPES = require('tedious').TYPES;
 // Request for connection to the relational database
 const sql = require('../sql');
 
+// Module for tedious query result handling
+const queryResultHandler = require('../utilities/tedious_query_result_util');
+
 
 function login(req, res) {
 
@@ -24,28 +27,18 @@ function login(req, res) {
 
             if (rowCount == 0) {
                 res.status(401).send({
-                    errorMessage: req.i18n.__("Err_Login_InvalidEmail")
+                    errorMessage: req.i18n.__("Err_Login_InvalidEmailPassword")
                 });
             } else {
 
                 var userData = [];
 
                 // Parses the data from each of the row and populate the user data json array 
-                for (var rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                    var rowObject = {};
-                    var singleRowData = rows[rowIndex];
-                    for (var colIndex = 0; colIndex < singleRowData.length; colIndex++) {
-                        var tempColName = singleRowData[colIndex].metadata.colName;
-                        var tempColData = singleRowData[colIndex].value;
-                        if (tempColData === null) {
-                            res.status(500).send({
-                                errorMessage: req.i18n.__("Err_Login_DataRetrieving")
-                            });
-                        }
-                        rowObject[tempColName] = tempColData;
-                    }
-                    userData.push(rowObject);
-                }
+                queryResultHandler.fillArrayFromRows(userData, rowCount, rows, true, () => {
+                    return res.status(500).send({
+                        errorMessage: req.i18n.__("Err_Login_DataRetrieving")
+                    });
+                });
 
                 // Checks if the account has been activated
                 if (userData[0].IsActivated) {
@@ -64,7 +57,7 @@ function login(req, res) {
                                 });
                             } else {
                                 res.status(401).send({
-                                    errorMessage: req.i18n.__("Err_Login_InvalidPassword")
+                                    errorMessage: req.i18n.__("Err_Login_InvalidEmailPassword")
                                 });
                             }
                         }

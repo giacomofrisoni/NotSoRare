@@ -13,6 +13,9 @@ const ISOLATION_LEVEL = require('tedious').ISOLATION_LEVEL;
 // Request for connection to the relational database
 const sql = require('../sql');
 
+// Module for tedious query result handling
+const queryResultHandler = require('../utilities/tedious_query_result_util');
+
 // Module for email utilities
 const email = require('../utilities/email_util');
 
@@ -271,22 +274,12 @@ function activate(req, res) {
             } else {
                 var userData = [];
 
-                // Parses the data from each of the row and populate the user data json array 
-                for (var rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                    var rowObject = {};
-                    var singleRowData = rows[rowIndex];
-                    for (var colIndex = 0; colIndex < singleRowData.length; colIndex++) {
-                        var tempColName = singleRowData[colIndex].metadata.colName;
-                        var tempColData = singleRowData[colIndex].value;
-                        if (tempColData === null) {
-                            res.status(500).send({
-                                errorMessage: req.i18n.__("Err_Activation", "Invalid value")
-                            });
-                        }
-                        rowObject[tempColName] = tempColData;
-                    }
-                    userData.push(rowObject);
-                }
+                // Parses the data from each of the row and populate the user data json array
+                queryResultHandler.fillArrayFromRows(userData, rowCount, rows, true, () => {
+                    return res.status(500).send({
+                        errorMessage: req.i18n.__("Err_Activation", "Invalid value")
+                    });
+                });
 
                  // Checks if the account has been activated
                 if (userData[0].IsActivated) {

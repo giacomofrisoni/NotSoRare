@@ -6,6 +6,9 @@ const ISOLATION_LEVEL = require('tedious').ISOLATION_LEVEL;
 // Request for connection to the relational database
 const sql = require('../sql');
 
+// Module for tedious query result handling
+const queryResultHandler = require('../utilities/tedious_query_result_util');
+
 // Mongoose model for an user
 const User = require('../models/user.model');
 
@@ -48,23 +51,11 @@ function getUsersStats(req, res) {
 
                             // Parses the data from each of the row and populate the user statistics json array
                             var countryObject = {};
-                            const countryKey = "countries";
-                            countryObject[countryKey] = []; // Empty array
-                            for (var rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                                var rowObject = {};
-                                var singleRowData = rows[rowIndex];
-                                for (var colIndex = 0; colIndex < singleRowData.length; colIndex++) {
-                                    var tempColName = singleRowData[colIndex].metadata.colName;
-                                    var tempColData = singleRowData[colIndex].value;
-                                    if (tempColData === null) {
-                                        res.status(500).send({
-                                            errorMessage: req.i18n.__("Err_Users_CountryCount", "Invalid data")
-                                        });
-                                    }
-                                    rowObject[tempColName] = tempColData;
-                                }
-                                countryObject[countryKey].push(rowObject);
-                            }
+                            queryResultHandler.addArraySectionToJSONFromRows("countries", rowCount, rows, countryObject, null, true, () => {
+                                return res.status(500).send({
+                                    errorMessage: req.i18n.__("Err_Users_CountryCount", "Invalid data")
+                                });
+                            });
                             usersStats.push(countryObject);
                             
                             res.status(200).json(usersStats);
@@ -115,13 +106,7 @@ function getUser(req, res) {
                     } else {
 
                         // Parses the data from each of the row and populate the user statistics json array
-                        var userInfo = {};
-                        var singleRowData = rows[0];
-                        for (var colIndex = 0; colIndex < singleRowData.length; colIndex++) {
-                            var tempColName = singleRowData[colIndex].metadata.colName;
-                            var tempColData = singleRowData[colIndex].value;
-                            userInfo[tempColName] = tempColData;
-                        }
+                        const userInfo = queryResultHandler.getJSONFromRow(rows[0]);
                         
                         res.status(200).json(userInfo);
 
