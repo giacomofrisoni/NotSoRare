@@ -21,6 +21,8 @@
 	"Err_Login_InvalidEmailPassword": "Email o password non validi",
 	"Err_Login_InactiveAccount": "L'account non è ancora stato attivato",
 	"Login_Completed": "Login completato. Utente loggato con codice %s",
+    "Err_Logout": "Logout fallito. %s",
+	"Logout_Completed": "Logout completato.",
 	"Err_UnauthorizedUser": "Non hai i permessi per svolgere questa operazione",
 	"Err_RareDiseases_Search": "Si è verificato un errore durante la ricerca delle malattie rare. %s",
     "Err_RareDiseases_List": "Si è verificato un errore durante l'ottenimento dei dati sulle malattie rare registrate. %s",
@@ -36,6 +38,11 @@
 	"Err_Users_BeginDeleteTransaction": "Si è verificato un errore durante l'avvio della transazione per la cancellazione dell'utente",
 	"Err_Users_UserDelete": "Si è verificato un errore durante la cancellazione dell'utente. %s",
 	"UserDeletion_Completed": "Utente cancellato con successo",
-	"Err_Users_UnauthorizedUser": "Err_Users_UnauthorizedUser",
-	"LogoutCompleted": "LogoutCompleted"
+    "Err_UserInterests_AddingInterest": "Si è verificato un errore durante l'inserimento dell'interesse dell'utente. %s",
+    "Interest_Added": "Interesse dell'utente aggiunto con successo",
+    "Err_UserInterests_RemovingInterest": "Si è verificato un errore durante la cancellazione dell'interesse dell'utente. %s",
+    "Err_UserInterests_InterestNotPresent": "L'interesse dell'utente nei confronti della malattia rara specificata non è presente",
+	"Interest_Removed": "Interesse dell'utente rimosso con successo",
+    "Err_UserInterests_GettingInterests": "Si è verificato un errore durante l'ottenimento degli interessi dell'utente. %s",
+    "Err_UserInterests_CheckingInterest": "Si è verificato un errore durante il controllo della presenza di un interesse per l'utente. %s"
 }

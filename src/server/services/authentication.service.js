@@ -92,11 +92,11 @@ function logout(req, res) {
     req.session.destroy((error) => {
         if (error) {
             res.status(500).send({
-                errorMessage: req.i18n.__("Err_Logout")
+                errorMessage: req.i18n.__("Err_Logout", error)
             });
         } else {
             res.status(200).send({
-                infoMessage: req.i18n.__("LogoutCompleted")
+                infoMessage: req.i18n.__("Logout_Completed")
             });
         }
     })
