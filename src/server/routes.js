@@ -7,11 +7,13 @@ const activationSchema = require('./validation/activation_schema');
 const loginSchema = require('./validation/login_schema');
 const rareDiseasesSearchSchema = require('./validation/rare_diseases_search_schema');
 const userUpdateSchema = require('./validation/user_update_schema');
+const interestInsertionSchema = require('./validation/interest_insertion_schema');
 
 const signupService = require('./services/signup.service');
 const authenticationService = require('./services/authentication.service');
 const rareDiseaseService = require('./services/raredisease.service');
 const userService = require('./services/user.service');
+const userRareDiseasesService = require('./services/user_rarediseases.service');
 
 /**
  * Middleware to check that a payload is present.
@@ -71,7 +73,7 @@ router.post('/rareDiseases/search/', validatePayloadMiddleware, validate(rareDis
 /**
  * Gets the data of all registered rare diseases.
  */
-router.get('/rareDiseases/', (req, res) => {
+router.get('/rareDiseases', (req, res) => {
     rareDiseaseService.getRareDiseases(req, res);
 });
 
@@ -108,6 +110,34 @@ router.put('/users/:id', validatePayloadMiddleware, validate(userUpdateSchema), 
  */
 router.delete('/users/:id', (req, res) => {
     userService.deleteUser(req, res);
+});
+
+/**
+ * Adds a new rare disease interest for a user.
+ */
+router.post('/interests', validatePayloadMiddleware, validate(interestInsertionSchema), (req, res) => {
+    userRareDiseasesService.addUserInterest(req, res);
+});
+
+/**
+ * Deletes a rare disease interest of a user.
+ */
+router.delete('/interests/:idDisease/:idUser', (req, res) => {
+    userRareDiseasesService.removeUserInterest(req, res);
+});
+
+/**
+ * Gets the registered rare disease interests for a user.
+ */
+router.get('/interests/:idUser', (req, res) => {
+    userRareDiseasesService.getUserInterests(req, res);
+});
+
+/**
+ * Checks if user is interested in a rare disease.
+ */
+router.get('/interests/:idDisease/:idUser', (req, res) => {
+    userRareDiseasesService.isUserInterested(req, res);
 });
 
 /**

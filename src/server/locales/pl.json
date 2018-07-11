@@ -21,6 +21,8 @@
     "Err_Login_InvalidEmailPassword": "Invalid email or password",
     "Err_Login_InactiveAccount": "The account has not been activated yet",
     "Login_Completed": "Login completed. Logged User with code %s",
+    "Err_Logout": "Logout failed. %s",
+	"Logout_Completed": "Logout completed",
     "Err_UnauthorizedUser": "You don't have permission to perform this operation",
     "Err_RareDiseases_Search": "An error occurred during the rare diseases research. %s",
     "Err_RareDiseases_List": "An error occurred during the rare diseases data retrieving. %s",
@@ -35,5 +37,12 @@
     "UserUpdate_Completed": "User update completed",
     "Err_Users_BeginDeleteTransaction": "An error occurred during user deletion transaction starting",
     "Err_Users_UserDelete": "An error occurred during user deletion",
-    "UserDeletion_Completed": "User deleted successfully"
+    "UserDeletion_Completed": "User deleted successfully",
+    "Err_UserInterests_AddingInterest": "An error occurred during the user interest insertion. %s",
+    "Interest_Added": "User interest added successfully",
+    "Err_UserInterests_RemovingInterest": "An error occurred during the user interest deletion. %s",
+    "Err_UserInterests_InterestNotPresent": "The interest of the user for the specified rare disease is not present",
+    "Interest_Removed": "User interest removed successfully",
+    "Err_UserInterests_GettingInterests": "An error occurred during the user interests retrieving. %s",
+    "Err_UserInterests_CheckingInterest": "An error occurred during the user interest existance control. %s"
 }

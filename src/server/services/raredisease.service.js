@@ -39,7 +39,7 @@ function searchRareDiseases(req, res) {
                     var searchResults = [];
 
                     // Parses the data from each of the row and populate the user statistics json array
-                    queryResultHandler.fillArrayFromRows(searchResults, rowCount, rows, true, () => {
+                    queryResultHandler.fillArrayFromRows(searchResults, rowCount, rows, null, true, () => {
                         return res.status(500).send({
                             errorMessage: req.i18n.__("Err_RareDiseases_Search", "Invalid data")
                         });
@@ -415,4 +415,5 @@ module.exports = {
     searchRareDiseases,
     getRareDiseases,
     getRareDisease
+    //getRareDiseaseCentres
 };

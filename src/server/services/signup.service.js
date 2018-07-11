@@ -100,7 +100,7 @@ function signup(req, res) {
                                                 if (rowCount == 0) {
                                                     done(null, () => {
                                                         res.status(500).send({
-                                                            errorMessage: req.i18n.__("Err_Signup_UserSaving", queryError)
+                                                            errorMessage: req.i18n.__("Err_Signup_UserSaving", "Zero rows affected")
                                                         });
                                                     });
                                                 } else {
@@ -275,7 +275,7 @@ function activate(req, res) {
                 var userData = [];
 
                 // Parses the data from each of the row and populate the user data json array
-                queryResultHandler.fillArrayFromRows(userData, rowCount, rows, true, () => {
+                queryResultHandler.fillArrayFromRows(userData, rowCount, rows, null, true, () => {
                     return res.status(500).send({
                         errorMessage: req.i18n.__("Err_Activation", "Invalid value")
                     });
