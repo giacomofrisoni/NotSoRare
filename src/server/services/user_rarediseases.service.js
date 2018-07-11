@@ -121,10 +121,11 @@ function getUserInterests(req, res) {
          * in order to obtain the rare disease interests of the logged user.
          */
         interestRequest = new Request(
-            "SELECT RareDisease.CodDisease, RareDiseaseTR.Name " +
+            "SELECT RareDisease.CodDisease, RareDiseaseTR.Name, Specialty.Image AS SpecialtyImage " +
             "FROM Interest " +
             "INNER JOIN RareDisease ON RareDisease.CodDisease = Interest.CodDisease " +
             "INNER JOIN RareDiseaseTranslation AS RareDiseaseTR ON RareDiseaseTR.CodDisease = RareDisease.CodDisease AND RareDiseaseTR.CodLanguage = @CodLanguage " +
+            "INNER JOIN Specialty ON Specialty.CodSpecialty = RareDisease.CodSpecialty " +
             "WHERE Interest.CodUser = @CodUser;", (queryError, rowCount, rows) => {
                 if (queryError) {
                     res.status(500).send({
