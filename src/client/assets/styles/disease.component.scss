@@ -1,15 +1,8 @@
 @import 'common-values';
 
-$padding-menu: 30px;
-$padding-box: 20px;
-
-h3, h4 {
+h3 {
     margin: 0;
     padding: 0;
-}
-
-h3 {
-    color: $accent-dark-color;
 }
 
 .message {
@@ -32,12 +25,6 @@ h3 {
     font-size: 1.5em;
 }
 
-.box {
-    border: 2px solid $accent-dark-color;
-    background: white;
-    padding: $padding-menu;
-    margin: $padding-box;
-}
 
 .general-box {
     display: flex;
@@ -51,7 +38,7 @@ $menu-box-width: 320px;
     max-width: $menu-box-width;
 
     .title-box {
-        padding: $padding-menu;
+        padding: $padding-box;
         background: $accent-dark-color;
         color: white;
         min-height: 150px;
@@ -87,8 +74,8 @@ $menu-box-width: 320px;
         min-height: 48px;
         line-height: 48px;
 
-        padding-left: $padding-menu;
-        padding-right: $padding-menu;
+        padding-left: $padding-box;
+        padding-right: $padding-box;
         margin: 0;
         margin-bottom: 1px;
         background: white;
@@ -109,28 +96,5 @@ $menu-box-width: 320px;
 
 .content-box {
     flex-grow: 1;
-
-    .title-box {
-        background: white;
-        margin: $padding-box;
-        min-height: 160px;
-        display: flex;
-        align-content: stretch;
-        align-items: stretch;
-        justify-content: flex-start;
-        border: 1px solid lightgray;
-
-        &>* {
-            min-width: 250px;
-            margin-right: 15%;
-            padding: $padding-box;
-        }
-
-        .left-title {
-            max-width: 250px;
-            background: $accent-color;
-            color: white;
-        }
-    }
 }
 
