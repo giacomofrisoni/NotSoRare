@@ -5,6 +5,7 @@ import { Disease } from '../models/disease';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '../../../../node_modules/@angular/router';
 import { LanguageService } from '../services/language.service';
+import { DiseaseHolderService } from '../services/disease-holder.service';
 
 @Component({
   selector: 'app-disease',
@@ -21,7 +22,12 @@ export class DiseaseComponent implements OnInit {
   // Disease object
   disease: Disease;
 
-  constructor(private diseaseService: DiseaseService, private translate: TranslateService, private route: ActivatedRoute, private languageService: LanguageService, private location: Location) {
+  constructor(
+    private diseaseService: DiseaseService,
+    private translate: TranslateService, 
+    private route: ActivatedRoute, 
+    private languageService: LanguageService,
+    private diseaseHolder: DiseaseHolderService) {
     this.disease = new Disease();
   }
 
@@ -44,14 +50,11 @@ export class DiseaseComponent implements OnInit {
         this.diseaseService.getDisease(params['id']).subscribe((disease: Disease) => {
           // Data are ok, set it!
           this.disease = disease;
+          this.diseaseHolder.setDisease(this.disease);
     
           // Inform the view
           this.isDiseaseLoaded = true;
           this.isAnyErrorPresent = false;
-    
-          console.log(disease);
-          console.log(this.disease)
-    
           
         }, error => {
           // Inform the view

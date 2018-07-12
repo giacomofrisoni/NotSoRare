@@ -6,10 +6,10 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';                          // Select
-import { TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';           // Translator
-import { TranslateHttpLoader} from '@ngx-translate/http-loader';                 // Loader for translator
-import { BrowserAnimationsModule} from '@angular/platform-browser/animations';   // Angular Material Animations
-import { MatCheckboxModule, MatAutocompleteModule, MatInputModule} from '@angular/material';           // Angular Material
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';           // Translator
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';                 // Loader for translator
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';   // Angular Material Animations
+import { MatCheckboxModule, MatAutocompleteModule, MatInputModule } from '@angular/material';           // Angular Material
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -35,15 +35,30 @@ import { LanguageService } from './services/language.service';
 import { DiseaseSearchComponent } from './pages/disease-search.component';
 import { DiseaseComponent } from './pages/disease.component';
 import { NotFoundComponent } from './pages/not-found.component';
+import { OverviewComponent } from './pages/disease-pages/overview.component';
+import { ExperiencesComponent } from './pages/disease-pages/experiences.component';
+import { ExpertCentresComponent } from './pages/disease-pages/expert-centres.component';
+import { ForumComponent } from './pages/disease-pages/forum.component';
+import { ReferencesComponent } from './pages/disease-pages/references.component';
+import { DiseaseHolderService } from './services/disease-holder.service';
 
 const appRoutes: Routes = [
-  { path: '',   redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'disease-search', component: DiseaseSearchComponent },
-  { path: 'disease/:id', component: DiseaseComponent },
+  {
+    path: 'disease/:id', component: DiseaseComponent,
+    children: [
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      { path: 'overview', component: OverviewComponent },
+      { path: 'expert-centres', component: ExpertCentresComponent },
+      { path: 'experiences', component: ExperiencesComponent },
+      { path: 'forum', component: ForumComponent },
+      { path: 'references', component: ReferencesComponent }]
+  },
   { path: '**', component: NotFoundComponent }
 ];
 
@@ -67,6 +82,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     DiseaseSearchComponent,
     DiseaseComponent,
     NotFoundComponent,
+    OverviewComponent,
+    ExperiencesComponent,
+    ExpertCentresComponent,
+    ForumComponent,
+    ReferencesComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,11 +114,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     )
   ],
   providers: [
-    UserService, 
+    UserService,
     LanguageService,
     CookiesUtilsService,
     DiseaseService,
-    GlobalUtilsService
+    GlobalUtilsService,
+    DiseaseHolderService
   ],
   bootstrap: [RootComponent],
   entryComponents: [SimpleDialogComponent]    // Material Angular Dialog

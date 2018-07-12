@@ -1,0 +1,131 @@
+<div>
+    <!-- LOADING -->
+    <div *ngIf="!isDiseaseLoaded" class="flex container no-box">
+        <i class='fa fa-spinner fa-spin'></i>
+        <span [innerHTML]="'Disease.Loading' | translate"></span>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="isAnyErrorPresent" class="flex container no-box">
+        <i class='fa fa-times'></i>
+        <span [innerHTML]="'Disease.ErrorLoading' | translate"></span>
+    </div>
+
+    <!-- LOADED -->
+    <div *ngIf="isDiseaseLoaded && !isAnyErrorPresent">
+        <!-- Cathegory -->
+        <div class="flex title-box">
+            <div class="flex left-title">
+                <h4>Categorizzazione e classifica</h4>
+            </div>
+
+            <div>
+                <h5>Specialità</h5>
+                <div class="small-box">{{disease.general.SpecialityName}}</div>
+            </div>
+
+            <div class="right-title">
+                <ul class="clear-list small">
+                    <li>
+                        <b>Numero Orpha: </b>
+                        <span *ngIf="disease.general.OrphaNumber != null">{{disease.general.OrphaNumber}}</span>
+                        <span *ngIf="disease.general.OrphaNumber == null">-</span>
+                    </li>
+                    <li>
+                        <b>ICD10: </b>
+                        <span *ngIf="disease.general.ICD10 != null">{{disease.general.ICD10}}</span>
+                        <span *ngIf="disease.general.ICD10 == null">-</span>
+                    </li>
+                    <li>
+                        <b>OMIM: </b>
+                        <span *ngIf="disease.general.OMIM != null">{{disease.general.OMIM}}</span>
+                        <span *ngIf="disease.general.OMIM == null">-</span>
+                    </li>
+                    <li>
+                        <b>UMLS: </b>
+                        <span *ngIf="disease.general.UMLS != null">{{UMLS}}</span>
+                        <span *ngIf="disease.general.UMLS == null">-</span>
+                    </li>
+                    <li>
+                        <b>MeSH: </b>
+                        <span *ngIf="disease.general.MeSH != null">{{disease.general.MeSH}}</span>
+                        <span *ngIf="disease.general.MeSH == null">-</span>
+                    </li>
+                    <li>
+                        <b>GARD: </b>
+                        <span *ngIf="disease.general.GARD != null">{{disease.general.GARD}}</span>
+                        <span *ngIf="disease.general.GARD == null">-</span>
+                    </li>
+                    <li>
+                        <b>MedDRA: </b>
+                        <span *ngIf="disease.general.MedDRA != null">{{disease.general.MedDRA}}</span>
+                        <span *ngIf="disease.general.MedDRA == null">-</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3>Descrizione della malattia</h3>
+            <p>{{disease.general.Description}}</p>
+        </div>
+
+        <div class="box">
+            <h3>Cause</h3>
+            <p>{{disease.general.Causes}}</p>
+        </div>
+
+        <div class="box">
+            <h3>Sintomi</h3>
+            <ul>
+                <li *ngFor="let symptom of disease.symptoms">
+                    <b>{{symptom.Name}}: </b> {{symptom.Description}}
+                </li>
+            </ul>
+        </div>
+
+        <div class="box">
+            <h3>Diagnosi</h3>
+            <ul>
+                <li *ngFor="let diagnosis of disease.diagnosis">
+                    <b>{{diagnosis.Name}}: </b> {{diagnosis.Description}}
+                </li>
+            </ul>
+        </div>
+
+        <div class="box">
+            <h3>Treatments</h3>
+            <ul class="clear-list">
+                <li *ngFor="let treatment of disease.treatments">
+                    <hr/>
+                    <h4>{{treatment.Name}} </h4>
+                    <i>Tipologia trattamento: {{treatment.Type}}</i>
+                    <br/>
+                    <br/>{{treatment.Description}}
+                    <br/>
+                    <br/>
+                    <u>Effetti collaterali:</u>
+                    <ul>
+                        <li *ngFor="let collateral of treatment.collateralEffects">
+                            {{collateral.Description}}
+                        </li>
+                    </ul>
+                    <div *ngIf="treatment.collateralEffects == undefined || treatment.collateralEffects == null">
+                        Nessun effetto collaterale conosciuto
+                    </div>
+                    <br/>
+                </li>
+            </ul>
+        </div>
+
+        <div class="box">
+            <h3>Complicazioni</h3>
+            <ul>
+                <li *ngFor="let complication of disease.complications">
+                    {{complication.Description}}
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
