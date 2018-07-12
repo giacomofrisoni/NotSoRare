@@ -82,7 +82,7 @@ function getUser(req, res) {
     const id = parseInt(req.params.id, 10);
 
     /**
-     * Only a logged user whit the same code of the request can retrieve the data.
+     * Only a logged user with the same code of the request can retrieve the data.
      */
     if (req.session.user == id) {
 
@@ -133,7 +133,7 @@ function putUser(req, res) {
     const id = parseInt(req.params.id, 10);
 
     /**
-     * Only a logged user whit the same code of the request can update the data.
+     * Only a logged user with the same code of the request can update the data.
      */
     if (req.session.user == id) {
 
@@ -272,7 +272,7 @@ function deleteUser(req, res) {
     const id = parseInt(req.params.id, 10);
 
     /**
-     * Only a logged user whit the same code of the request can delete the data.
+     * Only a logged user with the same code of the request can delete the data.
      */
     if (req.session.user == id) {
 

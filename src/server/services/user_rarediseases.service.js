@@ -16,7 +16,7 @@ const queryResultHandler = require('../utilities/tedious_query_result_util');
 function addUserInterest(req, res) {
 
     /**
-     * Only a logged user whit the same code of the request can add an interest.
+     * Only a logged user with the same code of the request can add an interest.
      */
     if (req.session.user == req.body.codUser) {
 
@@ -119,12 +119,12 @@ function removeUserInterest(req, res) {
     const idUser = parseInt(req.params.idUser, 10);
 
     /**
-     * Only a logged user whit the same code of the request can remove an interest.
+     * Only a logged user with the same code of the request can remove an interest.
      */
     if (req.session.user == idUser) {
 
         /**
-         * Handles a transaction in order to rollback from sql insertion if the counter update fails
+         * Handles a transaction in order to rollback from sql deletion if the counter update fails
          * or another error occurres.
          */
         sql.connection.transaction((error, done) => {
@@ -224,7 +224,7 @@ function getUserInterests(req, res) {
     const idUser = parseInt(req.params.id, 10);
 
     /**
-     * Only a logged user whit the same code of the request can retrieve his interests.
+     * Only a logged user with the same code of the request can retrieve his interests.
      */
     if (req.session.user == idUser) {
         /**
@@ -273,7 +273,7 @@ function isUserInterested(req, res) {
     const idUser = parseInt(req.params.idUser, 10);
 
     /**
-     * Only a logged user whit the same code of the request can check his interests.
+     * Only a logged user with the same code of the request can check his interests.
      */
     if (req.session.user == idUser) {
         /**
