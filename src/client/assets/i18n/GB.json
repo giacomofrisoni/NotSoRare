@@ -72,8 +72,8 @@
         "Check": "Check my code"
     },
 
-    "NotFound": {
-        "Title": "Whops! Something went wrong!",
-        "Text": "I cannot find a page with this link. I'll redirect you to home page in..."
+    "Disease": {
+        "Loading": "Loading disease details...",
+        "ErrorLoading": "Something went wrong during loading of this disease"
     }
 }

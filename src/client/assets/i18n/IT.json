@@ -75,6 +75,10 @@
     "NotFound": {
         "Title": "Ops! Qualcosa è andato storto",
         "Text": "Non riesco a trovare una pagina con questo indirizzo. Ti riporto sulla home in..."
+    },
+
+    "Disease": {
+        "Loading": "Caricamento dei dettagli della malattia",
+        "ErrorLoading": "C'è stato un problema durante il caricamento dei dettagli della malattia"
     }
-    
 }

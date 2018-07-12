@@ -72,8 +72,8 @@
         "Check": "Verifica"
     },
 
-    "NotFound": {
-        "Title": "Ups! Coś poszło nie tak!",
-        "Text": "Nie mogę znaleźć strony o podanym adresie. Przekieruję cię na stronę główną za..."
+    "Disease": {
+        "Loading": "Caricamento dei dettagli della malattia",
+        "ErrorLoading": "C'è stato un problema durante il caricamento dei dettagli della malattia"
     }
 }

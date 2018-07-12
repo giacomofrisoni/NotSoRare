@@ -3,6 +3,15 @@
 $padding-menu: 30px;
 $padding-box: 20px;
 
+h3, h4 {
+    margin: 0;
+    padding: 0;
+}
+
+h3 {
+    color: $accent-dark-color;
+}
+
 .message {
     font-size: 1.1em;
 }
@@ -19,12 +28,14 @@ $padding-box: 20px;
     color: $accent-dark-color;
 }
 
-
+.no-box {
+    font-size: 1.5em;
+}
 
 .box {
     border: 2px solid $accent-dark-color;
     background: white;
-    padding: $padding-box;
+    padding: $padding-menu;
     margin: $padding-box;
 }
 
@@ -44,6 +55,10 @@ $menu-box-width: 320px;
         background: $accent-dark-color;
         color: white;
         min-height: 150px;
+
+        h3 {
+            color: white;
+        }
     }
 }
 
@@ -103,6 +118,7 @@ $menu-box-width: 320px;
         align-content: stretch;
         align-items: stretch;
         justify-content: flex-start;
+        border: 1px solid lightgray;
 
         &>* {
             min-width: 250px;
@@ -116,11 +132,5 @@ $menu-box-width: 320px;
             color: white;
         }
     }
-}
-
-
-h3 {
-    margin: 0;
-    padding: 0;
 }
 

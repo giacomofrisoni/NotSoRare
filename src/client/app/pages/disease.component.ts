@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DiseaseService } from '../services/disease.service';
 import { TranslateService } from '../../../../node_modules/@ngx-translate/core';
 import { Disease } from '../models/disease';
-import { ActivatedRoute } from '../../../../node_modules/@angular/router';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '../../../../node_modules/@angular/router';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-disease',
@@ -14,15 +16,25 @@ export class DiseaseComponent implements OnInit {
   // Loading
   isDiseaseLoaded: boolean = false;
   isAnyErrorPresent: boolean = false;
+  isFirstTimeLoading: boolean = true;
 
   // Disease object
   disease: Disease;
 
-  constructor(private diseaseService: DiseaseService, private translate: TranslateService, private route: ActivatedRoute) {
+  constructor(private diseaseService: DiseaseService, private translate: TranslateService, private route: ActivatedRoute, private languageService: LanguageService, private location: Location) {
     this.disease = new Disease();
   }
 
   ngOnInit() {
+    // Subscribe to change language
+    this.languageService.getCurrentLanguage().subscribe(newLanguage =>{
+      if (this.isFirstTimeLoading) {
+        this.isFirstTimeLoading = false;
+      } else {
+        window.location.reload();
+      }
+    });
+
     // Subscribe to retrive params
     this.route.params.subscribe(params => {
       // First check if it's a valid param (number)
@@ -37,6 +49,7 @@ export class DiseaseComponent implements OnInit {
           this.isDiseaseLoaded = true;
           this.isAnyErrorPresent = false;
     
+          console.log(disease);
           console.log(this.disease)
     
           

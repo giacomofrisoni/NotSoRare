@@ -9,6 +9,7 @@
 
 .root .header {
     flex: 0 1 auto;
+    z-index: 9999;
 }
 
 .root .content {
@@ -18,16 +19,3 @@
 .root app-top-bar {
     width: 100%;
 }
-
-/*
-app-home, app-register {
-    margin-top: -$nav-size;
-    flex-grow: 1;
-    height: 100%;
-}*/
-
-/*
-.main-frame {
-    margin-top: -$nav-size;
-    flex-grow: 1;
-}*/
