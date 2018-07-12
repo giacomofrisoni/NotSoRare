@@ -1,52 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Subject } from '../../../../node_modules/rxjs';
 import { DiseaseService } from '../services/disease.service';
 import { Router } from '../../../../node_modules/@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['../../assets/styles/home.component.scss']
+  selector: 'app-search-bar',
+  templateUrl: './search-bar.component.html',
+  styleUrls: ['../../assets/styles/search-bar.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class SearchBarComponent implements OnInit {
+
+  @Output() onSearchClicked: EventEmitter<any> = new EventEmitter();
+  @Output() onResultClicked: EventEmitter<any> = new EventEmitter();
 
   // Binding values
-  public diseases: Subject<any> = new Subject<any>();
+  private diseases: Subject<any> = new Subject<any>();
   public searchedDisease: any = null;
 
   // Loading values
-  isFirstLoading = true;
-  isLoading: boolean = false;
-  isResultEmpty: boolean = false;
-  isErrorPresent: boolean = false;
-  isValueSearching: boolean = false;
-
+  private isLoading: boolean = false;
+  private isResultEmpty: boolean = false;
+  private isErrorPresent: boolean = false;
+  
   lastToSearch: string = "";
 
-  constructor(private diseaseService: DiseaseService, private router: Router) { 
-    
-  }
+  // Search results
+  searchResults: any[] = new Array();
+
+  constructor(private diseaseService: DiseaseService) { }
 
   ngOnInit() {
 
   }
 
-  configTranslations() {
-    
-  }
-
-  displayFn(disease: any): string {
-    if (disease) {
-      return disease.Name;
-    } else {
-      return "";
-    }
-  }
-
 
   onInputChanged(value: string) {
     // Reset all variables
-    this.isFirstLoading = false;
     this.isErrorPresent = false;
     this.isResultEmpty = false;
     this.diseases.next([]);
@@ -92,13 +81,14 @@ export class HomeComponent implements OnInit {
         this.isResultEmpty = true;
         this.diseases.next([]);
       }
-    } 
-    
+    }
+
     // For now I'm busy, register the event to search
     else {
       this.lastToSearch = value;
     }
   }
+
 
   onSearchFinished() {
     if (this.lastToSearch != "") {
@@ -134,37 +124,13 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  openDisease(value: any) {
-    this.router.navigate(['./disease/' + value]);
+  resultClicked(value: any) {
+    this.onResultClicked.emit([value]);
   }
 
-  onSearchClick() {
-    console.log(this.searchedDisease);
-    // No object
-    if (this.searchedDisease == null && this.searchedDisease == undefined) {
-      this.router.navigate(['./disease-search']);
-    } else {
-      // Object is selected directly from list
-      if (this.searchedDisease.CodDisease) {
-        this.router.navigate(['./disease/' + this.searchedDisease.CodDisease]);
-      } 
-      
-      // Object is just input
-      else {
-        // Must try searching
-        this.isValueSearching = true;
 
-        this.diseaseService.searchDisease(this.searchedDisease).subscribe((results: any) => {
-          if (results) {
-            if (results.length > 0) {
-              this.router.navigate(['./disease/' + results[0].CodDisease]);
-              this.isValueSearching = false;
-            } else {
-              this.router.navigate(['./disease-search']);
-            }
-          }
-        });
-      }  
-    }
+  searchClicked() {
+    this.onSearchClicked.emit([this.searchedDisease]);
   }
+
 }

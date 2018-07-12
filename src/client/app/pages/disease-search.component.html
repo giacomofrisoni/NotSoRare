@@ -1,0 +1,44 @@
+<div class="container">
+    <h3 class="middle">
+        Ricerca delle malattie rare
+    </h3>
+
+    <app-search-bar #searchBar (onResultClicked)="onResultClicked($event[0])" (onSearchClicked)="onSearchClicked($event[0])"></app-search-bar>
+
+    <div>
+        <div class="page-card-page middle" *ngIf="isValueSearchin && !isGeneralSearch">
+            <i class='fa fa-spinner fa-spin'></i>
+            <span>Ricerca della malattia in corso...</span>
+        </div>
+
+        <div class="page-card-page middle" *ngIf="isValueSearchin && isGeneralSearch">
+            <i class='fa fa-spinner fa-spin'></i>
+            <span>Ricerca di <b>tutte</b> le malattia in corso...</span>
+        </div>
+
+        <div class="page-card middle" *ngIf="isValueEmpty">
+            <p>Inserire almeno un criterio di ricerca</p>
+        </div>
+
+        <div class="page-card middle" *ngIf="isAnyErrorPresent">
+            <i class='fa fa-times'></i>
+            <span>C'è stato un problema durante la ricerca delle malattie. Riprovare.</span>
+        </div>
+
+        <div class="page-card middle" *ngIf="isOpeningDisease">
+            <i class='fa fa-spinner fa-spin'></i>
+            <span>Apertura della malattia...</span>
+        </div>
+
+        <div class="page-card middle" *ngIf="isResultsEmpty">
+            <span>Nessuna malattia corrisponde ai criteri di ricerca indicati.</span>
+        </div>
+
+        <div class="flex wrapped results">
+            <div *ngFor="let searchResult of searchResults | async" class="card mini" (click)="openDisease(searchResult.CodDisease)">
+                {{searchResult.Name}}
+            </div>
+        </div>
+
+    </div>
+</div>

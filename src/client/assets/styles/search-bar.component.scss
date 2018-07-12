@@ -1,0 +1,43 @@
+@import 'common-values';
+
+$input-height: 38px;
+
+.middle {
+    text-align: center;
+}
+
+.fa {
+    margin-right: 10px;
+}
+
+.search, #button-search {
+    height: $input-height;
+    max-height: $input-height;
+    min-height: $input-height;
+    line-height: $input-height;
+}
+
+.search {
+    padding: 0px;
+    margin: 0px;
+    width: 70%;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: white;
+    border: 2px solid $accent-dark-color;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.searching {
+    padding-top: 10px;
+}
+
+.results {
+    margin: auto;
+    margin-top: 15px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    background: white;
+}

@@ -26,4 +26,10 @@ export class DiseaseService {
       withCredentials: true,
     });
   }
+
+  getAllDiseases() {
+    return this.http.get(this.globalUtils.apiPath + "/rareDiseases/" + this.globalUtils.createLanguageParameter(), {
+      withCredentials: true,
+    });
+  }
 }

@@ -41,6 +41,7 @@ import { ExpertCentresComponent } from './pages/disease-pages/expert-centres.com
 import { ForumComponent } from './pages/disease-pages/forum.component';
 import { ReferencesComponent } from './pages/disease-pages/references.component';
 import { DiseaseHolderService } from './services/disease-holder.service';
+import { SearchBarComponent } from './components/search-bar.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -49,6 +50,7 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'disease-search', component: DiseaseSearchComponent },
+  { path: 'disease-search/:id', component: DiseaseSearchComponent },
   {
     path: 'disease/:id', component: DiseaseComponent,
     children: [
@@ -87,6 +89,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ExpertCentresComponent,
     ForumComponent,
     ReferencesComponent,
+    SearchBarComponent,
   ],
   imports: [
     BrowserModule,

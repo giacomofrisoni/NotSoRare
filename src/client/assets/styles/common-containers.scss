@@ -80,6 +80,31 @@ html, body {
         background: transparent;
         border: 2px solid $accent-color;
     }
+
+    &.mini {
+        box-shadow: none;
+        cursor: pointer;
+        padding: 8px 10px;
+        font-size: 0.9em;
+        min-width: 300px;
+        max-width: 400px;
+        max-height: 48px;
+        height: 48px;
+        min-height: 48px;
+        border: 1px solid #d3d3d3;
+
+        &:hover {
+            background: #fdfdfd;
+            border: 1px solid $accent-dark-color;
+        }
+    }
+}
+
+.box {
+    border: 2px solid $accent-dark-color;
+    background: white;
+    padding: $padding-box;
+    margin: $padding-box;
 }
 
 .main-container {

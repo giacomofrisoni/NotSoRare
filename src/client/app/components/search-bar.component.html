@@ -1,0 +1,18 @@
+<div>
+    <div class="middle">
+        <div class="flex searchbar">
+            <input class="search" [(ngModel)]="searchedDisease" type="search" [placeholder]="'Home.Placeholder' | translate" matInput [matAutocomplete]="auto" (input)="onInputChanged($event.target.value)">
+                
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let disease of diseases | async" [value]="disease" (click)="resultClicked(disease.CodDisease)">{{disease.Name}}</mat-option>
+            </mat-autocomplete>
+                
+            <app-divbutton id="button-search" icon="fa fa-search" isHalfCornered="true" (click)="searchClicked()"></app-divbutton>
+        </div>
+
+        <div class="searching" *ngIf="isValueSearching">
+            <i class='fa fa-spinner fa-spin'></i>
+            <span [innerHTML]="'Home.Loading' | translate"></span>
+        </div>
+    </div>
+</div>
