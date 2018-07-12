@@ -183,7 +183,8 @@ function getExperience(req, res) {
      * in order to obtain the registered experiences for a rare disease.
      */
     experienceRequest = new Request(
-        "SELECT Experience.CodUser, User.Name, User.Surname, User.Gender, User.BirthDate, User.Nationality, User.Photo, " +
+        "SELECT Experience.CodUser, " +
+        "StandardUser.Name, StandardUser.Surname, StandardUser.Gender, StandardUser.BirthDate, StandardUser.Nationality, StandardUser.Photo, " +
         "Experience.CreatedAt, Experience.UpdatedAt, Experience.Photo, Experience.Description " +
         "FROM Experience " +
         "INNER JOIN StandardUser ON StandardUser.CodUser = Experience.CodUser " +
@@ -194,11 +195,7 @@ function getExperience(req, res) {
                 });
             } else {
                 var experiences = [];
-                queryResultHandler.fillArrayFromRows(experiences, rowCount, rows, null, true, () => {
-                    return res.status(500).send({
-                        errorMessage: req.i18n.__("Err_Experiences_GettingExperience", "Invalid data")
-                    });
-                });
+                queryResultHandler.fillArrayFromRows(experiences, rowCount, rows, null, false);
                 res.status(200).json(experiences);
             }
         }
@@ -221,7 +218,8 @@ function getRareDiseaseExperiences(req, res) {
      * in order to obtain the registered experiences for a rare disease.
      */
     experienceRequest = new Request(
-        "SELECT Experience.CodUser, User.Name, User.Surname, User.Gender, User.BirthDate, User.Nationality, User.Photo, " +
+        "SELECT Experience.CodUser, " +
+        "StandardUser.Name, StandardUser.Surname, StandardUser.Gender, StandardUser.BirthDate, StandardUser.Nationality, StandardUser.Photo " +
         "FROM Experience " +
         "INNER JOIN StandardUser ON StandardUser.CodUser = Experience.CodUser " +
         "WHERE Experience.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
@@ -231,11 +229,7 @@ function getRareDiseaseExperiences(req, res) {
                 });
             } else {
                 var experiences = [];
-                queryResultHandler.fillArrayFromRows(experiences, rowCount, rows, null, true, () => {
-                    return res.status(500).send({
-                        errorMessage: req.i18n.__("Err_Experiences_GettingExperiences", "Invalid data")
-                    });
-                });
+                queryResultHandler.fillArrayFromRows(experiences, rowCount, rows, null, false);
                 res.status(200).json(experiences);
             }
         }
@@ -257,9 +251,10 @@ function getUserExperiencesReferences(req, res) {
      * in order to obtain the registered experiences of an user.
      */
     experienceRequest = new Request(
-        "SELECT Experience.CodDisease, Disease.Name AS DiseaseName, Experience.CreatedAt, Experience.UpdatedAt " +
+        "SELECT Experience.CodDisease, RareDiseaseTR.Name AS DiseaseName, Experience.CreatedAt, Experience.UpdatedAt " +
         "FROM Experience " +
         "INNER JOIN RareDisease ON RareDisease.CodDisease = Experience.CodDisease " +
+        "INNER JOIN RareDiseaseTranslation AS RareDiseaseTR ON RareDiseaseTR.CodDisease = RareDisease.CodDisease AND RareDiseaseTR.CodLanguage = @CodLanguage " +
         "WHERE Experience.CodUser = @CodUser;", (queryError, rowCount, rows) => {
             if (queryError) {
                 res.status(500).send({
@@ -276,6 +271,7 @@ function getUserExperiencesReferences(req, res) {
             }
         }
     );
+    experienceRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
     experienceRequest.addParameter('CodUser', TYPES.Numeric, idUser);
                                 
     // Performs the user experiences retrieving query on the relational database

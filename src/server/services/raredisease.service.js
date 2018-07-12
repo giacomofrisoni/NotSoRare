@@ -182,7 +182,7 @@ function getRareDisease(req, res) {
      */
     diseaseRequest = new Request(
         "SELECT Disease.OrphaNumber, Disease.ICD10, Disease.OMIM, Disease.UMLS, Disease.MeSH, Disease.GARD, Disease.MedDRA, " +
-        "Disease.Incidence, Disease.ForumThreadsNumber, Disease.StandardUsersNumber, Disease.ModeratorsNumber, " +
+        "Disease.Incidence, Disease.ForumThreadsNumber, Disease.StandardUsersNumber, Disease.ModeratorsNumber, Disease.ExperiencesNumber " +
         "SpecialtyTR.CodSpecialty, SpecialtyTR.Name AS SpecialtyName, DiseaseTR.Name, DiseaseTR.Description, DiseaseTR.Causes " +
         "FROM RareDisease AS Disease " +
         "INNER JOIN SpecialtyTranslation AS SpecialtyTR ON Disease.CodSpecialty = SpecialtyTR.CodSpecialty AND SpecialtyTR.CodLanguage = @CodLanguage " +
