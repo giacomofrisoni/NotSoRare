@@ -224,7 +224,9 @@ function putUser(req, res) {
                                                 } else {
                                                     // Commit the transaction
                                                     done(null, () => {
-                                                        res.status(200).send(req.i18n.__("UserUpdate_Completed"));
+                                                        res.status(200).send({
+                                                            infoMessage: req.i18n.__("UserUpdate_Completed")
+                                                        });
                                                     });
                                                 }
                                             });
@@ -270,7 +272,7 @@ function deleteUser(req, res) {
     const id = parseInt(req.params.id, 10);
 
     /**
-     * Only a logged user whit the same code of the request can update the data.
+     * Only a logged user whit the same code of the request can delete the data.
      */
     if (req.session.user == id) {
 
@@ -288,11 +290,11 @@ function deleteUser(req, res) {
                  * Prepares the SQL statement with parameters for SQL-injection avoidance,
                  * in order to delete the registered user account.
                  */
-                deleteRequest = new Request(
+                deletionRequest = new Request(
                     "DELETE FROM StandardUser WHERE CodUser = @CodUser;", (queryError, rowCount) => {
                         if (queryError) {
                             res.status(500).send({
-                                errorMessage: req.i18n.__("Err_Users_UserDelete", queryError)
+                                errorMessage: req.i18n.__("Err_Users_UserDeletion", queryError)
                             });
                         } else {
 
@@ -324,7 +326,9 @@ function deleteUser(req, res) {
                                         } else {
                                             // Commit the transaction
                                             done(null, () => {
-                                                res.status(200).send(req.i18n.__("UserDeletion_Completed"));
+                                                res.status(200).send({
+                                                    infoMessage: req.i18n.__("UserDeletion_Completed")
+                                                });
                                             });
                                         }
                                     })
@@ -333,7 +337,7 @@ function deleteUser(req, res) {
                                             // Rollback the sql update
                                             done(error, () => {
                                                 res.status(404).send({
-                                                    errorMessage: req.i18n.__("Err_Users_UserDelete", error)
+                                                    errorMessage: req.i18n.__("Err_Users_UserDeletion", error)
                                                 });
                                             });
                                         }
@@ -343,10 +347,10 @@ function deleteUser(req, res) {
                     }
                 );
 
-                deleteRequest.addParameter('CodUser', TYPES.Numeric, id);
+                deletionRequest.addParameter('CodUser', TYPES.Numeric, id);
 
-                // Performs the update query on the relational database
-                sql.connection.execSql(deleteRequest);
+                // Performs the deletion query on the relational database
+                sql.connection.execSql(deletionRequest);
             }
         }, "USER_DELETE_TRANSACTION", ISOLATION_LEVEL.SNAPSHOT);
 

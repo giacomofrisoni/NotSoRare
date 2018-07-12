@@ -21,10 +21,14 @@ function login(req, res) {
     checkRequest = new Request("SELECT CodUser, IsActivated, Password FROM StandardUser WHERE Email = @Email;", (queryError, rowCount, rows) => {
         if (queryError) {
             res.status(500).send({
-                errorMessage: queryError
+                errorMessage: req.i18n.__("Err_Login_DataRetrieving", queryError)
             });
         } else {
 
+            /**
+             * The operation concerns a single row.
+             * If zero rows are affected, it means that there is no user with the specified email.
+             */
             if (rowCount == 0) {
                 res.status(401).send({
                     errorMessage: req.i18n.__("Err_Login_InvalidEmailPassword")
@@ -36,7 +40,7 @@ function login(req, res) {
                 // Parses the data from each of the row and populate the user data json array 
                 queryResultHandler.fillArrayFromRows(userData, rowCount, rows, null, true, () => {
                     return res.status(500).send({
-                        errorMessage: req.i18n.__("Err_Login_DataRetrieving")
+                        errorMessage: req.i18n.__("Err_Login_DataRetrieving", "Invalid data")
                     });
                 });
 
@@ -65,7 +69,7 @@ function login(req, res) {
 
                 } else {
                     res.status(401).send({
-                        inactive: req.i18n.__("Err_Login_InactiveAccount")
+                        inactive: req.i18n.__("Err_InactiveAccount")
                     });
                 }
 

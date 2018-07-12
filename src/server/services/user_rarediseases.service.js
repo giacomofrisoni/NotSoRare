@@ -110,7 +110,7 @@ function removeUserInterest(req, res) {
 
 function getUserInterests(req, res) {
 
-    const idUser = parseInt(req.params.idUser, 10);
+    const idUser = parseInt(req.params.id, 10);
 
     /**
      * Only a logged user whit the same code of the request can retrieve his interests.

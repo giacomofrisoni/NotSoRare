@@ -6,14 +6,18 @@ const signupSchema = require('./validation/signup_schema');
 const activationSchema = require('./validation/activation_schema');
 const loginSchema = require('./validation/login_schema');
 const rareDiseasesSearchSchema = require('./validation/rare_diseases_search_schema');
+const experienceInsertionSchema = require('./validation/experience_insertion_schema');
+const experienceUpdateSchema = require('./validation/experience_update_schema');
 const userUpdateSchema = require('./validation/user_update_schema');
 const interestInsertionSchema = require('./validation/interest_insertion_schema');
 
 const signupService = require('./services/signup.service');
 const authenticationService = require('./services/authentication.service');
 const rareDiseaseService = require('./services/raredisease.service');
+const experiencesService = require('./services/experiences.service');
 const userService = require('./services/user.service');
 const userRareDiseasesService = require('./services/user_rarediseases.service');
+
 
 /**
  * Middleware to check that a payload is present.
@@ -27,6 +31,11 @@ const validatePayloadMiddleware = (req, res, next) => {
         });
     }
 }
+
+
+/**
+ * SIGNUP & AUTHENTICATION
+ */
 
 /**
  * Registers the user.
@@ -63,6 +72,11 @@ router.post('/logout', (req, res) => {
     authenticationService.logout(req, res);
 });
 
+
+/**
+ * RARE DISEASES
+ */
+
 /**
  * Searches rare diseases by name.
  */
@@ -84,12 +98,57 @@ router.get('/rareDiseases/:id', (req, res) => {
     rareDiseaseService.getRareDisease(req, res);
 });
 
+
 /**
- * Gets the references for a rare disease.
+ * EXPERIENCES
  */
-router.get('/rareDiseases/:id/references', (req, res) => {
-    rareDiseaseService.getRareDiseaseReferences(req, res);
+
+/**
+ * Adds a new experience.
+ */
+router.post('/experiences', validatePayloadMiddleware, validate(experienceInsertionSchema), (req, res) => {
+    experiencesService.postExperience(req, res);
 });
+
+/**
+ * Updates the data of a registered experience.
+ */
+router.put('/rareDiseases/:idDisease/experiences/:idUser', validatePayloadMiddleware, validate(experienceUpdateSchema), (req, res) => {
+    experiencesService.putExperience(req, res);
+});
+
+/**
+ * Deletes a registered experience.
+ */
+router.delete('/rareDiseases/:idDisease/experiences/:idUser', (req, res) => {
+    experiencesService.deleteExperience(req, res);
+});
+
+/**
+ * Gets an experience.
+ */
+router.get('/rareDiseases/:idDisease/experiences/:idUser', (req, res) => {
+    experiencesService.getExperience(req, res);
+});
+
+/**
+ * Gets all the experiences for a rare disease.
+ */
+router.get('/rareDiseases/:id/experiences', (req, res) => {
+    experiencesService.getRareDiseaseExperiences(req, res);
+});
+
+/**
+ * Gets the references for the experiences of a user.
+ */
+router.get('/users/:id/experiences', (req, res) => {
+    experiencesService.getUserExperiencesReferences(req, res);
+});
+
+
+/**
+ * EXPERT CENTRES
+ */
 
 /**
  * Gets the expert centres for a rare disease.
@@ -98,18 +157,28 @@ router.get('/rareDiseases/:id/expertCentres', (req, res) => {
     rareDiseaseService.getRareDiseaseExpertCentres(req, res);
 });
 
+
+/**
+ * REFERENCES
+ */
+
+/**
+ * Gets the references for a rare disease.
+ */
+router.get('/rareDiseases/:id/references', (req, res) => {
+    rareDiseaseService.getRareDiseaseReferences(req, res);
+});
+
+
+/**
+ * USERS
+ */
+
 /**
  * Gets some statistics about the registered users.
  */
 router.get('/usersStats', (req, res) => {
     userService.getUsersStats(req, res);
-});
-
-/**
- * Gets the data of a registered user.
- */
-router.get('/users/:id', (req, res) => {
-    userService.getUser(req, res);
 });
 
 /**
@@ -127,6 +196,18 @@ router.delete('/users/:id', (req, res) => {
 });
 
 /**
+ * Gets the data of a registered user.
+ */
+router.get('/users/:id', (req, res) => {
+    userService.getUser(req, res);
+});
+
+
+/**
+ * INTERESTS
+ */
+
+/**
  * Adds a new rare disease interest for a user.
  */
 router.post('/interests', validatePayloadMiddleware, validate(interestInsertionSchema), (req, res) => {
@@ -136,23 +217,24 @@ router.post('/interests', validatePayloadMiddleware, validate(interestInsertionS
 /**
  * Deletes a rare disease interest of a user.
  */
-router.delete('/interests/:idDisease/:idUser', (req, res) => {
+router.delete('/users/:idUser/interests/:idDisease', (req, res) => {
     userRareDiseasesService.removeUserInterest(req, res);
 });
 
 /**
  * Gets the registered rare disease interests for a user.
  */
-router.get('/interests/:idUser', (req, res) => {
+router.get('/users/:id/interests/', (req, res) => {
     userRareDiseasesService.getUserInterests(req, res);
 });
 
 /**
  * Checks if user is interested in a rare disease.
  */
-router.get('/interests/:idDisease/:idUser', (req, res) => {
+router.get('/users/:idUser/interests/:idDisease', (req, res) => {
     userRareDiseasesService.isUserInterested(req, res);
 });
+
 
 /**
  * Handles 404.
@@ -160,5 +242,6 @@ router.get('/interests/:idDisease/:idUser', (req, res) => {
 router.all('*', function (req, res) {
     return res.status(404).send("404: Page Not Found");
 });
+
 
 module.exports = router;
