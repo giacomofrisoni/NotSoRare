@@ -12,7 +12,7 @@ h3 {
 .box {
     border: 2px solid $accent-dark-color;
     background: white;
-    padding: $padding-menu;
+    padding: $padding-box;
     margin: $padding-box;
 }
 
@@ -28,7 +28,7 @@ h3 {
 
     &>* {
         min-width: 250px;
-        margin-right: 15%;
+        margin-right: 5%;
         padding: $padding-box;
     }
 

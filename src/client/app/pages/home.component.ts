@@ -13,13 +13,14 @@ export class HomeComponent implements OnInit {
 
   // Binding values
   public diseases: Subject<any> = new Subject<any>();
-  public searchedDisease: string = "";
+  public searchedDisease: any = null;
 
   // Loading values
   isFirstLoading = true;
   isLoading: boolean = false;
   isResultEmpty: boolean = false;
   isErrorPresent: boolean = false;
+  isValueSearching: boolean = false;
 
   lastToSearch: string = "";
 
@@ -65,6 +66,7 @@ export class HomeComponent implements OnInit {
           // Check for emptyness
           if (results[0]) {
             this.diseases.next(results);
+            console.log(results);
           } else {
             this.diseases.next([]);
             this.isResultEmpty = true;
@@ -111,6 +113,7 @@ export class HomeComponent implements OnInit {
         // Check for emptyness
         if (results[0]) {
           this.diseases.next(results);
+          console.log(results);
         } else {
           this.diseases.next([]);
           this.isResultEmpty = true;
@@ -132,11 +135,40 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  openDisease(value: any) {
+    this.router.navigate(['./disease/' + value]);
+  }
+
   onSearchClick() {
-    if (this.searchedDisease == "") {
+    console.log(this.searchedDisease);
+    // No object
+    if (this.searchedDisease == null && this.searchedDisease == undefined) {
       this.router.navigate(['./disease-search']);
     } else {
+      // Object is selected directly from list
+      if (this.searchedDisease.CodDisease) {
+        this.router.navigate(['./disease/' + this.searchedDisease.CodDisease]);
+      } 
+      
+      // Object is just input
+      else {
+        // Must try searching
+        this.isValueSearching = true;
 
+        this.diseaseService.searchDisease(this.searchedDisease).subscribe((results: any) => {
+          if (results) {
+            if (results.length > 0) {
+              this.router.navigate(['./disease/' + results[0].CodDisease]);
+              this.isValueSearching = false;
+            } else {
+              this.router.navigate(['./disease-search']);
+            }
+          }
+        });
+      }
+      
+      
+      
     }
   }
 }

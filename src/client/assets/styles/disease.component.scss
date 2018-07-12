@@ -49,6 +49,23 @@ $menu-box-width: 320px;
     }
 }
 
+.statistics-box {
+    margin-top: 10px;
+
+    & .big {
+        font-size: 1.2em;
+    }
+
+    & .fa {
+        min-width: 30px;
+    }
+
+    & div.big {
+        display: inline-block;
+        min-width: 60px;
+    }
+}
+
 .small-box {
     border: 1px solid #646464;
     background: #9a9a9a;
