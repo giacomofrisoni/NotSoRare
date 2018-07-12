@@ -20,4 +20,10 @@ export class DiseaseService {
       withCredentials: true,
     });
   }
+  
+  getDisease(diseaseID: number) {
+    return this.http.get(this.globalUtils.apiPath + "/rareDiseases/" + diseaseID + "/" + this.globalUtils.createLanguageParameter(), {
+      withCredentials: true,
+    });
+  }
 }

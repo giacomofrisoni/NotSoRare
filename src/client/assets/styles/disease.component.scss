@@ -1,0 +1,126 @@
+@import 'common-values';
+
+$padding-menu: 30px;
+$padding-box: 20px;
+
+.message {
+    font-size: 1.1em;
+}
+
+.synonymous {
+    font-size: 0.9em;
+}
+
+.fa {
+    margin-right: 10px;
+}
+
+.fa-times {
+    color: $accent-dark-color;
+}
+
+
+
+.box {
+    border: 2px solid $accent-dark-color;
+    background: white;
+    padding: $padding-box;
+    margin: $padding-box;
+}
+
+.general-box {
+    display: flex;
+    flex-direction: row;
+}
+
+$menu-box-width: 320px;
+.menu-box {
+    min-width: $menu-box-width;
+    width: $menu-box-width;
+    max-width: $menu-box-width;
+
+    .title-box {
+        padding: $padding-menu;
+        background: $accent-dark-color;
+        color: white;
+        min-height: 150px;
+    }
+}
+
+.small-box {
+    border: 1px solid #646464;
+    background: #9a9a9a;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    color: white;
+}
+
+.clear-list.small {
+    li {
+        font-size: 0.8em;
+    }
+}
+
+.clear-list.menu {
+    li {
+        cursor: pointer;
+        min-width: $menu-box-width;
+        width: $menu-box-width;
+        max-width: $menu-box-width;
+
+        min-height: 48px;
+        line-height: 48px;
+
+        padding-left: $padding-menu;
+        padding-right: $padding-menu;
+        margin: 0;
+        margin-bottom: 1px;
+        background: white;
+
+        i {
+            font-size: 1.2em;
+        }
+
+        &:hover {
+            background: #f5f5f5;
+        }
+
+        &.selected {
+            background: lightgray;
+        }
+    }
+}
+
+.content-box {
+    flex-grow: 1;
+
+    .title-box {
+        background: white;
+        margin: $padding-box;
+        min-height: 160px;
+        display: flex;
+        align-content: stretch;
+        align-items: stretch;
+        justify-content: flex-start;
+
+        &>* {
+            min-width: 250px;
+            margin-right: 15%;
+            padding: $padding-box;
+        }
+
+        .left-title {
+            max-width: 250px;
+            background: $accent-color;
+            color: white;
+        }
+    }
+}
+
+
+h3 {
+    margin: 0;
+    padding: 0;
+}
+
