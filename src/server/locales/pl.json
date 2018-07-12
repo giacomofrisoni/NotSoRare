@@ -49,6 +49,7 @@
     "Err_Users_BeginDeleteTransaction": "An error occurred during user deletion transaction starting",
     "Err_Users_UserDeletion": "An error occurred during user deletion",
     "UserDeletion_Completed": "User deleted successfully",
+    "Err_UserInterests_BeginTransaction": "An error occurred during user interest update transaction starting. %s",
     "Err_UserInterests_AddingInterest": "An error occurred during the user interest insertion. %s",
     "Interest_Added": "User interest added successfully",
     "Err_UserInterests_RemovingInterest": "An error occurred during the user interest deletion. %s",
