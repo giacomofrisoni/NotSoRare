@@ -144,7 +144,7 @@ function putUser(req, res) {
         sql.connection.transaction((error, done) => {
             if (error) {
                 res.status(500).send({
-                    errorMessage: req.i18n.__("Err_Users_BeginUpdateTransaction")
+                    errorMessage: req.i18n.__("Err_Users_BeginUpdateTransaction", error)
                 });
             } else {
                 /**
@@ -283,7 +283,7 @@ function deleteUser(req, res) {
         sql.connection.transaction((error, done) => {
             if (error) {
                 res.status(500).send({
-                    errorMessage: req.i18n.__("Err_Users_BeginDeleteTransaction")
+                    errorMessage: req.i18n.__("Err_Users_BeginDeleteTransaction", error)
                 });
             } else {
                 /**
