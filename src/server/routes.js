@@ -92,6 +92,13 @@ router.get('/rareDiseases/:id/references', (req, res) => {
 });
 
 /**
+ * Gets the expert centres for a rare disease.
+ */
+router.get('/rareDiseases/:id/expertCentres', (req, res) => {
+    rareDiseaseService.getRareDiseaseExpertCentres(req, res);
+});
+
+/**
  * Gets some statistics about the registered users.
  */
 router.get('/usersStats', (req, res) => {

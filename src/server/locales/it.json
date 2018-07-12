@@ -28,6 +28,8 @@
     "Err_RareDiseases_List": "Si è verificato un errore durante l'ottenimento dei dati sulle malattie rare registrate. %s",
     "Err_RareDiseases_Data": "Si è verificato un errore durante l'ottenimento dei dati sulla malattia. %s",
     "Err_RareDiseases_DiseaseNotFound": "Il codice specificato non corrisponde ad alcuna malattia registrata",
+    "Err_RareDiseases_References": "Si è verificato un errore durante l'ottenimento dei riferimenti della malattia. %s",
+    "Err_RareDiseases_ExpertCentres": "Si è verificato un errore durante l'ottenimento dei centri specializzati per la malattia. %s",
 	"Err_Users_UserInfo": "Si è verificato un errore durante il recupero dei dati dell'utente. %s",
 	"Err_Users_GlobalCount": "Si è verificato un errore durante il calcolo del numero totale di utenti. %s",
 	"Err_Users_CountryCount": "Si è verificato un errore durante il calcolo del numero totale di utenti in ogni paese. %s",

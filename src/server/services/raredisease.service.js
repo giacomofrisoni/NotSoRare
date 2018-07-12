@@ -446,16 +446,26 @@ function getRareDiseaseReferences(req, res) {
                     errorMessage: req.i18n.__("Err_RareDiseases_References", queryError)
                 });
             } else {
-                var references = [];
-
-                // Parses the data from each of the row and populates the references section inside rare disease json array
-                queryResultHandler.fillArrayFromRows(references, rowCount, rows, null, true, () => {
-                    return res.status(500).send({
-                        errorMessage: req.i18n.__("Err_RareDiseases_Data", "Invalid data")
+                /**
+                 * The operation concerns a single row.
+                 * If zero rows are affected, it means that there is no rare disease with the specified id code.
+                 */
+                if (rowCount == 0) {
+                    res.status(404).send({
+                        errorMessage: req.i18n.__("Err_RareDiseases_DiseaseNotFound")
                     });
-                });
+                } else {
+                    var references = [];
 
-                res.status(200).json(references);
+                    // Parses the data from each of the row and gets the references
+                    queryResultHandler.fillArrayFromRows(references, rowCount, rows, null, true, () => {
+                        return res.status(500).send({
+                            errorMessage: req.i18n.__("Err_RareDiseases_Data", "Invalid data")
+                        });
+                    });
+    
+                    res.status(200).json(references);
+                }
             }
         }
     );
@@ -468,10 +478,63 @@ function getRareDiseaseReferences(req, res) {
 }
 
 
+function getRareDiseaseExpertCentres(req, res) {
+
+    const id = parseInt(req.params.id, 10);
+
+    /**
+    * Prepares the SQL statement with parameters for SQL-injection avoidance,
+    * in order to get the expert centres available for the rare disease.
+    */
+    expertCentreRequest = new Request(
+        "SELECT ExpertCentre.CodExpertCentre, ExpertCentre.Name, ExpertCentre.Image, " +
+        "ExpertCentre.Add_Street, ExpertCentre.Add_HouseNumber, ExpertCentre.Add_PostalCode, ExpertCentre.Add_City, ExpertCentre.Add_Province, ExpertCentre.Add_Country, " +
+        "ExpertCentre.WebSite " +
+        "FROM ExpertCentre " +
+        "INNER JOIN RareDiseaseExpertCentre ON RareDiseaseExpertCentre.CodExpertCentre = ExpertCentre.CodExpertCentre " +
+        "INNER JOIN RareDisease ON RareDisease.CodDisease = RareDiseaseExpertCentre.CodDisease " +
+        "WHERE ExpertCentre.ApprovedYN = 1 AND RareDisease.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
+            if (queryError) {
+                res.status(500).send({
+                    errorMessage: req.i18n.__("Err_RareDiseases_ExpertCentres", queryError)
+                });
+            } else {
+                /**
+                 * The operation concerns a single row.
+                 * If zero rows are affected, it means that there is no rare disease with the specified id code.
+                 */
+                if (rowCount == 0) {
+                    res.status(404).send({
+                        errorMessage: req.i18n.__("Err_RareDiseases_DiseaseNotFound")
+                    });
+                } else {
+                    var expertCentres = [];
+
+                    // Parses the data from each of the row and gets the expert centres
+                    queryResultHandler.fillArrayFromRows(expertCentres, rowCount, rows, null, true, () => {
+                        return res.status(500).send({
+                            errorMessage: req.i18n.__("Err_RareDiseases_ExpertCentres", "Invalid data")
+                        });
+                    });
+
+                    res.status(200).json(expertCentres);
+                }
+            }
+        }
+    );
+    expertCentreRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+    expertCentreRequest.addParameter('CodDisease', TYPES.Numeric, id);
+
+    // Performs the rare disease expert centres data selection query on the relational database
+    sql.connection.execSql(expertCentreRequest);
+
+}
+
+
 module.exports = {
     searchRareDiseases,
     getRareDiseases,
     getRareDisease,
-    getRareDiseaseReferences
-    //getRareDiseaseCentres
+    getRareDiseaseReferences,
+    getRareDiseaseExpertCentres
 };

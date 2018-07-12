@@ -28,6 +28,8 @@
     "Err_RareDiseases_List": "An error occurred during the rare diseases data retrieving. %s",
     "Err_RareDiseases_Data": "An error occurred during the rare disease data retrieving. %s",
     "Err_RareDiseases_DiseaseNotFound": "The specified code is not associated to any registered disease",
+    "Err_RareDiseases_References": "An error occurred during the rare disease references retrieving. %s",
+    "Err_RareDiseases_ExpertCentres": "An error occurred during the rare disease expert centres retrieving. %s",
     "Err_Users_UserInfo": "An error occurred during the retrieving of user data. %s",
     "Err_Users_GlobalCount": "An error occurred during the calculation of the total number of registered users. %s",
     "Err_Users_CountryCount": "An error occurred during the calculation of the total number of registered users in each country. %s",
