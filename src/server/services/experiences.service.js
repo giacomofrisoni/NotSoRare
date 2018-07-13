@@ -313,9 +313,7 @@ function getExperience(req, res) {
                         errorMessage: req.i18n.__("Err_Experiences_ExperienceNotFound", queryError)
                     });
                 } else {
-                    var experiences = [];
-                    queryResultHandler.fillArrayFromRows(experiences, rowCount, rows, null, false);
-                    res.status(200).json(experiences);
+                    res.status(200).json(queryResultHandler.getJSONFromRow(rows[0]));
                 }
             }
         }
