@@ -52,10 +52,6 @@ h5 {
 
 .info {
     font-style: italic;
-
-    &.centered {
-        text-align: center;
-    }
 }
 
 .highlight {
@@ -67,10 +63,6 @@ h5 {
 label.title {
     font-size: 1em;
     margin-bottom: 5px;
-}
-
-label.centered {
-    text-align: center;
 }
 
 textarea {

@@ -160,7 +160,7 @@ export class HomeComponent implements OnInit {
               this.router.navigate(['./disease/' + results[0].CodDisease]);
               this.isValueSearching = false;
             } else {
-              this.router.navigate(['./disease-search']);
+              this.router.navigate(['./disease-search/' + this.searchedDisease]);
             }
           }
         });
