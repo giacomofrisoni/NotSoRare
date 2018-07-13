@@ -332,6 +332,7 @@ function getExperience(req, res) {
 function getRareDiseaseExperiences(req, res) {
 
     const idDisease = parseInt(req.params.id, 10);
+    const sortCriteria = req.query.sort;
 
     /**
      * Prepares the SQL statement with parameters for SQL-injection avoidance,
@@ -347,7 +348,10 @@ function getRareDiseaseExperiences(req, res) {
         "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Photo) AS UserPhoto " +
         "FROM Experience " +
         "INNER JOIN StandardUser ON StandardUser.CodUser = Experience.CodUser " +
-        "WHERE Experience.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
+        "WHERE Experience.CodDisease = @CodDisease " +
+        "ORDER BY " +
+        "CASE WHEN @SortCriteria = '+creationdate' THEN Experience.CreatedAt END ASC," +
+        "CASE WHEN @SortCriteria = '-creationdate' THEN Experience.CreatedAt END DESC;", (queryError, rowCount, rows) => {
             if (queryError) {
                 res.status(500).send({
                     errorMessage: req.i18n.__("Err_Experiences_GettingExperiences", queryError)
@@ -360,6 +364,7 @@ function getRareDiseaseExperiences(req, res) {
         }
     );
     experienceRequest.addParameter('CodDisease', TYPES.Numeric, idDisease);
+    experienceRequest.addParameter('SortCriteria', TYPES.NVarChar, sortCriteria);
                                 
     // Performs the rare diseases experiences retrieving query on the relational database
     sql.connection.execSql(experienceRequest);
