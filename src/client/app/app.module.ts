@@ -45,6 +45,7 @@ import { SearchBarComponent } from './components/search-bar.component';
 import { ExperiencesService } from './services/experiences.service';
 import { ExperienceComponent } from './pages/disease-pages/experience.component';
 import { ExperiencePreviewComponent } from './components/experience-preview.component';
+import { ExpertCentresService } from './services/expert-centres.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -129,7 +130,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DiseaseService,
     GlobalUtilsService,
     DiseaseHolderService,
-    ExperiencesService
+    ExperiencesService,
+    ExpertCentresService
   ],
   bootstrap: [RootComponent],
   entryComponents: [SimpleDialogComponent]    // Material Angular Dialog

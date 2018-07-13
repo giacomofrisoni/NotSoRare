@@ -1,0 +1,33 @@
+<div class="container">
+    <!-- LOADING -->
+    <div *ngIf="!isExpertCentresLoaded" class="page-card centered">
+            <i class='fa fa-spinner fa-spin'></i>
+            <span [innerHTML]="'Disease.Loading' | translate"></span>
+        </div>
+    
+        <!-- ERROR -->
+        <div *ngIf="isAnyErrorPresent" class="page-card centered">
+            <i class='fa fa-times'></i>
+            <span [innerHTML]="'Disease.ErrorLoading' | translate"></span>
+        </div>
+    
+        <!-- EMPTY -->
+        <div *ngIf="isExpertCentresEmpty" class="page-card centered">
+            <span>Ancora nessun centro specialistico</span>
+        </div>
+
+    <div class="page-card" *ngFor="let centre of expertCentres">
+        <div class="flex start-aligned">
+            <img [src]="centre.Image"/>
+            
+            <div class="right">
+                <h4>{{centre.Name}}</h4>
+                <p>
+                    {{centre.Add_Street}} {{centre.Add_HouseNumber}} - {{centre.Add_PostalCode}} {{centre.Add_City}}
+                    ({{centre.Add_Province}}) - {{centre.Add_Country}}
+                </p>
+                <a [href]="centre.WebSite">{{centre.WebSite}}</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -79,8 +79,7 @@ export class ExperiencesComponent implements OnInit {
       this.isAnyErrorPresent = true;
       this.isExperiencesLoaded = true;
       console.log(error);
-    })
-
+    });
   }
 
 

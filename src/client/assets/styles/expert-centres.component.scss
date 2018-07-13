@@ -1,0 +1,33 @@
+h4 {
+    margin: 0;
+}
+
+
+
+$margin: 40px;
+img {
+    object-fit: scale-down;
+    min-width: 200px;
+    max-width: 200px;
+    max-height: 60px;
+    min-height: 60px;
+}
+
+p {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.page-card {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.right {
+    border-left: 1px solid gray;
+    margin-left: $margin;
+    padding-left: $margin;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
