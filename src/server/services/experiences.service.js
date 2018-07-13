@@ -289,12 +289,17 @@ function getExperience(req, res) {
 
     /**
      * Prepares the SQL statement with parameters for SQL-injection avoidance,
-     * in order to obtain the registered experiences for a rare disease.
+     * in order to obtain the registered experience of a user.
      */
     experienceRequest = new Request(
-        "SELECT Experience.CodUser, " +
-        "StandardUser.Name, StandardUser.Surname, StandardUser.Gender, StandardUser.BirthDate, StandardUser.Nationality, StandardUser.Photo, " +
-        "Experience.CreatedAt, Experience.UpdatedAt, Experience.Photo, Experience.Description " +
+        "SELECT Experience.CodUser, StandardUser.IsAnonymous, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Name) AS Name, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Surname) AS Surname, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Gender) AS Gender, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.BirthDate) AS BirthDate, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Nationality) AS Nationality, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Photo) AS UserPhoto, " +
+        "Experience.CreatedAt, Experience.UpdatedAt, Experience.Photo AS ExperiencePhoto, Experience.Description " +
         "FROM Experience " +
         "INNER JOIN StandardUser ON StandardUser.CodUser = Experience.CodUser " +
         "WHERE Experience.CodDisease = @CodDisease AND Experience.CodUser = @CodUser;", (queryError, rowCount, rows) => {
@@ -303,9 +308,15 @@ function getExperience(req, res) {
                     errorMessage: req.i18n.__("Err_Experiences_GettingExperience", queryError)
                 });
             } else {
-                var experiences = [];
-                queryResultHandler.fillArrayFromRows(experiences, rowCount, rows, null, false);
-                res.status(200).json(experiences);
+                if (rowCount == 0) {
+                    res.status(500).send({
+                        errorMessage: req.i18n.__("Err_Experiences_ExperienceNotFound", queryError)
+                    });
+                } else {
+                    var experiences = [];
+                    queryResultHandler.fillArrayFromRows(experiences, rowCount, rows, null, false);
+                    res.status(200).json(experiences);
+                }
             }
         }
     );
@@ -327,8 +338,13 @@ function getRareDiseaseExperiences(req, res) {
      * in order to obtain the registered experiences for a rare disease.
      */
     experienceRequest = new Request(
-        "SELECT Experience.CodUser, " +
-        "StandardUser.Name, StandardUser.Surname, StandardUser.Gender, StandardUser.BirthDate, StandardUser.Nationality, StandardUser.Photo " +
+        "SELECT Experience.CodUser, StandardUser.IsAnonymous, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Name) AS Name, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Surname) AS Surname, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Gender) AS Gender, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.BirthDate) AS BirthDate, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Nationality) AS Nationality, " +
+        "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Photo) AS UserPhoto " +
         "FROM Experience " +
         "INNER JOIN StandardUser ON StandardUser.CodUser = Experience.CodUser " +
         "WHERE Experience.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
