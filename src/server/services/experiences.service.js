@@ -338,7 +338,7 @@ function getRareDiseaseExperiences(req, res) {
      * in order to obtain the registered experiences for a rare disease.
      */
     experienceRequest = new Request(
-        "SELECT Experience.CodUser, " +
+        "SELECT Experience.CodUser, StandardUser.IsAnonymous, " +
         "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Name) AS Name, " +
         "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Surname) AS Surname, " +
         "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Gender) AS Gender, " +
