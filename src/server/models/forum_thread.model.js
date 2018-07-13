@@ -13,8 +13,8 @@ const ForumThreadSchema = new Schema({
     description: { type: String, min: [10, 'Too short description'], max: [2000, 'Too long description'], required: true },
     creation_date: { type: Date, default: Date.now, required: true },
     updated_date: { type: Date, default: Date.now, required: true },
-    author: { type: Schema.ObjectId, ref: 'User', required: true },
-    disease: { type: Schema.ObjectId, ref: 'RareDisease', required: true }
+    _authorId: { type: Schema.ObjectId, ref: 'User', required: true },
+    _forumId: { type: Schema.ObjectId, ref: 'Forum', required: true }
 }, {
     collection: 'ForumThreads'
 });
@@ -24,7 +24,7 @@ autoIncrement.initialize(mongoose.connection);
 ForumThreadSchema.plugin(autoIncrement.plugin, { model: 'ForumThread', field: 'code' });
 
 // Defines a unique compound index
-ForumThreadSchema.index({ disease: 1, title: 1 }, { unique: true });
+ForumThreadSchema.index({ forum: 1, code: 1 }, { unique: true });
 
 // Virtual for forum thread's URL
 ForumThreadSchema

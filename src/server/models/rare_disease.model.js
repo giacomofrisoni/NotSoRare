@@ -8,7 +8,8 @@ const RareDiseaseSchema = new Schema({
     names: [{
         language: { type: String, trim: true, min: 2, max: 2, required: true },
         name: { type: String, max: [50, 'Too long disease name'], required: true }
-    }]
+    }],
+    _forumId: { type: Schema.ObjectId, ref: 'Forum', required: true }
 }, {
     collection: 'RareDiseases'
 });
