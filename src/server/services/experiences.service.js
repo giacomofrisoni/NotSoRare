@@ -338,7 +338,7 @@ function getRareDiseaseExperiences(req, res) {
      * in order to obtain the registered experiences for a rare disease.
      */
     experienceRequest = new Request(
-        "SELECT Experience.CodUser, StandardUser.IsAnonymous, " +
+        "SELECT Experience.CodDisease, Experience.CodUser, StandardUser.IsAnonymous, " +
         "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Name) AS Name, " +
         "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Surname) AS Surname, " +
         "IIF (StandardUser.IsAnonymous = 1, NULL, StandardUser.Gender) AS Gender, " +
@@ -376,7 +376,7 @@ function getUserExperiencesReferences(req, res) {
      * in order to obtain the registered experiences of an user.
      */
     experienceRequest = new Request(
-        "SELECT Experience.CodDisease, RareDiseaseTR.Name AS DiseaseName, Experience.CreatedAt, Experience.UpdatedAt " +
+        "SELECT Experience.CodDisease, Experience.CodUser, RareDiseaseTR.Name AS DiseaseName, Experience.CreatedAt, Experience.UpdatedAt " +
         "FROM Experience " +
         "INNER JOIN RareDisease ON RareDisease.CodDisease = Experience.CodDisease " +
         "INNER JOIN RareDiseaseTranslation AS RareDiseaseTR ON RareDiseaseTR.CodDisease = RareDisease.CodDisease AND RareDiseaseTR.CodLanguage = @CodLanguage " +
