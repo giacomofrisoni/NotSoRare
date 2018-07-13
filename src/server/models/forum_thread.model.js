@@ -1,12 +1,16 @@
-// Import the mongoose module
+// Imports the mongoose module
 const mongoose = require('mongoose');
 
-// Define the ForumThread schema
+// Imports the mongoose auto-increment module
+const autoIncrement = require('mongoose-auto-increment');
+
+
+// Defines the ForumThread schema
 const Schema = mongoose.Schema;
 const ForumThreadSchema = new Schema({
     code: { type: Number, required: true, unique: true },
-    title: { type: String, max: [50, 'Too long title'], required: true },
-    description: { type: String, max: [1000, 'Too long description'], required: true },
+    title: { type: String, min: [10, 'Too short title'], max: [200, 'Too long title'], required: true },
+    description: { type: String, min: [10, 'Too short description'], max: [2000, 'Too long description'], required: true },
     creation_date: { type: Date, default: Date.now, required: true },
     updated_date: { type: Date, default: Date.now, required: true },
     author: { type: Schema.ObjectId, ref: 'User', required: true },
@@ -15,27 +19,34 @@ const ForumThreadSchema = new Schema({
     collection: 'ForumThreads'
 });
 
-// Define a unique compound index
+// Initializes and setups the auto-increment
+autoIncrement.initialize(mongoose.connection);
+ForumThreadSchema.plugin(autoIncrement.plugin, { model: 'ForumThread', field: 'code' });
+
+// Defines a unique compound index
 ForumThreadSchema.index({ disease: 1, title: 1 }, { unique: true });
 
 // Virtual for forum thread's URL
 ForumThreadSchema
 .virtual('url')
 .get(function() {
-    return '/forumThreads/' + this.id;
+    return '/forumThreads/' + this.code;
 });
 
-// Define a function to run before saving
+// Defines a function to run before saving
 ForumThreadSchema.pre('save', function(next) {
-    // Get the current date
+    // Gets the current date
     var currentDate = new Date();
-    // Change the updated date field to current date
+    // Changes the updated date field to current date
     this.updated_date = currentDate;
+    // Sets the creation date if not already present
+    if (!this.creation_date)
+        this.creation_date = currentDate;
     next();
 });
 
-// Compile model from schema
+// Compiles model from schema
 const ForumThread = mongoose.model('ForumThread', ForumThreadSchema);
 
-// Export function to create ForumThread model class
+// Exports function to create ForumThread model class
 module.exports = ForumThread;

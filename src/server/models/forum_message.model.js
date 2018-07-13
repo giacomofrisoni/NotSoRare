@@ -1,7 +1,7 @@
-// Import the mongoose module
+// Imports the mongoose module
 const mongoose = require('mongoose');
 
-// Define the ForumMessage schema
+// Defines the ForumMessage schema
 const Schema = mongoose.Schema;
 const ForumMessageSchema = new Schema({
     code: { type: Number, required: true, unique: true },
@@ -23,7 +23,7 @@ const ForumMessageSchema = new Schema({
     collection: 'ForumMessages'
 });
 
-// Define a unique compound index
+// Defines a unique compound index
 ForumMessageSchema.index({ forum_thread: 1, release_datetime: 1 }, { unique: true });
 
 // Virtual for forum message's URL
@@ -33,8 +33,8 @@ ForumMessageSchema
     return '/forumMessages/' + this.id;
 });
 
-// Compile model from schema
+// Compiles model from schema
 const ForumMessage = mongoose.model('ForumMessage', ForumMessageSchema);
 
-// Export function to create ForumMessage model class
+// Exports function to create ForumMessage model class
 module.exports = ForumMessage;

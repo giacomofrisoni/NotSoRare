@@ -8,6 +8,7 @@ const loginSchema = require('./validation/login_schema');
 const rareDiseasesSearchSchema = require('./validation/rare_diseases_search_schema');
 const experienceInsertionSchema = require('./validation/experience_insertion_schema');
 const experienceUpdateSchema = require('./validation/experience_update_schema');
+const forumThreadInsertionSchema = require('./validation/forum_thread_insertion_schema');
 const userUpdateSchema = require('./validation/user_update_schema');
 const interestInsertionSchema = require('./validation/interest_insertion_schema');
 
@@ -15,6 +16,7 @@ const signupService = require('./services/signup.service');
 const authenticationService = require('./services/authentication.service');
 const rareDiseaseService = require('./services/raredisease.service');
 const experiencesService = require('./services/experiences.service');
+const forumThreadsService = require('./services/forum_threads_service');
 const userService = require('./services/user.service');
 const userRareDiseasesService = require('./services/user_rarediseases.service');
 
@@ -143,6 +145,18 @@ router.get('/rareDiseases/:id/experiences', (req, res) => {
  */
 router.get('/users/:id/experiences', (req, res) => {
     experiencesService.getUserExperiencesReferences(req, res);
+});
+
+
+/**
+ * FORUM THREADS
+ */
+
+/**
+ * Adds a new forum thread.
+ */
+router.post('/forumThreads', validatePayloadMiddleware, validate(forumThreadInsertionSchema), (req, res) => {
+    forumThreadsService.postForumThread(req, res);
 });
 
 

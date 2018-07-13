@@ -1,7 +1,7 @@
-// Import the mongoose module
+// Imports the mongoose module
 const mongoose = require('mongoose');
 
-// Define the User schema
+// Defines the User schema
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     code: { type: Number, required: true, unique: true },
@@ -36,8 +36,8 @@ UserSchema
     return '/users/' + this.id;
 });
 
-// Compile model from schema
+// Compiles model from schema
 const User = mongoose.model('User', UserSchema);
 
-// Export function to create User model class
+// Exports function to create User model class
 module.exports = User;
