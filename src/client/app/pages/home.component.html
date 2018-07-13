@@ -14,9 +14,14 @@
             <app-divbutton id="button-search" icon="fa fa-search" isHalfCornered="true" (click)="onSearchClick()"></app-divbutton>
         </div>
 
-        <div class="searching" *ngIf="isValueSearching">
+        <div class="searching" [ngClass]="{'hidden': !isLoading}">
             <i class='fa fa-spinner fa-spin'></i>
             <span [innerHTML]="'Home.Loading' | translate"></span>
+        </div>
+
+        <div class="searching" [ngClass]="{'hidden': !isValueNotFound}">
+            <i class='fa fa-times'></i>
+            <span>Nessuna corrispondenza trovata. <a href="#" routerLink="/disease-search">Vai all'elenco completo</a></span>
         </div>
     </div>
 </div>

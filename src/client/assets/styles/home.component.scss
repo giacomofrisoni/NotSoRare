@@ -42,3 +42,15 @@ $input-height: 38px;
     width: 100%;
     background: white;
 }
+
+.fa {
+    margin-right: 10px;
+}
+
+.fa-times {
+    color: $accent-dark-color;
+}
+
+.hidden {
+    visibility: hidden;
+}

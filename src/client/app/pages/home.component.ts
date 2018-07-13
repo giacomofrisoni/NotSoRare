@@ -15,9 +15,8 @@ export class HomeComponent implements OnInit {
   public searchedDisease: any = null;
 
   // Loading values
-  isFirstLoading = true;
   isLoading: boolean = false;
-  isResultEmpty: boolean = false;
+  isValueNotFound: boolean = false;
   isErrorPresent: boolean = false;
   isValueSearching: boolean = false;
 
@@ -46,9 +45,8 @@ export class HomeComponent implements OnInit {
 
   onInputChanged(value: string) {
     // Reset all variables
-    this.isFirstLoading = false;
     this.isErrorPresent = false;
-    this.isResultEmpty = false;
+    this.isValueNotFound = false;
     this.diseases.next([]);
 
     // If i'm not currently searching
@@ -68,7 +66,7 @@ export class HomeComponent implements OnInit {
             console.log(results);
           } else {
             this.diseases.next([]);
-            this.isResultEmpty = true;
+            this.isValueNotFound = true;
           }
 
           // Callback: check if there are pending requests
@@ -89,7 +87,8 @@ export class HomeComponent implements OnInit {
       // Otherwise, just set it to empty
       else {
         this.isLoading = false;
-        this.isResultEmpty = true;
+        this.isErrorPresent = false;
+        this.isValueNotFound = false;
         this.diseases.next([]);
       }
     } 
@@ -102,8 +101,11 @@ export class HomeComponent implements OnInit {
 
   onSearchFinished() {
     if (this.lastToSearch != "") {
+      // Reset all variables
       this.isLoading = true;
-      this.isResultEmpty = false;
+      this.isErrorPresent = false;
+      this.isValueNotFound = false;
+      this.diseases.next([]);
 
       this.diseaseService.searchDisease(this.lastToSearch).subscribe((results: any) => {
         // No errors
@@ -115,7 +117,7 @@ export class HomeComponent implements OnInit {
           console.log(results);
         } else {
           this.diseases.next([]);
-          this.isResultEmpty = true;
+          this.isValueNotFound = true;
         }
 
         // Callback: check if there are pending requests
@@ -131,6 +133,11 @@ export class HomeComponent implements OnInit {
         this.lastToSearch = "";
         this.isLoading = false;
       });
+    } else {
+      this.isLoading = false;
+      this.isErrorPresent = false;
+      this.isValueNotFound = false;
+      this.diseases.next([]);
     }
   }
 
@@ -138,8 +145,14 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['./disease/' + value]);
   }
 
+  openAllDiseases(){
+    this.router.navigate(['./disease-search/' + this.searchedDisease]);
+  }
+
   onSearchClick() {
-    console.log(this.searchedDisease);
+    this.isValueNotFound = false;
+
+
     // No object
     if (this.searchedDisease == null && this.searchedDisease == undefined) {
       this.router.navigate(['./disease-search']);
@@ -160,7 +173,7 @@ export class HomeComponent implements OnInit {
               this.router.navigate(['./disease/' + results[0].CodDisease]);
               this.isValueSearching = false;
             } else {
-              this.router.navigate(['./disease-search/' + this.searchedDisease]);
+              this.isValueNotFound = true;
             }
           }
         });

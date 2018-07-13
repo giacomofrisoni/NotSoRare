@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Language } from '../models/language';
 import { Http } from '@angular/http';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, BehaviorSubject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Languages } from '../models/languages.enum';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,10 +10,10 @@ import { TranslateService } from '@ngx-translate/core';
 export class LanguageService {
 
   translationsConfig: string[] = Object.values(Languages);
-  currentLanguage: Subject<string>;
+  currentLanguage: BehaviorSubject<string>;
 
   constructor(private http: Http, private translate: TranslateService) {
-    this.currentLanguage = new Subject();
+    this.currentLanguage = new BehaviorSubject(null);
     this.currentLanguage.next(Languages.English);
     this.translate.setDefaultLang(Languages.English);
   }

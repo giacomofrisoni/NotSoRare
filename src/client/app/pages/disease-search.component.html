@@ -1,30 +1,28 @@
 <div class="container">
-    <h3 class="centered">
-        Ricerca delle malattie rare
-    </h3>
+    <h3>Elenco di tutte le malattie</h3>
 
-    <app-search-bar #searchBar (onResultClicked)="onResultClicked($event[0])" (onSearchClicked)="onSearchClicked($event[0])"></app-search-bar>
-
-    <div>
-        <div class="page-card-page centered" *ngIf="isLoading">
-            <i class='fa fa-spinner fa-spin'></i>
-            <span>Ricerca di <b>tutte</b> le malattia in corso...</span>
-        </div>
-
-        <div class="page-card centered" *ngIf="isAnyErrorPresent">
-            <i class='fa fa-times'></i>
-            <span>C'è stato un problema durante la ricerca delle malattie. Riprovare.</span>
-        </div>
-
-        <div class="page-card centered" *ngIf="isResultsEmpty">
-            <span>Nessuna malattia corrisponde ai criteri di ricerca indicati.</span>
-        </div>
-
-        <div class="flex wrapped results">
-            <div *ngFor="let searchResult of searchResults | async" class="card mini" (click)="openDisease(searchResult.CodDisease)">
-                {{searchResult.Name}}
-            </div>
-        </div>
-
+    <div class="page-card-page centered" *ngIf="isLoading">
+        <i class='fa fa-spinner fa-spin'></i>
+        <span>Ricerca di
+            <b>tutte</b> le malattia in corso...</span>
     </div>
+
+    <div class="page-card centered" *ngIf="isAnyErrorPresent">
+        <i class='fa fa-times'></i>
+        <span>C'è stato un problema durante la ricerca delle malattie. Riprovare.</span>
+    </div>
+
+    <div class="page-card centered" *ngIf="isResultsEmpty">
+        <span>Nessuna malattia corrisponde ai criteri di ricerca indicati.</span>
+    </div>
+
+    <div class="" *ngIf="isLoadingCompleted">
+        <div class="page-card" *ngFor="let specialty of specialties">
+            <h4>{{specialty.SpecialtyName}}</h4>
+            <ul>
+                <li class="clickable" *ngFor="let disease of specialty.diseases" (click)="openDisease(disease.CodDisease)">{{disease.DiseaseName}}</li>
+            </ul>
+        </div>
+    </div>
+
 </div>

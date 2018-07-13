@@ -1,17 +1,34 @@
-
-.page-card {
-    margin-top: 15px;
-}
+@import 'common-values';
 
 .fa {
     margin-right: 10px;
 }
 
-.results {
+.page-card {
     margin-top: 15px;
+}
 
-    div {
-        margin: 5px 10px;
-        text-align: center;
+$input-height: 38px;
+
+.search {
+    height: $input-height;
+    max-height: $input-height;
+    min-height: $input-height;
+    line-height: $input-height;
+    width: 70%;
+    padding: 0px;
+    margin: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: white;
+    border: 2px solid $accent-dark-color;
+    border-radius: 5px;
+}
+
+.clickable {
+    cursor: pointer;
+    
+    &:hover {
+        color: $accent-dark-color;
     }
 }
