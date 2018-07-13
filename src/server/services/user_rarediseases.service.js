@@ -78,7 +78,7 @@ function addUserInterest(req, res) {
                                             } else {
                                                 // Commit the transaction
                                                 done(null, () => {
-                                                    res.status(200).send({
+                                                    res.status(201).send({
                                                         infoMessage: req.i18n.__("Interest_Added")
                                                     });
                                                 });

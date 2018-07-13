@@ -8,11 +8,14 @@ const sql = require('../sql');
 // Module for tedious query result handling
 const queryResultHandler = require('../utilities/tedious_query_result_util');
 
+// Module for sql translation handling
+const translationEnv = require('../env/sql_translation_environment');
+
 
 function searchRareDiseases(req, res) {
 
-    const view = getRareDiseasesNameViewFromLanguage(req.i18n.getLocale());
-    const synonymousView = getRareDiseasesSynonymousNameViewFromLanguage(req.i18n.getLocale());
+    const view = translationEnv.getRareDiseasesNameViewFromLanguage(req.i18n.getLocale());
+    const synonymousView = translationEnv.getRareDiseasesSynonymousNameViewFromLanguage(req.i18n.getLocale());
 
     /**
      * Prepares the SQL statement with parameters for SQL-injection avoidance,
@@ -69,30 +72,6 @@ function searchRareDiseases(req, res) {
 }
 
 
-function getRareDiseasesNameViewFromLanguage(codLanguage) {
-    var viewName;
-    switch (codLanguage) {
-        case "it": viewName = "RareDiseaseNameITAView"; break;
-        case "en": viewName = "RareDiseaseNameENGView"; break;
-        case "pl": viewName = "RareDiseaseNamePOLView"; break;
-        default: viewName = "RareDiseaseNameENGView"; break;
-    }
-    return viewName;
-}
-
-
-function getRareDiseasesSynonymousNameViewFromLanguage(codLanguage) {
-    var viewName;
-    switch (codLanguage) {
-        case "it": viewName = "RareDiseaseSynonymousNameITAView"; break;
-        case "en": viewName = "RareDiseaseSynonymousNameENGView"; break;
-        case "pl": viewName = "RareDiseaseSynonymousNamePOLView"; break;
-        default: viewName = "RareDiseaseSynonymousNameENGView"; break;
-    }
-    return viewName;
-}
-
-
 function getRareDiseases(req, res) {
 
     /**
@@ -102,8 +81,8 @@ function getRareDiseases(req, res) {
     diseasesRequest = new Request(
         "SELECT Disease.CodSpecialty, SpecialtyTR.Name AS SpecialtyName, Disease.CodDisease, DiseaseTR.Name AS DiseaseName " +
         "FROM RareDisease AS Disease " +
-        "INNER JOIN SpecialtyTranslation AS SpecialtyTR ON Disease.CodSpecialty = SpecialtyTR.CodSpecialty AND SpecialtyTR.CodLanguage = @CodLanguage " +
-        "INNER JOIN RareDiseaseTranslation AS DiseaseTR ON Disease.CodDisease = DiseaseTR.CodDisease AND DiseaseTR.CodLanguage = @CodLanguage " +
+        "INNER JOIN SpecialtyTranslation AS SpecialtyTR ON Disease.CodSpecialty = SpecialtyTR.CodSpecialty AND SpecialtyTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM SpecialtyTranslation), @CodLanguage, @DefaultCodLanguage) " +
+        "INNER JOIN RareDiseaseTranslation AS DiseaseTR ON Disease.CodDisease = DiseaseTR.CodDisease AND DiseaseTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM RareDiseaseTranslation), @CodLanguage, @DefaultCodLanguage) " +
         "ORDER BY Disease.CodSpecialty, DiseaseTR.Name;", (queryError, rowCount, rows) => {
             if (queryError) {
                 res.status(500).send({
@@ -152,6 +131,7 @@ function getRareDiseases(req, res) {
         }
     );
     diseasesRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+    diseasesRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
     
     // Performs the rare diseases data selection query on the relational database
     sql.connection.execSql(diseasesRequest);
@@ -181,12 +161,12 @@ function getRareDisease(req, res) {
      * in order to get general information about the rare disease.
      */
     diseaseRequest = new Request(
-        "SELECT Disease.OrphaNumber, Disease.ICD10, Disease.OMIM, Disease.UMLS, Disease.MeSH, Disease.GARD, Disease.MedDRA, " +
+        "SELECT Disease.CodDisease, Disease.OrphaNumber, Disease.ICD10, Disease.OMIM, Disease.UMLS, Disease.MeSH, Disease.GARD, Disease.MedDRA, " +
         "Disease.Incidence, Disease.ForumThreadsNumber, Disease.StandardUsersNumber, Disease.ModeratorsNumber, Disease.ExperiencesNumber, " +
         "SpecialtyTR.CodSpecialty, SpecialtyTR.Name AS SpecialtyName, DiseaseTR.Name, DiseaseTR.Description, DiseaseTR.Causes " +
         "FROM RareDisease AS Disease " +
-        "INNER JOIN SpecialtyTranslation AS SpecialtyTR ON Disease.CodSpecialty = SpecialtyTR.CodSpecialty AND SpecialtyTR.CodLanguage = @CodLanguage " +
-        "INNER JOIN RareDiseaseTranslation AS DiseaseTR ON Disease.CodDisease = DiseaseTR.CodDisease AND DiseaseTR.CodLanguage = @CodLanguage " +
+        "INNER JOIN SpecialtyTranslation AS SpecialtyTR ON Disease.CodSpecialty = SpecialtyTR.CodSpecialty AND SpecialtyTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM SpecialtyTranslation), @CodLanguage, @DefaultCodLanguage) " +
+        "INNER JOIN RareDiseaseTranslation AS DiseaseTR ON Disease.CodDisease = DiseaseTR.CodDisease AND DiseaseTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM RareDiseaseTranslation), @CodLanguage, @DefaultCodLanguage) " +
         "WHERE Disease.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
             if (queryError) {
                 res.status(500).send({
@@ -213,7 +193,7 @@ function getRareDisease(req, res) {
                     });
 
                     synonymousRequest = new Request(
-                        "SELECT Name FROM RareDiseaseSynonymousTranslation WHERE CodDisease = @CodDisease AND CodLanguage = @CodLanguage;", (queryError, rowCount, rows) => {
+                        "SELECT Name FROM RareDiseaseSynonymousTranslation WHERE CodDisease = @CodDisease AND CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM RareDiseaseSynonymousTranslation), @CodLanguage, @DefaultCodLanguage);", (queryError, rowCount, rows) => {
                             if (queryError) {
                                 res.status(500).send({
                                     errorMessage: req.i18n.__("Err_RareDiseases_Data", queryError)
@@ -235,7 +215,7 @@ function getRareDisease(req, res) {
                                     "FROM RareDisease " +
                                     "INNER JOIN RareDiseaseSymptom ON RareDisease.CodDisease = RareDiseaseSymptom.CodDisease " +
                                     "INNER JOIN Symptom ON Symptom.CodSymptom = RareDiseaseSymptom.CodSymptom " +
-                                    "INNER JOIN SymptomTranslation AS SymptomTR ON SymptomTR.CodSymptom = Symptom.CodSymptom AND SymptomTR.CodLanguage = @CodLanguage " +
+                                    "INNER JOIN SymptomTranslation AS SymptomTR ON SymptomTR.CodSymptom = Symptom.CodSymptom AND SymptomTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM SymptomTranslation), @CodLanguage, @DefaultCodLanguage) " +
                                     "WHERE RareDisease.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
                                         if (queryError) {
                                             res.status(500).send({
@@ -256,9 +236,9 @@ function getRareDisease(req, res) {
                                             treatmentRequest = new Request(
                                                 "SELECT Treatment.CodTreatment, TreatmentTR.Name, TreatmentTR.Description, TreatmentTypeTR.Description AS Type " +
                                                 "FROM Treatment " +
-                                                "INNER JOIN TreatmentTranslation AS TreatmentTR ON TreatmentTR.CodDisease = Treatment.CodDisease AND TreatmentTR.CodTreatment = Treatment.CodTreatment AND TreatmentTR.CodLanguage = @CodLanguage " +
+                                                "INNER JOIN TreatmentTranslation AS TreatmentTR ON TreatmentTR.CodDisease = Treatment.CodDisease AND TreatmentTR.CodTreatment = Treatment.CodTreatment AND TreatmentTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM TreatmentTranslation), @CodLanguage, @DefaultCodLanguage) " +
                                                 "INNER JOIN TreatmentType ON TreatmentType.CodTreatmentType = Treatment.CodTreatmentType " +
-                                                "INNER JOIN TreatmentTypeTranslation AS TreatmentTypeTR ON TreatmentTypeTR.CodTreatmentType = TreatmentType.CodTreatmentType AND TreatmentTypeTR.CodLanguage = @CodLanguage " +
+                                                "INNER JOIN TreatmentTypeTranslation AS TreatmentTypeTR ON TreatmentTypeTR.CodTreatmentType = TreatmentType.CodTreatmentType AND TreatmentTypeTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM TreatmentTypeTranslation), @CodLanguage, @DefaultCodLanguage) " +
                                                 "WHERE Treatment.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
                                                     if (queryError) {
                                                         res.status(500).send({
@@ -276,7 +256,7 @@ function getRareDisease(req, res) {
                                                                 "FROM Treatment " +
                                                                 "INNER JOIN TreatmentCollateralEffect ON Treatment.CodDisease = TreatmentCollateralEffect.CodDisease AND Treatment.CodTreatment = TreatmentCollateralEffect.CodTreatment " +
                                                                 "INNER JOIN CollateralEffect ON TreatmentCollateralEffect.CodCollateralEffect = CollateralEffect.CodCollateralEffect " +
-                                                                "INNER JOIN CollateralEffectTranslation AS CollateralEffectTR ON CollateralEffect.CodCollateralEffect = CollateralEffectTR.CodCollateralEffect AND CollateralEffectTR.CodLanguage = @CodLanguage " +
+                                                                "INNER JOIN CollateralEffectTranslation AS CollateralEffectTR ON CollateralEffect.CodCollateralEffect = CollateralEffectTR.CodCollateralEffect AND CollateralEffectTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM CollateralEffectTranslation), @CodLanguage, @DefaultCodLanguage) " +
                                                                 "WHERE Treatment.CodDisease = @CodDisease AND Treatment.CodTreatment = " + rowObject.CodTreatment
                                                             )
                                                         }, true, () => {
@@ -330,7 +310,7 @@ function getRareDisease(req, res) {
                                                                     "FROM RareDisease " +
                                                                     "INNER JOIN RareDiseaseDiagnosis ON RareDiseaseDiagnosis.CodDisease = RareDisease.CodDisease " +
                                                                     "INNER JOIN Diagnosis ON Diagnosis.CodDiagnosis = RareDiseaseDiagnosis.CodDiagnosis " +
-                                                                    "INNER JOIN DiagnosisTranslation AS DiagnosisTR ON DiagnosisTR.CodDiagnosis = Diagnosis.CodDiagnosis AND DiagnosisTR.CodLanguage = @CodLanguage " +
+                                                                    "INNER JOIN DiagnosisTranslation AS DiagnosisTR ON DiagnosisTR.CodDiagnosis = Diagnosis.CodDiagnosis AND DiagnosisTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM DiagnosisTranslation), @CodLanguage, @DefaultCodLanguage) " +
                                                                     "WHERE RareDisease.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
                                                                         if (queryError) {
                                                                             res.status(500).send({
@@ -353,7 +333,7 @@ function getRareDisease(req, res) {
                                                                                 "FROM RareDisease " +
                                                                                 "INNER JOIN Risk ON Risk.CodDisease = RareDisease.CodDisease " +
                                                                                 "INNER JOIN Complication ON Complication.CodComplication = Risk.CodComplication " +
-                                                                                "INNER JOIN ComplicationTranslation AS ComplicationTR ON ComplicationTR.CodComplication = Complication.CodComplication AND ComplicationTR.CodLanguage = @CodLanguage " +
+                                                                                "INNER JOIN ComplicationTranslation AS ComplicationTR ON ComplicationTR.CodComplication = Complication.CodComplication AND ComplicationTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM ComplicationTranslation), @CodLanguage, @DefaultCodLanguage) " +
                                                                                 "WHERE RareDisease.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
                                                                                     if (queryError) {
                                                                                         res.status(500).send({
@@ -372,6 +352,7 @@ function getRareDisease(req, res) {
                                                                                 }
                                                                             );
                                                                             complicationRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+                                                                            complicationRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
                                                                             complicationRequest.addParameter('CodDisease', TYPES.Numeric, id);
 
                                                                             // Performs the rare disease complications data selection query on the relational database
@@ -380,6 +361,7 @@ function getRareDisease(req, res) {
                                                                     }
                                                                 );
                                                                 diagnosisRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+                                                                diagnosisRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
                                                                 diagnosisRequest.addParameter('CodDisease', TYPES.Numeric, id);
 
                                                                 // Performs the rare disease diagnosis data selection query on the relational database
@@ -387,6 +369,7 @@ function getRareDisease(req, res) {
                                                             }
                                                         });
                                                         collateralEffectRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+                                                        collateralEffectRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
                                                         collateralEffectRequest.addParameter('CodDisease', TYPES.Numeric, id);
 
                                                         // Performs the data selection query for the collateral effects of each disease treatment on the relational database
@@ -395,6 +378,7 @@ function getRareDisease(req, res) {
                                                 }
                                             );
                                             treatmentRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+                                            treatmentRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
                                             treatmentRequest.addParameter('CodDisease', TYPES.Numeric, id);
 
                                             // Performs the rare disease symptoms data selection query on the relational database
@@ -403,6 +387,7 @@ function getRareDisease(req, res) {
                                     }
                                 );
                                 symptomRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+                                symptomRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
                                 symptomRequest.addParameter('CodDisease', TYPES.Numeric, id);
 
                                 // Performs the rare disease symptoms data selection query on the relational database
@@ -411,6 +396,7 @@ function getRareDisease(req, res) {
                         }
                     );
                     synonymousRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+                    synonymousRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
                     synonymousRequest.addParameter('CodDisease', TYPES.Numeric, id);
 
                     // Performs the rare disease synonymous data selection query on the relational database
@@ -420,6 +406,7 @@ function getRareDisease(req, res) {
         }
     );
     diseaseRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+    diseaseRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
     diseaseRequest.addParameter('CodDisease', TYPES.Numeric, id);
 
     // Performs the rare disease data selection query on the relational database
@@ -439,7 +426,7 @@ function getRareDiseaseReferences(req, res) {
     referenceRequest = new Request(
         "SELECT Reference.CodReference, ReferenceTR.Description, Reference.Link " +
         "FROM Reference " +
-        "INNER JOIN ReferenceTranslation AS ReferenceTR ON ReferenceTR.CodReference = Reference.CodReference AND ReferenceTR.CodLanguage = @CodLanguage " +
+        "INNER JOIN ReferenceTranslation AS ReferenceTR ON ReferenceTR.CodReference = Reference.CodReference AND ReferenceTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM ReferenceTranslation), @CodLanguage, @DefaultCodLanguage) " +
         "WHERE Reference.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
             if (queryError) {
                 res.status(500).send({
@@ -470,6 +457,7 @@ function getRareDiseaseReferences(req, res) {
         }
     );
     referenceRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+    referenceRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
     referenceRequest.addParameter('CodDisease', TYPES.Numeric, id);
 
     // Performs the rare disease references data selection query on the relational database

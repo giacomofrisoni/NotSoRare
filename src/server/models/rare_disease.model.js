@@ -1,11 +1,14 @@
-// Import the mongoose module
+// Imports the mongoose module
 const mongoose = require('mongoose');
 
-// Define the RareDisease schema
+// Defines the RareDisease schema
 const Schema = mongoose.Schema;
 const RareDiseaseSchema = new Schema({
     code: { type: Number, required: true, unique: true },
-    name: { type: String, max: [30, 'Too long disease name'], required: true }
+    names: [{
+        language: { type: String, trim: true, min: 2, max: 2, required: true },
+        name: { type: String, max: [50, 'Too long disease name'], required: true }
+    }]
 }, {
     collection: 'RareDiseases'
 });
@@ -14,11 +17,11 @@ const RareDiseaseSchema = new Schema({
 RareDiseaseSchema
 .virtual('url')
 .get(function() {
-    return '/rareDiseases/' + this.id;
+    return '/rareDiseases/' + this.code;
 });
 
-// Compile model from schema
+// Compiles model from schema
 const RareDisease = mongoose.model('RareDisease', RareDiseaseSchema);
 
-// Export function to create RareDisease model class
+// Exports function to create RareDisease model class
 module.exports = RareDisease;
