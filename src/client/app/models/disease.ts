@@ -27,6 +27,7 @@ interface General {
     Name: string;
     Description: string;
     Causes: string;
+    CodDisease: number;
 }
 
 interface Symptom {

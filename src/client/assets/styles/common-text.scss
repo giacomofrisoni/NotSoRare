@@ -140,3 +140,13 @@ app-countries-selector.error * {
     border: 1px solid lightgray;
 }
 
+.fa {
+    margin-right: 10px;
+
+    &.not-spaced {
+        margin-right: 0px;
+    }
+    &.accent {
+        color: $accent-dark-color;
+    }
+}
