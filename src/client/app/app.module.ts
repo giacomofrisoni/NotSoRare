@@ -44,6 +44,7 @@ import { DiseaseHolderService } from './services/disease-holder.service';
 import { SearchBarComponent } from './components/search-bar.component';
 import { ExperiencesService } from './services/experiences.service';
 import { ExperienceComponent } from './pages/disease-pages/experience.component';
+import { ExperiencePreviewComponent } from './components/experience-preview.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -94,6 +95,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReferencesComponent,
     SearchBarComponent,
     ExperienceComponent,
+    ExperiencePreviewComponent,
   ],
   imports: [
     BrowserModule,

@@ -72,7 +72,7 @@ export class ExperiencesComponent implements OnInit {
 
   openExperience(codUser: number) {
     //If I pressed an experience, I have already the disease
-    this.router.navigate(["./experiences/" + codUser]);
+    this.router.navigate(["/disease/" + this.disease.general.CodDisease + "/experiences/" + codUser]);
   }
 
 }

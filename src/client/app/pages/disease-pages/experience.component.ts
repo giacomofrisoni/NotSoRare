@@ -18,7 +18,7 @@ export class ExperienceComponent implements OnInit {
   isAnyErrorPresent: boolean = false;
 
   // Binding
-  experience: Experience;
+  experience: Experience = new Experience();
   disease: Disease;
 
   constructor(private diseaseHolder: DiseaseHolderService, private experiencesService: ExperiencesService, private route: ActivatedRoute) { }
@@ -37,9 +37,12 @@ export class ExperienceComponent implements OnInit {
           this.experiencesService.getExperience(this.disease.general.CodDisease, codUser).subscribe((result: Experience) => {
             if (result) {
               this.experience = result;
+              console.log(this.experience);
             } else {
               this.setOnErroStatus("Not valid type");
             }
+
+            this.setWindowStatus(true, false, false, "Success!");
           }, error => {
             this.setOnErroStatus("Error retriving experience");
           });

@@ -56,6 +56,7 @@ export class DiseaseComponent implements OnInit {
           // Data are ok, set it!
           this.disease = disease;
           this.diseaseHolder.setDisease(this.disease);
+          console.log(this.disease);
     
           // Inform the view
           this.isDiseaseLoaded = true;

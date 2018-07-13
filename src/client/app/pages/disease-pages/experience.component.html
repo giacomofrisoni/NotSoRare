@@ -18,7 +18,17 @@
     </div>
 
     <!-- Something-->
-    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent">
+    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isExperienceLoaded">
+        <div *ngIf="experience.IsAnonymous" class="">
+            <img src="../../../assets/images/default-user.png" />
+            <div>Anonimo</div>
+        </div>
+
+        <div *ngIf="experience.IsAnonymous" class="">
+            <img src="../../../assets/images/default-user.png" />
+            <div>Anonimo</div>
+        </div>
+
         <div class="page-card">
             {{experience.Description}}
         </div>

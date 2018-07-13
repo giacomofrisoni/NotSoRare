@@ -10,27 +10,35 @@ import { Router } from '../../../../node_modules/@angular/router';
 export class NotFoundComponent implements OnInit {
 
   public countdown: number = 5;
+  timeCounter: any;
+  timeTimeout: any;
 
   constructor(private translate: TranslateService, private router: Router) { }
 
   ngOnInit() {
     // Count from 5 to 0
-    var counter = setInterval(() => {
+    this.timeCounter = setInterval(() => {
       this.countdown--;
       
       if (this.countdown == 0) {
-        clearInterval(counter);
+        clearInterval(this.timeCounter);
       }
     }, 1000);
 
     // After 5 seconds redirect to home
-    var timeout = setTimeout(()=>{ 
+    this.timeTimeout = setTimeout(()=>{ 
       // Navigate to the home page
       this.router.navigate(['/home']);
 
       // Stop calling yourself!
-      clearTimeout(timeout);
+      clearTimeout(this.timeTimeout);
     }, 5000);
+  }
+
+  
+  ngOnDestroy() {
+    clearTimeout(this.timeTimeout);
+    clearInterval(this.timeCounter);
   }
 
 }

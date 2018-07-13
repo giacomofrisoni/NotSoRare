@@ -1,0 +1,24 @@
+@import 'common-values';
+
+.experience-box {
+    cursor: pointer;
+    min-height: 320px;
+    max-height: 320px;
+    min-width: 200px;
+    max-width: 200px;
+    box-sizing: border-box;
+    margin: 15px;
+
+    img {
+        width: 180px;
+        height: 180px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 1px solid lightgray;
+    }
+
+    &:hover {
+        border: 1px solid $accent-dark-color;
+        background: #fdfdfd;
+    }
+}

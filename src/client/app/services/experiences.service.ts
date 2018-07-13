@@ -8,7 +8,6 @@ export class ExperiencesService {
   constructor(private http: HttpClient, private globalUtils: GlobalUtilsService) { }
 
   getAllExperiences(diseaseID: number) {
-    diseaseID = 1;
     return this.http.get(this.globalUtils.apiPath + "/rareDiseases/" + diseaseID + "/experiences/" + this.globalUtils.createLanguageParameter(), {
       withCredentials: true,
     });
