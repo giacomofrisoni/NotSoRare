@@ -167,6 +167,13 @@ router.put('/rareDiseases/:idDisease/forumThreads/:idForumThread', validatePaylo
     forumThreadsService.putForumThread(req, res);
 });
 
+/**
+ * Deletes a registered forum thread.
+ */
+router.delete('/rareDiseases/:idDisease/forumThreads/:idForumThread', (req, res) => {
+    forumThreadsService.deleteForumThread(req, res);
+});
+
 
 /**
  * EXPERT CENTRES

@@ -361,7 +361,7 @@ function deleteUser(req, res) {
                                         // Checks that the user has been found
                                         if (!user) {
                                             // Rollback the sql update
-                                            done(error, () => {
+                                            done(new Error(), () => {
                                                 res.status(404).send({
                                                     errorMessage: req.i18n.__("Err_Users_UserNotFound", error)
                                                 });
