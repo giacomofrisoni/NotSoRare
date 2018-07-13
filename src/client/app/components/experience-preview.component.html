@@ -1,11 +1,13 @@
 <div class="flex start-aligned">
-    <div class="card flex centered vertical start-aligned experience-box" *ngIf="isAnonymous">
+    <div class="card flex centered vertical start-aligned experience-box" ngClass="{'hovered': !isProfileButtonEnabled}" *ngIf="isAnonymous">
         <img src="../../assets/images/default-user.png" />
-        <div class="centered">Anonimo
+        <div class="centered">Anonimo</div>
+        <div class="button" *ngIf="isProfileButtonEnabled == 'true'">
+            <app-divbutton text="Apri Profilo"></app-divbutton>
         </div>
     </div>
 
-    <div class="card flex centered vertical start-aligned experience-box" *ngIf="!isAnonymous">
+    <div class="card flex centered vertical start-aligned experience-box" ngClass="{'hovered': !isProfileButtonEnabled}" *ngIf="!isAnonymous">
         <img [src]="photo" />
         <div class="centered">
             <b>{{name}} {{surname}}</b>
@@ -15,6 +17,9 @@
             <span>{{nationality}}</span>
             <br/>
             <span>{{birthDate | date : 'dd/MM/yyyy'}}</span>
+            <div class="button" *ngIf="isProfileButtonEnabled == 'true'">
+                <app-divbutton text="Apri Profilo"></app-divbutton>
+            </div>
         </div>
     </div>
 </div>

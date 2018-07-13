@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-experience-preview',
@@ -7,7 +7,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ExperiencePreviewComponent implements OnInit {
 
+  // Inputs
   @Input() isAnonymous: boolean = true;
+  @Input() isProfileButtonEnabled: boolean = false;
   @Input() name: string;
   @Input() surname: string;
   @Input() gender: string;
@@ -15,7 +17,12 @@ export class ExperiencePreviewComponent implements OnInit {
   @Input() nationality: string;
   @Input() photo: string;
 
-  constructor() {}
+  // View
+  @ViewChild('defaultDiv') defaultDiv: ElementRef;
+  @ViewChild('userDiv') userDiv: ElementRef;
+
+  constructor() {
+  }
 
   ngOnInit() {
     if (this.photo == null) {

@@ -18,32 +18,46 @@ export class ExperiencesComponent implements OnInit {
   isAnyErrorPresent: boolean = false;
 
   // Binding
+
   experiences: ExperiencePreview[] = new Array();
   disease: Disease;
+  selectedItem: any;
+  filters: any[] = [
+    {
+      text: 'Data pubblicazione',
+      icon: 'fa fa-long-arrow-up',
+      value: '+creationdate'
+    },
+    {
+      text: 'Data pubblicazione',
+      icon: 'fa fa-long-arrow-down',
+      value: '-creationdate'
+    }
+  ];
 
 
   constructor(private diseaseHolder: DiseaseHolderService, private experiencesService: ExperiencesService, private router: Router) { }
 
   ngOnInit() {
-    this.diseaseHolder.getDisease().subscribe(disease =>{
+    this.diseaseHolder.getDisease().subscribe(disease => {
       //Save for future reference
       this.disease = disease;
 
       //Try to get all experiences
-      this.experiencesService.getAllExperiences(this.disease.general.CodDisease).subscribe((results: ExperiencePreview[]) =>{
+      this.experiencesService.getAllExperiences(this.disease.general.CodDisease).subscribe((results: ExperiencePreview[]) => {
         // If the type is ok
-        if (results){
+        if (results) {
           // If something is inside
           if (results.length > 0) {
             this.experiences = results;
             console.log(this.experiences);
-          } 
+          }
           // Collection is empty
           else {
             this.experiences = [];
             this.isExperiencesEmpty = true;
           }
-        } 
+        }
 
         // Wrong type
         else {
@@ -54,25 +68,63 @@ export class ExperiencesComponent implements OnInit {
         // Anyway, finish to load
         this.isExperiencesLoaded = true;
 
-      }, error =>{
+      }, error => {
         // Error when getting experiences
         this.isAnyErrorPresent = true;
         this.isExperiencesLoaded = true;
         console.log(error);
       });
-    }, error =>{
+    }, error => {
       // Error when getting disease
       this.isAnyErrorPresent = true;
       this.isExperiencesLoaded = true;
       console.log(error);
     })
-    
+
   }
 
 
   openExperience(codUser: number) {
     //If I pressed an experience, I have already the disease
     this.router.navigate(["/disease/" + this.disease.general.CodDisease + "/experiences/" + codUser]);
+  }
+
+  onItemSelected() {
+    this.isExperiencesLoaded = false;
+    this.isExperiencesEmpty = false;
+    this.isAnyErrorPresent = false;
+    this.experiences = [];
+
+    this.experiencesService.getAllExperiences(this.disease.general.CodDisease, this.selectedItem).subscribe((results: ExperiencePreview[]) => {
+      // If the type is ok
+      if (results) {
+        // If something is inside
+        if (results.length > 0) {
+          this.experiences = results;
+          console.log(this.experiences);
+        }
+        // Collection is empty
+        else {
+          this.experiences = [];
+          this.isExperiencesEmpty = true;
+        }
+      }
+
+      // Wrong type
+      else {
+        this.isAnyErrorPresent = true;
+        console.log("Results non era del tipo previsto");
+      }
+
+      // Anyway, finish to load
+      this.isExperiencesLoaded = true;
+
+    }, error => {
+      // Error when getting experiences
+      this.isAnyErrorPresent = true;
+      this.isExperiencesLoaded = true;
+      console.log(error);
+    });
   }
 
 }

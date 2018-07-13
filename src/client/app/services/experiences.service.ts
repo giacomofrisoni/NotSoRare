@@ -7,10 +7,16 @@ export class ExperiencesService {
 
   constructor(private http: HttpClient, private globalUtils: GlobalUtilsService) { }
 
-  getAllExperiences(diseaseID: number) {
-    return this.http.get(this.globalUtils.apiPath + "/rareDiseases/" + diseaseID + "/experiences/" + this.globalUtils.createLanguageParameter(), {
-      withCredentials: true,
-    });
+  getAllExperiences(diseaseID: number, sorting?: string) {
+    if (sorting) {
+      return this.http.get(this.globalUtils.apiPath + "/rareDiseases/" + diseaseID + "/experiences/" + this.globalUtils.createLanguageParameter() + "&sort=" + sorting, {
+        withCredentials: true,
+      });
+    } else {
+      return this.http.get(this.globalUtils.apiPath + "/rareDiseases/" + diseaseID + "/experiences/" + this.globalUtils.createLanguageParameter(), {
+        withCredentials: true,
+      });
+    }
   }
 
   getExperience(diseaseID: number, codUser: number) {

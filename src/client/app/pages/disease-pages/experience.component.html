@@ -18,19 +18,16 @@
     </div>
 
     <!-- Something-->
-    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isExperienceLoaded">
-        <div *ngIf="experience.IsAnonymous" class="">
-            <img src="../../../assets/images/default-user.png" />
-            <div>Anonimo</div>
-        </div>
-
-        <div *ngIf="experience.IsAnonymous" class="">
-            <img src="../../../assets/images/default-user.png" />
-            <div>Anonimo</div>
-        </div>
+    <div *ngIf="!isExperienceEmpty && !isAnyErrorPresent && isExperienceLoaded">
+        <app-experience-preview [isAnonymous]="experience.IsAnonymous" [name]="experience.Name" [surname]=experience.Surname [nationality]="experience.Nationality"
+            [birthDate]="experience.BirthDate" [photo]="experience.UserPhoto" [gender]="experience.Gender" isProfileButtonEnabled="true">
+        </app-experience-preview>
 
         <div class="page-card">
-            {{experience.Description}}
+            <h3>Esperienza di {{experience.Name}} {{experience.Surname}}</h3>
+            <span class="info">Pubblicato il {{experience.CreatedAt | date : 'dd/MM/yyyy hh:mm'}}</span>
+            <br/>
+            <p>{{experience.Description}}</p>
         </div>
     </div>
 </div>

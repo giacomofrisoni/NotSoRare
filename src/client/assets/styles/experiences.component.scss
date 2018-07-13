@@ -1,5 +1,18 @@
 @import 'common-values';
 
 .container {
-    margin: 20px;
+    margin: 30px;
+}
+
+.ng-select {
+    margin-left: 15px;
+    min-width: 300px;
+    max-width: 300px;
+    display: inline-block;
+}
+
+.option {
+    .fa {
+        margin-left: 20px;
+    }
 }

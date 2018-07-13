@@ -1,9 +1,8 @@
 @import 'common-values';
 
 .experience-box {
-    cursor: pointer;
     min-height: 320px;
-    max-height: 320px;
+    max-height: 350px;
     min-width: 200px;
     max-width: 200px;
     box-sizing: border-box;
@@ -17,8 +16,19 @@
         border: 1px solid lightgray;
     }
 
-    &:hover {
-        border: 1px solid $accent-dark-color;
-        background: #fdfdfd;
+    &.hovered {
+        cursor: pointer;
+
+        &:hover {
+            border: 1px solid $accent-dark-color;
+            background: #fdfdfd;
+        }
     }
+
+}
+
+.button {
+    margin-top: 10px;
+    max-height: 35px;
+    margin-bottom: 20px;
 }

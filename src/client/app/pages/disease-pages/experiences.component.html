@@ -18,13 +18,28 @@
     </div>
 
     <!-- Something-->
-    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent">
+    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isExperiencesLoaded">
         <div>
-            <span>Filtro: </span>
-            <select>
-                <option>Data inserimento ^</option>
-                <option>Data inserimento v</option>
-            </select>
+            <div class="flex start-aligned">
+                <span>Filtro: </span>
+                <ng-select searchable="false" clearable="false" class="custom-select" [(ngModel)]="selectedItem" bindLabel="text" bindValue="value" (change)="onItemSelected()"
+                    [items]="filters">
+
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                        <div class="option">
+                            <span>{{item.text}}</span>
+                            <span [class]="item.icon"></span>
+                        </div>
+                    </ng-template>
+
+                    <ng-template ng-label-tmp let-item="item" let-index="index" let-search="searchTerm">
+                        <div class="option">
+                            <span>{{item.text}}</span>
+                            <span [class]="item.icon"></span>
+                        </div>
+                    </ng-template>
+                </ng-select>
+            </div>
         </div>
 
         <hr/>
@@ -32,7 +47,7 @@
         <div class="flex start-aligned">
             <app-experience-preview *ngFor="let experience of experiences" [isAnonymous]="experience.IsAnonymous" (click)="openExperience(experience.CodUser)"
                 [name]="experience.Name" [surname]=experience.Surname [nationality]="experience.Nationality" [birthDate]="experience.BirthDate"
-                [photo]="experience.UserPhoto" [gender]="experience.Gender">
+                [photo]="experience.UserPhoto" [gender]="experience.Gender" isProfileButtonEnabled="false">
             </app-experience-preview>
         </div>
     </div>
