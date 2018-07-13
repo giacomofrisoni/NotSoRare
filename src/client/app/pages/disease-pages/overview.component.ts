@@ -37,4 +37,8 @@ export class OverviewComponent implements OnInit {
 
   }
 
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+
 }

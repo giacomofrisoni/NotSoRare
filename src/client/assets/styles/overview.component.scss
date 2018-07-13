@@ -9,6 +9,14 @@ h3 {
     color: $accent-dark-color;
 }
 
+.small-box {
+    border: 1px solid #6b6b6b;
+    background: #807f7f;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 15px;
+}
+
 .title-box {
     background: white;
     margin: $padding-box;
@@ -30,4 +38,12 @@ h3 {
         background: $accent-color;
         color: white;
     }
+}
+
+.floating-button {
+    top: auto !important;
+    right: 20px !important;
+    bottom: 10px !important;
+    left: auto !important;
+    position: fixed !important;
 }

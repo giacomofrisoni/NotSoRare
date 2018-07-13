@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '../../../../node_modules/@angular/router';
 import { LanguageService } from '../services/language.service';
 import { DiseaseHolderService } from '../services/disease-holder.service';
+import { Subscription } from '../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-disease',
@@ -17,10 +18,14 @@ export class DiseaseComponent implements OnInit {
   // Loading
   isDiseaseLoaded: boolean = false;
   isAnyErrorPresent: boolean = false;
-  isFirstTimeLoading: boolean = true;
+  loadingTimes: number = 0;
 
   // Disease object
   disease: Disease;
+
+  // Subscriptions to destroy
+  subLanguageService: Subscription;
+  subParams: Subscription;
 
   constructor(
     private diseaseService: DiseaseService,
@@ -33,16 +38,16 @@ export class DiseaseComponent implements OnInit {
 
   ngOnInit() {
     // Subscribe to change language
-    this.languageService.getCurrentLanguage().subscribe(newLanguage =>{
-      if (this.isFirstTimeLoading) {
-        this.isFirstTimeLoading = false;
-      } else {
+    this.subLanguageService = this.languageService.getCurrentLanguage().subscribe(newLanguage =>{
+      if (this.loadingTimes > 1) {
         window.location.reload();
+      } else {
+        this.loadingTimes++; 
       }
     });
 
     // Subscribe to retrive params
-    this.route.params.subscribe(params => {
+    this.subParams = this.route.params.subscribe(params => {
       // First check if it's a valid param (number)
       let id: number = Number(params['id']);
       if (!isNaN(id)) {
@@ -69,6 +74,17 @@ export class DiseaseComponent implements OnInit {
         this.isAnyErrorPresent = true;
       }
     });
+  }
+
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  unsubscribeAll() {
+    this.subLanguageService.unsubscribe();
+    this.subParams.unsubscribe();
   }
 
 }

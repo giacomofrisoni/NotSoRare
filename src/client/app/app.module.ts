@@ -42,6 +42,7 @@ import { ForumComponent } from './pages/disease-pages/forum.component';
 import { ReferencesComponent } from './pages/disease-pages/references.component';
 import { DiseaseHolderService } from './services/disease-holder.service';
 import { SearchBarComponent } from './components/search-bar.component';
+import { ExperiencesService } from './services/experiences.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -122,7 +123,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CookiesUtilsService,
     DiseaseService,
     GlobalUtilsService,
-    DiseaseHolderService
+    DiseaseHolderService,
+    ExperiencesService
   ],
   bootstrap: [RootComponent],
   entryComponents: [SimpleDialogComponent]    // Material Angular Dialog
