@@ -31,12 +31,12 @@
 
         <div class="flex start-aligned">
             <div *ngFor="let experience of experiences">
-                <div class="experience-box" *ngIf="experience.IsAnonymous">
+                <div class="card flex centered vertical experience-box" *ngIf="experience.IsAnonymous" (click)="openExperience(experience.CodUser)">
                     <img src="../../../assets/images/default-user.png" />
                     <div class="centered">Anonimo</div>
                 </div>
 
-                <div class="experience-box" *ngIf="!experience.IsAnonymous">
+                <div class="card flex centered vertical experience-box" *ngIf="!experience.IsAnonymous" (click)="openExperience(experience.CodUser)">
                     <img [src]="experience.UserPhoto" />
                     <div class="centered">
                         <b>{{experience.Name}} {{experience.Surname}}</b><br/>

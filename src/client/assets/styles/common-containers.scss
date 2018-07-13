@@ -69,7 +69,7 @@ html, body {
 
 .card {
     background: $card-background-color;
-    box-shadow: $card-shadow;
+    box-shadow: $card-light-shadow;
 
     &.margined {
         margin: 10px;

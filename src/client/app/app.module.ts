@@ -43,6 +43,7 @@ import { ReferencesComponent } from './pages/disease-pages/references.component'
 import { DiseaseHolderService } from './services/disease-holder.service';
 import { SearchBarComponent } from './components/search-bar.component';
 import { ExperiencesService } from './services/experiences.service';
+import { ExperienceComponent } from './pages/disease-pages/experience.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -59,6 +60,7 @@ const appRoutes: Routes = [
       { path: 'overview', component: OverviewComponent },
       { path: 'expert-centres', component: ExpertCentresComponent },
       { path: 'experiences', component: ExperiencesComponent },
+      { path: 'experiences/:codUser', component: ExperienceComponent },
       { path: 'forum', component: ForumComponent },
       { path: 'references', component: ReferencesComponent }]
   },
@@ -91,6 +93,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ForumComponent,
     ReferencesComponent,
     SearchBarComponent,
+    ExperienceComponent,
   ],
   imports: [
     BrowserModule,
