@@ -9,6 +9,7 @@ const rareDiseasesSearchSchema = require('./validation/rare_diseases_search_sche
 const experienceInsertionSchema = require('./validation/experience_insertion_schema');
 const experienceUpdateSchema = require('./validation/experience_update_schema');
 const forumThreadInsertionSchema = require('./validation/forum_thread_insertion_schema');
+const forumThreadUpdateSchema = require('./validation/forum_thread_update_schema');
 const userUpdateSchema = require('./validation/user_update_schema');
 const interestInsertionSchema = require('./validation/interest_insertion_schema');
 
@@ -157,6 +158,13 @@ router.get('/users/:id/experiences', (req, res) => {
  */
 router.post('/forumThreads', validatePayloadMiddleware, validate(forumThreadInsertionSchema), (req, res) => {
     forumThreadsService.postForumThread(req, res);
+});
+
+/**
+ * Updates the data of a registered forum thread.
+ */
+router.put('/rareDiseases/:idDisease/forumThreads/:idForumThread', validatePayloadMiddleware, validate(forumThreadUpdateSchema), (req, res) => {
+    forumThreadsService.putForumThread(req, res);
 });
 
 

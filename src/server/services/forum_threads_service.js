@@ -9,6 +9,7 @@ const sql = require('../sql');
 // Imports mongoose models
 const User = require('../models/user.model');
 const RareDisease = require('../models/rare_disease.model');
+const Forum = require('../models/forum.model');
 const ForumThread = require('../models/forum_thread.model');
 
 
@@ -86,16 +87,10 @@ function postForumThread(req, res) {
                                                     });
                                                 } else {
 
-                                                    var originalForumThread = {
-                                                        title: req.body.title,
-                                                        description: req.body.description,
-                                                        author: user._id,
-                                                        disease: disease._id,
-                                                    }
-                                                
-                                                    const forumThread = new ForumThread(originalForumThread);
-                                                
-                                                    forumThread.save(error => {
+                                                    /**
+                                                     * Checks for duplicate title inside rare disease forum.
+                                                     */
+                                                    ForumThread.count({ _forumId: disease._forumId, title: req.body.title }, (error, count) => {
                                                         if (error) {
                                                             done(error, () => {
                                                                 res.status(500).send({
@@ -103,7 +98,51 @@ function postForumThread(req, res) {
                                                                 });
                                                             });
                                                         } else {
-                                                            res.status(201).json(forumThread);
+                                                            if (count > 0) {
+                                                                done(new Error(), () => {
+                                                                    res.status(500).send({
+                                                                        errorMessage: req.i18n.__("Err_ForumThreads_DuplicateTitle")
+                                                                    });
+                                                                });
+                                                            } else {
+
+                                                                // Adds the forum thread
+                                                                var originalForumThread = {
+                                                                    title: req.body.title,
+                                                                    description: req.body.description,
+                                                                    _authorId: user._id,
+                                                                    _forumId: disease._forumId,
+                                                                }
+                                                                const forumThread = new ForumThread(originalForumThread);
+                                                                forumThread.save(error => {
+                                                                    if (error) {
+                                                                        done(error, () => {
+                                                                            res.status(500).send({
+                                                                                errorMessage: req.i18n.__("Err_ForumThreads_ThreadInsertion", error)
+                                                                            });
+                                                                        });
+                                                                    } else {
+
+                                                                        // Adds the thread inside the related forum
+                                                                        Forum.findByIdAndUpdate(
+                                                                            disease._forumId,
+                                                                            { $push: { _threadsIds: forumThread._id } },
+                                                                            (error) =>{
+                                                                                if (error) {
+                                                                                    done(error, () => {
+                                                                                        res.status(500).send({
+                                                                                            errorMessage: req.i18n.__("Err_ForumThreads_ThreadInsertion", error)
+                                                                                        });
+                                                                                    });
+                                                                                }
+                                                                            }
+                                                                        )
+
+                                                                        res.status(201).json(forumThread);
+                                                                    }
+                                                                });
+            
+                                                            }
                                                         }
                                                     });
 
@@ -128,9 +167,64 @@ function postForumThread(req, res) {
 
 }
 
+
+function putForumThread(req, res) {
+
+    const idDisease = parseInt(req.params.idDisease, 10);
+    const idForumThread = parseInt(req.params.idForumThread, 10);
+
+    /**
+     * Searches the rare disease with the specified code.
+     */
+    RareDisease.findOne({ code: idDisease }, (error, disease) => {
+        if (error) {
+            res.status(500).send({
+                errorMessage: req.i18n.__("Err_ForumThreads_ThreadUpdate", error)
+            });
+        } else {
+            if (!disease) {
+                res.status(404).send({
+                    errorMessage: req.i18n.__("Err_ForumThreads_DiseaseNotFound")
+                });
+            } else {
+                /**
+                 * Searches the forum thread inside the found disease and with the specified code.
+                 */
+                ForumThread.findOne({ _forumId: disease._forumId, code: idForumThread}, (error, forumThread) => {
+                    if (error) {
+                        res.status(500).send({
+                            errorMessage: req.i18n.__("Err_ForumThreads_ThreadUpdate", error)
+                        });
+                    } else {
+                        if (!forumThread) {
+                            res.status(404).send({
+                                errorMessage: req.i18n.__("Err_ForumThreads_ThreadNotFound")
+                            });
+                        } else {
+                            forumThread.title = req.body.title;
+                            forumThread.description = req.body.description;
+                            forumThread.save(error => {
+                                if (error) {
+                                    res.status(500).send({
+                                        errorMessage: req.i18n.__("Err_ForumThreads_ThreadUpdate", error)
+                                    });
+                                } else {
+                                    res.status(200).json(forumThread);
+                                }
+                            })
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+}
+
+
 module.exports = {
-    postForumThread,/*
-    putForumThread,
+    postForumThread,
+    putForumThread/*,
     deleteForumThread,
     getRareDiseaseForumThreads,
     getUserForumThreads*/
