@@ -82,48 +82,91 @@ function getUser(req, res) {
     const id = parseInt(req.params.id, 10);
 
     /**
-     * Only a logged user with the same code of the request can retrieve the data.
+     * Prepares the SQL statement with parameters for SQL-injection avoidance,
+     * in order to check if the requested user is anonymous or not.
      */
-    if (req.session.user == id) {
-
-        /**
-         * Prepares the SQL statement with parameters for SQL-injection avoidance,
-         * in order to obtain the registered user data.
-         */
-        userRequest = new Request(
-            "SELECT Email, Surname, Name, Gender, BirthDate, Nationality, AnonymousYN, Photo, Biography, RegistrationDate, PatientYN, PatientName, PatientSurname, PatientGender, PatientBirthDate, PatientNationality " +
-            "FROM StandardUser WHERE CodUser = @CodUser;", (queryError, rowCount, rows) => {
-                if (queryError) {
-                    res.status(500).send({
-                        errorMessage: req.i18n.__("Err_Users_UserInfo", queryError)
+    checkAnonymousRequest = new Request(
+        "SELECT IsAnonymous FROM StandardUser WHERE CodUser = @CodUser;", (queryError, rowCount, rows) => {
+            if (queryError) {
+                res.status(500).send({
+                    errorMessage: req.i18n.__("Err_Users_UserInfo", queryError)
+                });
+            } else {
+                /**
+                 * The operation concerns a single row.
+                 * If zero rows are affected, it means that there is no registered user with the specified code.
+                 */
+                if (rowCount == 0) {
+                    res.status(404).send({
+                        errorMessage: req.i18n.__("Err_Users_UserNotFound")
                     });
                 } else {
-                    // The select operation concerns a single row
-                    if (rowCount == 0) {
-                        res.status(404).send({
-                            errorMessage: req.i18n.__("Err_Users_UserNotFound")
-                        });
+
+                    // If the user has an anonymous profile and does not match with the logged one...
+                    const isAnonymous = rows[0][0].value;
+                    if (isAnonymous && req.session.user != id) {
+                        /**
+                         * Prepares the SQL statement with parameters for SQL-injection avoidance,
+                         * in order to select only some basic information of the anonymous user.
+                         */
+                        anonymousUserRequest = new Request(
+                            "SELECT IsAnonymous, RegistrationDate, PatientYN, " +
+                            "(SELECT COUNT(*) FROM Interest WHERE CodUser = @CodUser) AS RareDiseasesCount, " +
+                            "(SELECT COUNT(*) FROM Experience WHERE CodUser = @CodUser) AS ExperiencesCount " +
+                            "FROM StandardUser WHERE CodUser = @CodUser;", (queryError, rowCount, rows) => {
+                                if (queryError) {
+                                    res.status(500).send({
+                                        errorMessage: req.i18n.__("Err_Users_UserInfo", queryError)
+                                    });
+                                } else {
+                                    // Parses the data from each of the row and populate the user statistics json array
+                                    const userInfo = queryResultHandler.getJSONFromRow(rows[0]);
+                                    
+                                    res.status(200).json(userInfo);
+                                }
+                            }
+                        );
+                        anonymousUserRequest.addParameter('CodUser', TYPES.Numeric, id);
+
+                        // Performs the anonymous profile getter query on the relational database
+                        sql.connection.execSql(anonymousUserRequest);
                     } else {
+                        /**
+                         * Prepares the SQL statement with parameters for SQL-injection avoidance,
+                         * in order to obtain the registered user data.
+                         */
+                        userRequest = new Request(
+                            "SELECT IsAnonymous, Email, Surname, Name, Gender, BirthDate, Nationality, Photo, Biography, " +
+                            "RegistrationDate, PatientYN, PatientName, PatientSurname, PatientGender, PatientBirthDate, PatientNationality, " +
+                            "(SELECT COUNT(*) FROM Interest WHERE CodUser = @CodUser) AS RareDiseasesCount, " +
+                            "(SELECT COUNT(*) FROM Experience WHERE CodUser = @CodUser) AS ExperiencesCount " +
+                            "FROM StandardUser WHERE CodUser = @CodUser;", (queryError, rowCount, rows) => {
+                                if (queryError) {
+                                    res.status(500).send({
+                                        errorMessage: req.i18n.__("Err_Users_UserInfo", queryError)
+                                    });
+                                } else {
+                                    // Parses the data from each of the row and populate the user statistics json array
+                                    const userInfo = queryResultHandler.getJSONFromRow(rows[0]);
+                                    
+                                    res.status(200).json(userInfo);
+                                }
+                            }
+                        );
+                        userRequest.addParameter('CodUser', TYPES.Numeric, id);
 
-                        // Parses the data from each of the row and populate the user statistics json array
-                        const userInfo = queryResultHandler.getJSONFromRow(rows[0]);
-                        
-                        res.status(200).json(userInfo);
-
+                        // Performs the info selection query on the relational database
+                        sql.connection.execSql(userRequest);
                     }
+
                 }
             }
-        );
-        userRequest.addParameter('CodUser', TYPES.Numeric, id);
+        }
+    );
+    checkAnonymousRequest.addParameter('CodUser', TYPES.Numeric, id);
 
-        // Performs the info selection query on the relational database
-        sql.connection.execSql(userRequest);
-
-    } else {
-        res.status(401).send({
-            errorMessage: req.i18n.__("Err_UnauthorizedUser")
-        });
-    }
+    // Performs the anonymous check query on the relational database
+    sql.connection.execSql(checkAnonymousRequest);
 
 }
 
@@ -153,7 +196,7 @@ function putUser(req, res) {
                  */
                 updateRequest = new Request(
                     "UPDATE StandardUser " +
-                    "SET Email = @Email, Name = @Name, Surname = @Surname, Gender = @Gender, BirthDate = @BirthDate, Nationality = @Nationality, AnonymousYN = @AnonymousYN, Photo = " + (req.body.photo ? "@Photo" : "NULL") + ", Biography = " + (req.body.biography ? "@Biography" : "NULL") + " " +
+                    "SET Email = @Email, Name = @Name, Surname = @Surname, Gender = @Gender, BirthDate = @BirthDate, Nationality = @Nationality, IsAnonymous = @IsAnonymous, Photo = " + (req.body.photo ? "@Photo" : "NULL") + ", Biography = " + (req.body.biography ? "@Biography" : "NULL") + " " +
                     "WHERE CodUser = @CodUser;", (queryError, rowCount) => {
                         if (queryError) {
                             res.status(500).send({
@@ -244,7 +287,7 @@ function putUser(req, res) {
                 updateRequest.addParameter('Gender', TYPES.Char, req.body.gender);
                 updateRequest.addParameter('BirthDate', TYPES.Date, req.body.birthDate);
                 updateRequest.addParameter('Nationality', TYPES.NVarChar, req.body.nationality);
-                updateRequest.addParameter('AnonymousYN', TYPES.Bit, req.body.isAnonymous);
+                updateRequest.addParameter('IsAnonymous', TYPES.Bit, req.body.isAnonymous);
                 if (req.body.photo) {
                     updateRequest.addParameter('Photo', TYPES.VarBinary, req.body.photo);
                 }
