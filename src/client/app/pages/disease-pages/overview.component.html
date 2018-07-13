@@ -21,7 +21,7 @@
 
             <div>
                 <h5>Specialità</h5>
-                <div class="small-box">{{disease.general.SpecialtyName}}</div>
+                <span class="small-box">{{disease.general.SpecialtyName}}</span>
             </div>
 
             <div class="right-title">
@@ -127,9 +127,9 @@
             </ul>
         </div>
 
-        <button mat-fab class="floating-button" (click)="scrollToTop()">
-            <i class="fa fa-arrow-up not-spaced" aria-hidden="true"></i>
-        </button>
+        <div class="floating-button" (click)="scrollToTop()">
+            <i class="fa fa-arrow-up not-spaced"></i>
+        </div>
 
     </div>
 </div>

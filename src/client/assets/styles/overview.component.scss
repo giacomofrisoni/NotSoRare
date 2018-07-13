@@ -10,11 +10,13 @@ h3 {
 }
 
 .small-box {
-    border: 1px solid #6b6b6b;
-    background: #807f7f;
+    border: 1px solid #808080;
+    background: #929292;
     color: white;
     border-radius: 10px;
-    padding: 5px 15px;
+    padding: 3px 10px;
+    font-weight: bold;
+    font-size: 0.9em;
 }
 
 .title-box {
@@ -22,7 +24,7 @@ h3 {
     margin: $padding-box;
     min-height: 160px;
     display: flex;
-    align-content: stretch;
+    align-content: flex-start;
     align-items: stretch;
     justify-content: flex-start;
     border: 1px solid lightgray;
@@ -41,9 +43,26 @@ h3 {
 }
 
 .floating-button {
+    width: 48px;
+    min-width: 48px;
+    max-width: 48px;
+    height: 48px;
+    max-height: 48px;
+    min-height: 48px;
+    background: $accent-dark-color;
+    color: white;
+    text-align: center;
+    line-height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+
     top: auto !important;
     right: 20px !important;
     bottom: 10px !important;
     left: auto !important;
     position: fixed !important;
+
+    &:hover {
+        background: $accent-color;
+    }
 }

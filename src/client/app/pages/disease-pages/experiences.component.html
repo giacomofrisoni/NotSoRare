@@ -22,7 +22,7 @@
         <div>
             <div class="flex start-aligned">
                 <span>Filtro: </span>
-                <ng-select searchable="false" clearable="false" class="custom-select" [(ngModel)]="selectedItem" bindLabel="text" bindValue="value" (change)="onItemSelected()"
+                <ng-select searchable="false" placeholder="Seleziona un ordinamento" clearable="false" class="custom-select" [(ngModel)]="selectedItem" bindLabel="text" bindValue="value" (change)="onItemSelected()"
                     [items]="filters">
 
                     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">

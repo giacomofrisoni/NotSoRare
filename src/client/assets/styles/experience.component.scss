@@ -11,8 +11,14 @@ app-experience-preview {
 
 h3 {
     margin: 0;
+    font-weight: bolder;
 }
 
 .page-card {
     min-height: 380px;
+}
+
+.date {
+    font-style: italic;
+    font-size: 0.9em;
 }
