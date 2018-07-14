@@ -31,7 +31,7 @@ function searchForumMessage(codDisease, codForumThread, codForumMessage,
                             /**
                              * Searches the forum message inside the found forum thread and with the specified code.
                              */
-                            ForumMessage.findOne({ _forumThreadId: forumThread._id, cod: codForumMessage }).populate('_autorId').exec((error, forumMessage) => {
+                            ForumMessage.findOne({ _forumThreadId: forumThread._id, code: codForumMessage }).populate('_authorId').exec((error, forumMessage) => {
                                 if (error) {
                                     errorCallback(error);
                                 } else {
@@ -176,16 +176,24 @@ function putForumMessage(req, res) {
              */
             if (req.session.user == forumMessage._authorId.code) {
 
-                forumMessage.content = req.body.content;
-                forumMessage.save(error => {
-                    if (error) {
-                        res.status(500).send({
-                            errorMessage: req.i18n.__("Err_ForumMessages_MessageUpdate", error)
-                        });
-                    } else {
-                        res.status(200).json(forumMessage);
-                    }
-                });
+                // Checks for duplicate user votes
+                if (req.body.utility_votes.length === new Set(req.body.utility_votes.map(item => item.user)).size) {
+                    forumMessage.content = req.body.content;
+                    forumMessage.utility_votes = req.body.utility_votes;
+                    forumMessage.save(error => {
+                        if (error) {
+                            res.status(500).send({
+                                errorMessage: req.i18n.__("Err_ForumMessages_MessageUpdate", error)
+                            });
+                        } else {
+                            res.status(200).json(forumMessage);
+                        }
+                    });
+                } else {
+                    res.status(500).send({
+                        errorMessage: req.i18n.__("Err_ForumMessages_DuplicateUtilityVote")
+                    });
+                }
 
             } else {
                 res.status(401).send({

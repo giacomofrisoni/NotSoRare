@@ -35,13 +35,29 @@ ForumMessageSchema.index({ _forumThreadId: 1, code: 1 }, { unique: true });
 
 // Defines a function to run before saving
 ForumMessageSchema.pre('save', function(next) {
+
     // Gets the current date
     var currentDate = new Date();
     // Changes the updated date field to current date
     this.updated_date = currentDate;
     // Sets the creation date if not already present
-    if (!this.creation_date)
+    if (!this.creation_date) {
         this.creation_date = currentDate;
+    }
+
+    // Calculates the total utility vote
+    let votes = [];
+    votes = this.utility_votes.map((v) => {
+        return v.vote;
+    });
+    if (votes.length === 0) {
+        this.utility = 0;
+    } else {
+        this.utility = votes.reduce((sum, vote) => {
+            return sum + (vote ? 1 : -1);
+        });
+    }
+
     next();
 });
 
