@@ -29,11 +29,16 @@ UserSchema
     return Math.floor((Date.now() - this.birth_date.getTime()) / (1000 * 3600 * 24 * 365));
 });
 
-// Virtual for user's URL
+/**
+ * Specifies a virtual with a 'ref' property in order to enable virtual population,
+ * mantaining the document small.
+ * Link: http://thecodebarbarian.com/mongoose-virtual-populate.
+ */
 UserSchema
-.virtual('url')
-.get(function() {
-    return '/users/' + this.id;
+.virtual('forumThreads', {
+    ref: 'ForumThread',
+    localField: '_id',
+    foreignField: '_authorId'
 });
 
 // Compiles model from schema

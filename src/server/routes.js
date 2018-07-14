@@ -10,6 +10,8 @@ const experienceInsertionSchema = require('./validation/experience_insertion_sch
 const experienceUpdateSchema = require('./validation/experience_update_schema');
 const forumThreadInsertionSchema = require('./validation/forum_thread_insertion_schema');
 const forumThreadUpdateSchema = require('./validation/forum_thread_update_schema');
+const forumMessageInsertionSchema = require('./validation/forum_message_insertion_schema');
+const forumMessageUpdateSchema = require('./validation/forum_message_update_schema');
 const userUpdateSchema = require('./validation/user_update_schema');
 const interestInsertionSchema = require('./validation/interest_insertion_schema');
 
@@ -18,6 +20,7 @@ const authenticationService = require('./services/authentication.service');
 const rareDiseaseService = require('./services/raredisease.service');
 const experiencesService = require('./services/experiences.service');
 const forumThreadsService = require('./services/forum_threads_service');
+const forumMessagesService = require('./services/forum_messages_service');
 const userService = require('./services/user.service');
 const userRareDiseasesService = require('./services/user_rarediseases.service');
 
@@ -186,6 +189,32 @@ router.get('/rareDiseases/:id/forumThreads', (req, res) => {
  */
 router.get('/users/:id/forumThreads', (req, res) => {
     forumThreadsService.getUserForumThreads(req, res);
+});
+
+
+/**
+ * FORUM MESSAGES
+ */
+
+/**
+ * Adds a new forum message.
+ */
+router.post('/forumMessages', validatePayloadMiddleware, validate(forumMessageInsertionSchema), (req, res) => {
+    forumMessagesService.postForumMessage(req, res);
+});
+
+/**
+ * Updates the data of a registered forum message.
+ */
+router.put('/rareDiseases/:idDisease/forumThreads/:idForumThread/forumMessages/:idForumMessage', validatePayloadMiddleware, validate(forumMessageUpdateSchema), (req, res) => {
+    forumMessagesService.putForumMessage(req, res);
+});
+
+/**
+ * Deletes a registered forum message.
+ */
+router.delete('/rareDiseases/:idDisease/forumThreads/:idForumThread/forumMessages/:idForumMessage', (req, res) => {
+    forumMessagesService.deleteForumMessage(req, res);
 });
 
 

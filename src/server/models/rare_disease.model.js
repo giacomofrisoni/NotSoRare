@@ -14,13 +14,6 @@ const RareDiseaseSchema = new Schema({
     collection: 'RareDiseases'
 });
 
-// Virtual for rare disease's URL
-RareDiseaseSchema
-.virtual('url')
-.get(function() {
-    return '/rareDiseases/' + this.code;
-});
-
 // Compiles model from schema
 const RareDisease = mongoose.model('RareDisease', RareDiseaseSchema);
 

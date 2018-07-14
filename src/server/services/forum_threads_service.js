@@ -16,7 +16,7 @@ const ForumThread = require('../models/forum_thread.model');
 function postForumThread(req, res) {
 
     /**
-     * Only a logged user with the same code of the request can delete the data.
+     * Only a logged user with the same code of the request can add the data.
      */
     if (req.session.user == req.body.codUser) {
 
@@ -76,8 +76,8 @@ function postForumThread(req, res) {
                                         } else {
 
                                             /**
-                                            * Searches the rare disease with the specified code.
-                                            */
+                                             * Searches the rare disease with the specified code.
+                                             */
                                             RareDisease.findOne({ code: req.body.codDisease }, (error, disease) => {
                                                 if (error) {
                                                     // Rollback the sql update
@@ -134,28 +134,10 @@ function postForumThread(req, res) {
                                                                                 });
                                                                             });
                                                                         } else {
-
-                                                                            // Adds the thread inside the related forum
-                                                                            Forum.findByIdAndUpdate(
-                                                                                disease._forumId,
-                                                                                { $push: { _threadsIds: forumThread._id } },
-                                                                                (error) =>{
-                                                                                    if (error) {
-                                                                                        // Rollback the sql update
-                                                                                        done(error, () => {
-                                                                                            res.status(500).send({
-                                                                                                errorMessage: req.i18n.__("Err_ForumThreads_ThreadInsertion", error)
-                                                                                            });
-                                                                                        });
-                                                                                    } else {
-                                                                                        // Commit the transaction
-                                                                                        done(null, () => {
-                                                                                            res.status(201).json(forumThread);
-                                                                                        });
-                                                                                    }
-                                                                                }
-                                                                            );
-
+                                                                            // Commit the transaction
+                                                                            done(null, () => {
+                                                                                res.status(201).json(forumThread);
+                                                                            });
                                                                         }
                                                                     });
                 
@@ -224,7 +206,7 @@ function putForumThread(req, res) {
                             });
                         } else {
                             /**
-                             * Only a logged user with the same code of the request can delete the data.
+                             * Only a logged user with the same code of the request can update the data.
                              */
                             if (req.session.user == forumThread._authorId.code) {
 
@@ -351,30 +333,12 @@ function deleteForumThread(req, res) {
                                                                         });
                                                                     });
                                                                 } else {
-                                                                    /**
-                                                                     * Removes the thread reference from the forum.
-                                                                     */
-                                                                    Forum.findByIdAndUpdate(
-                                                                        disease._forumId,
-                                                                        { $pull: { _threadsIds: forumThread._id } },
-                                                                        (error) =>{
-                                                                            if (error) {
-                                                                                // Rollback the sql update
-                                                                                done(error, () => {
-                                                                                    res.status(500).send({
-                                                                                        errorMessage: req.i18n.__("Err_ForumThreads_ThreadDeletion", error)
-                                                                                    });
-                                                                                });
-                                                                            } else {
-                                                                                // Commit the transaction
-                                                                                done(null, () => {
-                                                                                    res.status(200).send({
-                                                                                        infoMessage: req.i18n.__("ForumThreadDeletion_Completed")
-                                                                                    });
-                                                                                });
-                                                                            }
-                                                                        }
-                                                                    );
+                                                                    // Commit the transaction
+                                                                    done(null, () => {
+                                                                        res.status(200).send({
+                                                                            infoMessage: req.i18n.__("ForumThreadDeletion_Completed")
+                                                                        });
+                                                                    });
                                                                 }
                                                             })
                                                             .catch(error => {
@@ -477,34 +441,34 @@ function getUserForumThreads(req, res) {
      */
     if (req.session.user) {
 
-        User.findOne({ code: id }, (error, user) => {
-            if (error) {
-                res.status(500).send({
-                    errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
-                });
-            } else {
-                if (!user) {
-                    res.status(404).send({
-                        errorMessage: req.i18n.__("Err_ForumThreads_UserNotFound")
+        User.findOne({ code: id })
+            .populate({
+                path: 'forumThreads',
+                populate: {
+                    path: '_forumId',
+                    model: 'Forum',
+                    populate: {
+                        path: '_diseaseId',
+                        model: 'RareDisease'
+                    }
+                }
+            }).exec((error, user) => {
+                if (error) {
+                    res.status(500).send({
+                        errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
                     });
                 } else {
-
-                    /**
-                     * Searches the forum threads written by the found user.
-                     */
-                    ForumThread.find({ _authorId: user._id }).populate('_forumId').populate('_forumId._diseaseId').exec((error, forumThreads) => {
-                        if (error) {
-                            res.status(500).send({
-                                errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
-                            });
-                        } else {
-                            res.status(200).json(forumThreads);
-                        }
-                    });
-
+                    if (!user) {
+                        res.status(404).send({
+                            errorMessage: req.i18n.__("Err_ForumThreads_UserNotFound")
+                        });
+                    } else {
+                        res.status(200).json({
+                            'threads': user.forumThreads
+                        });
+                    }
                 }
-            }
-        });
+            });
 
     } else {
         res.status(401).send({

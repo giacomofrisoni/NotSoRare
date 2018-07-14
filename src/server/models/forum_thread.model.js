@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 // Imports the mongoose auto-increment module
 const autoIncrement = require('mongoose-auto-increment');
 
-
 // Defines the ForumThread schema
 const Schema = mongoose.Schema;
 const ForumThreadSchema = new Schema({
@@ -24,14 +23,7 @@ autoIncrement.initialize(mongoose.connection);
 ForumThreadSchema.plugin(autoIncrement.plugin, { model: 'ForumThread', field: 'code' });
 
 // Defines a unique compound index
-ForumThreadSchema.index({ forum: 1, code: 1 }, { unique: true });
-
-// Virtual for forum thread's URL
-ForumThreadSchema
-.virtual('url')
-.get(function() {
-    return '/forumThreads/' + this.code;
-});
+ForumThreadSchema.index({ _forumId: 1, code: 1 }, { unique: true });
 
 // Defines a function to run before saving
 ForumThreadSchema.pre('save', function(next) {
