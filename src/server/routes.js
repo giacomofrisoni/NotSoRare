@@ -174,6 +174,20 @@ router.delete('/rareDiseases/:idDisease/forumThreads/:idForumThread', (req, res)
     forumThreadsService.deleteForumThread(req, res);
 });
 
+/**
+ * Gets the forum threads for a rare disease.
+ */
+router.get('/rareDiseases/:id/forumThreads', (req, res) => {
+    forumThreadsService.getRareDiseaseForumThreads(req, res);
+});
+
+/**
+ * Gets the forum threads published by a user.
+ */
+router.get('/users/:id/forumThreads', (req, res) => {
+    forumThreadsService.getUserForumThreads(req, res);
+});
+
 
 /**
  * EXPERT CENTRES

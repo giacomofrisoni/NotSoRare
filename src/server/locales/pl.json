@@ -45,6 +45,7 @@
     "Err_ForumThreads_ThreadUpdate": "An error occurred during the forum thread update. %s",
     "Err_ForumThreads_ThreadNotFound": "There is no one registered forum thread with the specified code",
     "Err_ForumThreads_ThreadDeletion": "An error occurred during the forum thread deletion. %s",
+    "Err_ForumThreads_GettingThreads": "An error occured during the forum threads retrieving. %s",
     "ForumThreadDeletion_Completed": "Forum thread removed successfully",
 	"Experience_Added": "Experience added successfully",
 	"Experience_Updated": "Experience updated successfully",

@@ -418,10 +418,113 @@ function deleteForumThread(req, res) {
 }
 
 
+function getRareDiseaseForumThreads(req, res) {
+
+    const id = parseInt(req.params.id, 10);
+
+    /**
+     * Only a logged user can access to forum data.
+     */
+    if (req.session.user) {
+
+        /**
+         * Searches the rare disease with the specified code.
+         */
+        RareDisease.findOne({ code: id }, (error, disease) => {
+            if (error) {
+                res.status(500).send({
+                    errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
+                });
+            } else {
+                if (!disease) {
+                    res.status(404).send({
+                        errorMessage: req.i18n.__("Err_ForumThreads_DiseaseNotFound")
+                    });
+                } else {
+
+                    /**
+                     * Searches the forum threads associated to the forum of the found disease.
+                     */
+                    ForumThread.find({ _forumId: disease._forumId }).populate('_authorId').exec((error, forumThreads) => {
+                        if (error) {
+                            res.status(500).send({
+                                errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
+                            });
+                        } else {
+                            res.status(200).json(forumThreads);
+                        }
+                    });
+
+                }
+            }
+        });
+
+    } else {
+        res.status(401).send({
+            errorMessage: req.i18n.__("Err_UnauthorizedUser")
+        });
+    }
+
+}
+
+
+function getUserForumThreads(req, res) {
+
+    const id = parseInt(req.params.id, 10);
+
+    /**
+     * Only a logged user can access to forum data.
+     */
+    if (req.session.user) {
+
+        User.findOne({ code: id }, (error, user) => {
+            if (error) {
+                res.status(500).send({
+                    errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
+                });
+            } else {
+                if (!user) {
+                    res.status(404).send({
+                        errorMessage: req.i18n.__("Err_ForumThreads_UserNotFound")
+                    });
+                } else {
+
+                    /**
+                     * Searches the forum threads written by the found user.
+                     */
+                    ForumThread.find({ _authorId: user._id }).populate('_forumId').populate('_forumId._diseaseId').exec((error, forumThreads) => {
+                        if (error) {
+                            res.status(500).send({
+                                errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
+                            });
+                        } else {
+                            res.status(200).json(forumThreads);
+                        }
+                    });
+
+                }
+            }
+        });
+
+    } else {
+        res.status(401).send({
+            errorMessage: req.i18n.__("Err_UnauthorizedUser")
+        });
+    }
+
+}
+
+
+function getForumThread(req, res) {
+    // TODO
+}
+
+
 module.exports = {
     postForumThread,
     putForumThread,
-    deleteForumThread/*,
+    deleteForumThread,
     getRareDiseaseForumThreads,
-    getUserForumThreads*/
+    getUserForumThreads,
+    getForumThread
 };
