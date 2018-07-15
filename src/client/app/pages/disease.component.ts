@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DiseaseService } from '../services/disease.service';
 import { TranslateService } from '../../../../node_modules/@ngx-translate/core';
 import { Disease } from '../models/disease';
@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '../../../../node_modules/@angular/router
 import { LanguageService } from '../services/language.service';
 import { DiseaseHolderService } from '../services/disease-holder.service';
 import { Subscription } from '../../../../node_modules/rxjs';
+import { UserService } from '../services/user.service';
+import { DivbuttonComponent } from '../components/divbutton.component';
 
 @Component({
   selector: 'app-disease',
@@ -15,8 +17,15 @@ import { Subscription } from '../../../../node_modules/rxjs';
 })
 export class DiseaseComponent implements OnInit {
 
+  // View
+  @ViewChild('followButton') followButton: DivbuttonComponent;
+  @ViewChild('unfollowButton') unfollowButton: DivbuttonComponent;
+
   // Loading
+  userLoggedIn: number = -1;
   isDiseaseLoaded: boolean = false;
+  isDiseaseFollowed: boolean = false;
+  isDiseaseFollowedLoaded: boolean = false;
   isAnyErrorPresent: boolean = false;
   loadingTimes: number = 0;
 
@@ -26,11 +35,13 @@ export class DiseaseComponent implements OnInit {
   // Subscriptions to destroy
   subLanguageService: Subscription;
   subParams: Subscription;
+  subUserService: Subscription;
 
   constructor(
     private diseaseService: DiseaseService,
-    private translate: TranslateService, 
-    private route: ActivatedRoute, 
+    private translate: TranslateService,
+    private route: ActivatedRoute,
+    private userService: UserService,
     private languageService: LanguageService,
     private diseaseHolder: DiseaseHolderService) {
     this.disease = new Disease();
@@ -38,11 +49,11 @@ export class DiseaseComponent implements OnInit {
 
   ngOnInit() {
     // Subscribe to change language
-    this.subLanguageService = this.languageService.getCurrentLanguage().subscribe(newLanguage =>{
+    this.subLanguageService = this.languageService.getCurrentLanguage().subscribe(newLanguage => {
       if (this.loadingTimes > 1) {
         window.location.reload();
       } else {
-        this.loadingTimes++; 
+        this.loadingTimes++;
       }
     });
 
@@ -56,18 +67,41 @@ export class DiseaseComponent implements OnInit {
           // Data are ok, set it!
           this.disease = disease;
           this.diseaseHolder.setDisease(this.disease);
-          console.log(this.disease);
-    
+
           // Inform the view
           this.isDiseaseLoaded = true;
           this.isAnyErrorPresent = false;
-          
+
+          // Load more data!
+          this.subUserService = this.userService.getLoggedInStatus("Disease").subscribe((userID: any) => {
+            // Check if user is logged in
+            this.userLoggedIn = userID.loggedIn ? userID.loggedIn : -1;
+      
+            if (this.userLoggedIn >= 0) {
+              // If it's logged check if he's following this disease
+              this.userService.getFollowingDiseases(this.userLoggedIn).subscribe((results: any[]) => {
+                results.forEach(result => {
+                  if (result.CodDisease == id) {
+                    this.isDiseaseFollowed = true;
+                  } 
+                });
+                this.isDiseaseFollowedLoaded = true;
+              }, error => {
+                console.log("Error during getting following diseases: " + error);
+                this.isDiseaseFollowedLoaded = false;
+              });
+            }
+          }, error => {
+            console.log("Error during check user logged in: " + error);
+            this.userLoggedIn = -1;
+          });
+
         }, error => {
           // Inform the view
           this.isDiseaseLoaded = true;
           this.isAnyErrorPresent = true;
-    
-          console.log(error);
+
+          console.log("Error during loading disease: " + error);
         });
       } else {
         // Inform the view
@@ -75,6 +109,8 @@ export class DiseaseComponent implements OnInit {
         this.isAnyErrorPresent = true;
       }
     });
+
+
   }
 
 
@@ -86,6 +122,24 @@ export class DiseaseComponent implements OnInit {
   unsubscribeAll() {
     this.subLanguageService.unsubscribe();
     this.subParams.unsubscribe();
+    this.subUserService.unsubscribe();
+  }
+
+  onFollow() {
+    this.followButton.icon = "fa fa-spinner fa-spin";
+    this.followButton.text = "";
+
+    this.diseaseService.followDisease(this.userLoggedIn, this.disease.general.CodDisease).subscribe(results => {
+      this.isDiseaseFollowed = true;
+      this.followButton.icon = "fa fa-plus-circla";
+      this.followButton.text = "Segui";
+      console.log(results);
+    }, error => {
+      this.followButton.icon = "fa fa-plus-circle";
+      this.followButton.text = "Segui";
+      console.log("Impossible to follow: " + error);
+      console.log(error);
+    })
   }
 
 }

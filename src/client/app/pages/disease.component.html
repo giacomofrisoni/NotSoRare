@@ -49,8 +49,9 @@
                         </div>
                     </div>
 
-                    <div class="follow-button">
-                        <app-divbutton icon="fa fa-plus-circle" text="Segui" isBordered="true"></app-divbutton>
+                    <div class="follow-button" *ngIf="(userLoggedIn >= 0) && isDiseaseFollowedLoaded">
+                        <app-divbutton #followButton *ngIf="!isDiseaseFollowed" icon="fa fa-plus-circle" text="Segui" isBordered="true" (click)="onFollow()"></app-divbutton>
+                        <app-divbutton #unfollowButton *ngIf="isDiseaseFollowed" icon="fa fa-minus-circle" text="Smetti di seguire" isBordered="true" (click)="onUnfollow"></app-divbutton>
                     </div>
                 </div>
 

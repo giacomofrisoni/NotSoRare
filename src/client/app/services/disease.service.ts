@@ -32,4 +32,17 @@ export class DiseaseService {
       withCredentials: true,
     });
   }
+
+  followDisease(userID: number, diseaseID: number) {
+    return this.http.post(this.globalUtils.apiPath + "/interests/" + this.globalUtils.createLanguageParameter(), {
+      codUser: userID,
+      codDisease: diseaseID
+    }, {
+      withCredentials: true,
+    });
+  }
+
+  unfollowDisease() {
+
+  }
 }

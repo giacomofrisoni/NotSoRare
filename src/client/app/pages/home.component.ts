@@ -47,6 +47,7 @@ export class HomeComponent implements OnInit {
           if (results) {
             // Save them
             this.followedDiseases = results;
+            console.log(results);
           } else {
             // Error when retriving diseases
             this.isFollowedDiseasesError = true;
