@@ -57,6 +57,7 @@ function login(req, res) {
                             if (match) {
                                 req.session.user = userData[0].CodUser; // Stores the code of the logged user into the session
                                 res.status(200).send({
+                                    codUser: userData[0].CodUser,
                                     infoMessage: req.i18n.__("Login_Completed", userData[0].CodUser)
                                 });
                             } else {
