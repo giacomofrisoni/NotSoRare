@@ -1,16 +1,29 @@
-<div class="flex main-container">
-    <div class="middle">
+<div class="main-container" [ngClass]="{'flex': !isPageLoading && !isUserLoggedIn}">
+    <!-- General loading element -->
+    <div *ngIf="isPageLoading" class="flex">
+        <div class="middle">
+            <h2>
+                <i class='fa fa-spinner fa-spin'></i>
+                <span [innerHTML]="'Home.PageLoading' | translate"></span>
+            </h2>
+        </div>
+    </div>
+
+    <!-- Not logged status -->
+    <div *ngIf="!isPageLoading && !isUserLoggedIn" class="middle">
+
         <h2 [innerHTML]="'Home.Title' | translate"></h2>
 
         <div class="subtitle" [innerHTML]="'Home.Subtitle' | translate"></div>
 
         <div class="flex searchbar">
-            <input class="search" [(ngModel)]="searchedDisease" type="search" [placeholder]="'Home.Placeholder' | translate" matInput [matAutocomplete]="auto" (input)="onInputChanged($event.target.value)">
-                
+            <input class="search" [(ngModel)]="searchedDisease" type="search" [placeholder]="'Home.Placeholder' | translate" matInput
+                [matAutocomplete]="auto" (input)="onInputChanged($event.target.value)">
+
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let disease of diseases | async" [value]="disease" (click)="openDisease(disease.CodDisease)">{{disease.Name}}</mat-option>
             </mat-autocomplete>
-                  
+
             <app-divbutton id="button-search" icon="fa fa-search" isHalfCornered="true" (click)="onSearchClick()"></app-divbutton>
         </div>
 
@@ -21,7 +34,64 @@
 
         <div class="searching" [ngClass]="{'hidden': !isValueNotFound}">
             <i class='fa fa-times accent'></i>
-            <span>Nessuna corrispondenza trovata. <a href="#" routerLink="/disease-search">Vai all'elenco completo</a></span>
+            <span>Nessuna corrispondenza trovata.
+                <a href="#" routerLink="/disease-search">Vai all'elenco completo</a>
+            </span>
+        </div>
+    </div>
+
+    <!-- User logged in -->
+    <div *ngIf="!isPageLoading && isUserLoggedIn" class="centered container">
+        <div>
+            <h3>Malattie rare seguite</h3>
+
+            <div class="flex" *ngIf="!isFollowedDiseasesLoaded">
+                <i class='fa fa-spinner fa-spin'></i>
+                <span [innerHTML]="'Home.PageLoading' | translate"></span>
+            </div>
+
+            <div class="flex" *ngIf="isFollowedDiseasesLoaded">
+                <div class="flex vertical disease" *ngFor="let disease of followedDiseases">
+                    <img [src]="disease.Image" />
+                    <h5>{{disease.DiseaseName}}</h5>
+                </div>
+
+                <div class="flex disease add">
+                    <i class="fa fa-plus"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex searchbar">
+            <input class="search" [(ngModel)]="searchedDisease" type="search" [placeholder]="'Home.Placeholder' | translate" matInput
+                [matAutocomplete]="auto" (input)="onInputChanged($event.target.value)">
+
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let disease of diseases | async" [value]="disease" (click)="openDisease(disease.CodDisease)">{{disease.Name}}</mat-option>
+            </mat-autocomplete>
+
+            <app-divbutton id="button-search" icon="fa fa-search" isHalfCornered="true" (click)="onSearchClick()"></app-divbutton>
+        </div>
+
+        <div class="searching" [ngClass]="{'hidden': !isLoading}">
+            <i class='fa fa-spinner fa-spin'></i>
+            <span [innerHTML]="'Home.Loading' | translate"></span>
+        </div>
+
+        <div class="searching" [ngClass]="{'hidden': !isValueNotFound}">
+            <i class='fa fa-times accent'></i>
+            <span>Nessuna corrispondenza trovata.
+                <a href="#" routerLink="/disease-search">Vai all'elenco completo</a>
+            </span>
         </div>
     </div>
 </div>
+
+<!--
+<div class="flex main-container">
+
+
+    
+
+    
+</div>-->

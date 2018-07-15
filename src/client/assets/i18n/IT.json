@@ -7,6 +7,7 @@
     },
     
     "Home": {
+        "PageLoading": "Caricamento...",
         "Loading": "Ricerca della malattia inserita...",
         "NoData": "Nessuna corrispondenza trovata. <a href='#' routerLink='/disease-search'>Vai all'elenco completo</a>",
         "Title": "Le malattie non sono così rare se le affrontiamo <b>insieme</b>",
@@ -137,8 +138,7 @@
         "TreatmentType": "Tipologia trattamento",
         "SideEffects": "Effetti collaterali",
         "NoSideEffects": "Nessun effetto collaterale conosciuto",
-        "Complications": "Complicazioni",
-
+        "Complications": "Complicazioni"
     },
 
     "Profile": {
