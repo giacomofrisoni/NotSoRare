@@ -2,19 +2,13 @@
     <!-- LOADING -->
     <div *ngIf="!isExperienceLoaded" class="page-card centered">
         <i class='fa fa-spinner fa-spin'></i>
-        <span [innerHTML]="'Disease.Loading' | translate"></span>
+        <span [innerHTML]="'Experience.Loading' | translate"></span>
     </div>
 
     <!-- ERROR -->
     <div *ngIf="isAnyErrorPresent" class="page-card centered">
         <i class='fa fa-times'></i>
-        <span [innerHTML]="'Disease.ErrorLoading' | translate"></span>
-    </div>
-
-    <!-- EMPTY -->
-    <div *ngIf="isExperienceEmpty" class="page-card centered">
-        <span>Ancora nessuna esperienza</span>
-        <app-divbutton text="Condividi la tua esperienza"></app-divbutton>
+        <span [innerHTML]="'Experience.Error' | translate"></span>
     </div>
 
     <!-- Something-->
