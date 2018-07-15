@@ -420,49 +420,72 @@ function getRareDiseaseReferences(req, res) {
     const id = parseInt(req.params.id, 10);
 
     /**
-    * Prepares the SQL statement with parameters for SQL-injection avoidance,
-    * in order to get the references available for the rare disease.
-    */
-    referenceRequest = new Request(
-        "SELECT Reference.CodReference, ReferenceTR.Description, Reference.Link " +
-        "FROM Reference " +
-        "INNER JOIN ReferenceTranslation AS ReferenceTR ON ReferenceTR.CodReference = Reference.CodReference AND ReferenceTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM ReferenceTranslation), @CodLanguage, @DefaultCodLanguage) " +
-        "WHERE Reference.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
+     * Prepares the SQL statement with parameters for SQL-injection avoidance,
+     * in order to check rare disease existance.
+     */
+    diseaseRequest = new Request(
+        "SELECT COUNT(*) FROM RareDisease WHERE CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
             if (queryError) {
                 res.status(500).send({
                     errorMessage: req.i18n.__("Err_RareDiseases_References", queryError)
                 });
             } else {
-                /**
-                 * The operation concerns a single row.
-                 * If zero rows are affected, it means that there is no rare disease with the specified id code.
-                 */
+                // The select operation concerns a single row
                 if (rowCount == 0) {
-                    res.status(404).send({
-                        errorMessage: req.i18n.__("Err_RareDiseases_DiseaseNotFound")
+                    res.status(500).send({
+                        errorMessage: req.i18n.__("Err_RareDiseases_References")
                     });
                 } else {
-                    var references = [];
+                    // Checks if the specified disease code is valid or not
+                    if (rows[0][0].value > 0) {
 
-                    // Parses the data from each of the row and gets the references
-                    queryResultHandler.fillArrayFromRows(references, rowCount, rows, null, true, () => {
-                        return res.status(500).send({
-                            errorMessage: req.i18n.__("Err_RareDiseases_Data", "Invalid data")
+                        /**
+                         * Prepares the SQL statement with parameters for SQL-injection avoidance,
+                         * in order to get the references available for the rare disease.
+                         */
+                        referenceRequest = new Request(
+                            "SELECT Reference.CodReference, ReferenceTR.Description, Reference.Link " +
+                            "FROM Reference " +
+                            "INNER JOIN ReferenceTranslation AS ReferenceTR ON ReferenceTR.CodReference = Reference.CodReference AND ReferenceTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM ReferenceTranslation), @CodLanguage, @DefaultCodLanguage) " +
+                            "WHERE Reference.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
+                                if (queryError) {
+                                    res.status(500).send({
+                                        errorMessage: req.i18n.__("Err_RareDiseases_References", queryError)
+                                    });
+                                } else {
+                                    var references = [];
+
+                                    // Parses the data from each of the row and gets the references
+                                    queryResultHandler.fillArrayFromRows(references, rowCount, rows, null, true, () => {
+                                        return res.status(500).send({
+                                            errorMessage: req.i18n.__("Err_RareDiseases_Data", "Invalid data")
+                                        });
+                                    });
+
+                                    res.status(200).json(references);
+                                }
+                            }
+                        );
+                        referenceRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+                        referenceRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
+                        referenceRequest.addParameter('CodDisease', TYPES.Numeric, id);
+
+                        // Performs the rare disease references data selection query on the relational database
+                        sql.connection.execSql(referenceRequest);
+
+                    } else {
+                        res.status(404).send({
+                            errorMessage: req.i18n.__("Err_RareDiseases_DiseaseNotFound")
                         });
-                    });
-    
-                    res.status(200).json(references);
+                    }
                 }
             }
         }
     );
-    referenceRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
-    referenceRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
-    referenceRequest.addParameter('CodDisease', TYPES.Numeric, id);
+    diseaseRequest.addParameter('CodDisease', TYPES.Numeric, id);
 
-    // Performs the rare disease references data selection query on the relational database
-    sql.connection.execSql(referenceRequest);
-
+    // Performs the rare disease control query on the relational database
+    sql.connection.execSql(diseaseRequest);
 }
 
 
@@ -471,50 +494,84 @@ function getRareDiseaseExpertCentres(req, res) {
     const id = parseInt(req.params.id, 10);
 
     /**
-    * Prepares the SQL statement with parameters for SQL-injection avoidance,
-    * in order to get the expert centres available for the rare disease.
-    */
-    expertCentreRequest = new Request(
-        "SELECT ExpertCentre.CodExpertCentre, ExpertCentre.Name, ExpertCentre.Image, " +
-        "ExpertCentre.Add_Street, ExpertCentre.Add_HouseNumber, ExpertCentre.Add_PostalCode, ExpertCentre.Add_City, ExpertCentre.Add_Province, ExpertCentre.Add_Country, " +
-        "ExpertCentre.WebSite " +
-        "FROM ExpertCentre " +
-        "INNER JOIN RareDiseaseExpertCentre ON RareDiseaseExpertCentre.CodExpertCentre = ExpertCentre.CodExpertCentre " +
-        "INNER JOIN RareDisease ON RareDisease.CodDisease = RareDiseaseExpertCentre.CodDisease " +
-        "WHERE ExpertCentre.ApprovedYN = 1 AND RareDisease.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
+     * Prepares the SQL statement with parameters for SQL-injection avoidance,
+     * in order to check rare disease existance.
+     */
+    diseaseRequest = new Request(
+        "SELECT COUNT(*) FROM RareDisease WHERE CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
             if (queryError) {
                 res.status(500).send({
                     errorMessage: req.i18n.__("Err_RareDiseases_ExpertCentres", queryError)
                 });
             } else {
-                /**
-                 * The operation concerns a single row.
-                 * If zero rows are affected, it means that there is no rare disease with the specified id code.
-                 */
+                // The select operation concerns a single row
                 if (rowCount == 0) {
-                    res.status(404).send({
-                        errorMessage: req.i18n.__("Err_RareDiseases_DiseaseNotFound")
+                    res.status(500).send({
+                        errorMessage: req.i18n.__("Err_RareDiseases_ExpertCentres")
                     });
                 } else {
-                    var expertCentres = [];
+                    // Checks if the specified disease code is valid or not
+                    if (rows[0][0].value > 0) {
 
-                    // Parses the data from each of the row and gets the expert centres
-                    queryResultHandler.fillArrayFromRows(expertCentres, rowCount, rows, null, true, () => {
-                        return res.status(500).send({
-                            errorMessage: req.i18n.__("Err_RareDiseases_ExpertCentres", "Invalid data")
+                        /**
+                        * Prepares the SQL statement with parameters for SQL-injection avoidance,
+                        * in order to get the expert centres available for the rare disease.
+                        */
+                        expertCentreRequest = new Request(
+                            "SELECT ExpertCentre.CodExpertCentre, ExpertCentre.Name, ExpertCentre.Image, " +
+                            "ExpertCentre.Add_Street, ExpertCentre.Add_HouseNumber, ExpertCentre.Add_PostalCode, ExpertCentre.Add_City, ExpertCentre.Add_Province, ExpertCentre.Add_Country, " +
+                            "ExpertCentre.WebSite " +
+                            "FROM ExpertCentre " +
+                            "INNER JOIN RareDiseaseExpertCentre ON RareDiseaseExpertCentre.CodExpertCentre = ExpertCentre.CodExpertCentre " +
+                            "INNER JOIN RareDisease ON RareDisease.CodDisease = RareDiseaseExpertCentre.CodDisease " +
+                            "WHERE ExpertCentre.ApprovedYN = 1 AND RareDisease.CodDisease = @CodDisease;", (queryError, rowCount, rows) => {
+                                if (queryError) {
+                                    res.status(500).send({
+                                        errorMessage: req.i18n.__("Err_RareDiseases_ExpertCentres", queryError)
+                                    });
+                                } else {
+                                    /**
+                                    * The operation concerns a single row.
+                                    * If zero rows are affected, it means that there is no rare disease with the specified id code.
+                                    */
+                                    if (rowCount == 0) {
+                                        res.status(404).send({
+                                            errorMessage: req.i18n.__("Err_RareDiseases_DiseaseNotFound")
+                                        });
+                                    } else {
+                                        var expertCentres = [];
+
+                                        // Parses the data from each of the row and gets the expert centres
+                                        queryResultHandler.fillArrayFromRows(expertCentres, rowCount, rows, null, true, () => {
+                                            return res.status(500).send({
+                                                errorMessage: req.i18n.__("Err_RareDiseases_ExpertCentres", "Invalid data")
+                                            });
+                                        });
+
+                                        res.status(200).json(expertCentres);
+                                    }
+                                }
+                            }
+                        );
+                        expertCentreRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+                        expertCentreRequest.addParameter('CodDisease', TYPES.Numeric, id);
+
+                        // Performs the rare disease expert centres data selection query on the relational database
+                        sql.connection.execSql(expertCentreRequest);
+                        
+                    } else {
+                        res.status(404).send({
+                            errorMessage: req.i18n.__("Err_RareDiseases_DiseaseNotFound")
                         });
-                    });
-
-                    res.status(200).json(expertCentres);
+                    }
                 }
             }
         }
     );
-    expertCentreRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
-    expertCentreRequest.addParameter('CodDisease', TYPES.Numeric, id);
+    diseaseRequest.addParameter('CodDisease', TYPES.Numeric, id);
 
-    // Performs the rare disease expert centres data selection query on the relational database
-    sql.connection.execSql(expertCentreRequest);
+    // Performs the rare disease control query on the relational database
+    sql.connection.execSql(diseaseRequest);
 
 }
 
