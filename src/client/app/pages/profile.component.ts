@@ -15,15 +15,12 @@ export class ProfileComponent implements OnInit {
   }
 
   onLogout() {
-    this.userService.logout().subscribe((resp: any) =>{
-      console.log(resp);
-      console.log("ok!");
-      this.userService.getLoggedInStatus();
+    this.userService.logout().subscribe((resp: any) => {
       this.router.navigate(['./home']);
+      this.userService.submitLoginChange();
     }, (errorResp) => {
-      console.log("error!");
       console.log(errorResp);
-      this.userService.getLoggedInStatus();
+      this.userService.submitLoginChange();
     });
   }
 

@@ -22,6 +22,9 @@ export class LoginComponent implements OnInit {
   @ViewChild('loginButton') loginButton: DivbuttonComponent;
   @ViewChild('checkButton') checkButton: DivbuttonComponent;
 
+  // Loading
+  isPageLoading = true;
+
   // Binding values
   email: string;
   password: string;
@@ -40,7 +43,7 @@ export class LoginComponent implements OnInit {
   constructor(private userService: UserService, private router: Router, private dialog: MatDialog, private languageService: LanguageService, private translate: TranslateService) { }
 
   ngOnInit() {
-    this.languageService.getCurrentLanguage().subscribe(language =>{
+    this.languageService.getCurrentLanguage().subscribe(language => {
       this.translate.get([
         "Login.AlreadyLoggedIn",
         "Login.LoggedInSuccesfull",
@@ -48,20 +51,23 @@ export class LoginComponent implements OnInit {
         "Login.LoginError",
         "Login.LoginErrorMessage",
       ]).subscribe((results: any) => {
-        for(let key in results) {
+        for (let key in results) {
           this.translations[key.split(".")[1]] = results[key];
         }
+
+        // Get the login status of the user
+        this.userService.getLoggedInStatus("Login").subscribe((userID: any) => {
+          if (userID.loggedIn) {
+            // Ok, all is clear
+            this.loginIsOk(this.translations.LoggedInSuccesfull + " " + this.translations.RedirectedSoon, true, $("#login-card"));
+          }
+        });
+        
+        this.isPageLoading = false;
       });
     });
 
-    // Trying to check the login
-    this.subGetLoggedInStatus = this.userService.getLoggedInStatus().subscribe(status => {
-      // If something was returned
-      if (status == SessionStatus.LoggedIn) {
-        // Status ok, you're already logged in!
-        this.loginIsOk(this.translations.AlreadyLoggedIn, true, $("#login-card"));
-      }
-    });
+
   }
 
   ngOnDestroy() {
@@ -76,49 +82,44 @@ export class LoginComponent implements OnInit {
 
     // First try to login
     this.subLogin = this.userService.login(this.email, this.password).subscribe((resp: any) => {
-
-      //console.log(resp);
-      // Set the user ID
-      //this.userService.setUserID(resp.codUser);
-
       // Ok, all is clear
       this.loginIsOk(this.translations.LoggedInSuccesfull + " " + this.translations.RedirectedSoon, true, $("#login-card"));
-    }, 
-    
-    // ERROR or NEED ACTIVATION
-    (errorResp) => {
-      console.log(errorResp);
-      console.log(errorResp.error.inactive);
+    },
 
-      // If is inactive, need activation!
-      if (errorResp.error.inactive) {
-        // Inform that login is OK
-        this.loginIsOk(this.translations.LoggedInSuccesfull, false, $("#login-card"));
+      // ERROR or NEED ACTIVATION
+      (errorResp) => {
+        console.log(errorResp);
+        console.log(errorResp.error.inactive);
 
-        // Activate the activation screen
-        this.isToVerify = true;
-      } 
-      // Error
-      else {
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.data = {
-          title: this.translations.LoginError,
-          text: this.translations.LoginErrorMessage + " - " + errorResp.error.errorMessage,
-          type: SimpleDialogType.Error,
-          isAlterEnabled: false,
-          mainButtonText: "OK",
-        };
-    
-        let instance = this.dialog.open(SimpleDialogComponent, dialogConfig);
-        instance.afterClosed().subscribe(data => {
-          
-        });
-      }
+        // If is inactive, need activation!
+        if (errorResp.error.inactive) {
+          // Inform that login is OK
+          this.loginIsOk(this.translations.LoggedInSuccesfull, false, $("#login-card"));
 
-      this.loginButton.icon = "";
-    });
+          // Activate the activation screen
+          this.isToVerify = true;
+        }
+        // Error
+        else {
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.disableClose = true;
+          dialogConfig.autoFocus = true;
+          dialogConfig.data = {
+            title: this.translations.LoginError,
+            text: this.translations.LoginErrorMessage + " - " + errorResp.error.errorMessage,
+            type: SimpleDialogType.Error,
+            isAlterEnabled: false,
+            mainButtonText: "OK",
+          };
+
+          let instance = this.dialog.open(SimpleDialogComponent, dialogConfig);
+          instance.afterClosed().subscribe(data => {
+
+          });
+        }
+
+        this.loginButton.icon = "";
+      });
   }
 
   onCodeCheck() {
@@ -129,13 +130,13 @@ export class LoginComponent implements OnInit {
     this.subActivate = this.userService.activate(this.email, this.verificationCode).subscribe((resp: any) => {
       // Activation was succesfull
       this.loginIsOk(resp.infoMessage + ". " + this.translations.RedirectedSoon, true, $("#verify-code-card"));
-    }, 
-    
-    (errorResp) => {
-      this.checkButton.icon = "";
-      console.log(errorResp);
-      console.log("Error!");
-    });
+    },
+
+      (errorResp) => {
+        this.checkButton.icon = "";
+        console.log(errorResp);
+        console.log("Error!");
+      });
   }
 
 
@@ -146,7 +147,7 @@ export class LoginComponent implements OnInit {
       component.html("<p><i class='fa fa-spinner fa-spin'></i> " + message + "</p>");
 
       // After 3 seconds
-      var timeout = setTimeout(()=>{ 
+      var timeout = setTimeout(() => {
         // Reset all subscriptions
         this.unsubscribeAll();
 
@@ -154,7 +155,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['./home']);
 
         // For everyone that watches the login status I'm going to refresh it!
-        this.userService.getLoggedInStatus();
+        this.userService.getLoggedInStatus("login");
 
         // Stop calling yourself!
         clearTimeout(timeout);
@@ -163,6 +164,8 @@ export class LoginComponent implements OnInit {
       // Reset the login card 
       component.html("<p>" + message + "</p>");
     }
+
+    this.userService.submitLoginChange();
   }
 
   private unsubscribeAll() {
@@ -176,6 +179,6 @@ export class LoginComponent implements OnInit {
 
 
   }
-  
+
 
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { SessionStatus } from '../models/session-status.enum';
 import { LanguageService } from '../services/language.service';
 
 import { Subject, Subscription } from 'rxjs';
@@ -17,7 +16,8 @@ export class TopBarComponent implements OnInit {
 
   // Binding variables
   selectedLanguage: string;
-  sessionStatus: SessionStatus = SessionStatus.Unknown;
+  isUserLoggedIn: boolean = false;
+  isUserNotLoggedIn: boolean = false;
   avaiableTranslations: Subject<any> = new Subject<any>();
 
 
@@ -25,14 +25,19 @@ export class TopBarComponent implements OnInit {
     private userService: UserService, 
     private languageService: LanguageService,
     private cookiesUtils: CookiesUtilsService) {
-
-    this.sessionStatus = SessionStatus.Unknown;
   }
 
   ngOnInit() {
-    // Get the login status of the user
-    this.userService.getLoggedInStatus().subscribe(status => {
-      this.sessionStatus = status;
+    this.userService.getLoggedInStatus("TopBar").subscribe((userID: any) => {
+      this.isUserLoggedIn = userID.loggedIn ? true : false;
+      this.isUserNotLoggedIn = !this.isUserLoggedIn;
+    });
+
+    this.userService.getWatcherOfLoginChange().subscribe(refreshedStatus => {
+      this.userService.getLoggedInStatus("TopBar").subscribe((userID: any) => {
+        this.isUserLoggedIn = userID.loggedIn ? true : false;
+        this.isUserNotLoggedIn = !this.isUserLoggedIn;
+      });
     });
 
     // Take the translation

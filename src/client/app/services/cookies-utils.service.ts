@@ -5,6 +5,9 @@ export class CookiesUtilsService {
 
   constructor() { }
 
+  static LANGUAGE_COOKIE: string = "language";
+  static USER_ID_COOKIE: string = "user";
+
   read(name: string) {
     let result = new RegExp('(?:^|; )' + encodeURIComponent(name) + '=([^;]*)').exec(document.cookie);
     return result ? result[1] : null;

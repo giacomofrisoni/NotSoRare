@@ -26,18 +26,40 @@ export class HomeComponent implements OnInit {
 
   lastToSearch: string = "";
   followedDiseases: any[];
+  isFollowedDiseasesLoaded: boolean = false;
+  isFollowedDiseasesError: boolean = false;
 
-  constructor(private diseaseService: DiseaseService, private router: Router, private userService: UserService) { 
-    
+
+  constructor(private diseaseService: DiseaseService, private router: Router, private userService: UserService) {
+
   }
 
   ngOnInit() {
-    this.userService.getLoggedInStatus().subscribe(loginStatus => {
-      this.isUserLoggedIn = (loginStatus == SessionStatus.LoggedIn ? true : false);
+    this.userService.getLoggedInStatus("home").subscribe((userID: any) => {
+      // Is user logged in?
+      this.isUserLoggedIn = (userID.loggedIn ? true : false);
 
+      // If it's loggedin
       if (this.isUserLoggedIn) {
-        // Get the followed diseases
-        
+        // Get his followed diseases
+        this.userService.getFollowingDiseases(userID.loggedIn).subscribe((results: any[]) => {
+          // If results are correct
+          if (results) {
+            // Save them
+            this.followedDiseases = results;
+          } else {
+            // Error when retriving diseases
+            this.isFollowedDiseasesError = true;
+          }
+
+          //Anyway, you've finished
+          this.isFollowedDiseasesLoaded = true;
+        }, error => {
+          // Error when retriving diseases
+          console.log(error);
+          this.isFollowedDiseasesLoaded = true;
+        });
+
         // Finally, tell that is finished loading
         this.isPageLoading = false;
       } else {
@@ -104,8 +126,8 @@ export class HomeComponent implements OnInit {
         this.isValueNotFound = false;
         this.diseases.next([]);
       }
-    } 
-    
+    }
+
     // For now I'm busy, register the event to search
     else {
       this.lastToSearch = value;
@@ -158,7 +180,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['./disease/' + value]);
   }
 
-  openAllDiseases(){
+  openAllDiseases() {
     this.router.navigate(['./disease-search/' + this.searchedDisease]);
   }
 
@@ -173,8 +195,8 @@ export class HomeComponent implements OnInit {
       // Object is selected directly from list
       if (this.searchedDisease.CodDisease) {
         this.router.navigate(['./disease/' + this.searchedDisease.CodDisease]);
-      } 
-      
+      }
+
       // Object is just input
       else {
         // Must try searching
@@ -190,7 +212,7 @@ export class HomeComponent implements OnInit {
             }
           }
         });
-      }  
+      }
     }
   }
 }

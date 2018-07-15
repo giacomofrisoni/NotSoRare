@@ -5,16 +5,15 @@ import { SignupData } from '../models/signup-data';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { SessionStatus } from '../models/session-status.enum';
 import { GlobalUtilsService } from './global-utils.service';
+import { CookiesUtilsService } from './cookies-utils.service';
+import { UserStatus } from '../models/user-status';
 
 @Injectable()
 export class UserService {
 
-  private isLoggedIn: BehaviorSubject<SessionStatus>;
-  private userID: number = null;
+  private userStatusChanged: Subject<boolean> = new Subject();
 
-  constructor(private http: HttpClient, private globalUtils: GlobalUtilsService) {
-    this.isLoggedIn = new BehaviorSubject(SessionStatus.Unknown);
-    this.isLoggedIn.next(SessionStatus.Unknown);
+  constructor(private http: HttpClient, private globalUtils: GlobalUtilsService, private cookiesUtils: CookiesUtilsService) {
   }
 
   signUp(signupData: SignupData) {
@@ -48,37 +47,18 @@ export class UserService {
       });
   }
 
-  getLoggedInStatus() {
-    //First, make a request, for sure
-    this.http.get(`${this.globalUtils.apiPath}/login` + this.globalUtils.createLanguageParameter(), {
+  getLoggedInStatus(who: string) {
+    return this.http.get(`${this.globalUtils.apiPath}/login` + this.globalUtils.createLanguageParameter(), {
       withCredentials: true,
-    }).subscribe((response: any) => {
-      if (response.loggedIn) {
-        this.isLoggedIn.next(SessionStatus.LoggedIn);
-      } else {
-        this.isLoggedIn.next(SessionStatus.NotLoggedIn);
-      }
-    }, error => {
-      this.isLoggedIn.next(SessionStatus.NotLoggedIn);
     });
-
-    //Then return the object to observe
-    return this.isLoggedIn.asObservable()
   }
 
-  getUserID() {
-    this.getLoggedInStatus();
-    return this.userID;
+  getWatcherOfLoginChange() {
+    return this.userStatusChanged.asObservable();
   }
 
-  setUserID(userID: number) {
-    this.userID = userID;
-  }
-
-  getFollowingDiseases(userID: number) {
-    return this.http.get(`${this.globalUtils.apiPath}/login/`, {
-      withCredentials: true
-    });
+  submitLoginChange() {
+    this.userStatusChanged.next(true);
   }
 
   activate(email: string, activationCode: string) {
@@ -93,6 +73,13 @@ export class UserService {
   logout() {
     return this.http.post(`${this.globalUtils.apiPath}/logout` + this.globalUtils.createLanguageParameter(), null, {
       withCredentials: true,
+    });
+  }
+
+
+  getFollowingDiseases(userID: number) {
+    return this.http.get(`${this.globalUtils.apiPath}/users/${userID}/interests/${this.globalUtils.createLanguageParameter()}`, {
+      withCredentials: true
     });
   }
 

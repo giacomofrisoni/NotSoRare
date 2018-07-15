@@ -50,6 +50,7 @@ $input-height: 38px;
 .disease {
     @include setWidth(100px);
     @include setHeight(100px);
+    cursor: pointer;
     margin: 20px;
     padding: 20px;
     background: #f0f0f0;
@@ -58,7 +59,20 @@ $input-height: 38px;
     border-radius: 5px;
 
     &.add {
+        box-shadow: none;
         border: 2px dashed $accent-dark-color; 
-        background: #f0f0f081;
+        background: #ffffff9f;
+        color: $accent-dark-color; 
+
+        &:hover {
+            box-shadow: none;
+            background: #ffffffd0;
+            border: 2px dashed $accent-color; 
+            color: $accent-color; 
+        }
+    }
+
+    &:hover {
+        background: #f6f6f6;
     }
 }

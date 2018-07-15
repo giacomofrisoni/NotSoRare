@@ -1,35 +1,44 @@
-<div class="container">
-    <h3 [innerHTML]="'Login.Login' | translate"></h3>
-
-    <div id="login-card" class="page-card">
-        <div class="flex wrapped">
-            <div class="field">
-                <label class="title" for="email" [innerHTML]="'Common.Email' | translate"></label>
-                <input type="email" id="email" [(ngModel)]="email"/>
-            </div>
-    
-            <div class="field">
-                <label class="title" for="password" [innerHTML]="'Common.Password' | translate"></label>
-                <input type="password" id="password" [(ngModel)]="password"/>
-            </div>
-        </div>
-
-        <div class="flex">
-            <div class="login-button">
-                <app-divbutton #loginButton [text]="'Login.Login' | translate" (click)="onLogin($event)"></app-divbutton>
-            </div>
-
-            <span class="info small-text" *ngIf='error != ""'>{{error}}</span>
-        </div>
+<div>
+    <div class="container" *ngIf="isPageLoading">
+        <h2>
+            <i class='fa fa-spinner fa-spin'></i>
+            <span [innerHTML]="'Home.PageLoading' | translate"></span>
+        </h2>
     </div>
 
-    <div *ngIf="isToVerify" id="verify-code-card" class="page-card flex vertical">
-        <p [innerHTML]="'Login.ToCheckMessage' | translate"></p>
+    <div class="container" *ngIf="!isPageLoading">
+        <h3 [innerHTML]="'Login.Login' | translate"></h3>
 
-        <input class="verification-code" type="text" maxlength="6" [(ngModel)]="verificationCode"/>
+        <div id="login-card" class="page-card">
+            <div class="flex wrapped">
+                <div class="field">
+                    <label class="title" for="email" [innerHTML]="'Common.Email' | translate"></label>
+                    <input type="email" id="email" [(ngModel)]="email" />
+                </div>
 
-        <div class="login-button">
-            <app-divbutton #checkButton [text]="'Login.Check' | translate" (click)="onCodeCheck($event)"></app-divbutton>
+                <div class="field">
+                    <label class="title" for="password" [innerHTML]="'Common.Password' | translate"></label>
+                    <input type="password" id="password" [(ngModel)]="password" />
+                </div>
+            </div>
+
+            <div class="flex">
+                <div class="login-button">
+                    <app-divbutton #loginButton [text]="'Login.Login' | translate" (click)="onLogin($event)"></app-divbutton>
+                </div>
+
+                <span class="info small-text" *ngIf='error != ""'>{{error}}</span>
+            </div>
+        </div>
+
+        <div *ngIf="isToVerify" id="verify-code-card" class="page-card flex vertical">
+            <p [innerHTML]="'Login.ToCheckMessage' | translate"></p>
+
+            <input class="verification-code" type="text" maxlength="6" [(ngModel)]="verificationCode" />
+
+            <div class="login-button">
+                <app-divbutton #checkButton [text]="'Login.Check' | translate" (click)="onCodeCheck($event)"></app-divbutton>
+            </div>
         </div>
     </div>
 </div>
