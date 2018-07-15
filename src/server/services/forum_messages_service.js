@@ -55,14 +55,14 @@ function searchForumMessage(codDisease, codForumThread, codForumMessage,
 function postForumMessage(req, res) {
 
     /**
-     * Only a logged user with the same code of the request can add the data.
+     * Only a logged user can add the data.
      */
-    if (req.session.user == req.body.codUser) {
+    if (req.session.user) {
 
         /**
          * Searches the user with the specified code.
          */
-        User.findOne({ code: req.body.codUser }, (error, user) => {
+        User.findOne({ code: req.session.user }, (error, user) => {
             if (error) {
                 res.status(500).send({
                     errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
@@ -107,7 +107,10 @@ function postForumMessage(req, res) {
                                             var originalMessage = {
                                                 content: req.body.content,
                                                 _authorId: user._id,
-                                                _forumThreadId: forumThread._id,
+                                                _forumThreadId: forumThread._id
+                                            }
+                                            if (req.body.parent) {
+                                                originalMessage._parentMessageId = req.body.parent;
                                             }
                                             const forumMessage = new ForumMessage(originalMessage);
                                             forumMessage.save(error => {
@@ -176,24 +179,16 @@ function putForumMessage(req, res) {
              */
             if (req.session.user == forumMessage._authorId.code) {
 
-                // Checks for duplicate user votes
-                if (req.body.utility_votes.length === new Set(req.body.utility_votes.map(item => item.user)).size) {
-                    forumMessage.content = req.body.content;
-                    forumMessage.utility_votes = req.body.utility_votes;
-                    forumMessage.save(error => {
-                        if (error) {
-                            res.status(500).send({
-                                errorMessage: req.i18n.__("Err_ForumMessages_MessageUpdate", error)
-                            });
-                        } else {
-                            res.status(200).json(forumMessage);
-                        }
-                    });
-                } else {
-                    res.status(500).send({
-                        errorMessage: req.i18n.__("Err_ForumMessages_DuplicateUtilityVote")
-                    });
-                }
+                forumMessage.content = req.body.content;
+                forumMessage.save(error => {
+                    if (error) {
+                        res.status(500).send({
+                            errorMessage: req.i18n.__("Err_ForumMessages_MessageUpdate", error)
+                        });
+                    } else {
+                        res.status(200).json(forumMessage);
+                    }
+                });
 
             } else {
                 res.status(401).send({
@@ -242,16 +237,26 @@ function deleteForumMessage(req, res) {
              */
             if (req.session.user == forumMessage._authorId.code) {
 
+                // Deletes the specified message
                 ForumMessage.findByIdAndRemove(forumMessage._id)
                     .then(forumMessage => {
                         // Checks that the forum message has been found
                         if (!forumMessage) {
                             res.status(404).send({
-                                errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound", error)
+                                errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
                             });
                         } else {
-                            res.status(200).send({
-                                infoMessage: req.i18n.__("ForumMessageDeletion_Completed")
+                            // Deletes child messages
+                            ForumMessage.remove({ _parentMessageId: forumMessage._id }, (error) => {
+                                if (error) {
+                                    res.status(500).send({
+                                        errorMessage: req.i18n.__("Err_ForumMessages_MessageDeletion", error)
+                                    });
+                                } else {
+                                    res.status(200).send({
+                                        infoMessage: req.i18n.__("ForumMessageDeletion_Completed")
+                                    });
+                                }
                             });
                         }
                     })
@@ -274,8 +279,269 @@ function deleteForumMessage(req, res) {
 }
 
 
+function postUtilityVote(req, res) {
+
+    searchForumMessage(
+        req.body.codDisease,
+        req.body.codForumThread,
+        req.body.codForumMessage,
+        (error) => {
+            res.status(500).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_UtilityVoteInsertion", error)
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_DiseaseNotFound")
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_ThreadNotFound")
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
+            });
+        },
+        (forumMessage) => {
+            /**
+             * Only a logged user can add an utility vote to a message.
+             */
+            if (req.session.user) {
+
+                /**
+                 * Searches the user with the specified code.
+                 */
+                User.findOne({ code: req.session.user }, (error, user) => {
+                    if (error) {
+                        res.status(500).send({
+                            errorMessage: req.i18n.__("Err_ForumMessages_UtilityVoteInsertion", error)
+                        });
+                    } else {
+                        if (!user) {
+                            res.status(404).send({
+                                errorMessage: req.i18n.__("Err_ForumMessages_UserNotFound")
+                            });
+                        } else {
+                            // Checks for duplicate user votes
+                            if (forumMessage.utility_votes.map(item => item.user.toString()).indexOf(user.id) < 0) {
+
+                                // Adds the new user utility vote
+                                forumMessage.utility_votes.push({
+                                    user: user._id,
+                                    vote: req.body.vote
+                                });
+                                forumMessage.save(error => {
+                                    if (error) {
+                                        res.status(500).send({
+                                            errorMessage: req.i18n.__("Err_ForumMessages_UtilityVoteInsertion", error)
+                                        });
+                                    } else {
+                                        res.status(200).json(forumMessage);
+                                    }
+                                });
+
+                            } else {
+                                res.status(500).send({
+                                    errorMessage: req.i18n.__("Err_ForumMessages_DuplicateUtilityVote")
+                                });
+                            }
+                        }
+                    }
+                });
+                
+            } else {
+                res.status(401).send({
+                    errorMessage: req.i18n.__("Err_UnauthorizedUser")
+                });
+            }
+        }
+    );
+
+}
+
+
+function putUtilityVote(req, res) {
+
+    const idDisease = parseInt(req.params.idDisease, 10);
+    const idForumThread = parseInt(req.params.idForumThread, 10);
+    const idForumMessage = parseInt(req.params.idForumMessage, 10);
+
+    searchForumMessage(
+        idDisease,
+        idForumThread,
+        idForumMessage,
+        (error) => {
+            res.status(500).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_UtilityVoteUpdate", error)
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_DiseaseNotFound")
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_ThreadNotFound")
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
+            });
+        },
+        (forumMessage) => {
+            /**
+             * Only a logged user can update an utility vote for a message.
+             */
+            if (req.session.user) {
+
+                /**
+                 * Searches the user with the specified code.
+                 */
+                User.findOne({ code: req.session.user }, (error, user) => {
+                    if (error) {
+                        res.status(500).send({
+                            errorMessage: req.i18n.__("Err_ForumMessages_UtilityVoteUpdate", error)
+                        });
+                    } else {
+                        if (!user) {
+                            res.status(404).send({
+                                errorMessage: req.i18n.__("Err_ForumMessages_UserNotFound")
+                            });
+                        } else {
+
+                            // Checks the existance of an utility vote for the logged user
+                            const voteIndex = forumMessage.utility_votes.map(item => item.user.toString()).indexOf(user.id);
+                            if (voteIndex >= 0) {
+
+                                // Updates the user utility vote
+                                forumMessage.utility_votes[voteIndex].vote = req.body.vote;
+                                forumMessage.save(error => {
+                                    if (error) {
+                                        res.status(500).send({
+                                            errorMessage: req.i18n.__("Err_ForumMessages_UtilityVoteUpdate", error)
+                                        });
+                                    } else {
+                                        res.status(200).json(forumMessage);
+                                    }
+                                });
+
+                            } else {
+                                res.status(500).send({
+                                    errorMessage: req.i18n.__("Err_ForumMessages_NoUserUtilityVote")
+                                });
+                            }
+                        }
+                    }
+                });
+                
+            } else {
+                res.status(401).send({
+                    errorMessage: req.i18n.__("Err_UnauthorizedUser")
+                });
+            }
+        }
+    );
+
+}
+
+
+function removeUtilityVote(req, res) {
+
+    const idDisease = parseInt(req.params.idDisease, 10);
+    const idForumThread = parseInt(req.params.idForumThread, 10);
+    const idForumMessage = parseInt(req.params.idForumMessage, 10);
+
+    searchForumMessage(
+        idDisease,
+        idForumThread,
+        idForumMessage,
+        (error) => {
+            res.status(500).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_UtilityVoteDeletion", error)
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_DiseaseNotFound")
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_ThreadNotFound")
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
+            });
+        },
+        (forumMessage) => {
+            /**
+             * Only a logged user can delete an utility vote for a message.
+             */
+            if (req.session.user) {
+
+                /**
+                 * Searches the user with the specified code.
+                 */
+                User.findOne({ code: req.session.user }, (error, user) => {
+                    if (error) {
+                        res.status(500).send({
+                            errorMessage: req.i18n.__("Err_ForumMessages_UtilityVoteDeletion", error)
+                        });
+                    } else {
+                        if (!user) {
+                            res.status(404).send({
+                                errorMessage: req.i18n.__("Err_ForumMessages_UserNotFound")
+                            });
+                        } else {
+
+                            // Checks the existance of an utility vote for the logged user
+                            const voteIndex = forumMessage.utility_votes.map(item => item.user).indexOf(user._id);
+                            if (voteIndex >= 0) {
+
+                                // Removes the user utility vote
+                                forumMessage.utility_votes.splice(voteIndex, 1);
+                                forumMessage.save(error => {
+                                    if (error) {
+                                        res.status(500).send({
+                                            errorMessage: req.i18n.__("Err_ForumMessages_UtilityVoteDeletion", error)
+                                        });
+                                    } else {
+                                        res.status(200).json(forumMessage);
+                                    }
+                                });
+
+                            } else {
+                                res.status(500).send({
+                                    errorMessage: req.i18n.__("Err_ForumMessages_NoUserUtilityVote")
+                                });
+                            }
+                        }
+                    }
+                });
+                
+            } else {
+                res.status(401).send({
+                    errorMessage: req.i18n.__("Err_UnauthorizedUser")
+                });
+            }
+        }
+    );
+
+}
+
+
 module.exports = {
     postForumMessage,
     putForumMessage,
-    deleteForumMessage
+    deleteForumMessage,
+    postUtilityVote,
+    putUtilityVote,
+    removeUtilityVote
 };

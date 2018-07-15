@@ -12,6 +12,8 @@ const forumThreadInsertionSchema = require('./validation/forum_thread_insertion_
 const forumThreadUpdateSchema = require('./validation/forum_thread_update_schema');
 const forumMessageInsertionSchema = require('./validation/forum_message_insertion_schema');
 const forumMessageUpdateSchema = require('./validation/forum_message_update_schema');
+const utilityVoteInsertionSchema = require('./validation/utility_vote_insertion_schema');
+const utilityVoteUpdateSchema = require('./validation/utility_vote_update_schema');
 const userUpdateSchema = require('./validation/user_update_schema');
 const interestInsertionSchema = require('./validation/interest_insertion_schema');
 
@@ -215,6 +217,27 @@ router.put('/rareDiseases/:idDisease/forumThreads/:idForumThread/forumMessages/:
  */
 router.delete('/rareDiseases/:idDisease/forumThreads/:idForumThread/forumMessages/:idForumMessage', (req, res) => {
     forumMessagesService.deleteForumMessage(req, res);
+});
+
+/**
+ * Adds an utility vote to a registered forum message.
+ */
+router.post('/utilityVotes', validatePayloadMiddleware, validate(utilityVoteInsertionSchema), (req, res) => {
+    forumMessagesService.postUtilityVote(req, res);
+});
+
+/**
+ * Updates the utility vote released for a registered forum message.
+ */
+router.put('/rareDiseases/:idDisease/forumThreads/:idForumThread/forumMessages/:idForumMessage/utilityVotes', validatePayloadMiddleware, validate(utilityVoteUpdateSchema), (req, res) => {
+    forumMessagesService.putUtilityVote(req, res);
+});
+
+/**
+ * Removes the utility vote released for a registered forum message.
+ */
+router.delete('/rareDiseases/:idDisease/forumThreads/:idForumThread/forumMessages/:idForumMessage/utilityVotes', (req, res) => {
+    forumMessagesService.removeUtilityVote(req, res);
 });
 
 
