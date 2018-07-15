@@ -66,7 +66,6 @@ export class DiseaseComponent implements OnInit {
         this.diseaseService.getDisease(params['id']).subscribe((disease: Disease) => {
           // Data are ok, set it!
           this.disease = disease;
-          this.diseaseHolder.setDisease(this.disease);
 
           // Inform the view
           this.isDiseaseLoaded = true;
@@ -85,9 +84,13 @@ export class DiseaseComponent implements OnInit {
                     this.isDiseaseFollowed = true;
                   } 
                 });
+
+                //Finally all is loaded
                 this.isDiseaseFollowedLoaded = true;
+                this.diseaseHolder.setDisease(this.disease);
               }, error => {
-                console.log("Error during getting following diseases: " + error);
+                console.log("Error during getting following diseases:");
+                console.log(error);
                 this.isDiseaseFollowedLoaded = false;
               });
             }

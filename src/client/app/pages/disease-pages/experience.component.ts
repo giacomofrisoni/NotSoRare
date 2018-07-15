@@ -25,33 +25,36 @@ export class ExperienceComponent implements OnInit {
 
   ngOnInit() {
     this.diseaseHolder.getDisease().subscribe(disease => {
-      //Save for future reference
-      this.disease = disease;
+      if (disease != null) {
+        //Save for future reference
+        this.disease = disease;
 
-      this.route.params.subscribe(params => {
-        let codUser: number = Number(params['codUser']);
+        this.route.params.subscribe(params => {
+          let codUser: number = Number(params['codUser']);
 
-        // Convert to number
-        if (!isNaN(codUser)) {
-          // Get the experience
-          this.experiencesService.getExperience(this.disease.general.CodDisease, codUser).subscribe((result: Experience) => {
-            if (result) {
-              this.experience = result;
-              console.log(this.experience);
-            } else {
-              this.setOnErroStatus("Not valid type");
-            }
+          // Convert to number
+          if (!isNaN(codUser)) {
+            // Get the experience
+            this.experiencesService.getExperience(this.disease.general.CodDisease, codUser).subscribe((result: Experience) => {
+              if (result) {
+                this.experience = result;
+                console.log(this.experience);
+              } else {
+                this.setOnErroStatus("Not valid type");
+              }
 
-            this.setWindowStatus(true, false, false, "Success!");
-          }, error => {
-            this.setOnErroStatus("Error retriving experience");
-          });
-        } else {
-          this.setOnErroStatus("Not a number");
-        }
-      }, error => {
-        this.setOnErroStatus("Error retriving param");
-      });
+              this.setWindowStatus(true, false, false, "Success!");
+            }, error => {
+              this.setOnErroStatus("Error retriving experience");
+            });
+          } else {
+            this.setOnErroStatus("Not a number");
+          }
+
+        }, error => {
+          this.setOnErroStatus("Error retriving param");
+        });
+      }
     }, error => {
       this.setOnErroStatus("Disease not found");
     });

@@ -20,44 +20,47 @@ export class ExpertCentresComponent implements OnInit {
   disease: Disease;
   expertCentres: ExpertCentre[];
 
-  constructor(private diseaseHolder: DiseaseHolderService, private expertCentresService: ExpertCentresService ) {}
+  constructor(private diseaseHolder: DiseaseHolderService, private expertCentresService: ExpertCentresService) { }
 
   ngOnInit() {
     this.diseaseHolder.getDisease().subscribe(disease => {
-      //Save for future reference
-      this.disease = disease;
 
-      //Try to get all experiences
-      this.expertCentresService.getAllExpertCentres(this.disease.general.CodDisease).subscribe((results: ExpertCentre[]) => {
-        // If the type is ok
-        if (results) {
-          // If something is inside
-          if (results.length > 0) {
-            this.expertCentres = results;
-            console.log(this.expertCentres);
+      if (disease != null) {
+        //Save for future reference
+        this.disease = disease;
+
+        //Try to get all experiences
+        this.expertCentresService.getAllExpertCentres(this.disease.general.CodDisease).subscribe((results: ExpertCentre[]) => {
+          // If the type is ok
+          if (results) {
+            // If something is inside
+            if (results.length > 0) {
+              this.expertCentres = results;
+              console.log(this.expertCentres);
+            }
+            // Collection is empty
+            else {
+              this.expertCentres = [];
+              this.isExpertCentresEmpty = true;
+            }
           }
-          // Collection is empty
+
+          // Wrong type
           else {
-            this.expertCentres = [];
-            this.isExpertCentresEmpty = true;
+            this.isAnyErrorPresent = true;
+            console.log("Results non era del tipo previsto");
           }
-        }
 
-        // Wrong type
-        else {
+          // Anyway, finish to load
+          this.isExpertCentresLoaded = true;
+
+        }, error => {
+          // Error when getting experiences
           this.isAnyErrorPresent = true;
-          console.log("Results non era del tipo previsto");
-        }
-
-        // Anyway, finish to load
-        this.isExpertCentresLoaded= true;
-
-      }, error => {
-        // Error when getting experiences
-        this.isAnyErrorPresent = true;
-        this.isExpertCentresLoaded = true;
-        console.log(error);
-      });
+          this.isExpertCentresLoaded = true;
+          console.log(error);
+        });
+      }
     }, error => {
       // Error when getting disease
       this.isAnyErrorPresent = true;

@@ -18,7 +18,10 @@
         </app-experience-preview>
 
         <div class="page-card">
-            <h3>Esperienza di {{experience.Name}} {{experience.Surname}}</h3>
+            <h3>Esperienza di
+                <span *ngIf="!experience.IsAnonymous">{{experience.Name}} {{experience.Surname}}</span>
+                <span *ngIf="experience.IsAnonymous">Utente anonimo</span>
+            </h3>
             <span class="date">Pubblicata il {{experience.CreatedAt | date : 'dd/MM/yyyy hh:mm'}}</span>
             <br/>
             <p>{{experience.Description}}</p>

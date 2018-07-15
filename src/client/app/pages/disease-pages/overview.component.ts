@@ -16,15 +16,11 @@ export class OverviewComponent implements OnInit {
   // Binding disease
   disease: Disease;
 
-  constructor(private diseaseHolder: DiseaseHolderService) { 
+  constructor(private diseaseHolder: DiseaseHolderService) {
     this.diseaseHolder.getDisease().subscribe((disease: Disease) => {
-      this.isDiseaseLoaded = true;
-
       if (disease != null) {
+        this.isDiseaseLoaded = true;
         this.disease = disease;
-        this.isAnyErrorPresent = false;
-      } else {
-        this.isAnyErrorPresent = true;
       }
     }, error => {
       this.isDiseaseLoaded = true;

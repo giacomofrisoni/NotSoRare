@@ -40,40 +40,43 @@ export class ExperiencesComponent implements OnInit {
 
   ngOnInit() {
     this.diseaseHolder.getDisease().subscribe(disease => {
-      //Save for future reference
-      this.disease = disease;
 
-      //Try to get all experiences
-      this.experiencesService.getAllExperiences(this.disease.general.CodDisease).subscribe((results: ExperiencePreview[]) => {
-        // If the type is ok
-        if (results) {
-          // If something is inside
-          if (results.length > 0) {
-            this.experiences = results;
-            console.log(this.experiences);
+      if (disease != null) {
+        //Save for future reference
+        this.disease = disease;
+
+        //Try to get all experiences
+        this.experiencesService.getAllExperiences(this.disease.general.CodDisease).subscribe((results: ExperiencePreview[]) => {
+          // If the type is ok
+          if (results) {
+            // If something is inside
+            if (results.length > 0) {
+              this.experiences = results;
+              console.log(this.experiences);
+            }
+            // Collection is empty
+            else {
+              this.experiences = [];
+              this.isExperiencesEmpty = true;
+            }
           }
-          // Collection is empty
+
+          // Wrong type
           else {
-            this.experiences = [];
-            this.isExperiencesEmpty = true;
+            this.isAnyErrorPresent = true;
+            console.log("Results non era del tipo previsto");
           }
-        }
 
-        // Wrong type
-        else {
+          // Anyway, finish to load
+          this.isExperiencesLoaded = true;
+
+        }, error => {
+          // Error when getting experiences
           this.isAnyErrorPresent = true;
-          console.log("Results non era del tipo previsto");
-        }
-
-        // Anyway, finish to load
-        this.isExperiencesLoaded = true;
-
-      }, error => {
-        // Error when getting experiences
-        this.isAnyErrorPresent = true;
-        this.isExperiencesLoaded = true;
-        console.log(error);
-      });
+          this.isExperiencesLoaded = true;
+          console.log(error);
+        });
+      }
     }, error => {
       // Error when getting disease
       this.isAnyErrorPresent = true;
