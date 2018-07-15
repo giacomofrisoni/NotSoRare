@@ -42,7 +42,9 @@ export class DiseaseService {
     });
   }
 
-  unfollowDisease() {
-
+  unfollowDisease(userID: number, diseaseID: number) {
+    return this.http.delete(this.globalUtils.apiPath + "/users/" + userID + "/interests/" + diseaseID + "/" + this.globalUtils.createLanguageParameter(), {
+      withCredentials: true,
+    })
   }
 }

@@ -134,7 +134,7 @@ export class DiseaseComponent implements OnInit {
 
     this.diseaseService.followDisease(this.userLoggedIn, this.disease.general.CodDisease).subscribe(results => {
       this.isDiseaseFollowed = true;
-      this.followButton.icon = "fa fa-plus-circla";
+      this.followButton.icon = "fa fa-plus-circle";
       this.followButton.text = "Segui";
       console.log(results);
     }, error => {
@@ -142,7 +142,24 @@ export class DiseaseComponent implements OnInit {
       this.followButton.text = "Segui";
       console.log("Impossible to follow: " + error);
       console.log(error);
-    })
+    });
+  }
+
+  onUnfollow() {
+    this.unfollowButton.icon = "fa fa-spinner fa-spin";
+    this.unfollowButton.text = "";
+
+    this.diseaseService.unfollowDisease(this.userLoggedIn, this.disease.general.CodDisease).subscribe(results => {
+      this.isDiseaseFollowed = false;
+      this.unfollowButton.icon = "fa fa-minus-circle";
+      this.unfollowButton.text = "Smetti di seguire";
+      console.log(results);
+    }, error => {
+      this.unfollowButton.icon = "fa fa-minus-circle";
+      this.unfollowButton.text = "Smetti di seguire";
+      console.log("Impossible to follow: " + error);
+      console.log(error);
+    });
   }
 
 }
