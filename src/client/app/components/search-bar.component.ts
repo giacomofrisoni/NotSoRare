@@ -12,6 +12,7 @@ export class SearchBarComponent implements OnInit {
 
   @Output() onSearchClicked: EventEmitter<any> = new EventEmitter();
   @Output() onResultClicked: EventEmitter<any> = new EventEmitter();
+  @Output() isLoadingStatus: EventEmitter<any> = new EventEmitter();
 
   // Binding values
   private diseases: Subject<any> = new Subject<any>();
@@ -43,7 +44,7 @@ export class SearchBarComponent implements OnInit {
     // If i'm not currently searching
     if (!this.isLoading) {
       // Now I'm searching, loading!
-      this.isLoading = true;
+      this.setLoadingStatus(true);
 
       // Send a request if value is not empty
       if (value != "") {
@@ -61,7 +62,7 @@ export class SearchBarComponent implements OnInit {
           }
 
           // Callback: check if there are pending requests
-          this.isLoading = false;
+          this.setLoadingStatus(false);
           this.onSearchFinished();
 
         }, error => {
@@ -70,14 +71,14 @@ export class SearchBarComponent implements OnInit {
           console.log(error);
 
           // Callback: check if there are pending requests
-          this.isLoading = false;
+          this.setLoadingStatus(false);
           this.onSearchFinished();
         });
       }
 
       // Otherwise, just set it to empty
       else {
-        this.isLoading = false;
+        this.setLoadingStatus(false);
         this.isResultEmpty = true;
         this.diseases.next([]);
       }
@@ -92,7 +93,7 @@ export class SearchBarComponent implements OnInit {
 
   onSearchFinished() {
     if (this.lastToSearch != "") {
-      this.isLoading = true;
+      this.setLoadingStatus(true);
       this.isResultEmpty = false;
 
       this.diseaseService.searchDisease(this.lastToSearch).subscribe((results: any) => {
@@ -110,7 +111,7 @@ export class SearchBarComponent implements OnInit {
 
         // Callback: check if there are pending requests
         this.lastToSearch = "";
-        this.isLoading = false;
+        this.setLoadingStatus(false);
 
       }, error => {
         // Error is present
@@ -119,9 +120,22 @@ export class SearchBarComponent implements OnInit {
 
         // Callback: check if there are pending requests
         this.lastToSearch = "";
-        this.isLoading = false;
+        this.setLoadingStatus(false);
       });
     }
+  }
+
+  displayFn(disease: any): string {
+    if (disease) {
+      return disease.Name;
+    } else {
+      return "";
+    }
+  }
+
+  setLoadingStatus(value: boolean) {
+    this.isLoading = value;
+    this.isLoadingStatus.emit([this.isLoading]);
   }
 
   resultClicked(value: any) {
@@ -130,6 +144,7 @@ export class SearchBarComponent implements OnInit {
 
 
   searchClicked() {
+    console.log(this.searchedDisease);
     this.onSearchClicked.emit([this.searchedDisease]);
   }
 

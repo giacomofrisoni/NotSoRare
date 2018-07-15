@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { DiseaseService } from '../services/disease.service';
 import { Router } from '../../../../node_modules/@angular/router';
 import { UserService } from '../services/user.service';
@@ -13,8 +13,11 @@ import { SessionStatus } from '../models/session-status.enum';
 export class HomeComponent implements OnInit {
 
   // Binding values
-  public diseases: Subject<any> = new Subject<any>();
-  public searchedDisease: any = null;
+  diseases: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  searchedDisease: any = null;
+
+  lastToSearch: string = "";
+  followedDiseases: any[];
 
   // Loading values
   isPageLoading: boolean = true;
@@ -24,14 +27,14 @@ export class HomeComponent implements OnInit {
   isErrorPresent: boolean = false;
   isValueSearching: boolean = false;
 
-  lastToSearch: string = "";
-  followedDiseases: any[];
   isFollowedDiseasesLoaded: boolean = false;
   isFollowedDiseasesError: boolean = false;
 
 
-  constructor(private diseaseService: DiseaseService, private router: Router, private userService: UserService) {
 
+
+
+  constructor(private diseaseService: DiseaseService, private router: Router, private userService: UserService) {
   }
 
   ngOnInit() {
@@ -70,132 +73,20 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  displayFn(disease: any): string {
-    if (disease) {
-      return disease.Name;
-    } else {
-      return "";
-    }
-  }
-
-
-  onInputChanged(value: string) {
-    // Reset all variables
-    this.isErrorPresent = false;
-    this.isValueNotFound = false;
-    this.diseases.next([]);
-
-    // If i'm not currently searching
-    if (!this.isLoading) {
-      // Now I'm searching, loading!
-      this.isLoading = true;
-
-      // Send a request if value is not empty
-      if (value != "") {
-        this.diseaseService.searchDisease(value).subscribe((results: any) => {
-          // No errors
-          this.isErrorPresent = false;
-
-          // Check for emptyness
-          if (results[0]) {
-            this.diseases.next(results);
-            console.log(results);
-          } else {
-            this.diseases.next([]);
-            this.isValueNotFound = true;
-          }
-
-          // Callback: check if there are pending requests
-          this.isLoading = false;
-          this.onSearchFinished();
-
-        }, error => {
-          // Error is present
-          this.isErrorPresent = true;
-          console.log(error);
-
-          // Callback: check if there are pending requests
-          this.isLoading = false;
-          this.onSearchFinished();
-        });
-      }
-
-      // Otherwise, just set it to empty
-      else {
-        this.isLoading = false;
-        this.isErrorPresent = false;
-        this.isValueNotFound = false;
-        this.diseases.next([]);
-      }
-    }
-
-    // For now I'm busy, register the event to search
-    else {
-      this.lastToSearch = value;
-    }
-  }
-
-  onSearchFinished() {
-    if (this.lastToSearch != "") {
-      // Reset all variables
-      this.isLoading = true;
-      this.isErrorPresent = false;
-      this.isValueNotFound = false;
-      this.diseases.next([]);
-
-      this.diseaseService.searchDisease(this.lastToSearch).subscribe((results: any) => {
-        // No errors
-        this.isErrorPresent = false;
-
-        // Check for emptyness
-        if (results[0]) {
-          this.diseases.next(results);
-          console.log(results);
-        } else {
-          this.diseases.next([]);
-          this.isValueNotFound = true;
-        }
-
-        // Callback: check if there are pending requests
-        this.lastToSearch = "";
-        this.isLoading = false;
-
-      }, error => {
-        // Error is present
-        this.isErrorPresent = true;
-        console.log(error);
-
-        // Callback: check if there are pending requests
-        this.lastToSearch = "";
-        this.isLoading = false;
-      });
-    } else {
-      this.isLoading = false;
-      this.isErrorPresent = false;
-      this.isValueNotFound = false;
-      this.diseases.next([]);
-    }
-  }
-
   openDisease(value: any) {
     this.router.navigate(['./disease/' + value]);
   }
 
-  openAllDiseases() {
-    this.router.navigate(['./disease-search/' + this.searchedDisease]);
-  }
-
-  onSearchClick() {
+  onSearchClick(value: any) {
     this.isValueNotFound = false;
 
-
     // No object
-    if (this.searchedDisease == null && this.searchedDisease == undefined) {
+    if (value == null && value == undefined) {
       this.router.navigate(['./disease-search']);
     } else {
       // Object is selected directly from list
-      if (this.searchedDisease.CodDisease) {
-        this.router.navigate(['./disease/' + this.searchedDisease.CodDisease]);
+      if (value.CodDisease) {
+        this.router.navigate(['./disease/' + value.CodDisease]);
       }
 
       // Object is just input
@@ -203,7 +94,7 @@ export class HomeComponent implements OnInit {
         // Must try searching
         this.isValueSearching = true;
 
-        this.diseaseService.searchDisease(this.searchedDisease).subscribe((results: any) => {
+        this.diseaseService.searchDisease(value).subscribe((results: any) => {
           if (results) {
             if (results.length > 0) {
               this.router.navigate(['./disease/' + results[0].CodDisease]);
@@ -215,5 +106,9 @@ export class HomeComponent implements OnInit {
         });
       }
     }
+  }
+
+  isLoadingChanged(value: boolean) {
+    this.isLoading = value;
   }
 }
