@@ -7,10 +7,12 @@
     },
 
     "Home": {
-        "Title": "Rare disease are not so rare if we face them <b>togheter</b>",
+        "PageLoading": "Loading...",
+        "Loading": "Searching the rare diseases in our database...",
+        "NoData": "No matches found. <a href='#' routerLink='/disease-search'>Go to the complete list</a>",
+        "Title": "Rare diseases are not so rare if we face them <b>together</b>",
         "Subtitle": "Follow your diseases and inquire about particular ones, discover the best organisations and medics for your disease and speak with others, share your experience, get involved and much more",
-        "Placeholder": "Type the name of disease here",
-        "Loading": "Searching disease in out database..."
+        "Placeholder": "Type the name of the disease here"
     },
 
     "Register": {
@@ -36,15 +38,15 @@
         "PasswordMinLength": " (minimum length is 8)",
         "RepeatPassword": "Repeat password",
         "PatientData": "Patient data",
-        "PatientDataDescription": "In quanto registrato come tutore o dottore, inserisci anche dati della persona a cui si farà riferimento",
+        "PatientDataDescription": "As registered as a guardian or doctor, also enter data of the person to whom you will refer",
         "PatientName": "Patient's name",
         "PatientSurname": "Patient's surname",
         "PatientBirthDate": "Patient's birth date",
         "PatientGender": "Patient's gender",
         "PatientNationality": "Patient's nationality",
-        "RegisterInfo": "Pressing on <span class='highlight'>register</span> button you'll accept for entire the <a href='#'>terms & conditions</a> of our portal. NotSoRare is very carefull with your data: we'll not share anything for anyone, anytime. <br/> We use latest protocols of security, to guarantee you the privacy you deserve.",
+        "RegisterInfo": "Pressing on <span class='highlight'>register</span> button you'll accept for entire the <a href='#'>terms & conditions</a> of our portal. NotSoRare is very careful with your data: we'll not share anything for anyone, anytime. <br/> We use latest protocols of security, to guarantee you the privacy you deserve.",
         "RegisterButton": "I accept Terms & Conditions - Register",
-        "ErrorTitle": "Errore during Registering",
+        "ErrorTitle": "Error during Registering",
         "ErrorInvalidData": "Some inputs are invalid. Please check them out and retry",
         "ErrorGeneric": "There was an error during registering. Please try again later.",
         "ErrorPhoto": "Photo must be less than 1MB!",
@@ -69,12 +71,76 @@
         "LoginError": "Error during login",
         "LoginErrorMessage": "There was an error during the login phase.",
         "Login": "Login",
-        "ToCheckMessage": "You just need to type here your activation code, sent to you at your mail.",
+        "ToCheckMessage": "You just need to type here your activation code, sent to youat your mail.",
         "Check": "Check my code"
     },
 
+    "NotFound": {
+        "Title": "Ops! something is wrong",
+        "Text": "I can’t find a page with this address..I riport you in the home in …"
+    },
+
     "Disease": {
-        "Loading": "Loading disease details...",
-        "ErrorLoading": "Something went wrong during loading of this disease"
+        "Loading": "Loading disease details",
+        "Error": "A problem occurred during the loading of details of disease",
+        "Users": "users",
+        "Experiences": "experiences",
+        "Threads": "threads",
+        "Follow": "Follow",
+        "Unfollow": "Stop follow",
+        "Information": "Information",
+        "ExpertCentres": "Expert centres",
+        "Forum": "Forum",
+        "References": "References"
+    },
+
+    "DiseaseSearch": {
+        "Loading": "Search all the diseases in progress...",
+        "Error": "A problem occurred during the quest of diseases. Retry.",
+        "NoData": "No diseases corresponds to search criteria",
+        "DiseaseList": "List of all diseases"
+    },
+
+    "Experience": {
+        "Loading": "Loading of the experience...",
+        "Error": "A problem occurred during loading",
+        "ExperienceOf": "Experience of",
+        "Published": "Published on"
+    },
+
+    "Experiences": {
+        "Loading": "Search of all the experiences in progress...",
+        "Error": "A problem occurred during loading of experiences. Retry.",
+        "NoData": "Still no experiences available",
+        "ShareYourExp": "Share your experience",
+        "Filter": "Filter",
+        "PublicationDate": "Publication date"
+    },
+
+    "ExpertCentres": {
+        "Loading": "Loading of expert centres…",
+        "Error": "An error occurred during the expert centres loading",
+        "NoData": "Still no expert centre available"
+    },
+
+    "Overview": {
+        "Loading": "Loading of details…",
+        "Error": "A problem occurred during loading of details",
+        "CategoryClass": "Categorization and classification",
+        "Specialty": "Specialty",
+        "OrphaNumber": "Orpha number",
+        "DiseaseDescription": "Disease description",
+        "Causes": "Causes",
+        "Symptoms": "Symptoms",
+        "Diagnosis": "Diagnosis",
+        "Treatments": "Treatments",
+        "TreatmentType": "Treatment type",
+        "SideEffects": "Side effects",
+        "NoSideEffects": "No side effects known",
+        "Complications": "Complications"
+    },
+
+    "Profile": {
+        "Logout": "Logout"
     }
 }

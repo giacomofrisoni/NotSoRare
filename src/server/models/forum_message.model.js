@@ -21,7 +21,7 @@ const ForumMessageSchema = new Schema({
     ],
     _authorId: { type: Schema.ObjectId, ref: 'User', required: true },
     _forumThreadId: { type: Schema.ObjectId, ref: 'ForumThread', required: true },
-    _commentsIds: [{ type: Schema.ObjectId, ref: 'ForumMessage' }]
+    _parentMessageId: { type: Schema.ObjectId, ref: 'ForumMessage' }
 }, {
     collection: 'ForumMessages'
 });
@@ -32,6 +32,18 @@ ForumMessageSchema.plugin(autoIncrement.plugin, { model: 'ForumMessage', field: 
 
 // Defines a unique compound index
 ForumMessageSchema.index({ _forumThreadId: 1, code: 1 }, { unique: true });
+
+/**
+ * Specifies a virtual with a 'ref' property in order to enable virtual population,
+ * mantaining the document small.
+ * Link: http://thecodebarbarian.com/mongoose-virtual-populate.
+ */
+ForumMessageSchema
+.virtual('comments', {
+    ref: 'ForumMessage',
+    localField: '_id',
+    foreignField: '_parentMessageId'
+});
 
 // Defines a function to run before saving
 ForumMessageSchema.pre('save', function(next) {
