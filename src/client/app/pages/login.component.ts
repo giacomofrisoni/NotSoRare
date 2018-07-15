@@ -51,8 +51,6 @@ export class LoginComponent implements OnInit {
         for(let key in results) {
           this.translations[key.split(".")[1]] = results[key];
         }
-
-        console.log(this.translations);
       });
     });
 
@@ -78,6 +76,11 @@ export class LoginComponent implements OnInit {
 
     // First try to login
     this.subLogin = this.userService.login(this.email, this.password).subscribe((resp: any) => {
+
+      //console.log(resp);
+      // Set the user ID
+      //this.userService.setUserID(resp.codUser);
+
       // Ok, all is clear
       this.loginIsOk(this.translations.LoggedInSuccesfull + " " + this.translations.RedirectedSoon, true, $("#login-card"));
     }, 

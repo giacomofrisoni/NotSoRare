@@ -46,3 +46,19 @@ $input-height: 38px;
 .hidden {
     visibility: hidden;
 }
+
+.disease {
+    @include setWidth(100px);
+    @include setHeight(100px);
+    margin: 20px;
+    padding: 20px;
+    background: #f0f0f0;
+    border: 1px solid gray;
+    box-shadow: $card-light-shadow;
+    border-radius: 5px;
+
+    &.add {
+        border: 2px dashed $accent-dark-color; 
+        background: #f0f0f081;
+    }
+}

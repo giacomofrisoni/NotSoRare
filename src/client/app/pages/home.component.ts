@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { DiseaseService } from '../services/disease.service';
 import { Router } from '../../../../node_modules/@angular/router';
+import { UserService } from '../services/user.service';
+import { SessionStatus } from '../models/session-status.enum';
 
 @Component({
   selector: 'app-home',
@@ -15,23 +17,34 @@ export class HomeComponent implements OnInit {
   public searchedDisease: any = null;
 
   // Loading values
+  isPageLoading: boolean = true;
+  isUserLoggedIn: boolean = false;
   isLoading: boolean = false;
   isValueNotFound: boolean = false;
   isErrorPresent: boolean = false;
   isValueSearching: boolean = false;
 
   lastToSearch: string = "";
+  followedDiseases: any[];
 
-  constructor(private diseaseService: DiseaseService, private router: Router) { 
+  constructor(private diseaseService: DiseaseService, private router: Router, private userService: UserService) { 
     
   }
 
   ngOnInit() {
+    this.userService.getLoggedInStatus().subscribe(loginStatus => {
+      this.isUserLoggedIn = (loginStatus == SessionStatus.LoggedIn ? true : false);
 
-  }
-
-  configTranslations() {
-    
+      if (this.isUserLoggedIn) {
+        // Get the followed diseases
+        
+        // Finally, tell that is finished loading
+        this.isPageLoading = false;
+      } else {
+        // Not logged, default one
+        this.isPageLoading = false;
+      }
+    });
   }
 
   displayFn(disease: any): string {
