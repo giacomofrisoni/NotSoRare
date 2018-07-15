@@ -7,10 +7,11 @@
     },
     
     "Home": {
+        "Loading": "Ricerca della malattia inserita...",
+        "NoData": "Nessuna corrispondenza trovata. <a href='#' routerLink='/disease-search'>Vai all'elenco completo</a>",
         "Title": "Le malattie non sono così rare se le affrontiamo <b>insieme</b>",
         "Subtitle": "Segui le malattine di tuo interesse e informati su un particolare disturbo, scopri i migliori centri specializzati e i medici di riferimento per la tua patologia, entra in contatto con altri malati rari, condividi la tua esperienza, partecipa alle discussioni e tanto altro ancora.",
-        "Placeholder": "Inserisci il nome della malattia",
-        "Loading": "Ricerca della malattia inserita..."
+        "Placeholder": "Inserisci il nome della malattia"
     },
 
     "Register": {
@@ -80,6 +81,67 @@
 
     "Disease": {
         "Loading": "Caricamento dei dettagli della malattia",
-        "ErrorLoading": "C'è stato un problema durante il caricamento dei dettagli della malattia"
+        "Error": "C'è stato un problema durante il caricamento dei dettagli della malattia",
+        "Users": "utenti",
+        "Experiences": "esperienze",
+        "Threads": "discussioni",
+        "Follow": "Segui",
+        "Unfollow": "Smetti di seguire",
+        "Information": "Informazioni",
+        "ExpertCentres": "Centri Specializzati",
+        "Forum": "Forum",
+        "References": "Riferimenti"
+
+    },
+
+    "DiseaseSearch": {
+        "Loading": "Ricerca di tutte le malattie in corso...",
+        "Error": "C'è stato un problema durante la ricerca delle malattie. Riprovare.",
+        "NoData": "Nessuna malattia corrisponde ai criteri di ricerca",
+        "DiseaseList": "Elenco di tutte le malattie"
+    },
+
+    "Experience": {
+        "Loading": "Caricamento dell'esperienza...",
+        "Error": "C'è stato un problema durante la fase del caricamento",
+        "ExperienceOf": "Esperienza di",
+        "Published": "Pubblicata il"
+    },
+
+    "Experiences": {
+        "Loading": "Ricerca di tutte le esperienze in corso...",
+        "Error": "C'è stato un problema durante il caricamento delle esperienze. Riprovare.",
+        "NoData": "Ancora nessuna esperienza disponibile",
+        "ShareYourExp": "Condividi la tua esperienza",
+        "Filter": "Filtro",
+        "PublicationDate": "Data pubblicazione"
+    },
+
+    "ExpertCentres": {
+        "Loading": "Caricamento dei centri specializzati...",
+        "Error": "C'è stato un problema durante il caricamento dei centri specializzati",
+        "NoData": "Ancora nessun centro specializzato dipsonibile"
+    },
+
+    "Overview": {
+        "Loading": "Caricamento dei dettagli...",
+        "Error": "C'è stato un problema durante il caricamento dei dettagli",
+        "CategoryClass": "Categorizzazione e classifica",
+        "Specialty": "Specialità",
+        "OrphaNumber": "Numero Orpha",
+        "DiseaseDescription": "Descrizione malattia",
+        "Causes": "Cause",
+        "Symptoms": "Sintomi",
+        "Diagnosis": "Diagnosi",
+        "Treatments": "Trattamenti",
+        "TreatmentType": "Tipologia trattamento",
+        "SideEffects": "Effetti collaterali",
+        "NoSideEffects": "Nessun effetto collaterale conosciuto",
+        "Complications": "Complicazioni",
+
+    },
+
+    "Profile": {
+        "Logout": "Logout"
     }
 }
