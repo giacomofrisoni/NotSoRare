@@ -1,6 +1,3 @@
-
-const defaultLanguage = 'en';
-
 function getRareDiseasesNameViewFromLanguage(codLanguage) {
     var viewName;
     switch (codLanguage) {
@@ -11,7 +8,6 @@ function getRareDiseasesNameViewFromLanguage(codLanguage) {
     }
     return viewName;
 }
-
 
 function getRareDiseasesSynonymousNameViewFromLanguage(codLanguage) {
     var viewName;
@@ -25,7 +21,6 @@ function getRareDiseasesSynonymousNameViewFromLanguage(codLanguage) {
 }
 
 module.exports = {
-    defaultLanguage,
     getRareDiseasesNameViewFromLanguage,
     getRareDiseasesSynonymousNameViewFromLanguage
 };

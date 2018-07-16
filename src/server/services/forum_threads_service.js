@@ -12,6 +12,9 @@ const RareDisease = require('../models/rare_disease.model');
 const Forum = require('../models/forum.model');
 const ForumThread = require('../models/forum_thread.model');
 
+// Module for translation handling
+const translationEnv = require('../env/translation_environment');
+
 
 function postForumThread(req, res) {
 
@@ -409,15 +412,41 @@ function getRareDiseaseForumThreads(req, res) {
                     /**
                      * Searches the forum threads associated to the forum of the found disease.
                      */
-                    ForumThread.find({ _forumId: disease._forumId }).populate('_authorId').exec((error, forumThreads) => {
-                        if (error) {
-                            res.status(500).send({
-                                errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
-                            });
-                        } else {
-                            res.status(200).json(forumThreads);
-                        }
-                    });
+                    ForumThread.find({ _forumId: disease._forumId })
+                        .populate('_authorId')
+                        .populate('messages', 'update_date')
+                        .select('code title description views messages_count last_activity_date')
+                        .exec((error, forumThreads) => {
+                            if (error) {
+                                res.status(500).send({
+                                    errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
+                                });
+                            } else {
+                                /**
+                                 * Parses the resulting json.
+                                 */
+                                var parsedForumThreads = [];
+                                for (var i = 0; i < forumThreads.length; i++) {
+                                    var forumThread = {};
+                                    forumThread["code"] = forumThreads[i].code;
+                                    forumThread["title"] = forumThreads[i].title;
+                                    forumThread["description"] = forumThreads[i].description;
+                                    forumThread["views"] = forumThreads[i].views;
+                                    forumThread["messages_count"] = forumThreads[i].messages_count;
+                                    forumThread["last_activity_date"] = forumThreads[i].last_activity_date;
+                                    forumThread["author"] = {
+                                        "code": forumThreads[i]._authorId.code,
+                                        "is_anonymous": forumThreads[i]._authorId.is_anonymous,
+                                        "first_name": forumThreads[i]._authorId.first_name,
+                                        "last_name": forumThreads[i]._authorId.last_name,
+                                        "fullname": forumThreads[i]._authorId.fullname,
+                                        "photo": forumThreads[i]._authorId.photo
+                                    };
+                                    parsedForumThreads.push(forumThread);
+                                }
+                                res.status(200).json(parsedForumThreads);
+                            }
+                        });
 
                 }
             }
@@ -452,7 +481,8 @@ function getUserForumThreads(req, res) {
                         model: 'RareDisease'
                     }
                 }
-            }).exec((error, user) => {
+            })
+            .exec((error, user) => {
                 if (error) {
                     res.status(500).send({
                         errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
@@ -463,9 +493,41 @@ function getUserForumThreads(req, res) {
                             errorMessage: req.i18n.__("Err_ForumThreads_UserNotFound")
                         });
                     } else {
-                        res.status(200).json({
-                            'threads': user.forumThreads
-                        });
+                        
+                        /**
+                         * Parses the resulting json.
+                         */
+                        var forumThreads = [];
+                        for (var i = 0; i < user.forumThreads.length; i++) {
+                            var forumThread = {};
+                            forumThread["code"] = user.forumThreads[i].code;
+                            forumThread["title"] = user.forumThreads[i].title;
+                            forumThread["description"] = user.forumThreads[i].description;
+
+                            /**
+                             * Handles the translation of the disease name.
+                             * If the current language is not available, it use the default one.
+                             */
+                            var translationLanguages = user.forumThreads[i]._forumId._diseaseId.names.map(item => item.language);
+                            var reqLanguageIndex = translationLanguages.indexOf(req.i18n.getLocale());
+                            var defaultLanguageIndex = translationLanguages.indexOf(translationEnv.defaultLanguage);
+                            if (reqLanguageIndex >= 0) {
+                                forumThread["disease_name"] = user.forumThreads[i]._forumId._diseaseId.names[reqLanguageIndex].name;
+                            } else {
+                                if (defaultLanguageIndex >= 0) {
+                                    forumThread["disease_name"] = user.forumThreads[i]._forumId._diseaseId.names[defaultLanguageIndex].name;
+                                } else {
+                                    res.status(500).send({
+                                        errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", "Not found translation for default language")
+                                    });
+                                }
+                            }
+
+                            forumThread["creation_date"] = user.forumThreads[i].creation_date;
+                            forumThread["update_date"] = user.forumThreads[i].update_date;
+                            forumThreads.push(forumThread);
+                        }
+                        res.status(200).json(forumThreads);
                     }
                 }
             });
@@ -478,9 +540,94 @@ function getUserForumThreads(req, res) {
 
 }
 
-
 function getForumThread(req, res) {
-    // TODO
+    
+    const idDisease = parseInt(req.params.idDisease, 10);
+    const idThread = parseInt(req.params.idForumThread, 10);
+
+    /**
+     * Only a logged user can access to forum data.
+     */
+    if (req.session.user) {
+
+         /**
+         * Searches the rare disease with the specified code.
+         */
+        RareDisease.findOne({ code: idDisease }, (error, disease) => {
+            if (error) {
+                res.status(500).send({
+                    errorMessage: req.i18n.__("Err_ForumThreads_GettingThread", error)
+                });
+            } else {
+                if (!disease) {
+                    res.status(404).send({
+                        errorMessage: req.i18n.__("Err_ForumThreads_DiseaseNotFound")
+                    });
+                } else {
+
+                    /**
+                     * Searches the forum thread associated to the forum of the found disease, with the specified code.
+                     */
+                    ForumThread.findOne({ _forumId: disease._forumId, code: idThread })
+                        .populate('_authorId')
+                        .populate({
+                            path: 'messages',
+                            match: { _parentMessageId: { $exists: false } }
+                        })
+                        .select('code title description views messages_count last_activity_date')
+                        .exec((error, forumThread) => {
+                            if (error) {
+                                res.status(500).send({
+                                    errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
+                                });
+                            } else {
+                                /**
+                                 * Increments the forum views number.
+                                 */
+                                forumThread.views++;
+                                forumThread.save(error => {
+                                    if (error) {
+                                        res.status(500).send({
+                                            errorMessage: req.i18n.__("Err_ForumThreads_ThreadUpdate", error)
+                                        });
+                                    } else {
+                                        /**
+                                         * Parses the resulting json.
+                                         */
+                                        var parsedForumThread = {};
+                                        parsedForumThread["code"] = forumThread.code;
+                                        parsedForumThread["title"] = forumThread.title;
+                                        parsedForumThread["description"] = forumThread.description;
+                                        parsedForumThread["views"] = forumThread.views;
+                                        parsedForumThread["author"] = {
+                                            "code": forumThread._authorId.code,
+                                            "is_anonymous": forumThread._authorId.is_anonymous,
+                                            "first_name": forumThread._authorId.first_name,
+                                            "last_name": forumThread._authorId.last_name,
+                                            "fullname": forumThread._authorId.fullname,
+                                            "photo": forumThread._authorId.photo,
+                                            "gender": forumThread._authorId.gender,
+                                            "birthDate": forumThread._authorId.birthDate,
+                                            "age": forumThread._authorId.age
+                                        };
+                                        parsedForumThread["messages"] = forumThread.messages;
+
+                                        res.status(200).json(parsedForumThread);
+                                    }
+                                });
+                            }
+                        });
+
+                }
+            }
+        });
+
+    } else {
+        res.status(401).send({
+            errorMessage: req.i18n.__("Err_UnauthorizedUser")
+        });
+    }
+
 }
 
 

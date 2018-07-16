@@ -46,6 +46,7 @@
 	"Err_ForumThreads_ThreadNotFound": "Discussione non trovata: non vi è alcuna discussione registrata col codice specificato",
 	"Err_ForumThreads_ThreadDeletion": "Si è verificato un errore durante la cancellazione della discussione nel forum. %s",
 	"Err_ForumThreads_GettingThreads": "Si è verificato un errore durante l'ottenimento delle discussioni nel forum. %s",
+    "Err_ForumThreads_GettingThread": "Si è verificato un errore durante l'ottenimento della discussione nel forum. %s",
 	"ForumThreadDeletion_Completed": "Discussione cancellata con successo",
     "Err_ForumMessages_MessageInsertion": "Si è verificato un errore durante l'inserimento del messaggio. %s",
     "Err_ForumMessages_UserNotFound": "Utente non trovato: non vi è alcun utente registrato col codice specificato",

@@ -23,7 +23,9 @@ const ForumMessageSchema = new Schema({
     _forumThreadId: { type: Schema.ObjectId, ref: 'ForumThread', required: true },
     _parentMessageId: { type: Schema.ObjectId, ref: 'ForumMessage' }
 }, {
-    collection: 'ForumMessages'
+    collection: 'ForumMessages',
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
 });
 
 // Initializes and setups the auto-increment
@@ -45,9 +47,18 @@ ForumMessageSchema
     foreignField: '_parentMessageId'
 });
 
+function autoPopulateComments(next) {
+    this.populate('comments');
+    next();
+}
+
+ForumMessageSchema
+    .pre('findOne', autoPopulateComments)
+    .pre('find', autoPopulateComments);
+
+
 // Defines a function to run before saving
 ForumMessageSchema.pre('save', function(next) {
-
     // Gets the current date
     var currentDate = new Date();
     // Changes the updated date field to current date

@@ -12,6 +12,9 @@ const sql = require('../sql');
 // Module for tedious query result handling
 const queryResultHandler = require('../utilities/tedious_query_result_util');
 
+// Module for translation handling
+const translationEnv = require('../env/translation_environment');
+
 
 function addUserInterest(req, res) {
 
@@ -235,7 +238,7 @@ function getUserInterests(req, res) {
             "SELECT RareDisease.CodDisease, RareDiseaseTR.Name, Specialty.Image AS SpecialtyImage " +
             "FROM Interest " +
             "INNER JOIN RareDisease ON RareDisease.CodDisease = Interest.CodDisease " +
-            "INNER JOIN RareDiseaseTranslation AS RareDiseaseTR ON RareDiseaseTR.CodDisease = RareDisease.CodDisease AND RareDiseaseTR.CodLanguage = @CodLanguage " +
+            "INNER JOIN RareDiseaseTranslation AS RareDiseaseTR ON RareDiseaseTR.CodDisease = RareDisease.CodDisease AND RareDiseaseTR.CodLanguage = IIF (@CodLanguage IN (SELECT DISTINCT CodLanguage FROM RareDiseaseTranslation), @CodLanguage, @DefaultCodLanguage) " +
             "INNER JOIN Specialty ON Specialty.CodSpecialty = RareDisease.CodSpecialty " +
             "WHERE Interest.CodUser = @CodUser;", (queryError, rowCount, rows) => {
                 if (queryError) {
@@ -254,6 +257,7 @@ function getUserInterests(req, res) {
             }
         );
         interestRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
+        interestRequest.addParameter('CodLanguage', translationEnv.defaultLanguage);
         interestRequest.addParameter('CodUser', TYPES.Numeric, idUser);
                                     
         // Performs the rare diseases interests retrieving query on the relational database

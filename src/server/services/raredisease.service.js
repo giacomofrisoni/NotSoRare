@@ -8,14 +8,15 @@ const sql = require('../sql');
 // Module for tedious query result handling
 const queryResultHandler = require('../utilities/tedious_query_result_util');
 
-// Module for sql translation handling
-const translationEnv = require('../env/sql_translation_environment');
+// Module for translation handling
+const translationEnv = require('../env/translation_environment');
+const sqlTranslationEnv = require('../env/sql_translation_environment');
 
 
 function searchRareDiseases(req, res) {
 
-    const view = translationEnv.getRareDiseasesNameViewFromLanguage(req.i18n.getLocale());
-    const synonymousView = translationEnv.getRareDiseasesSynonymousNameViewFromLanguage(req.i18n.getLocale());
+    const view = sqlTranslationEnv.getRareDiseasesNameViewFromLanguage(req.i18n.getLocale());
+    const synonymousView = sqlTranslationEnv.getRareDiseasesSynonymousNameViewFromLanguage(req.i18n.getLocale());
 
     /**
      * Prepares the SQL statement with parameters for SQL-injection avoidance,

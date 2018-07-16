@@ -12,21 +12,23 @@ const UserSchema = new Schema({
     birth_date: { type: Date, required: true },
     is_anonymous: { type: Boolean, required: true }
 }, {
-    collection: 'Users'
+    collection: 'Users',
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
 });
 
 // Virtual for user's full name
 UserSchema
 .virtual('fullname')
 .get(function() {
-    return this.first_name + ' ' + this.last_name;
+    return (this.first_name && this.last_name) ? this.first_name + ' ' + this.last_name : null;
 });
 
 // Virtual for user's age
 UserSchema
 .virtual('age')
 .get(function() {
-    return Math.floor((Date.now() - this.birth_date.getTime()) / (1000 * 3600 * 24 * 365));
+    return this.birth_date ? Math.floor((Date.now() - this.birth_date.getTime()) / (1000 * 3600 * 24 * 365)) : null;
 });
 
 /**

@@ -193,6 +193,13 @@ router.get('/users/:id/forumThreads', (req, res) => {
     forumThreadsService.getUserForumThreads(req, res);
 });
 
+/**
+ * Gets the detail of a forum thread.
+ */
+router.get('/rareDiseases/:idDisease/forumThreads/:idForumThread', (req, res) => {
+    forumThreadsService.getForumThread(req, res);
+});
+
 
 /**
  * FORUM MESSAGES
