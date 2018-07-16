@@ -3,7 +3,7 @@ function getRareDiseasesNameViewFromLanguage(codLanguage) {
     switch (codLanguage) {
         case "it": viewName = "RareDiseaseNameITAView"; break;
         case "en": viewName = "RareDiseaseNameENGView"; break;
-        case "pl": viewName = "RareDiseaseNamePOLView"; break;
+        case "pl": viewName = "RareDiseaseNameENGView"; break;
         default: viewName = "RareDiseaseNameENGView"; break;
     }
     return viewName;
@@ -14,7 +14,7 @@ function getRareDiseasesSynonymousNameViewFromLanguage(codLanguage) {
     switch (codLanguage) {
         case "it": viewName = "RareDiseaseSynonymousNameITAView"; break;
         case "en": viewName = "RareDiseaseSynonymousNameENGView"; break;
-        case "pl": viewName = "RareDiseaseSynonymousNamePOLView"; break;
+        case "pl": viewName = "RareDiseaseNameENGView"; break;
         default: viewName = "RareDiseaseSynonymousNameENGView"; break;
     }
     return viewName;

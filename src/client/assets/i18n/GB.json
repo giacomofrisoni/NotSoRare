@@ -43,7 +43,7 @@
         "PasswordMinLength": " (minimum length is 8)",
         "RepeatPassword": "Repeat password",
         "PatientData": "Patient data",
-        "PatientDataDescription": "As registered as a guardian or doctor, also enter data of the person to whom you will refer",
+        "PatientDataDescription": "As registered as familiar, also enter data of the patient",
         "PatientName": "Patient's name",
         "PatientSurname": "Patient's surname",
         "PatientBirthDate": "Patient's birth date",
@@ -57,7 +57,7 @@
         "ErrorPhoto": "Photo must be less than 1MB!",
         "ErrorPhotoformat": "Invalid format of the photo.",
         "ConfirmRegistrationTitle": "Signup completed!",
-        "ConfirmRegistrationText": "Check your E-Mail address for the verification code: you must insert it after the first login !",
+        "ConfirmRegistrationText": "Check your e-mail box: you should have received an activation code to be entered on the first login on the platform!",
         "ErrorName": "This is not a valid name",
         "ErrorSurname": "This is not a valid surname",
         "ErrorBirthDate": "This is not a valid birth date",
@@ -66,7 +66,7 @@
         "ErrorBiography": "This is not a valid biography",
         "ErrorPassword": "This is not a valid password",
         "ErrorPasswordConfirm": "Passwords are not the same!",
-        "ErrorEmail": "This is not a valid E-Mail"
+        "ErrorEmail": "This is not a valid email"
     },
 
     "Login": {
@@ -76,13 +76,13 @@
         "LoginError": "Error during login",
         "LoginErrorMessage": "There was an error during the login phase.",
         "Login": "Login",
-        "ToCheckMessage": "You just need to type here your activation code, sent to youat your mail.",
-        "Check": "Check my code"
+        "ToCheckMessage": "You just need to type here your activation code, sent to you at your mail.",
+        "Check": "Check activation code"
     },
 
     "NotFound": {
         "Title": "Ops! something is wrong",
-        "Text": "I can’t find a page with this address..I riport you in the home in …"
+        "Text": "I can't find a page with this address... I redirect you to the home in..."
     },
 
     "Disease": {

@@ -16,8 +16,8 @@
     },
 
     "HomeLoggedIn": {
-        "Title": "Malattie rare seguite",
-        "Research": "Ricerca"
+        "Title": "Następowały rzadkie choroby",
+        "Research": "Poszukiwanie"
     },
 
     "Register": {
@@ -81,8 +81,8 @@
     },
 
     "NotFound": {
-        "Title": "Ops! Qualcosa è andato storto",
-        "Text": "Non riesco a trovare una pagina con questo indirizzo. Ti riporto sulla home in..."
+        "Title": "Ojej! Coś poszło nie tak",
+        "Text": "Nie mogę znaleźć strony o tym adresie. Zgłaszam cię w domu w ..."
     },
 
     "Disease": {
