@@ -16,18 +16,19 @@
         <!-- Cathegory -->
         <div class="flex title-box">
             <div class="flex left-title">
-                <h4>Categorizzazione e classifica</h4>
+                <h4 [innerHTML]="'Overview.CategoryClass' | translate"></h4>
             </div>
 
             <div>
-                <h5>Specialità</h5>
+                <h5 [innerHTML]="'Overview.Specialty' | translate"></h5>
                 <span class="small-box">{{disease.general.SpecialtyName}}</span>
             </div>
 
             <div class="right-title">
                 <ul class="clear-list small">
                     <li>
-                        <b>Numero Orpha: </b>
+                        <b [innerHTML]="'Overview.OrphaNumber' | translate"></b>
+                        <b>: </b>
                         <span *ngIf="disease.general.OrphaNumber != null">{{disease.general.OrphaNumber}}</span>
                         <span *ngIf="disease.general.OrphaNumber == null">-</span>
                     </li>
@@ -43,7 +44,7 @@
                     </li>
                     <li>
                         <b>UMLS: </b>
-                        <span *ngIf="disease.general.UMLS != null">{{UMLS}}</span>
+                        <span *ngIf="disease.general.UMLS != null">{{disease.general.UMLS}}</span>
                         <span *ngIf="disease.general.UMLS == null">-</span>
                     </li>
                     <li>
@@ -66,17 +67,17 @@
         </div>
 
         <div class="box">
-            <h3>Descrizione della malattia</h3>
+            <h3 [innerHTML]="'Overview.DiseaseDescription' | translate"></h3>
             <p>{{disease.general.Description}}</p>
         </div>
 
         <div class="box">
-            <h3>Cause</h3>
+            <h3 [innerHTML]="'Overview.Causes' | translate"></h3>
             <p>{{disease.general.Causes}}</p>
         </div>
 
         <div class="box">
-            <h3>Sintomi</h3>
+            <h3 [innerHTML]="'Overview.Symptoms' | translate"></h3>
             <ul>
                 <li *ngFor="let symptom of disease.symptoms">
                     <b>{{symptom.Name}}: </b> {{symptom.Description}}
@@ -85,7 +86,7 @@
         </div>
 
         <div class="box">
-            <h3>Diagnosi</h3>
+            <h3 [innerHTML]="'Overview.Diagnosis' | translate"></h3>
             <ul>
                 <li *ngFor="let diagnosis of disease.diagnosis">
                     <b>{{diagnosis.Name}}: </b> {{diagnosis.Description}}
@@ -94,32 +95,31 @@
         </div>
 
         <div class="box">
-            <h3>Treatments</h3>
+            <h3 [innerHTML]="'Overview.Treatments' | translate"></h3>
             <ul class="clear-list">
                 <li *ngFor="let treatment of disease.treatments">
                     <hr/>
                     <h4>{{treatment.Name}} </h4>
-                    <i>Tipologia trattamento: {{treatment.Type}}</i>
+                    <i [innerHTML]="'Overview.TreatmentType' | translate"></i>
+                    <i>: {{treatment.Type}}</i>
                     <br/>
                     <br/>{{treatment.Description}}
                     <br/>
                     <br/>
-                    <u>Effetti collaterali:</u>
+                    <u [innerHTML]="'Overview.SideEffects' | translate"></u>
                     <ul>
                         <li *ngFor="let collateral of treatment.collateralEffects">
                             {{collateral.Description}}
                         </li>
                     </ul>
-                    <div *ngIf="treatment.collateralEffects == undefined || treatment.collateralEffects == null">
-                        Nessun effetto collaterale conosciuto
-                    </div>
+                    <div *ngIf="treatment.collateralEffects == undefined || treatment.collateralEffects == null" [innerHTML]="'Overview.NoSideEffects' | translate"></div>
                     <br/>
                 </li>
             </ul>
         </div>
 
         <div class="box">
-            <h3>Complicazioni</h3>
+            <h3 [innerHTML]="'Overview.Complications' | translate"></h3>
             <ul>
                 <li *ngFor="let complication of disease.complications">
                     {{complication.Description}}

@@ -2,22 +2,22 @@
         <!-- LOADING -->
         <div *ngIf="!isReferencesLoaded" class="page-card centered">
                 <i class='fa fa-spinner fa-spin'></i>
-                <span [innerHTML]="'ExpertCentres.Loading' | translate"></span>
+                <span [innerHTML]="'References.Loading' | translate"></span>
             </div>
         
             <!-- ERROR -->
             <div *ngIf="isAnyErrorPresent" class="page-card centered">
                 <i class='fa fa-times'></i>
-                <span [innerHTML]="'ExpertCentres.Error' | translate"></span>
+                <span [innerHTML]="'References.Error' | translate"></span>
             </div>
         
             <!-- EMPTY -->
             <div *ngIf="isReferencesEmpty" class="page-card centered">
-                <span [innerHTML]="'ExpertCentres.NoData' | translate"></span>
+                <span [innerHTML]="'References.NoData' | translate"></span>
             </div>
     
         <div class="page-card" *ngIf="isReferencesLoaded && !isAnyErrorPresent && !isReferencesEmpty">
-            <h3>Riferimenti utili</h3>
+            <h3 [innerHTML]="'References.Title' | translate"></h3>
             <ul>
                 <li *ngFor="let reference of references">
                     <span>{{reference.Description}}</span><br/>

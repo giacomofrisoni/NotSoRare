@@ -33,19 +33,19 @@
                         <div>
                             <i class="fa fa-users big" aria-hidden="true"></i>
                             <div class="big">{{disease.general.StandardUsersNumber}}</div>
-                            <span>utenti</span>
+                            <span [innerHTML]="'Disease.UsersCounter' | translate"></span>
                         </div>
 
                         <div>
                             <i class="fa fa-quote-left big" aria-hidden="true"></i>
                             <div class="big">{{disease.general.ExperiencesNumber}}</div>
-                            <span>esperienze</span>
+                            <span [innerHTML]="'Disease.ExperiencesCounter' | translate"></span>
                         </div>
 
                         <div>
                             <i class="fa fa-comments big" aria-hidden="true"></i>
                             <div class="big">{{disease.general.ForumThreadsNumber}}</div>
-                            <span>discussioni</span>
+                            <span [innerHTML]="'Disease.ThreadsCounter' | translate"></span>
                         </div>
                     </div>
 
@@ -58,19 +58,24 @@
                 <!-- Real menu -->
                 <ul class="clear-list menu">
                     <li routerLink="./overview" routerLinkActive="selected">
-                        <i class="fa fa-info-circle" aria-hidden="true"></i> Informazioni
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <span [innerHTML]="'Disease.Information' | translate"></span>
                     </li>
                     <li routerLink="./experiences" routerLinkActive="selected">
-                        <i class="fa fa-commenting" aria-hidden="true"></i> Esperienze
+                        <i class="fa fa-commenting" aria-hidden="true"></i>
+                        <span [innerHTML]="'Disease.Experiences' | translate"></span>
                     </li>
                     <li routerLink="./expert-centres" routerLinkActive="selected">
-                        <i class="fa fa-hospital-o" aria-hidden="true"></i> Centri specializzati
+                        <i class="fa fa-hospital-o" aria-hidden="true"></i>
+                        <span [innerHTML]="'Disease.ExpertCentres' | translate"></span>
                     </li>
                     <li routerLink="./forum" routerLinkActive="selected">
-                        <i class="fa fa-comments" aria-hidden="true"></i> Forum
+                        <i class="fa fa-comments" aria-hidden="true"></i>
+                        <span [innerHTML]="'Disease.Forum' | translate"></span>
                     </li>
                     <li routerLink="./references" routerLinkActive="selected">
-                        <i class="fa fa-link" aria-hidden="true"></i> Riferimenti utili
+                        <i class="fa fa-link" aria-hidden="true"></i>
+                        <span [innerHTML]="'Disease.References' | translate"></span>
                     </li>
 
                 </ul>

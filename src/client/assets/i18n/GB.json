@@ -15,6 +15,11 @@
         "Placeholder": "Type the name of the disease here"
     },
 
+    "HomeLoggedIn": {
+        "Title": "Followed rare diseases",
+        "Research": "Research"
+    },
+
     "Register": {
         "RequiredFieldsInfo": "All fields with <span class='highlight'>(*)</span> are required",
         "AccountType": "Account type",
@@ -83,29 +88,34 @@
     "Disease": {
         "Loading": "Loading disease details",
         "Error": "A problem occurred during the loading of details of disease",
-        "Users": "users",
-        "Experiences": "experiences",
-        "Threads": "threads",
+        "UsersCounter": "users",
+        "ExperiencesCounter": "experiences",
+        "ThreadsCounter": "threads",
         "Follow": "Follow",
         "Unfollow": "Stop follow",
         "Information": "Information",
+        "Experiences": "Experiences",
         "ExpertCentres": "Expert centres",
         "Forum": "Forum",
-        "References": "References"
+        "References": "Useful references"
     },
 
     "DiseaseSearch": {
         "Loading": "Search all the diseases in progress...",
         "Error": "A problem occurred during the quest of diseases. Retry.",
-        "NoData": "No diseases corresponds to search criteria",
+        "NoData": "No diseases matches with search criteria",
         "DiseaseList": "List of all diseases"
     },
 
     "Experience": {
-        "Loading": "Loading of the experience...",
+        "Loading": "Experience loading",
         "Error": "A problem occurred during loading",
         "ExperienceOf": "Experience of",
-        "Published": "Published on"
+        "AnonymousUser": "Anonymous user",
+        "Published": "Published on",
+        "VisitProfile": "Visit profile",
+        "Nationality": "Nationality",
+        "BornOn": "Born on"
     },
 
     "Experiences": {
@@ -114,17 +124,25 @@
         "NoData": "Still no experiences available",
         "ShareYourExp": "Share your experience",
         "Filter": "Filter",
+        "Ordering": "Select an ordering criteria",
         "PublicationDate": "Publication date"
     },
 
     "ExpertCentres": {
-        "Loading": "Loading of expert centres…",
+        "Loading": "Expert centres loading",
         "Error": "An error occurred during the expert centres loading",
         "NoData": "Still no expert centre available"
     },
 
+    "References": {
+        "Loading": "References loading",
+        "Error": "An error occurred during the references loading",
+        "NoData": "Still no reference available",
+        "Title": "Useful references"
+    },
+
     "Overview": {
-        "Loading": "Loading of details…",
+        "Loading": "Loading of details...",
         "Error": "A problem occurred during loading of details",
         "CategoryClass": "Categorization and classification",
         "Specialty": "Specialty",

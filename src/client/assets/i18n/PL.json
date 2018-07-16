@@ -7,74 +7,158 @@
     },
 
     "Home": {
+        "PageLoading": "Ładowanie...",
+        "Loading": "Trwa wyszukiwanie choroby...",
+        "NoData": "Nie znaleziono pasujących elementów. <a href='#' routerLink='/disease-search'>Przejdź do pełnej listy</a>",
         "Title": "Choroby nie są tak bardzo rzadkie, jeśli będziemy <b>razem</b>",
         "Subtitle": "Bądź na bierząco za twoimi chorobami, znajdź dokładne informacje o danej chorobie, odkryj najlepsze kliniki i specjalistów dla twoje patologi, zkontaktuj się z innymi chorymi, podziel się swoimi doświadczeniami, dyskutuj na forum i to nie wszystko!",
-        "Placeholder": "Wpisz nazwę choroby",
-        "Loading": "Trwa wyszukiwanie choroby..."
+        "Placeholder": "Wpisz nazwę choroby"
+    },
+
+    "HomeLoggedIn": {
+        "Title": "Malattie rare seguite",
+        "Research": "Ricerca"
     },
 
     "Register": {
-        "RequiredFieldsInfo": "All fields with <span class='highlight'>(*)</span> are required",
-        "AccountType": "Account type",
-        "AccountTypePatient": "Patient",
-        "AccountTypeFamily": "Family",
-        "AccountTypePatientDescription": "Un account di tipo 'Paziente' serve al diretto malato. Esso può confrontarsi direttamente per qualsiasi cosa disponibile sul sito.",
-        "AccountTypeFamilyDescription": "Un account di tipo 'Famigliare' è studiato per dare l'accesso alla piattaforma anche ai famigliari del malato, affinchè, se direttamente incapace, possa comunque ricevere aiuto da parte della comunità.",
-        "PersonalData": "Personal data",
-        "Name": "Name",
-        "Surname": "Surname",
-        "Gender": "Gender",
-        "Male": "Male",
-        "Female": "Female",
-        "BirthDate": "Birth date",
-        "Nationality": "Nationality",
-        "Biography": "Biography",
-        "BiographyWarning": "Biography must be at least 10 chars long!",
-        "UserData": "User data",
-        "UploadPhoto": "Upload photo",
-        "RemovePhoto": "Remove photo",
-        "PasswordMinLength": " (minimum length is 8)",
-        "RepeatPassword": "Repeat password",
-        "PatientData": "Patient data",
-        "PatientDataDescription": "In quanto registrato come tutore o dottore, inserisci anche dati della persona a cui si farà riferimento",
-        "PatientName": "Patient's name",
-        "PatientSurname": "Patient's surname",
-        "PatientBirthDate": "Patient's birth date",
-        "PatientGender": "Patient's gender",
-        "PatientNationality": "Patient's nationality",
-        "RegisterInfo": "Pressing on <span class='highlight'>register</span> button you'll accept for entire the <a href='#'>terms & conditions</a> of our portal. NotSoRare is very carefull with your data: we'll not share anything for anyone, anytime. <br/> We use latest protocols of security, to guarantee you the privacy you deserve.",
-        "RegisterButton": "I accept Terms & Conditions - Register",
-        "ErrorTitle": "Errore durante la fase di Registrazione",
-        "ErrorInvalidData": "Alcuni dati non sono validi. Correggere e riprovare",
-        "ErrorGeneric": "C'è stato un problema durante la fase di registrazione. Riprovare più tardi.",
-        "ErrorPhoto": "La dimensione della foto supera 1MB!",
-        "ErrorPhotoformat": "Formato della foto non valido.",
-        "ConfirmRegistrationTitle": "Registrazione completata!",
-        "ConfirmRegistrationText": "Controlla la tua casella E-Mail: dovresti aver ricevuto un codice di conferma da inserire al primo login sulla piattaforma!",
-        "ErrorName": "This is not a valid name",
-        "ErrorSurname": "This is not a valid surname",
-        "ErrorBirthDate": "This is not a valid birth date",
-        "ErrorNationality": "This is not a valid nationality",
-        "ErrorGender": "This is not a valid gender",
-        "ErrorBiography": "This is not a valid biography",
-        "ErrorPassword": "This is not a valid password",
-        "ErrorPasswordConfirm": "Passwords are not the same!",
-        "ErrorEmail": "This is not a valid E-Mail"
+        "RequiredFieldsInfo": "Wszystkie pola oznaczone <span class='highlight'>(*)</span> są wymagane",
+        "AccountType": "Typ konta",
+        "AccountTypePatient": "Pacjent",
+        "AccountTypeFamily": "Rodzina",
+        "AccountTypePatientDescription": "Rachunek typu 'Pacjent' dotyczy chorego. Można go porównać bezpośrednio do wszystkiego, co dostępne na stronie.",
+        "AccountTypeFamilyDescription": "Konto 'Rodzina' ma na celu umożliwienie dostępu do platformy rodzinie pacjenta, tak aby, jeśli bezpośrednio nie można, uzyskać pomoc od społeczności.",
+        "PersonalData": "Dane osobowe",
+        "Name": "Nazwa",
+        "Surname": "Nazwisko",
+        "Gender": "Seks",
+        "Male": "Mężczyzna",
+        "Female": "Zeński",
+        "BirthDate": "Data urodzenia",
+        "Nationality": "Narodowość",
+        "Biography": "Biografia",
+        "BiographyWarning": "Biografia musi mieć co najmniej 10 znaków!",
+        "UserData": "Dane użytkownika",
+        "UploadPhoto": "Prześlij zdjęcie",
+        "RemovePhoto": "Usuń zdjęcie",
+        "PasswordMinLength": " (minimalna długość to 8)",
+        "RepeatPassword": "Powtórz hasło",
+        "PatientData": "Dane pacjenta",
+        "PatientDataDescription": "Zarejestrowany jako opiekun lub lekarz również wprowadź dane osoby, do której się odsyłasz",
+        "PatientName": "Imię pacjenta",
+        "PatientSurname": "Nazwisko pacjenta",
+        "PatientBirthDate": "Data urodzenia pacjenta",
+        "PatientGender": "Pacjenta płci",
+        "PatientNationality": "Narodowość pacjenta",
+        "RegisterInfo": "Naciśnięcie przycisku <span class='highlight'>rejestru</span> który akceptujesz dla całego <a href='#'>warunki i zasady</a> naszego portalu. NotSoRare bardzo ostrożnie podchodzi do twoich danych: nie udostępnimy niczego dla nikogo, w każdej chwili. <br/> Używamy najnowszych protokołów bezpieczeństwa, aby zagwarantować Ci prywatność, na którą zasługujesz.",
+        "RegisterButton": "Akceptuję regulamin - Rejestr",
+        "ErrorTitle": "Błąd podczas fazy rejestracji",
+        "ErrorInvalidData": "Niektóre dane są nieprawidłowe. Popraw i spróbuj ponownie",
+        "ErrorGeneric": "Podczas fazy rejestracji wystąpił problem. Spróbuj ponownie później.",
+        "ErrorPhoto": "Rozmiar zdjęcia przekracza 1 MB!",
+        "ErrorPhotoformat": "Nieprawidłowy format zdjęcia.",
+        "ConfirmRegistrationTitle": "Rejestracja zakończona!",
+        "ConfirmRegistrationText": "Sprawdź swoją skrzynkę e-mail: powinieneś otrzymać kod potwierdzający, który należy wprowadzić przy pierwszym logowaniu na platformie!",
+        "ErrorName": "To nie jest poprawna nazwa",
+        "ErrorSurname": "To nie jest poprawne nazwisko",
+        "ErrorBirthDate": "To nie jest ważna data urodzenia",
+        "ErrorNationality": "To nie jest ważne obywatelstwo",
+        "ErrorGender": "To nie jest poprawna płeć",
+        "ErrorBiography": "To nie jest ważna biografia",
+        "ErrorPassword": "To hasło jest niepoprawne",
+        "ErrorPasswordConfirm": "Hasła nie są takie same!",
+        "ErrorEmail": "To nie jest poprawna wiadomość e-mail"
     },
 
     "Login": {
-        "AlreadyLoggedIn": "Login già effettuato.",
-        "LoggedInSuccesfull": "Login effettuato con successo!",
-        "RedirectedSoon": "Verrai reindirizzato tra poco.",
-        "LoginError": "Errore durante il login",
-        "LoginErrorMessage": "C'è stato un errore durante la fase di login",
-        "Login": "Login",
-        "ToCheckMessage": "Ti manca solo un passo da fare: dovresti aver ricevuto una mail con un codice da inserire qui sotto, per verificare il tuo account.",
-        "Check": "Verifica"
+        "AlreadyLoggedIn": "Logowanie już zakończone.",
+        "LoggedInSuccesfull": "Logowanie się powiodło!",
+        "RedirectedSoon": "Wkrótce zostaniesz przekierowany.",
+        "LoginError": "Błąd podczas logowania",
+        "LoginErrorMessage": "Wystąpił błąd podczas fazy logowania",
+        "Login": "Zaloguj",
+        "ToCheckMessage": "Potrzebujesz tylko jednego kroku: aby zweryfikować swoje konto, powinieneś otrzymać e-mail z kodem do wprowadzenia poniżej.",
+        "Check": "Weryfikacja"
+    },
+
+    "NotFound": {
+        "Title": "Ops! Qualcosa è andato storto",
+        "Text": "Non riesco a trovare una pagina con questo indirizzo. Ti riporto sulla home in..."
     },
 
     "Disease": {
-        "Loading": "Caricamento dei dettagli della malattia",
-        "ErrorLoading": "C'è stato un problema durante il caricamento dei dettagli della malattia"
+        "Loading": "Ładowanie szczegółów choroby",
+        "Error": "Podczas ładowania szczegółów choroby wystąpił problem",
+        "UsersCounter": "użytkowników",
+        "ExperiencesCounter": "doświadczenia",
+        "ThreadsCounter": "wątki",
+        "Follow": "Śledzić",
+        "Unfollow": "Nie obserwuj",
+        "Information": "Informacja",
+        "Experiences": "Doświadczenia",
+        "ExpertCentres": "Wyspecjalizowane ośrodki",
+        "Forum": "Forum",
+        "References": "Przydatne referencje"
+    },
+
+    "DiseaseSearch": {
+        "Loading": "Szukaj <b>wszystkich<b> chorób w toku ...",
+        "Error": "Podczas wyszukiwania chorób wystąpił problem. Spróbuj jeszcze raz.",
+        "NoData": "Żadna choroba nie odpowiada kryteriom wyszukiwania",
+        "DiseaseList": "Lista wszystkich chorób"
+    },
+
+    "Experience": {
+        "Loading": "Ładowanie doświadczenia ...",
+        "Error": "Wystąpił problem podczas fazy ładowania",
+        "ExperienceOf": "Doświadczenie",
+        "AnonymousUser": "Anonimowy użytkownik",
+        "Published": "Opublikowany",
+        "VisitProfile": "Odwiedź profil",
+        "Nationality": "Kraj",
+        "BornOn": "Urodził się"
+    },
+
+    "Experiences": {
+        "Loading": "Wyszukaj wszystkie doświadczenia w toku ...",
+        "Error": "Podczas wczytywania doświadczeń wystąpił problem. Spróbuj jeszcze raz.",
+        "NoData": "Wciąż brak doświadczenia",
+        "ShareYourExp": "Podziel się wrażeniami",
+        "Filter": "Filtr",
+        "Ordering": "Wybierz sortowanie",
+        "PublicationDate": "Data publikacji"
+    },
+
+    "ExpertCentres": {
+        "Loading": "Ładowanie specjalistycznych ośrodków ...",
+        "Error": "Wystąpił problem podczas ładowania wyspecjalizowanych ośrodków",
+        "NoData": "Wciąż nie ma centrum specjalistycznego"
+    },
+
+    "References": {
+        "Loading": "Ładowanie referencji ...",
+        "Error": "Podczas wczytywania odniesień wystąpił problem",
+        "NoData": "Wciąż brak referencji",
+        "Title": "Przydatne referencje"
+    },
+
+    "Overview": {
+        "Loading": "Ładuję szczegóły ...",
+        "Error": "Podczas wczytywania szczegółów wystąpił problem",
+        "CategoryClass": "Kategoryzacja i klasyfikacja",
+        "Specialty": "Specjały",
+        "OrphaNumber": "Numer Orpha: ",
+        "DiseaseDescription": "Opis choroby",
+        "Causes": "Przyczyny",
+        "Symptoms": "Objawy",
+        "Diagnosis": "Diagnoza",
+        "Treatments": "Zabiegi",
+        "TreatmentType": "Rodzaj leczenia",
+        "SideEffects": "Efekty uboczne",
+        "NoSideEffects": "Brak znanych skutków ubocznych",
+        "Complications": "komplikacje"
+    },
+
+    "Profile": {
+        "Logout": "Wyloguj"
     }
 }

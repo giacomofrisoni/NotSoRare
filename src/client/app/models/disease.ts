@@ -23,7 +23,8 @@ interface General {
     ForumThreadsNumber: number;
     StandardUsersNumber: number;
     ModeratorsNumber: number;
-    SpecialityName: string;
+    ExperiencesNumber: number;
+    SpecialtyName: string;
     Name: string;
     Description: string;
     Causes: string;

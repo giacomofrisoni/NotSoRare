@@ -33,16 +33,14 @@
 
         <div class="searching" [ngClass]="{'hidden': !isValueNotFound}">
             <i class='fa fa-times accent'></i>
-            <span>Nessuna corrispondenza trovata.
-                <a href="#" routerLink="/disease-search">Vai all'elenco completo</a>
-            </span>
+            <span [innerHTML]="'Home.NoData' | translate"></span>
         </div>
     </div>
 
     <!-- User logged in -->
     <div *ngIf="!isPageLoading && isUserLoggedIn" class="centered container">
         <div>
-            <h3>Malattie rare seguite</h3>
+            <h3 [innerHTML]="'HomeLoggedIn.Title' | translate"></h3>
 
             <div class="flex" *ngIf="!isFollowedDiseasesLoaded">
                 <i class='fa fa-spinner fa-spin'></i>
@@ -61,7 +59,7 @@
             </div>
         </div>
 
-        <h4>Ricerca</h4>
+        <h4 [innerHTML]="'HomeLoggedIn.Research' | translate"></h4>
 
         <!--<div class="flex searchbar">
             <input class="search" [(ngModel)]="searchedDisease" type="search" [placeholder]="'Home.Placeholder' | translate" matInput
@@ -82,9 +80,7 @@
 
         <div class="searching" [ngClass]="{'hidden': !isValueNotFound}">
             <i class='fa fa-times accent'></i>
-            <span>Nessuna corrispondenza trovata.
-                <a href="#" routerLink="/disease-search">Vai all'elenco completo</a>
-            </span>
+            <span [innerHTML]="'Home.NoData' | translate"></span>
         </div>
     </div>
 </div>

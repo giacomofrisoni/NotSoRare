@@ -1,19 +1,18 @@
 <div class="container">
-    <h3>Elenco di tutte le malattie</h3>
+    <h3 [innerHTML]="'DiseaseSearch.DiseaseList' | translate"></h3>
 
     <div class="page-card-page centered" *ngIf="isLoading">
         <i class='fa fa-spinner fa-spin'></i>
-        <span>Ricerca di
-            <b>tutte</b> le malattia in corso...</span>
+        <span [innerHTML]="'DiseaseSearch.Loading' | translate"></span>
     </div>
 
     <div class="page-card centered" *ngIf="isAnyErrorPresent">
         <i class='fa fa-times'></i>
-        <span>C'è stato un problema durante la ricerca delle malattie. Riprovare.</span>
+        <span [innerHTML]="'DiseaseSearch.Error' | translate"></span>
     </div>
 
     <div class="page-card centered" *ngIf="isResultsEmpty">
-        <span>Nessuna malattia corrisponde ai criteri di ricerca indicati.</span>
+        <span [innerHTML]="'DiseaseSearch.NoData' | translate"></span>
     </div>
 
     <div class="" *ngIf="isLoadingCompleted">
