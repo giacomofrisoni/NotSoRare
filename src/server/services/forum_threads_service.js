@@ -440,7 +440,7 @@ function getRareDiseaseForumThreads(req, res) {
                                         "first_name": forumThreads[i]._authorId.first_name,
                                         "last_name": forumThreads[i]._authorId.last_name,
                                         "fullname": forumThreads[i]._authorId.fullname,
-                                        "photo": forumThreads[i]._authorId.photo
+                                        "photo": forumThreads[i]._authorId.photo.data
                                     };
                                     parsedForumThreads.push(forumThread);
                                 }
@@ -609,7 +609,7 @@ function getForumThread(req, res) {
                                             "first_name": forumThread._authorId.first_name,
                                             "last_name": forumThread._authorId.last_name,
                                             "fullname": forumThread._authorId.fullname,
-                                            "photo": forumThread._authorId.photo,
+                                            "photo": forumThread._authorId.photo.data,
                                             "gender": forumThread._authorId.gender,
                                             "birthDate": forumThread._authorId.birthDate,
                                             "age": forumThread._authorId.age
