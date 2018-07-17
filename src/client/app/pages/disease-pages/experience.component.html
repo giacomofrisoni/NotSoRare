@@ -18,7 +18,8 @@
         </app-experience-preview>
 
         <div class="page-card">
-            <h3 [innerHTML]="'Experience.ExperienceOf' | translate">
+            <h3>
+                <span [innerHTML]="'Experience.ExperienceOf' | translate"></span>
                 <span *ngIf="!experience.IsAnonymous">{{experience.Name}} {{experience.Surname}}</span>
                 <span *ngIf="experience.IsAnonymous" [innerHTML]="'Experience.AnonymousUser' | translate"></span>
             </h3>

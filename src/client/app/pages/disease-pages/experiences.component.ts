@@ -40,7 +40,6 @@ export class ExperiencesComponent implements OnInit {
 
   ngOnInit() {
     this.diseaseHolder.getDisease().subscribe(disease => {
-
       if (disease != null) {
         //Save for future reference
         this.disease = disease;

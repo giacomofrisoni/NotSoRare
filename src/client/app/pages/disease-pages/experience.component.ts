@@ -50,7 +50,6 @@ export class ExperienceComponent implements OnInit {
           } else {
             this.setOnErroStatus("Not a number");
           }
-
         }, error => {
           this.setOnErroStatus("Error retriving param");
         });

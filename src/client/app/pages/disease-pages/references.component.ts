@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ReferencesService } from '../../services/references.service';
-import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { Disease } from '../../models/disease';
+import { DiseaseHolderService } from '../../services/disease-holder.service';
+import { ReferencesService } from '../../services/references.service';
 
 @Component({
   selector: 'app-references',
@@ -60,5 +60,4 @@ export class ReferencesComponent implements OnInit {
   setOnErroStatus(message) {
     this.setWindowStatus(true, false, true, message);
   }
-
 }

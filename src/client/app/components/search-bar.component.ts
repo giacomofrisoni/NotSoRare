@@ -22,7 +22,7 @@ export class SearchBarComponent implements OnInit {
   private isLoading: boolean = false;
   private isResultEmpty: boolean = false;
   private isErrorPresent: boolean = false;
-  
+
   lastToSearch: string = "";
 
   // Search results

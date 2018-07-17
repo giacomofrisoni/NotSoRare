@@ -14,17 +14,7 @@
 
         <div class="subtitle" [innerHTML]="'Home.Subtitle' | translate"></div>
 
-        <!--<div class="flex searchbar">
-            <input class="search" [(ngModel)]="searchedDisease" type="search" [placeholder]="'Home.Placeholder' | translate" matInput
-                [matAutocomplete]="auto" (input)="onInputChanged($event.target.value)">
-
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let disease of diseases | async" [value]="disease" (click)="openDisease(disease.CodDisease)">{{disease.Name}}</mat-option>
-            </mat-autocomplete>
-
-            <app-divbutton id="button-search" icon="fa fa-search" isHalfCornered="true" (click)="onSearchClick()"></app-divbutton>
-        </div>-->
-        <app-search-bar (onResultClicked)="openDisease($event[0])" (onSearchClicked)="onSearchClick($event[0])"></app-search-bar>
+        <app-search-bar (onResultClicked)="openDisease($event[0])" (onSearchClicked)="onSearchClick($event[0])" (isLoadingStatus)="isLoadingChanged($event[0])"></app-search-bar>
 
         <div class="searching" [ngClass]="{'hidden': !isLoading}">
             <i class='fa fa-spinner fa-spin'></i>
@@ -33,7 +23,8 @@
 
         <div class="searching" [ngClass]="{'hidden': !isValueNotFound}">
             <i class='fa fa-times accent'></i>
-            <span [innerHTML]="'Home.NoData' | translate"></span>
+            <span>LOL</span>
+            <a href="#" routerLink="/disease-search">Vai all'elenco completo</a>
         </div>
     </div>
 
@@ -48,12 +39,12 @@
             </div>
 
             <div class="flex" *ngIf="isFollowedDiseasesLoaded">
-                <div class="flex vertical disease" *ngFor="let disease of followedDiseases" (click)="openDisease(disease.CodDisease)">
-                    <img [src]="disease.SpecialtyImage" />
-                    <h5>{{disease.Name}}</h5>
+                <div class="flex vertical disease" *ngFor="let disease of followedDiseases">
+                    <img [src]="disease.Image" />
+                    <h5>{{disease.DiseaseName}}</h5>
                 </div>
 
-                <div class="flex disease add" (click)="onSearchClick()">
+                <div class="flex disease add">
                     <i class="fa fa-plus not-spaced"></i>
                 </div>
             </div>
@@ -61,16 +52,6 @@
 
         <h4 [innerHTML]="'HomeLoggedIn.Research' | translate"></h4>
 
-        <!--<div class="flex searchbar">
-            <input class="search" [(ngModel)]="searchedDisease" type="search" [placeholder]="'Home.Placeholder' | translate" matInput
-                [matAutocomplete]="auto" (input)="onInputChanged($event.target.value)"/>
-
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let disease of diseases | async" [value]="disease" (click)="openDisease(disease.CodDisease)">{{disease.Name}}</mat-option>
-            </mat-autocomplete>
-
-            <app-divbutton id="button-search" icon="fa fa-search" isHalfCornered="true" (click)="onSearchClick()"></app-divbutton>
-        </div>-->
         <app-search-bar (onResultClicked)="openDisease($event[0])" (onSearchClicked)="onSearchClick($event[0])" (isLoadingStatus)="isLoadingChanged($event[0])"></app-search-bar>
 
         <div class="searching" [ngClass]="{'hidden': !isLoading}">
@@ -80,7 +61,8 @@
 
         <div class="searching" [ngClass]="{'hidden': !isValueNotFound}">
             <i class='fa fa-times accent'></i>
-            <span [innerHTML]="'Home.NoData' | translate"></span>
+            <span>LOL</span>
+            <a href="#" routerLink="/disease-search">Vai all'elenco completo</a>
         </div>
     </div>
 </div>

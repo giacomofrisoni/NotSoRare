@@ -3,10 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { SignupData } from '../models/signup-data';
 import { Subject, BehaviorSubject } from 'rxjs';
-import { SessionStatus } from '../models/session-status.enum';
 import { GlobalUtilsService } from './global-utils.service';
 import { CookiesUtilsService } from './cookies-utils.service';
-import { UserStatus } from '../models/user-status';
 
 @Injectable()
 export class UserService {
@@ -82,5 +80,4 @@ export class UserService {
       withCredentials: true
     });
   }
-
 }

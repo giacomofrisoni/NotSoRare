@@ -34,7 +34,10 @@ export class HomeComponent implements OnInit {
 
 
 
-  constructor(private diseaseService: DiseaseService, private router: Router, private userService: UserService) {
+  constructor(
+    private diseaseService: DiseaseService,
+    private router: Router,
+    private userService: UserService) {
   }
 
   ngOnInit() {
@@ -109,6 +112,8 @@ export class HomeComponent implements OnInit {
   }
 
   isLoadingChanged(value: boolean) {
+    console.log("changed to:" + value);
     this.isLoading = value;
   }
 }
+

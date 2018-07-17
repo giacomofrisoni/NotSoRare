@@ -22,8 +22,8 @@
         <div>
             <div class="flex start-aligned">
                 <span [innerHTML]="'Experiences.Filter' | translate"></span>
-                <ng-select searchable="false" [placeholder]="'Experiences.Ordering' | translate" clearable="false" class="custom-select" [(ngModel)]="selectedItem" bindLabel="text" bindValue="value" (change)="onItemSelected()"
-                    [items]="filters">
+                <ng-select searchable="false" [placeholder]="'Experiences.Ordering' | translate" clearable="false" class="custom-select"
+                    [(ngModel)]="selectedItem" bindLabel="text" bindValue="value" (change)="onItemSelected()" [items]="filters">
 
                     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                         <div class="option">
@@ -51,3 +51,4 @@
             </app-experience-preview>
         </div>
     </div>
+</div>

@@ -5,14 +5,15 @@
         <i [innerHTML]="'Register.RequiredFieldsInfo' | translate"></i>
     </div>
 
-    <h4><span [innerHTML]="'Register.AccountType' | translate"></span><span class="highlight"> (*)</span></h4>
+    <h4>
+        <span [innerHTML]="'Register.AccountType' | translate"></span>
+        <span class="highlight"> (*)</span>
+    </h4>
     <div class="page-card centered">
-        <app-radiogroup
-            [radiobuttons]="[
-                { key: 'patient', value: 'Register.AccountTypePatient' | translate },
-                { key: 'family', value: 'Register.AccountTypeFamily' | translate }
-            ]"
-            (onSelected)="onAccountTypeSelected($event[0])">
+        <app-radiogroup [radiobuttons]="[
+                    { key: 'patient', value: 'Register.AccountTypePatient' | translate },
+                    { key: 'family', value: 'Register.AccountTypeFamily' | translate }
+                ]" (onSelected)="onAccountTypeSelected($event[0])">
         </app-radiogroup>
 
         <span class="info" *ngIf="signupData.isPatient" [innerHTML]="'Register.AccountTypePatientDescription' | translate"></span>
@@ -25,24 +26,33 @@
         <div class="flex spaced">
             <div class="half-paged">
                 <div class="field">
-                    <label class="title" for="name"><span [innerHTML]="'Register.Name' | translate"></span><span class="highlight"> (*)</span></label>
-                    <input type="text" id="name" [(ngModel)]="signupData.name"/>
+                    <label class="title" for="name">
+                        <span [innerHTML]="'Register.Name' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
+                    <input type="text" id="name" [(ngModel)]="signupData.name" />
                     <span class="info small-text" *ngIf='errors.name != undefined && errors.name != ""'>{{errors.name}}</span>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="surname"><span [innerHTML]="'Register.Surname' | translate"></span><span class="highlight"> (*)</span></label>
-                    <input type="text" id="surname" [(ngModel)]="signupData.surname"/>
+                    <label class="title" for="surname">
+                        <span [innerHTML]="'Register.Surname' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
+                    <input type="text" id="surname" [(ngModel)]="signupData.surname" />
                     <span class="info small-text" *ngIf='errors.surname != undefined && errors.surname != ""'>{{errors.surname}}</span>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="gender"><span [innerHTML]="'Register.Gender' | translate"></span><span class="highlight"> (*)</span></label>
+                    <label class="title" for="gender">
+                        <span [innerHTML]="'Register.Gender' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
                     <fieldset id="gender">
-                        <input type="radio" name="gender" id="genderMale" (change)="onGenderChanged('M')"/>
+                        <input type="radio" name="gender" id="genderMale" (change)="onGenderChanged('M')" />
                         <label for="genderMale" [innerHTML]="'Register.Male' | translate"> </label>
 
-                        <input type="radio" name="gender" id="genderFemale" (change)="onGenderChanged('F')"/>
+                        <input type="radio" name="gender" id="genderFemale" (change)="onGenderChanged('F')" />
                         <label for="genderFemale" [innerHTML]="'Register.Female' | translate"> </label>
                     </fieldset>
 
@@ -50,13 +60,19 @@
                 </div>
 
                 <div class="field">
-                    <label class="title" for="birthDate"><span [innerHTML]="'Register.BirthDate' | translate"></span><span class="highlight"> (*)</span></label>
-                    <input type="date" id="birthDate" [(ngModel)]="signupData.birthDate"/>
+                    <label class="title" for="birthDate">
+                        <span [innerHTML]="'Register.BirthDate' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
+                    <input type="date" id="birthDate" [(ngModel)]="signupData.birthDate" />
                     <span class="info small-text" *ngIf='errors.birthDate != undefined && errors.birthDate != ""'>{{errors.birthDate}}</span>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="nationality"><span [innerHTML]="'Register.Nationality' | translate"></span><span class="highlight"> (*)</span></label>
+                    <label class="title" for="nationality">
+                        <span [innerHTML]="'Register.Nationality' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
                     <app-countries-selector id="nationality" (onSelected)="onCountrySelected($event[0])"></app-countries-selector>
                     <span class="info small-text" *ngIf='errors.nationality != undefined && errors.nationality != ""'>{{errors.nationality}}</span>
                 </div>
@@ -67,7 +83,8 @@
                     <label class="title" for="biography" [innerHTML]="'Register.Biography' | translate"></label>
                     <textarea id="biography" class="only-vertical" (input)="onTextareaValueChange($event)" [(ngModel)]="signupData.biography"></textarea>
                     <div class="small-text">
-                        <span>{{charCount}}</span>/<span>4000</span>
+                        <span>{{charCount}}</span>/
+                        <span>4000</span>
                         <span style="padding-left: 20px;" *ngIf="charCount > 0 && charCount < 10" [innerHTML]="'Register.BiographyWarning' | translate"></span>
                     </div>
                 </div>
@@ -80,12 +97,12 @@
         <div class="flex spaced">
             <div class="flex half-paged">
                 <div>
-                    <img class="user" [src]="photoUrl"/>
+                    <img class="user" [src]="photoUrl" />
                 </div>
 
                 <div>
                     <label style="margin-bottom: 10px;" for="uploadedFile">
-                        <input type="file" id="uploadedFile" accept="image/*" (change)="onReadUrl($event)"/>
+                        <input type="file" id="uploadedFile" accept="image/*" (change)="onReadUrl($event)" />
                         <app-divbutton [text]="'Register.UploadPhoto' | translate"></app-divbutton>
                     </label>
 
@@ -96,62 +113,89 @@
 
             <div class="half-paged">
                 <div class="field">
-                    <label class="title" for="email"><span [innerHTML]="'Common.Email' | translate"></span><span class="highlight"> (*)</span></label>
-                    <input type="email" id="email" [(ngModel)]="signupData.email"/>
+                    <label class="title" for="email">
+                        <span [innerHTML]="'Common.Email' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
+                    <input type="email" id="email" [(ngModel)]="signupData.email" />
                     <span class="info small-text" *ngIf='errors.email != undefined && errors.email != ""'>{{errors.email}}</span>
                 </div>
-    
+
                 <div class="field">
-                    <label class="title" for="password"><span [innerHTML]="'Common.Password' | translate"></span><span class="info small-text" [innerHTML]="'Register.PasswordMinLength' | translate"></span><span class="highlight"> (*)</span></label>
-                    <input type="password" id="password" [(ngModel)]="signupData.password"/>
+                    <label class="title" for="password">
+                        <span [innerHTML]="'Common.Password' | translate"></span>
+                        <span class="info small-text" [innerHTML]="'Register.PasswordMinLength' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
+                    <input type="password" id="password" [(ngModel)]="signupData.password" />
                     <span class="info small-text" *ngIf='errors.password != undefined && errors.password != ""'>{{errors.password}}</span>
                 </div>
-    
+
                 <div class="field">
-                    <label class="title" for="passwordConfirm"><span [innerHTML]="'Register.RepeatPassword' | translate"></span><span class="highlight"> (*)</span></label>
-                    <input type="password" id="passwordConfirm"  [(ngModel)]="signupData.passwordConfirm"/>
+                    <label class="title" for="passwordConfirm">
+                        <span [innerHTML]="'Register.RepeatPassword' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
+                    <input type="password" id="passwordConfirm" [(ngModel)]="signupData.passwordConfirm" />
                     <span class="info small-text" *ngIf='errors.passwordConfirm != undefined && errors.passwordConfirm != ""'>{{errors.passwordConfirm}}</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <h4 *ngIf="!signupData.isPatient"><span [innerHTML]="'Register.PatientData' | translate"></span></h4>
+    <h4 *ngIf="!signupData.isPatient">
+        <span [innerHTML]="'Register.PatientData' | translate"></span>
+    </h4>
     <div class="page-card" *ngIf="!signupData.isPatient">
         <p [innerHTML]="'Register.PatientDataDescription' | translate"></p>
 
         <div class="flex spaced">
             <div class="half-paged">
                 <div class="field">
-                    <label class="title" for="patientName"><span [innerHTML]="'Register.PatientName' | translate"></span><span class="highlight"> (*)</span></label>
-                    <input type="text" id="patientName" [(ngModel)]="signupData.patientName"/>
+                    <label class="title" for="patientName">
+                        <span [innerHTML]="'Register.PatientName' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
+                    <input type="text" id="patientName" [(ngModel)]="signupData.patientName" />
                 </div>
 
                 <div class="field">
-                    <label class="title" for="patientSurname"><span [innerHTML]="'Register.PatientSurname' | translate"></span><span class="highlight"> (*)</span></label>
-                    <input type="text" id="patientSurname" [(ngModel)]="signupData.patientSurname"/>
+                    <label class="title" for="patientSurname">
+                        <span [innerHTML]="'Register.PatientSurname' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
+                    <input type="text" id="patientSurname" [(ngModel)]="signupData.patientSurname" />
                 </div>
 
                 <div class="field">
-                    <label class="title" for="patientBirthDate"><span [innerHTML]="'Register.PatientBirthDate' | translate"></span><span class="highlight"> (*)</span></label>
-                    <input type="date" id="birthDate" [(ngModel)]="signupData.patientBirthDate"/>
+                    <label class="title" for="patientBirthDate">
+                        <span [innerHTML]="'Register.PatientBirthDate' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
+                    <input type="date" id="birthDate" [(ngModel)]="signupData.patientBirthDate" />
                 </div>
             </div>
 
             <div class="half-paged">
                 <div class="field">
-                    <label class="title"><span [innerHTML]="'Register.PatientGender' | translate"></span><span class="highlight"> (*)</span></label>
+                    <label class="title">
+                        <span [innerHTML]="'Register.PatientGender' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
                     <fieldset>
-                        <input type="radio" name="patientGender" id="patientGenderMale" (change)="onPatientGenderChanged('M')"/>
+                        <input type="radio" name="patientGender" id="patientGenderMale" (change)="onPatientGenderChanged('M')" />
                         <label for="patientGenderMale" [innerHTML]="'Register.Male' | translate"></label>
 
-                        <input type="radio" name="patientGender" id="patientGenderFemale" (change)="onPatientGenderChanged('F')"/>
+                        <input type="radio" name="patientGender" id="patientGenderFemale" (change)="onPatientGenderChanged('F')" />
                         <label for="patientGenderFemale" [innerHTML]="'Register.Female' | translate"></label>
                     </fieldset>
                 </div>
 
                 <div class="field">
-                    <label class="title" for="countriesP"><span [innerHTML]="'Register.PatientNationality' | translate"></span><span class="highlight"> (*)</span></label>
+                    <label class="title" for="countriesP">
+                        <span [innerHTML]="'Register.PatientNationality' | translate"></span>
+                        <span class="highlight"> (*)</span>
+                    </label>
                     <app-countries-selector id="countriesP" (onSelected)="onCountrySelectedP($event[0])"></app-countries-selector>
                 </div>
             </div>

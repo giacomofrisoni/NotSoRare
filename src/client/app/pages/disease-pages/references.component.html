@@ -1,28 +1,30 @@
 <div class="container">
-        <!-- LOADING -->
-        <div *ngIf="!isReferencesLoaded" class="page-card centered">
-                <i class='fa fa-spinner fa-spin'></i>
-                <span [innerHTML]="'References.Loading' | translate"></span>
-            </div>
-        
-            <!-- ERROR -->
-            <div *ngIf="isAnyErrorPresent" class="page-card centered">
-                <i class='fa fa-times'></i>
-                <span [innerHTML]="'References.Error' | translate"></span>
-            </div>
-        
-            <!-- EMPTY -->
-            <div *ngIf="isReferencesEmpty" class="page-card centered">
-                <span [innerHTML]="'References.NoData' | translate"></span>
-            </div>
-    
-        <div class="page-card" *ngIf="isReferencesLoaded && !isAnyErrorPresent && !isReferencesEmpty">
-            <h3 [innerHTML]="'References.Title' | translate"></h3>
-            <ul>
-                <li *ngFor="let reference of references">
-                    <span>{{reference.Description}}</span><br/>
-                    <a [href]="reference.Link">{{reference.Link}}</a><br/>
-                </li>
-            </ul>
-        </div>
+    <!-- LOADING -->
+    <div *ngIf="!isReferencesLoaded" class="page-card centered">
+        <i class='fa fa-spinner fa-spin'></i>
+        <span [innerHTML]="'References.Loading' | translate"></span>
     </div>
+
+    <!-- ERROR -->
+    <div *ngIf="isAnyErrorPresent" class="page-card centered">
+        <i class='fa fa-times'></i>
+        <span [innerHTML]="'References.Error' | translate"></span>
+    </div>
+
+    <!-- EMPTY -->
+    <div *ngIf="isReferencesEmpty" class="page-card centered">
+        <span [innerHTML]="'References.NoData' | translate"></span>
+    </div>
+
+    <div class="page-card" *ngIf="isReferencesLoaded && !isAnyErrorPresent && !isReferencesEmpty">
+        <h3 [innerHTML]="'References.Title' | translate"></h3>
+        <ul>
+            <li *ngFor="let reference of references">
+                <span>{{reference.Description}}</span>
+                <br/>
+                <a [href]="reference.Link">{{reference.Link}}</a>
+                <br/>
+            </li>
+        </ul>
+    </div>
+</div>

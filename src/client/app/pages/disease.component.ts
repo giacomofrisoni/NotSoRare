@@ -17,6 +17,7 @@ import { DivbuttonComponent } from '../components/divbutton.component';
 })
 export class DiseaseComponent implements OnInit {
 
+
   // View
   @ViewChild('followButton') followButton: DivbuttonComponent;
   @ViewChild('unfollowButton') unfollowButton: DivbuttonComponent;
@@ -61,6 +62,7 @@ export class DiseaseComponent implements OnInit {
     this.subParams = this.route.params.subscribe(params => {
       // First check if it's a valid param (number)
       let id: number = Number(params['id']);
+
       if (!isNaN(id)) {
         // Try to get the data
         this.diseaseService.getDisease(params['id']).subscribe((disease: Disease) => {
@@ -75,25 +77,25 @@ export class DiseaseComponent implements OnInit {
           this.subUserService = this.userService.getLoggedInStatus("Disease").subscribe((userID: any) => {
             // Check if user is logged in
             this.userLoggedIn = userID.loggedIn ? userID.loggedIn : -1;
-      
+
             if (this.userLoggedIn >= 0) {
               // If it's logged check if he's following this disease
               this.userService.getFollowingDiseases(this.userLoggedIn).subscribe((results: any[]) => {
                 results.forEach(result => {
                   if (result.CodDisease == id) {
                     this.isDiseaseFollowed = true;
-                  } 
+                  }
                 });
-
-                //Finally all is loaded
-                this.isDiseaseFollowedLoaded = true;
-                this.diseaseHolder.setDisease(this.disease);
               }, error => {
                 console.log("Error during getting following diseases:");
                 console.log(error);
                 this.isDiseaseFollowedLoaded = false;
               });
             }
+
+            //Finally all is loaded
+            this.isDiseaseFollowedLoaded = true;
+            this.diseaseHolder.setDisease(this.disease);
           }, error => {
             console.log("Error during check user logged in: " + error);
             this.userLoggedIn = -1;

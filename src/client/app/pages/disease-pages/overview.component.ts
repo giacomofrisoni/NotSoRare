@@ -19,9 +19,9 @@ export class OverviewComponent implements OnInit {
   constructor(private diseaseHolder: DiseaseHolderService) {
     this.diseaseHolder.getDisease().subscribe((disease: Disease) => {
       if (disease != null) {
-        this.isDiseaseLoaded = true;
         this.disease = disease;
-      }
+        this.isDiseaseLoaded = true;
+      } 
     }, error => {
       this.isDiseaseLoaded = true;
       this.isAnyErrorPresent = true;
