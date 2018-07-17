@@ -134,6 +134,28 @@
         "NoData": "Ancora nessun centro specializzato disponibile"
     },
 
+    "Forum": {
+        "Loading": "Caricamento delle discussioni...",
+        "Error": "C'è stato un problema durante il caricamento delle discussioni",
+        "NoData": "Ancora nessuna discussione",
+        "UserNotLoggedIn": "Soltanto gli utenti registrati possono vedere e partecipare alle discussioni.",
+        "AllThreads": "Tutte le discussioni",
+        "NewThread": "Nuova discussione",
+        "Author": "Autore",
+        "LastActivity": "Ultima attività",
+        "Anonymous": "Utente anonimo"
+    },
+
+    "ForumThread": {
+        "Loading": "Caricamento della discussione...",
+        "Error": "C'è stato un problema durante il caricamento della discussione",
+        "UserNotLoggedIn": "Soltanto gli utenti registrati possono vedere e partecipare alle discussioni.",
+        "Reply": "Rispondi",
+        "Author": "Autore",
+        "LastActivity": "Ultima attività",
+        "Anonymous": "Utente anonimo"
+    },
+
     "References": {
         "Loading": "Caricamento dei riferimenti...",
         "Error": "C'è stato un problema durante il caricamento dei riferimenti",

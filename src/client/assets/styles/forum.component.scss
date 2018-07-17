@@ -1,0 +1,103 @@
+@import 'common-values';
+
+h3 {
+    font-size: 1.2em;
+    margin: 40px;
+    margin-bottom: 0px;
+    font-weight: normal;
+}
+
+h4, h5 {
+    margin: 0;
+    padding: 0;
+}
+
+h4 {
+    color: $accent-dark-color;
+    font-weight: normal;
+    font-size: 1.2em;
+}
+
+h5 {
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+.add-button {
+    max-width: 220px;
+}
+
+.page-card {
+    padding: 0px;
+    margin-top: 20px;
+    padding-bottom: 40px;
+}
+
+.img {
+    margin: 5px;
+    margin-left: 40px;
+    background: gray;
+    border-radius: 50%;
+    @include setWidth(70px);
+    @include setHeight(70px);
+}
+
+.small-detail {
+    display: inline-block;
+    font-size: 0.7em;
+
+    .colored {
+        color: $accent-dark-color;
+    }
+}
+
+.last-activity-date {
+    margin-left: 15px;
+    display: inline-block;
+}
+
+.fixed-width {
+    display: inline-block;
+    @include setWidth(80px);
+}
+
+.bordered {
+    flex-grow: 1;
+    margin: 20px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+.thread {
+    cursor: pointer;
+
+    &:hover {
+        background: #f8f8f8;
+    }
+
+    &:active {
+        background: #f0f0f0;
+    }
+}
+
+.middle-elements {
+    flex-grow: 1;
+}
+
+.left-elements {
+    margin-left: 20px;
+    max-width: 200px;
+}
+
+.no-overflow {
+    text-overflow: ellipsis;
+}
+
+.container {
+    padding: 30px;
+    margin-left: 0px;
+    margin-right: 0px;
+}

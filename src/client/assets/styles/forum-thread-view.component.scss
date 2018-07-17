@@ -1,0 +1,44 @@
+@import 'common-values';
+
+h4 {
+    margin: 0;
+    padding: 0;
+    color: $accent-dark-color;
+    font-weight: normal;
+    font-size: 1.2em;
+}
+
+.img {
+    background: gray;
+    border-radius: 50%;
+    @include setWidth(40px);
+    @include setHeight(40px);
+}
+
+.page-card {
+    margin: 0px;
+    box-shadow: none;
+
+    &.message {
+        margin-left: 100px;
+    }
+}
+
+.small-detail {
+    font-size: 0.8em;
+    margin-top: -5px;
+}
+
+.right-title-items {
+    margin-left: 10px;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.message-content {
+    margin-top: 15px;
+}
+

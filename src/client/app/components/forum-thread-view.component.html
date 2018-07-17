@@ -1,0 +1,15 @@
+<div class="page-card" [ngClass]="{'message': isMessage}">
+    <div class=" flex start-aligned">
+        <div class="img"></div>
+        <div class="right-title-items">
+            {{author}}
+            <br/>
+            <div class="small-detail">{{pastTime.duration}} {{pastTime.unit}}</div>
+        </div>
+    </div>
+
+    <div class="message-content">
+        <h4 *ngIf="title != ''">{{title}}</h4>
+        <p>{{content}}</p>
+    </div>
+</div>

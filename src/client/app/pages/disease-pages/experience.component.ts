@@ -21,7 +21,11 @@ export class ExperienceComponent implements OnInit {
   experience: Experience = new Experience();
   disease: Disease;
 
-  constructor(private diseaseHolder: DiseaseHolderService, private experiencesService: ExperiencesService, private route: ActivatedRoute) { }
+  constructor(
+    private diseaseHolder: DiseaseHolderService, 
+    private experiencesService: ExperiencesService, 
+    private route: ActivatedRoute) { 
+  }
 
   ngOnInit() {
     this.diseaseHolder.getDisease().subscribe(disease => {

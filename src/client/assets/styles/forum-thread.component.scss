@@ -1,0 +1,58 @@
+@import 'common-values';
+
+h3 {
+    font-size: 1.2em;
+    margin: 40px;
+    margin-bottom: 0px;
+    font-weight: normal;
+}
+
+h4, h5 {
+    margin: 0;
+    padding: 0;
+}
+
+h4 {
+    color: $accent-dark-color;
+    font-weight: normal;
+    font-size: 1.2em;
+    margin-top: 15px;
+}
+
+h5 {
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+.page-card.comment {
+    margin-left: 60px;
+    background: #f0f0f0;
+}
+
+.img {
+    background: gray;
+    border-radius: 50%;
+    @include setWidth(40px);
+    @include setHeight(40px);
+}
+
+.small-detail {
+    font-size: 0.8em;
+    margin-top: -5px;
+}
+
+.right-title-items {
+    margin-left: 10px;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    padding: 30px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+

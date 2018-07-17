@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="add-button">
+        <app-divbutton icon="fa fa-plus-circle" [text]="'Forum.NewThread' | translate"></app-divbutton>
+    </div>
+
+    <div class="page-card">
+        <h3 [innerHTML]="'Forum.AllThreads' | translate"></h3>
+
+        <!-- LOADING -->
+        <div *ngIf="!isThreadsLoaded" class="error centered">
+            <i class='fa fa-spinner fa-spin'></i>
+            <span [innerHTML]="'Forum.Loading' | translate"></span>
+        </div>
+
+        <!-- ERROR -->
+        <div *ngIf="isAnyErrorPresent" class="error centered">
+            <i class='fa fa-times'></i>
+            <span [innerHTML]="'Forum.Error' | translate"></span>
+        </div>
+
+        <!-- EMPTY -->
+        <div *ngIf="isThreadsEmpty" class="error centered">
+            <span [innerHTML]="'Forum.NoData' | translate"></span>
+        </div>
+
+        <!-- User not logged -->
+        <div *ngIf="!isUserLoggedIn && isThreadsLoaded" class="error centered">
+            <span [innerHTML]="'Forum.UserNotLoggedIn' | translate"></span>
+        </div>
+
+        <!-- ALL OK -->
+        <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isThreadsLoaded">
+            <div class="flex start-aligned thread" *ngFor="let thread of threads" (click)="onThreadClick(thread.code)">
+                <div class="img"></div>
+
+                <div class="flex start-aligned bordered">
+                    <div class="middle-elements">
+                        <h4>{{thread.title}}</h4>
+                        <h5>{{thread.description}}</h5>
+                        <div class="small-detail">
+                            <span [innerHTML]="'Forum.Author' | translate"></span>
+                            <span>: </span>
+                            <span *ngIf="!thread.author.is_anonymous" class="colored">{{thread.author.fullname}}</span>
+                            <span *ngIf="thread.author.is_anonymous" class="colored" [innerHTML]="'Forum.Anonymous' | translate"></span>
+                            <div class="last-activity-date" *ngIf="thread.last_activity_date != null">
+                                <span [innerHTML]="'Forum.LastActivity' | translate"></span>
+                                <span>: </span>
+                                <span class="colored">{{thread.last_activity_date}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex end-aligned left-elements">
+                        <div class="fixed-width">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            {{thread.views}}
+                        </div>
+
+                        <div class="fixed-width">
+                            <i class="fa fa-comment" aria-hidden="true"></i>
+                            {{thread.messages_count}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

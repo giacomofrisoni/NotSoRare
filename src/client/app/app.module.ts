@@ -47,6 +47,9 @@ import { ExperienceComponent } from './pages/disease-pages/experience.component'
 import { ExperiencePreviewComponent } from './components/experience-preview.component';
 import { ExpertCentresService } from './services/expert-centres.service';
 import { ReferencesService } from './services/references.service';
+import { ForumService } from './services/forum.service';
+import { ForumThreadComponent } from './pages/disease-pages/forum-thread.component';
+import { ForumThreadViewComponent } from './components/forum-thread-view.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -65,6 +68,7 @@ const appRoutes: Routes = [
       { path: 'experiences', component: ExperiencesComponent },
       { path: 'experiences/:codUser', component: ExperienceComponent },
       { path: 'forum', component: ForumComponent },
+      { path: 'forum/:codThread', component: ForumThreadComponent },
       { path: 'references', component: ReferencesComponent }]
   },
   { path: '**', component: NotFoundComponent }
@@ -98,6 +102,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SearchBarComponent,
     ExperienceComponent,
     ExperiencePreviewComponent,
+    ForumThreadComponent,
+    ForumThreadViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -133,7 +139,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DiseaseHolderService,
     ExperiencesService,
     ExpertCentresService,
-    ReferencesService
+    ReferencesService,
+    ForumService
   ],
   bootstrap: [RootComponent],
   entryComponents: [SimpleDialogComponent]    // Material Angular Dialog

@@ -134,6 +134,28 @@
         "NoData": "Still no expert centre available"
     },
 
+    "Forum": {
+        "Loading": "Loading threads...",
+        "Error": "A problem occurred during loading of threads",
+        "NoData": "No threads yet",
+        "UserNotLoggedIn": "Only registered users can show and get involved on threads discussions",
+        "AllThreads": "All threads",
+        "NewThread": "New thread",
+        "Author": "Author",
+        "LastActivity": "Last activity",
+        "Anonymous": "Anonymous user"
+    },
+
+    "ForumThread": {
+        "Loading": "Loading thread...",
+        "Error": "A problem occurred during loading of thread",
+        "UserNotLoggedIn": "Only registered users can show and get involved on threads discussions",
+        "Reply": "Reply",
+        "Author": "Author",
+        "LastActivity": "Last activity",
+        "Anonymous": "Anonymous user"
+    },
+
     "References": {
         "Loading": "References loading",
         "Error": "An error occurred during the references loading",

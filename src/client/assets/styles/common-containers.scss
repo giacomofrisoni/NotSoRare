@@ -53,6 +53,10 @@ html, body {
         justify-content: flex-start;
     }
 
+    &.end-aligned {
+        justify-content: flex-end;
+    }
+
     &.wrapped {
         flex-wrap: wrap;
     }
