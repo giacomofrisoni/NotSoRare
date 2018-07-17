@@ -573,7 +573,11 @@ function getForumThread(req, res) {
                         .populate('_authorId')
                         .populate({
                             path: 'messages',
-                            match: { _parentMessageId: { $exists: false } }
+                            match: { _parentMessageId: { $exists: false } },
+                            populate: {
+                                path: '_authorId',
+                                select: 'code is_anonymous first_name last_name fullname photo gender birth_date age'
+                            }
                         })
                         .select('code title description views creation_date update_date past_time')
                         .exec((error, forumThread) => {
@@ -611,7 +615,7 @@ function getForumThread(req, res) {
                                             "fullname": forumThread._authorId.fullname,
                                             "photo": forumThread._authorId.photo.data,
                                             "gender": forumThread._authorId.gender,
-                                            "birthDate": forumThread._authorId.birthDate,
+                                            "birth_date": forumThread._authorId.birth_date,
                                             "age": forumThread._authorId.age
                                         };
                                         parsedForumThread["messages"] = forumThread.messages;

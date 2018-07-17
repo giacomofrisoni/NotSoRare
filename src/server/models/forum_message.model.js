@@ -68,7 +68,13 @@ ForumMessageSchema
  * @param {*} next 
  */
 function autoPopulateComments(next) {
-    this.populate('comments');
+    this.populate({
+        path: 'comments',
+        populate: {
+            path: '_authorId',
+            select: 'code is_anonymous first_name last_name fullname photo gender birth_date age',
+        }
+    });
     next();
 }
 
