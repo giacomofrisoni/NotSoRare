@@ -16,5 +16,6 @@ export class User {
     PatientBirthDate: Date;
     PatientNationality: string;
     RareDiseasesCount: number;
-    ExperiencesCount: number
+    ExperiencesCount: number;
+    _sanitizedPhoto: string;
 }

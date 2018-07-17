@@ -40,8 +40,8 @@
 
             <div class="flex" *ngIf="isFollowedDiseasesLoaded">
                 <div class="flex vertical disease" *ngFor="let disease of followedDiseases">
-                    <img [src]="disease.Image" />
-                    <h5>{{disease.DiseaseName}}</h5>
+                    <img [src]="disease.SpecialtyImage" />
+                    <h5>{{disease.Name}}</h5>
                 </div>
 
                 <div class="flex disease add">

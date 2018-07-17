@@ -86,9 +86,7 @@ export class RegisterComponent implements OnInit {
       var reader = new FileReader();
     
       reader.onloadend = (event:any) => {
-        this.photoUrl = event.target.result;
-        const base64string = event.target.result.split(',')[1];
-        this.signupData.photo = base64string;
+        this.signupData.photo = event.target.result;
       }
 
       const file = event.target.files[0];

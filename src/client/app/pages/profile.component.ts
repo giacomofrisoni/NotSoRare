@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
+import { DomSanitizer } from '../../../../node_modules/@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -18,9 +19,11 @@ export class ProfileComponent implements OnInit {
   // Binding
   user: User = new User();
 
+
   constructor(
     private userService: UserService, 
-    private router: Router) { 
+    private router: Router) {/*,
+    private sanitizer: DomSanitizer) { */
   }
 
   ngOnInit() {
@@ -31,6 +34,7 @@ export class ProfileComponent implements OnInit {
         this.userService.getUserData(user.loggedIn).subscribe((result: User) => {
           if (result) {
             this.user = result;
+            console.log(this.user);
           } else {
             this.isAnyErrorPresent = true;
             console.log("Unexpected type");

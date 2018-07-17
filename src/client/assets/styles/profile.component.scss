@@ -1,11 +1,52 @@
 @import 'common-values';
 
+h3 {
+    margin: 0;
+    margin-top: 10px;
+}
+
+.top-margined {
+    margin-top: 100px;
+}
+
+.top-unmargined {
+    margin-top: -40px;
+    margin-bottom: 15px;
+}
+
+.minor {
+    color: gray;
+}
+
+.spaced-elem {
+    margin-left: 15px;
+    padding-left: 15px;
+    padding-right: 30px;
+    font-size: 1em;
+    color: gray;
+    border-right: 1px solid gray;
+
+    * {
+        display: inline-block;
+    }
+
+    &.last {
+        border: none;
+    }
+
+    .major{
+        font-weight: bold;
+        font-size: 1.3em;
+        margin-right: 8px;
+        color: $text-color;
+    }
+}
 
 img {
     position: relative;
     @include setWidth(130px);
     @include setHeight(130px);
-    margin-top: -1000px;
+    margin-top: -100px;
     box-shadow: $card-light-shadow;
     border: 3px solid white;
     border-radius: 50%;
@@ -16,4 +57,9 @@ img {
     min-width: 150px;
     max-width: 400px;
     align-self: center;
+}
+
+.tab-container {
+    display: flex;
+
 }

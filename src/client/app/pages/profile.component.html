@@ -17,27 +17,42 @@
     </div>
 
     <div *ngIf="isUserLoggedIn && isProfileLoaded && !isAnyErrorPresent">
-        <div class="page-card">
+        <div class="page-card top-margined">
             <img [src]="user.Photo" />
 
-            <div class="flex end-aligned">
-                <div class="spaced-elem" *ngIf="RareDiseasesCount">
-                    <span>{{RareDiseasesCount}}</span>
-                    <span [innerHTML]="'Profile.RareDiseasesCount' | translate"></span>
+            <div class="flex end-aligned top-unmargined">
+                <div class="spaced-elem" *ngIf="user.RareDiseasesCount">
+                    <div class="major">{{user.RareDiseasesCount}}</div>
+                    <div [innerHTML]="'Profile.RareDiseasesCount' | translate"></div>
                 </div>
 
-                <div class="spaced-elem last" *ngIf="RareDiseasesCount">
-                    <span>{{ExperiencesCount}}</span>
-                    <span [innerHTML]="'Profile.ExperiencesCount' | translate"></span>
+                <div class="spaced-elem last" *ngIf="user.ExperiencesCount">
+                    <div class="major">{{user.ExperiencesCount}}</div>
+                    <div [innerHTML]="'Profile.ExperiencesCount' | translate"></div>
                 </div>
             </div>
 
             <div>
-              <h4>{{user.Name}} {{user.Surname}}</h4> 
+              <h3>{{user.Name}} {{user.Surname}}</h3> 
               <span class="minor">
                   <i class="fa fa-calendar"></i>
                   <span [innerHTML]="'Profile.RegisteredDate' | translate"></span>
+                  <span> {{user.RegistrationDate | date : 'dd/MM/yyyy'}}</span>
               </span>
+            </div>
+
+            <div>
+                <p>{{user.Biography}}</p>
+            </div>
+        </div>
+
+        <div class="page-card tabbed">
+            <div class="tab-container">
+
+            </div>
+
+            <div class="tab-content">
+
             </div>
         </div>
 
