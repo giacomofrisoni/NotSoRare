@@ -229,7 +229,7 @@ function getUserInterests(req, res) {
     /**
      * Only a logged user with the same code of the request can retrieve his interests.
      */
-    if (req.session.user == idUser) {
+    if (req.session.user) {
         /**
          * Prepares the SQL statement with parameters for SQL-injection avoidance,
          * in order to obtain the rare disease interests of the logged user.
