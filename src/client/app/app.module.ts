@@ -53,6 +53,7 @@ import { ForumThreadViewComponent } from './components/forum-thread-view.compone
 import { ProfileFollowedDiseasesComponent } from './pages/profile-pages/profile-followed-diseases.component';
 import { ProfileThreadsComponent } from './pages/profile-pages/profile-threads.component';
 import { ProfileExperiencesComponent } from './pages/profile-pages/profile-experiences.component';
+import { ProfileHolderService } from './services/profile-holder.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -150,6 +151,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DiseaseService,
     GlobalUtilsService,
     DiseaseHolderService,
+    ProfileHolderService,
     ExperiencesService,
     ExpertCentresService,
     ReferencesService,

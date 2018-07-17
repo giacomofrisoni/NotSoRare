@@ -194,6 +194,10 @@
         "FollowedDiseases": "Followed Rare Diseases",
         "Threads": "Threads",
         "Experiences": "Experiences",
-        "Logout": "Logout"
+        "Logout": "Logout",
+
+        "ExperiencesLoading": "Loading experiences...",
+        "ExperiencesError": "An error occurred during experiences loading",
+        "ExperiencesEmpty": "No experiences yet"
     }
 }

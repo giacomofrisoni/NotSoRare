@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../models/user';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ProfileHolderService } from '../services/profile-holder.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private profileHolder: ProfileHolderService) {
   }
 
   ngOnInit() {
@@ -40,6 +42,7 @@ export class ProfileComponent implements OnInit {
             // Ok, logged in
             this.isUserLoggedIn = true;
             this.isProfileMine = requestedUserId == user.loggedIn;
+            this.profileHolder.setCurrentProfileData(user.loggedIn, requestedUserId);
             
             // Get data of user
             this.userService.getUserData(requestedUserId).subscribe((result: User) => {

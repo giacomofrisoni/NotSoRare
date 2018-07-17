@@ -1,0 +1,22 @@
+<div class="padded">
+    <!-- LOADING -->
+    <div *ngIf="!isFollowedDiseasesLoaded" class="centered">
+        <i class='fa fa-spinner fa-spin'></i>
+        <span [innerHTML]="'References.Loading' | translate"></span>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="isAnyErrorPresent" class="centered">
+        <i class='fa fa-times'></i>
+        <span [innerHTML]="'References.Error' | translate"></span>
+    </div>
+
+    <!-- EMPTY -->
+    <div *ngIf="isFollowedDiseasesEmpty" class="centered">
+        <span [innerHTML]="'References.NoData' | translate"></span>
+    </div>
+
+    <div class="page-card" *ngIf="isFollowedDiseasesLoaded && !isAnyErrorPresent && !isFollowedDiseasesEmpty">
+
+    </div>
+</div>

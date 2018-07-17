@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Disease } from '../../models/disease';
-import { Experience } from '../../models/experience';
 import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { ExperiencesService } from '../../services/experiences.service';
 import { ActivatedRoute } from '@angular/router';
@@ -18,7 +17,7 @@ export class ExperienceComponent implements OnInit {
   isAnyErrorPresent: boolean = false;
 
   // Binding
-  experience: Experience = new Experience();
+  experience: any = {};
   disease: Disease;
 
   constructor(
@@ -39,7 +38,7 @@ export class ExperienceComponent implements OnInit {
           // Convert to number
           if (!isNaN(codUser)) {
             // Get the experience
-            this.experiencesService.getExperience(this.disease.general.CodDisease, codUser).subscribe((result: Experience) => {
+            this.experiencesService.getExperience(this.disease.general.CodDisease, codUser).subscribe((result: any) => {
               if (result) {
                 this.experience = result;
                 console.log(this.experience);

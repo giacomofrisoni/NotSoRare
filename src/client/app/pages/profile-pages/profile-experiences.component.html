@@ -1,0 +1,22 @@
+<div class="padded">
+    <!-- LOADING -->
+    <div *ngIf="!isExperiencesLoaded" class="centered">
+        <i class='fa fa-spinner fa-spin'></i>
+        <span [innerHTML]="'Profile.ExperiencesLoading' | translate"></span>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="isAnyErrorPresent" class="centered">
+        <i class='fa fa-times'></i>
+        <span [innerHTML]="'Profile.ExperiencesError' | translate"></span>
+    </div>
+
+    <!-- EMPTY -->
+    <div *ngIf="isExperiencesEmpty" class="centered">
+        <span [innerHTML]="'Profile.ExperiencesEmpty' | translate"></span>
+    </div>
+
+    <div class="" *ngIf="isExperiencesLoaded && !isAnyErrorPresent && !isExperiencesEmpty">
+
+    </div>
+</div>

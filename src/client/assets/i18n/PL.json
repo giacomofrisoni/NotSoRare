@@ -194,6 +194,10 @@
         "FollowedDiseases": "Malattie Rare Seguite",
         "Threads": "Discussioni",
         "Experiences": "Esperienze",
-        "Logout": "Wyloguj"
+        "Logout": "Wyloguj",
+
+        "ExperiencesLoading": "Carico le esperienze...",
+        "ExperiencesError": "C'è stato un problema con il caricamento delle esperienze",
+        "ExperiencesEmpty": "Ancora nessuna esperienza"
     }
 }
