@@ -50,13 +50,23 @@ import { ReferencesService } from './services/references.service';
 import { ForumService } from './services/forum.service';
 import { ForumThreadComponent } from './pages/disease-pages/forum-thread.component';
 import { ForumThreadViewComponent } from './components/forum-thread-view.component';
+import { ProfileFollowedDiseasesComponent } from './pages/profile-pages/profile-followed-diseases.component';
+import { ProfileThreadsComponent } from './pages/profile-pages/profile-threads.component';
+import { ProfileExperiencesComponent } from './pages/profile-pages/profile-experiences.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent },
+  {
+    path: 'profile/:id', component: ProfileComponent,
+    children: [
+      { path: '', redirectTo: 'followedDiseases', pathMatch: 'full' },
+      { path: 'followedDiseases', component: ProfileFollowedDiseasesComponent },
+      { path: 'threads', component: ProfileThreadsComponent },
+      { path: 'experiences', component: ProfileExperiencesComponent }]
+  },
   { path: 'disease-search', component: DiseaseSearchComponent },
   { path: 'disease-search/:id', component: DiseaseSearchComponent },
   {
@@ -104,6 +114,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ExperiencePreviewComponent,
     ForumThreadComponent,
     ForumThreadViewComponent,
+    ProfileFollowedDiseasesComponent,
+    ProfileThreadsComponent,
+    ProfileExperiencesComponent,
   ],
   imports: [
     BrowserModule,

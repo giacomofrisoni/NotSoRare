@@ -3,7 +3,7 @@ import { ExperiencePreview } from '../../models/experience-preview';
 import { ExperiencesService } from '../../services/experiences.service';
 import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { Disease } from '../../models/disease';
-import { Router } from '../../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-experiences',

@@ -191,6 +191,9 @@
         "RegisteredDate": "Registered on",
         "RareDiseasesCount": "rare diseases",
         "ExperiencesCount": "experiences",
+        "FollowedDiseases": "Followed Rare Diseases",
+        "Threads": "Threads",
+        "Experiences": "Experiences",
         "Logout": "Logout"
     }
 }

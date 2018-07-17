@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DiseaseService } from '../services/disease.service';
-import { TranslateService } from '../../../../node_modules/@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Disease } from '../models/disease';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Router } from '../../../../node_modules/@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LanguageService } from '../services/language.service';
 import { DiseaseHolderService } from '../services/disease-holder.service';
-import { Subscription } from '../../../../node_modules/rxjs';
+import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { DivbuttonComponent } from '../components/divbutton.component';
 

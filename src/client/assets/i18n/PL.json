@@ -191,6 +191,9 @@
         "RegisteredDate": "Iscritto il",
         "RareDiseasesCount": "malattie rare",
         "ExperiencesCount": "esperienze",
+        "FollowedDiseases": "Malattie Rare Seguite",
+        "Threads": "Discussioni",
+        "Experiences": "Esperienze",
         "Logout": "Wyloguj"
     }
 }

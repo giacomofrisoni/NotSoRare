@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Disease } from '../models/disease';
-import { Subject, BehaviorSubject } from '../../../../node_modules/rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class DiseaseHolderService {

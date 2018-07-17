@@ -3,7 +3,7 @@ import { Disease } from '../../models/disease';
 import { Experience } from '../../models/experience';
 import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { ExperiencesService } from '../../services/experiences.service';
-import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-experience',

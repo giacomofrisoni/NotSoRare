@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '../../../../node_modules/@ngx-translate/core';
-import { Router } from '../../../../node_modules/@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',

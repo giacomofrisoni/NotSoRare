@@ -48,7 +48,9 @@
 
         <div class="page-card tabbed">
             <div class="tab-container">
-
+                <div routerLink="./followedDiseases" routerLinkActive="selected" class="tab-title left centered" [innerHTML]="'Profile.FollowedDiseases' | translate"></div>
+                <div routerLink="./threads" routerLinkActive="selected" class="tab-title centered" [innerHTML]="'Profile.Threads' | translate"></div>
+                <div routerLink="./experiences" routerLinkActive="selected" class="tab-title centered right" [innerHTML]="'Profile.Experiences' | translate"></div>
             </div>
 
             <div class="tab-content">

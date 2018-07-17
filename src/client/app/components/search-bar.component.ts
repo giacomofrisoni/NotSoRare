@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Subject } from '../../../../node_modules/rxjs';
+import { Subject } from 'rxjs';
 import { DiseaseService } from '../services/disease.service';
-import { Router } from '../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-bar',

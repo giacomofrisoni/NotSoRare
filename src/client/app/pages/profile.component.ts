@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../models/user';
-import { DomSanitizer } from '../../../../node_modules/@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -15,48 +15,68 @@ export class ProfileComponent implements OnInit {
   isProfileLoaded: boolean = false;
   isAnyErrorPresent: boolean = false;
   isUserLoggedIn: boolean = false;
+  isProfileMine: boolean = false;
 
   // Binding
   user: User = new User();
 
 
   constructor(
-    private userService: UserService, 
-    private router: Router) {/*,
-    private sanitizer: DomSanitizer) { */
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.userService.getLoggedInStatus("Profile").subscribe((user: any) => {
-      if (user.loggedIn) {
-        this.isUserLoggedIn = true;
+    // First, try to get the user ID of the URL
+    this.route.params.subscribe(params => {
+      let requestedUserId: number = params['id'];
 
-        this.userService.getUserData(user.loggedIn).subscribe((result: User) => {
-          if (result) {
-            this.user = result;
-            console.log(this.user);
+      // Check if it's a number
+      if (!isNaN(requestedUserId)) {
+        // Now try to get logged in status
+        this.userService.getLoggedInStatus("Profile").subscribe((user: any) => {
+          if (user.loggedIn) {
+            // Ok, logged in
+            this.isUserLoggedIn = true;
+            this.isProfileMine = requestedUserId == user.loggedIn;
+            
+            // Get data of user
+            this.userService.getUserData(requestedUserId).subscribe((result: User) => {
+              if (result) {
+                this.user = result;
+                console.log(this.user);
+              } else {
+                this.isAnyErrorPresent = true;
+                console.log("Unexpected type");
+              }
+
+              this.isProfileLoaded = true;
+            }, error => {
+              this.isProfileLoaded = true;
+              this.isUserLoggedIn = false;
+              console.log(error);
+            });
+
           } else {
-            this.isAnyErrorPresent = true;
-            console.log("Unexpected type");
+            this.isProfileLoaded = true;
+            this.isUserLoggedIn = false;
+            console.log("user not logged in");
           }
-
+        }, error => {
           this.isProfileLoaded = true;
-        }, error =>{
-          this.isProfileLoaded = true;
+          this.isAnyErrorPresent = true;
           this.isUserLoggedIn = false;
           console.log(error);
-        });
+        })
       } else {
-        this.isProfileLoaded = true;
-        this.isUserLoggedIn = false;
-        console.log("user not logged in");
+        this.setPageStatus(true, false, false, "Requested id is not a number");
       }
     }, error => {
-      this.isProfileLoaded = true;
-      this.isAnyErrorPresent = true;
-      this.isUserLoggedIn = false;
-      console.log(error);
-    })
+      this.setPageStatus(true, false, false, "Requested id is not a number", error);
+    });
+
+
   }
 
   onLogout() {
@@ -69,4 +89,17 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  setPageStatus(ready: boolean, error: boolean, loggedin: boolean, message?: string, printError?: any) {
+    this.isProfileLoaded = ready;
+    this.isAnyErrorPresent = error;
+    this.isUserLoggedIn = loggedin;
+
+    if (message) {
+      console.log(message);
+    }
+
+    if (printError) {
+      console.log(printError);
+    }
+  }
 }

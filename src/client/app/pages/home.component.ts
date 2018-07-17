@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { DiseaseService } from '../services/disease.service';
-import { Router } from '../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { SessionStatus } from '../models/session-status.enum';
 

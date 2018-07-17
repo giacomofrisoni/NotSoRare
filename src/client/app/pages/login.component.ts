@@ -9,7 +9,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 import { SimpleDialogComponent } from '../dialogs/simple-dialog.component';
 import { SimpleDialogType } from '../dialogs/simple-dialog-type.enum';
 import { LanguageService } from '../services/language.service';
-import { TranslateService } from '../../../../node_modules/@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',

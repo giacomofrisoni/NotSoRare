@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { UserService } from '../../services/user.service';
-import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Disease } from '../../models/disease';
 import { ForumThreadDetails } from '../../models/forum-thread-details';
 import { ForumService } from '../../services/forum.service';
