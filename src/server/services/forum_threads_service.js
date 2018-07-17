@@ -540,6 +540,7 @@ function getUserForumThreads(req, res) {
 
 }
 
+
 function getForumThread(req, res) {
     
     const idDisease = parseInt(req.params.idDisease, 10);
@@ -574,7 +575,7 @@ function getForumThread(req, res) {
                             path: 'messages',
                             match: { _parentMessageId: { $exists: false } }
                         })
-                        .select('code title description views messages_count last_activity_date')
+                        .select('code title description views creation_date update_date past_time')
                         .exec((error, forumThread) => {
                             if (error) {
                                 res.status(500).send({
@@ -599,6 +600,9 @@ function getForumThread(req, res) {
                                         parsedForumThread["title"] = forumThread.title;
                                         parsedForumThread["description"] = forumThread.description;
                                         parsedForumThread["views"] = forumThread.views;
+                                        parsedForumThread["creation_date"] = forumThread.creation_date;
+                                        parsedForumThread["update_date"] = forumThread.update_date;
+                                        parsedForumThread["past_time"] = forumThread.past_time;
                                         parsedForumThread["author"] = {
                                             "code": forumThread._authorId.code,
                                             "is_anonymous": forumThread._authorId.is_anonymous,

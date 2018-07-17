@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 // Imports the mongoose auto-increment module
 const autoIncrement = require('mongoose-auto-increment');
 
+// Imports the module for moments calculation
+const momentUtils = require('../utilities/moment_util');
+
+
 // Defines the ForumThread schema
 const Schema = mongoose.Schema;
 const ForumThreadSchema = new Schema({
@@ -61,12 +65,19 @@ ForumThreadSchema
     }
 });
 
+// Virtual for past time
+ForumThreadSchema
+.virtual('past_time')
+.get(function() {
+    return momentUtils.calculatePastTime(this.creation_date, new Date());
+});
+
 // Defines a function to run before saving
 ForumThreadSchema.pre('save', function(next) {
     // Gets the current date
     var currentDate = new Date();
     // Changes the updated date field to current date
-    this.updated_date = currentDate;
+    this.update_date = currentDate;
     // Sets the creation date if not already present
     if (!this.creation_date) {
         this.creation_date = currentDate;

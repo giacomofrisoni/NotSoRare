@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 // Imports the mongoose auto-increment module
 const autoIncrement = require('mongoose-auto-increment');
 
+// Imports the module for moments calculation
+const momentUtils = require('../utilities/moment_util');
+
+
 // Defines the ForumMessage schema
 const Schema = mongoose.Schema;
 const ForumMessageSchema = new Schema({
@@ -28,12 +32,23 @@ const ForumMessageSchema = new Schema({
     toJSON: { virtuals: true }
 });
 
+
 // Initializes and setups the auto-increment
 autoIncrement.initialize(mongoose.connection);
 ForumMessageSchema.plugin(autoIncrement.plugin, { model: 'ForumMessage', field: 'code' });
 
+
 // Defines a unique compound index
 ForumMessageSchema.index({ _forumThreadId: 1, code: 1 }, { unique: true });
+
+
+// Virtual for past time
+ForumMessageSchema
+.virtual('past_time')
+.get(function() {
+    return momentUtils.calculatePastTime(this.creation_date, new Date());
+});
+
 
 /**
  * Specifies a virtual with a 'ref' property in order to enable virtual population,
@@ -47,6 +62,11 @@ ForumMessageSchema
     foreignField: '_parentMessageId'
 });
 
+
+/**
+ * Populates recursively the comments of the message.
+ * @param {*} next 
+ */
 function autoPopulateComments(next) {
     this.populate('comments');
     next();
@@ -57,12 +77,15 @@ ForumMessageSchema
     .pre('find', autoPopulateComments);
 
 
-// Defines a function to run before saving
+/**
+ * Defines a function to run before saving.
+ */
 ForumMessageSchema.pre('save', function(next) {
+
     // Gets the current date
     var currentDate = new Date();
     // Changes the updated date field to current date
-    this.updated_date = currentDate;
+    this.update_date = currentDate;
     // Sets the creation date if not already present
     if (!this.creation_date) {
         this.creation_date = currentDate;
@@ -82,7 +105,9 @@ ForumMessageSchema.pre('save', function(next) {
     }
 
     next();
+
 });
+
 
 // Compiles model from schema
 const ForumMessage = mongoose.model('ForumMessage', ForumMessageSchema);
