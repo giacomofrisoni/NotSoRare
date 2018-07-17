@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '../../../../node_modules/@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { GlobalUtilsService } from './global-utils.service';
 
 @Injectable()
@@ -13,8 +13,19 @@ export class ForumService {
     });
   }
 
-  getThread(diseaseID: number, threadID) {
+  getThread(diseaseID: number, threadID: number) {
     return this.http.get(this.globalUtils.apiPath + "/rareDiseases/" + diseaseID + "/forumThreads/" + threadID + "/" + this.globalUtils.createLanguageParameter(), {
+      withCredentials: true,
+    });
+  }
+
+  postReplyToThread(userID: number, diseaseID: number, threadID: number, message: string) {
+    return this.http.post(this.globalUtils.apiPath + "/forumMessages/" + this.globalUtils.createLanguageParameter(), {
+      codUser: userID,
+      codDisease: diseaseID,
+      codForumThread: threadID,
+      content: message
+    }, {
       withCredentials: true,
     });
   }

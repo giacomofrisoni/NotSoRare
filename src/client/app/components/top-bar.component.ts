@@ -6,6 +6,8 @@ import { Subject, Subscription } from 'rxjs';
 import { CookiesUtilsService } from '../services/cookies-utils.service';
 import { Languages } from '../models/languages.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '../../../../node_modules/@angular/router';
+import { Location } from '../../../../node_modules/@angular/common';
 
 @Component({
   selector: 'app-top-bar',
@@ -20,23 +22,29 @@ export class TopBarComponent implements OnInit {
   isUserNotLoggedIn: boolean = false;
   avaiableTranslations: Subject<any> = new Subject<any>();
 
+  userID: number;
+
 
   constructor(
     private userService: UserService, 
     private languageService: LanguageService,
-    private cookiesUtils: CookiesUtilsService) {
+    private cookiesUtils: CookiesUtilsService,
+    private location: Location,
+    private router: Router) {
   }
 
   ngOnInit() {
     this.userService.getLoggedInStatus("TopBar").subscribe((userID: any) => {
       this.isUserLoggedIn = userID.loggedIn ? true : false;
       this.isUserNotLoggedIn = !this.isUserLoggedIn;
+      this.userID = userID.loggedIn;
     });
 
     this.userService.getWatcherOfLoginChange().subscribe(refreshedStatus => {
       this.userService.getLoggedInStatus("TopBar").subscribe((userID: any) => {
         this.isUserLoggedIn = userID.loggedIn ? true : false;
         this.isUserNotLoggedIn = !this.isUserLoggedIn;
+        this.userID = userID.loggedIn;
       });
     });
 
@@ -67,6 +75,12 @@ export class TopBarComponent implements OnInit {
   onLanguageChanged() {
     this.languageService.setCurrentLanguage(this.selectedLanguage);
     this.cookiesUtils.write(Languages.LanguagesCookieName, this.selectedLanguage);
+  }
+
+  onUserClick() {
+    //this.router.navigate(['/profile', this.userID]);
+    this.location.go("/profile/" + this.userID);
+    window.location.reload();
   }
 
 }

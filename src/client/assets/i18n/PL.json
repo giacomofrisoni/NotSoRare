@@ -146,6 +146,20 @@
         "Anonymous": "Anonymous user"
     },
 
+    "ForumThread": {
+        "Loading": "Loading thread...",
+        "Error": "A problem occurred during loading of thread",
+        "UserNotLoggedIn": "Only registered users can show and get involved on threads discussions",
+        "Reply": "Reply",
+        "Author": "Author",
+        "LastActivity": "Last activity",
+        "Anonymous": "Anonymous user",
+        "InsertReplyHere": "Inserisci qui la tua risposta",
+        "ReplyEmpty": "La risposta non può essere vuota",
+        "ReplyPosting": "Pubblicando la risposta...",
+        "ReplyPostingError": "Errore nella pubblicazione della risposta"
+    },
+
     "References": {
         "Loading": "Ładowanie referencji ...",
         "Error": "Podczas wczytywania odniesień wystąpił problem",
@@ -171,6 +185,15 @@
     },
 
     "Profile": {
+        "Loading": "Caricamento del profilo utente...",
+        "Error": "C'è stato un problema durante il caricamento del profilo utente",
+        "UserNotLoggedIn": "Soltanto gli utenti registrati possono vedere il proprio profilo.",
+        "RegisteredDate": "Iscritto il",
+        "RareDiseasesCount": "malattie rare",
+        "ExperiencesCount": "esperienze",
+        "FollowedDiseases": "Malattie Rare Seguite",
+        "Threads": "Discussioni",
+        "Experiences": "Esperienze",
         "Logout": "Wyloguj"
     }
 }

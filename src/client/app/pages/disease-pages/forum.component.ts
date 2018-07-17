@@ -4,7 +4,7 @@ import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { Disease } from '../../models/disease';
 import { ForumThread } from '../../models/forum-thread';
 import { UserService } from '../../services/user.service';
-import { Router, ActivatedRoute } from '../../../../../node_modules/@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-forum',

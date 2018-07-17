@@ -1,8 +1,68 @@
 <div class="container">
-    <div class="page-card">
-        <div class="flex">
-            <div class="logout-button">
-                <app-divbutton text="Logout" (click)="onLogout($event)"></app-divbutton>
+    <!-- LOADING -->
+    <div *ngIf="!isProfileLoaded" class="page-card centered">
+        <i class='fa fa-spinner fa-spin'></i>
+        <span [innerHTML]="'Profile.Loading' | translate"></span>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="isAnyErrorPresent" class="page-card centered">
+        <i class='fa fa-times'></i>
+        <span [innerHTML]="'Profile.Error' | translate"></span>
+    </div>
+
+    <!-- User not logged -->
+    <div *ngIf="!isUserLoggedIn && isProfileLoaded" class="page-card centered">
+        <span [innerHTML]="'Profile.UserNotLoggedIn' | translate"></span>
+    </div>
+
+    <div *ngIf="isUserLoggedIn && isProfileLoaded && !isAnyErrorPresent">
+        <div class="page-card top-margined">
+            <img [src]="user.Photo" />
+
+            <div class="flex end-aligned top-unmargined">
+                <div class="spaced-elem" *ngIf="user.RareDiseasesCount">
+                    <div class="major">{{user.RareDiseasesCount}}</div>
+                    <div [innerHTML]="'Profile.RareDiseasesCount' | translate"></div>
+                </div>
+
+                <div class="spaced-elem last" *ngIf="user.ExperiencesCount">
+                    <div class="major">{{user.ExperiencesCount}}</div>
+                    <div [innerHTML]="'Profile.ExperiencesCount' | translate"></div>
+                </div>
+            </div>
+
+            <div>
+              <h3>{{user.Name}} {{user.Surname}}</h3> 
+              <span class="minor">
+                  <i class="fa fa-calendar"></i>
+                  <span [innerHTML]="'Profile.RegisteredDate' | translate"></span>
+                  <span> {{user.RegistrationDate | date : 'dd/MM/yyyy'}}</span>
+              </span>
+            </div>
+
+            <div>
+                <p>{{user.Biography}}</p>
+            </div>
+        </div>
+
+        <div class="page-card tabbed">
+            <div class="tab-container">
+                <div routerLink="./followedDiseases" routerLinkActive="selected" class="tab-title left centered" [innerHTML]="'Profile.FollowedDiseases' | translate"></div>
+                <div routerLink="./threads" routerLinkActive="selected" class="tab-title centered" [innerHTML]="'Profile.Threads' | translate"></div>
+                <div routerLink="./experiences" routerLinkActive="selected" class="tab-title centered right" [innerHTML]="'Profile.Experiences' | translate"></div>
+            </div>
+
+            <div class="tab-content">
+
+            </div>
+        </div>
+
+        <div class="page-card">
+            <div class="flex">
+                <div class="logout-button">
+                    <app-divbutton text="Logout" (click)="onLogout($event)"></app-divbutton>
+                </div>
             </div>
         </div>
     </div>

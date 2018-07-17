@@ -153,7 +153,11 @@
         "Reply": "Reply",
         "Author": "Author",
         "LastActivity": "Last activity",
-        "Anonymous": "Anonymous user"
+        "Anonymous": "Anonymous user",
+        "InsertReplyHere": "Insert here your reply",
+        "ReplyEmpty": "Reply message cannot be empty",
+        "ReplyPosting": "Posting reply...",
+        "ReplyPostingError": "An error occurred when posting the reply"
     },
 
     "References": {
@@ -181,6 +185,15 @@
     },
 
     "Profile": {
+        "Loading": "Loading profile...",
+        "Error": "An error occurred during profile loading",
+        "UserNotLoggedIn": "Only registered users can see their profiles.",
+        "RegisteredDate": "Registered on",
+        "RareDiseasesCount": "rare diseases",
+        "ExperiencesCount": "experiences",
+        "FollowedDiseases": "Followed Rare Diseases",
+        "Threads": "Threads",
+        "Experiences": "Experiences",
         "Logout": "Logout"
     }
 }

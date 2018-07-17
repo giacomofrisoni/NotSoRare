@@ -24,11 +24,6 @@ h5 {
     font-size: 0.9em;
 }
 
-.page-card.comment {
-    margin-left: 60px;
-    background: #f0f0f0;
-}
-
 .img {
     background: gray;
     border-radius: 50%;
@@ -54,5 +49,21 @@ p {
     padding: 30px;
     margin-left: 0px;
     margin-right: 0px;
+}
+
+textarea {
+    @include setWidth(100%);
+    min-height: 100px;
+}
+
+.reply-button {
+    margin-top: 10px;
+    max-width: 200px;
+}
+
+.page-card.reply {
+    margin-left: 100px;
+    margin-top: 20px;
+    padding-bottom: 20px;
 }
 

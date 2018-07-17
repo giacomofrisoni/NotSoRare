@@ -80,4 +80,10 @@ export class UserService {
       withCredentials: true
     });
   }
+
+  getUserData(userID: number) {
+    return this.http.get(`${this.globalUtils.apiPath}/users/${userID}/${this.globalUtils.createLanguageParameter()}`, {
+      withCredentials: true
+    });
+  }
 }

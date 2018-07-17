@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '../../../../node_modules/@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DiseaseService } from '../services/disease.service';
 import { Speciality } from '../models/speciality';
 

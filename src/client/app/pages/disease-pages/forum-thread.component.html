@@ -18,41 +18,30 @@
 
     <!-- ALL OK -->
     <div *ngIf="isUserLoggedIn && !isAnyErrorPresent && isThreadLoaded">
-        <app-forum-thread-view
-            [image]=""
-            [author]="thread.author.fullname"
-            [pastTime]="thread.past_time"
-            [title]="thread.title"
+        <app-forum-thread-view class="thread-title" [image]="" [author]="thread.author.fullname" [pastTime]="thread.past_time" [title]="thread.title"
             [content]="thread.description">
         </app-forum-thread-view>
 
-        <app-forum-thread-view
-            *ngFor="let message of thread.messages"
-            [image]=""
-            [author]="message._authorid"
-            [pastTime]="message.past_time"
-            [content]="message.content"
-            isMessage="true">
+        <app-forum-thread-view *ngFor="let message of thread.messages" [image]="" [author]="message._authorId.fullname" [pastTime]="message.past_time"
+            [content]="message.content" isMessage="true">
         </app-forum-thread-view>
-        <!--<div class="page-card">
-            <div class=" flex start-aligned">
-                <div class="img"></div>
-                <div class="right-title-items">
-                    {{thread.author.fullname}}
-                    <br/>
-                    <div class="small-detail">{{thread.past_time.duration}} {{thread.past_time.unit}}</div>
+
+        <div class="page-card reply">
+            <span [innerHTML]="'ForumThread.InsertReplyHere' | translate"></span>
+            <textarea [(ngModel)]="replyContent"></textarea>
+            <span *ngIf="isReplyEmpty" class="info small-text" [innerHTML]="'ForumThread.ReplyEmpty' | translate"></span>
+            <span *ngIf="isReplyPosting" class="info small-text">
+                <i class='fa fa-spinner fa-spin'></i>
+                <span [innerHTML]="'ForumThread.ReplyPosting' | translate"></span>
+            </span>
+            <span *ngIf="isReplyPostingError" class="info small-text" [innerHTML]="'ForumThread.ReplyPostingError' | translate"></span>
+
+            <div class="flex end-aligned">
+                <div class="reply-button">
+                    <app-divbutton icon="fa fa-reply" [text]="'ForumThread.Reply' | translate" (click)="onReplyClick()"></app-divbutton>
                 </div>
             </div>
-
-            <div>
-                <h4>{{thread.title}}</h4>
-                <p>{{thread.description}}</p>
-            </div>
         </div>
-
-        <div class="page-card comment" *ngFor="let message of thread.messages">
-
-        </div>-->
 
     </div>
 </div>

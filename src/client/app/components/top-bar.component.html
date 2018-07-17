@@ -9,7 +9,7 @@
         <!-- Right REGISTERED -->
         <div class="flex margined" *ngIf="isUserLoggedIn">
             <app-menubutton icon="fa fa-bell" badge="9"></app-menubutton>
-            <app-menubutton icon="fa fa-user" routerLink="/profile"></app-menubutton>
+            <app-menubutton icon="fa fa-user" (click)="onUserClick()"></app-menubutton>
         </div>
 
         <!-- Right UNREGISTERED -->
@@ -43,6 +43,6 @@
             </ng-template>
         </ng-select>
 
-        <app-menubutton icon="fa fa-bars"></app-menubutton>
+        <!--<app-menubutton icon="fa fa-bars"></app-menubutton>-->
     </div>
 </div>
