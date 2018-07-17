@@ -440,7 +440,7 @@ function getRareDiseaseForumThreads(req, res) {
                                         "first_name": forumThreads[i]._authorId.first_name,
                                         "last_name": forumThreads[i]._authorId.last_name,
                                         "fullname": forumThreads[i]._authorId.fullname,
-                                        "photo": forumThreads[i]._authorId.photo
+                                        "photo": forumThreads[i]._authorId.photo.data
                                     };
                                     parsedForumThreads.push(forumThread);
                                 }
@@ -573,7 +573,11 @@ function getForumThread(req, res) {
                         .populate('_authorId')
                         .populate({
                             path: 'messages',
-                            match: { _parentMessageId: { $exists: false } }
+                            match: { _parentMessageId: { $exists: false } },
+                            populate: {
+                                path: '_authorId',
+                                select: 'code is_anonymous first_name last_name fullname photo gender birth_date age'
+                            }
                         })
                         .select('code title description views creation_date update_date past_time')
                         .exec((error, forumThread) => {
@@ -609,9 +613,9 @@ function getForumThread(req, res) {
                                             "first_name": forumThread._authorId.first_name,
                                             "last_name": forumThread._authorId.last_name,
                                             "fullname": forumThread._authorId.fullname,
-                                            "photo": forumThread._authorId.photo,
+                                            "photo": forumThread._authorId.photo.data,
                                             "gender": forumThread._authorId.gender,
-                                            "birthDate": forumThread._authorId.birthDate,
+                                            "birth_date": forumThread._authorId.birth_date,
                                             "age": forumThread._authorId.age
                                         };
                                         parsedForumThread["messages"] = forumThread.messages;
