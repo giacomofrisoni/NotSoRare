@@ -28,7 +28,7 @@ function calculatePastTime(startDate, endDate) {
     } else if (duration.asMinutes() >= 1) {
         return { duration: parseInt(duration.asMinutes(), 10), unit: MOMENT_UNITS.MINUTES }
     } else {
-        return { duration: duration.asSeconds(), unit: MOMENT_UNITS.SECONDS }
+        return { duration: parseInt(duration.asSeconds(), 10), unit: MOMENT_UNITS.SECONDS }
     }
 }
 
