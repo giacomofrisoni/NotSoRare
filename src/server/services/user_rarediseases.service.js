@@ -257,7 +257,7 @@ function getUserInterests(req, res) {
             }
         );
         interestRequest.addParameter('CodLanguage', TYPES.Char, req.i18n.getLocale());
-        interestRequest.addParameter('CodLanguage', translationEnv.defaultLanguage);
+        interestRequest.addParameter('DefaultCodLanguage', TYPES.Char, translationEnv.defaultLanguage);
         interestRequest.addParameter('CodUser', TYPES.Numeric, idUser);
                                     
         // Performs the rare diseases interests retrieving query on the relational database
