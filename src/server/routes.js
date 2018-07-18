@@ -60,10 +60,17 @@ router.post('/activation', validatePayloadMiddleware, validate(activationSchema)
 });
 
 /**
- * Logs the user in.
+ * Logs the standard user in.
  */
-router.post('/login', validatePayloadMiddleware, validate(loginSchema), (req, res) => {
-    authenticationService.login(req, res);
+router.post('/loginUser', validatePayloadMiddleware, validate(loginSchema), (req, res) => {
+    authenticationService.loginUser(req, res);
+});
+
+/**
+ * Logs the moderator user in.
+ */
+router.post('/loginModerator', validatePayloadMiddleware, validate(loginSchema), (req, res) => {
+    authenticationService.loginModerator(req, res);
 });
 
 /**
