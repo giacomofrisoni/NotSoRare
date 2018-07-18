@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileHolderService } from '../../services/profile-holder.service';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-profile-experiences',
@@ -18,6 +19,10 @@ export class ProfileExperiencesComponent implements OnInit {
   // Binding
   experiences: any[];
 
+  // Subscriptions
+  subProfileHolder: Subscription;
+  subUserService: Subscription;
+
   constructor(
     private profileHolder: ProfileHolderService,
     private userService: UserService,
@@ -27,12 +32,12 @@ export class ProfileExperiencesComponent implements OnInit {
 
   ngOnInit() {
     // Try to get params for user id
-    this.profileHolder.getCurrentProfileData().subscribe(data => {
+    this.subProfileHolder = this.profileHolder.getCurrentProfileData().subscribe(data => {
       // Only if there is a user ready
       /*      currentUserID: currentUserID,
       requestedUserID: requestedUserID*/
       if (data != null) {
-        this.userService.getUserExperiences(data.requestedUserID).subscribe((results: any[]) => {
+        this.subUserService = this.userService.getUserExperiences(data.requestedUserID).subscribe((results: any[]) => {
           if (results) {
             if (results.length > 0) {
               this.experiences = results;
@@ -70,6 +75,16 @@ export class ProfileExperiencesComponent implements OnInit {
     if (printError) {
       console.log(printError);
     }
+  }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subProfileHolder) this.subProfileHolder.unsubscribe();
+    if (this.subUserService) this.subUserService.unsubscribe();
   }
 
 }

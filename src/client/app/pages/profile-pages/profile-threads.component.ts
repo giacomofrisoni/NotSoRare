@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileHolderService } from '../../services/profile-holder.service';
 import { UserService } from '../../services/user.service';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-profile-threads',
@@ -17,6 +18,11 @@ export class ProfileThreadsComponent implements OnInit {
   // Binding
   threads: any[];
 
+  // Subscriptions
+  subProfileHolder: Subscription;
+  subUserService: Subscription;
+
+
   constructor(
     private profileHolder: ProfileHolderService,
     private userService: UserService) {
@@ -25,13 +31,13 @@ export class ProfileThreadsComponent implements OnInit {
 
   ngOnInit() {
     // Try to get params for user id
-    this.profileHolder.getCurrentProfileData().subscribe(data => {
+    this.subProfileHolder = this.profileHolder.getCurrentProfileData().subscribe(data => {
       // Only if there is a user ready
       /*      currentUserID: currentUserID,
       requestedUserID: requestedUserID*/
       if (data != null) {
         // Try to get data
-        this.userService.getUserThreads(data.requestedUserID).subscribe((data: any[]) => {
+        this.subUserService = this.userService.getUserThreads(data.requestedUserID).subscribe((data: any[]) => {
           if (data) {
             if (data.length > 0) {
               this.threads = data;
@@ -69,5 +75,15 @@ export class ProfileThreadsComponent implements OnInit {
     if (printError) {
       console.log(printError);
     }
+  }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subProfileHolder) this.subProfileHolder.unsubscribe();
+    if (this.subUserService) this.subUserService.unsubscribe();
   }
 }

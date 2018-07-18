@@ -35,7 +35,6 @@ export class NotificationsComponent implements OnInit {
               if (notifications.length > 0) {
                 // Data ok
                 this.notifications = notifications;
-                console.log(notifications);
               } else {
                 // Data empty
                 this.isNotificationsEmpty = true;
