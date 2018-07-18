@@ -6,8 +6,8 @@ import { Subject, Subscription } from 'rxjs';
 import { CookiesUtilsService } from '../services/cookies-utils.service';
 import { Languages } from '../models/languages.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '../../../../node_modules/@angular/router';
-import { Location } from '../../../../node_modules/@angular/common';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { NotificatorService } from '../services/notificator.service';
 
 @Component({

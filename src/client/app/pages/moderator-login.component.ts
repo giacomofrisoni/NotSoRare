@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../services/user.service';
 import * as $ from 'jquery';
 import { Router } from '@angular/router';
-import { SessionStatus } from '../models/session-status.enum';
 import { Subscription } from 'rxjs';
 import { DivbuttonComponent } from '../components/divbutton.component';
 import { MatDialog, MatDialogConfig } from "@angular/material";
@@ -13,10 +12,10 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
+  templateUrl: './moderator-login.component.html',
   styleUrls: ['../../assets/styles/login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class ModeratorLoginComponent implements OnInit {
 
   // Components from the view
   @ViewChild('loginButton') loginButton: DivbuttonComponent;
@@ -28,13 +27,10 @@ export class LoginComponent implements OnInit {
   // Binding values
   email: string;
   password: string;
-  isToVerify: boolean = false;
-  verificationCode: string;
 
   // Subscriptions to unsubscribe on destroy
   subGetLoggedInStatus: Subscription;
   subLogin: Subscription;
-  subActivate: Subscription;
 
   // Translations
   translations: any = {};
@@ -49,7 +45,6 @@ export class LoginComponent implements OnInit {
         "Login.RedirectedSoon",
         "Login.LoginError",
         "Login.LoginErrorMessage",
-        "Login.ActivatedSuccess"
       ]).subscribe((results: any) => {
         for (let key in results) {
           this.translations[key.split(".")[1]] = results[key];
@@ -81,59 +76,30 @@ export class LoginComponent implements OnInit {
     this.loginButton.icon = "fa fa-spinner fa-spin";
 
     // First try to login
-    this.subLogin = this.userService.login(this.email, this.password).subscribe((resp: any) => {
+    this.subLogin = this.userService.moderatorLogin(this.email, this.password).subscribe((resp: any) => {
       // Ok, all is clear
       this.loginIsOk(this.translations.LoggedInSuccesfull + " " + this.translations.RedirectedSoon, true, $("#login-card"));
     },
 
-      // ERROR or NEED ACTIVATION
+      // ERROR
       (errorResp) => {
-        console.log(errorResp);
-        console.log(errorResp.error.inactive);
 
-        // If is inactive, need activation!
-        if (errorResp.error.inactive) {
-          // Inform that login is OK
-          this.loginIsOk(this.translations.LoggedInSuccesfull, false, $("#login-card"));
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+          title: this.translations.LoginError,
+          text: this.translations.LoginErrorMessage + " - " + errorResp.error.errorMessage,
+          type: SimpleDialogType.Error,
+          isAlterEnabled: false,
+          mainButtonText: "OK",
+        };
 
-          // Activate the activation screen
-          this.isToVerify = true;
-        }
-        // Error
-        else {
-          const dialogConfig = new MatDialogConfig();
-          dialogConfig.disableClose = true;
-          dialogConfig.autoFocus = true;
-          dialogConfig.data = {
-            title: this.translations.LoginError,
-            text: this.translations.LoginErrorMessage + " - " + errorResp.error.errorMessage,
-            type: SimpleDialogType.Error,
-            isAlterEnabled: false,
-            mainButtonText: "OK",
-          };
-
-          let instance = this.dialog.open(SimpleDialogComponent, dialogConfig);
-          instance.afterClosed().subscribe(data => {
-
-          });
-        }
+        let instance = this.dialog.open(SimpleDialogComponent, dialogConfig);
+        instance.afterClosed().subscribe(data => { });
 
         this.loginButton.icon = "";
       });
-  }
-
-  onCodeCheck() {
-    //Activate spinner
-    this.checkButton.icon = "fa fa-spinner fa-spin";
-
-    // Try to activate the user
-    this.subActivate = this.userService.activate(this.email, this.verificationCode).subscribe((resp: any) => {
-      this.activateIsOk();
-    }, (errorResp) => {
-      this.checkButton.icon = "";
-      console.log(errorResp);
-      console.log("Error!");
-    });
   }
 
 
@@ -165,26 +131,10 @@ export class LoginComponent implements OnInit {
     this.userService.submitLoginChange();
   }
 
-  private activateIsOk() {
-    $("#verify-code-card").html("<p><i class='fa fa-spinner fa-spin'></i> " + this.translations.ActivatedSuccess + "</p>");
-
-    // After 3 seconds
-    var timeout = setTimeout(() => {
-      // Reset all subscriptions
-      this.unsubscribeAll();
-
-      // Refresh all page
-      location.reload()
-
-      // Stop calling yourself!
-      clearTimeout(timeout);
-    }, 6000);
-  }
 
   private unsubscribeAll() {
     if (this.subGetLoggedInStatus) this.subGetLoggedInStatus.unsubscribe();
     if (this.subLogin) this.subLogin.unsubscribe();
-    if (this.subActivate) this.subActivate.unsubscribe();
   }
 
 }

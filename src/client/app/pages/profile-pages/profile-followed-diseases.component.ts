@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileHolderService } from '../../services/profile-holder.service';
 import { UserService } from '../../services/user.service';
-import { Router } from '../../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-followed-diseases',

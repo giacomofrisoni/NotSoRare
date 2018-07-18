@@ -3,7 +3,7 @@ import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { UserService } from '../../services/user.service';
 import { Disease } from '../../models/disease';
 import { ExperiencesService } from '../../services/experiences.service';
-import { Router } from '../../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-thread',
