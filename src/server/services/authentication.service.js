@@ -57,6 +57,7 @@ function loginUser(req, res) {
                             if (match) {
                                 req.session.user = userData[0].CodUser; // Stores the code of the logged user into the session
                                 req.session.disease = null;
+                                req.session.isModerator = false;
                                 res.status(200).send({
                                     codUser: userData[0].CodUser,
                                     infoMessage: req.i18n.__("Login_Completed", userData[0].CodUser)
@@ -129,6 +130,7 @@ function loginModerator(req, res) {
                        if (match) {
                            req.session.user = moderatorData[0].CodModerator; // Stores the code of the logged user into the session
                            req.session.disease = moderatorData[0].CodDisease;
+                           req.session.isModerator = true;
                            res.status(200).send({
                                codModerator: moderatorData[0].CodModerator,
                                codDisease: moderatorData[0].CodDisease,

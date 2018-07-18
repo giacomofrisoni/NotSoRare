@@ -160,9 +160,8 @@ function postForumMessage(req, res) {
                                                                 diseaseName,
                                                                 forumThread._authorId.code,
                                                                 (error) => {
-                                                                    res.status(500).send({
-                                                                        errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
-                                                                    });
+                                                                    console.log("Real-time notification sent failed.");
+                                                                    res.status(201).json(forumMessage);
                                                                 },
                                                                 () => {
                                                                     res.status(201).json(forumMessage);
@@ -250,7 +249,7 @@ function putForumMessage(req, res) {
 }
 
 
-function removeMessageUtility(loggedUser, codDisease, codForumThread, codForumMessage,
+function removeMessageUtility(loggedUser, isModerator, codDisease, codForumThread, codForumMessage,
     errorCallback, unauthorizedCallback, diseaseNotFoundCallback, forumThreadNotFoundCallback, forumMessageNotFoundCallback, doneCallback) {
 
     searchForumMessage(
@@ -263,9 +262,9 @@ function removeMessageUtility(loggedUser, codDisease, codForumThread, codForumMe
         () => { forumMessageNotFoundCallback(); },
         (disease, forumThread, forumMessage) => {
             /**
-             * Only a logged user with the same code of the request can delete the data.
+             * Only a logged user can delete the data.
              */
-            if (loggedUser == forumMessage._authorId.code) {
+            if (loggedUser == forumMessage._authorId.code || isModerator) {
 
                 // Deletes the specified message
                 ForumMessage.findByIdAndRemove(forumMessage._id)
@@ -307,6 +306,7 @@ function deleteForumMessage(req, res) {
 
     removeMessageUtility(
         req.session.user,
+        req.session.isModerator,
         idDisease,
         idForumThread,
         idForumMessage,
@@ -610,6 +610,8 @@ function reportForumMessage(req, res) {
     const idForumMessage = parseInt(req.body.codForumMessage, 10);
 
     removeMessageUtility(
+        req.session.user,
+        req.session.isModerator,
         idDisease,
         idForumThread,
         idForumMessage,
@@ -660,26 +662,34 @@ function reportForumMessage(req, res) {
                 }
             }
 
-            // Sends runtime message to the author
-            socketNotification.sendMessageReportNotification(
-                req.i18n,
-                forumMessage.content,
-                forumThread.title,
-                diseaseName,
-                forumMessage._authorId.code,
-                (error) => {
+            User.findById(forumMessage._authorId).exec((error, user) => {
+                if (error) {
                     res.status(500).send({
-                        errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
+                        errorMessage: req.i18n.__("Err_ForumMessages_MessageReporting", error)
                     });
-                },
-                () => {
-                    res.status(201).json(forumMessage);
+                } else {
+                    // Sends runtime message to the author
+                    socketNotification.sendMessageReportNotification(
+                        req.i18n,
+                        forumMessage.content,
+                        forumThread.title,
+                        diseaseName,
+                        user.code,
+                        (error) => {
+                            console.log("Real-time notification sent failed.");
+                            res.status(200).send({
+                                infoMessage: req.i18n.__("ForumMessageReporting_Completed")
+                            });
+                        },
+                        () => {
+                            res.status(200).send({
+                                infoMessage: req.i18n.__("ForumMessageReporting_Completed")
+                            });
+                        }
+                    );
                 }
-            );
-
-            res.status(200).send({
-                infoMessage: req.i18n.__("ForumMessageDeletion_Completed")
             });
+            
         }
     );
     

@@ -62,6 +62,7 @@
     "Err_ForumMessages_NoUserUtilityVote": "Non è stato trovato alcun voto di utilità per l'utente specificato",
     "Err_ForumMessages_MessageReporting": "Si è verificato un errore durante la segnalazione del messaggio. %s",
 	"ForumMessageDeletion_Completed": "Messaggio cancellato con successo",
+    "ForumMessageReporting_Completed": "Segnalazione del messaggio avvenuta con successo",
 	"Experience_Added": "Esperienza aggiunta con successo",
 	"Experience_Updated": "Esperienza aggiornata con successo",
 	"Experience_Removed": "Esperienza cancellata con successo",

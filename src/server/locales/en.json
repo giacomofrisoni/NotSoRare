@@ -62,6 +62,7 @@
     "Err_ForumMessages_NoUserUtilityVote": "There is no utility vote for the specified user in the message",
     "Err_ForumMessages_MessageReporting": "An error occurred during the reporting of the message. %s",
     "ForumMessageDeletion_Completed": "Forum message removed successfully",
+    "ForumMessageReporting_Completed": "Forum message reporting completed",
     "Experience_Added": "Experience added successfully",
     "Experience_Updated": "Experience updated successfully",
     "Experience_Removed": "Experience removed successfully",

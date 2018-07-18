@@ -34,8 +34,12 @@ function sendForumReplyNotification(i18n, fullNameAuthor, forumThreadTitle, dise
             if (error) {
                 errorCallback(error);
             } else {
-                serverSocketIo.sockets.connected[clients[codRecipient].socket].emit('forumReplyNotification', data);
-                successfulCallback();
+                try {
+                    serverSocketIo.sockets.connected[clients[codRecipient].socket].emit('forumReplyNotification', data);
+                    successfulCallback();
+                } catch (error) {
+                    errorCallback(error);
+                }
             }
         });
     } else {
@@ -54,8 +58,12 @@ function sendMessageReportNotification(i18n, messageContent, forumThreadTitle, d
             if (error) {
                 errorCallback(error);
             } else {
-                serverSocketIo.sockets.connected[clients[codRecipient].socket].emit('messageReportedNotification', data);
-                successfulCallback();
+                try {
+                    serverSocketIo.sockets.connected[clients[codRecipient].socket].emit('messageReportedNotification', data);
+                    successfulCallback();
+                } catch (error) {
+                    errorCallback(error);
+                }
             }
         });
     } else {

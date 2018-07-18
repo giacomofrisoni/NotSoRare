@@ -62,6 +62,7 @@
     "Err_ForumMessages_NoUserUtilityVote": "Nie ma głosowania użytkowego dla określonego użytkownika w wiadomości",
     "Err_ForumMessages_MessageReporting": "Wystąpił błąd podczas raportowania wiadomości. %s",
     "ForumMessageDeletion_Completed": "Wiadomość na forum została pomyślnie usunięta",
+    "ForumMessageReporting_Completed": "Zakończono raportowanie wiadomości na forum",
 	"Experience_Added": "Doświadczenie zostało dodane pomyślnie",
 	"Experience_Updated": "Doświadczenie zaktualizowane pomyślnie",
 	"Experience_Removed": "Doświadczenie zostało usunięte pomyślnie",
