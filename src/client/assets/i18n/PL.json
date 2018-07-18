@@ -77,7 +77,8 @@
         "LoginErrorMessage": "Wystąpił błąd podczas fazy logowania",
         "Login": "Zaloguj",
         "ToCheckMessage": "Potrzebujesz tylko jednego kroku: aby zweryfikować swoje konto, powinieneś otrzymać e-mail z kodem do wprowadzenia poniżej.",
-        "Check": "Weryfikacja"
+        "Check": "Weryfikacja",
+        "ActivatedSuccess": "Aktywacja zostala zakonczona. Dla twojego bezpieczenstwa, zaloguj sie ponownie. Zostaniesz przekierowany za moment"
     },
 
     "NotFound": {

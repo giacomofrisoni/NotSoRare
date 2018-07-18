@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
         "Login.RedirectedSoon",
         "Login.LoginError",
         "Login.LoginErrorMessage",
+        "Login.ActivatedSuccess"
       ]).subscribe((results: any) => {
         for (let key in results) {
           this.translations[key.split(".")[1]] = results[key];
@@ -62,7 +63,7 @@ export class LoginComponent implements OnInit {
             this.loginIsOk(this.translations.LoggedInSuccesfull + " " + this.translations.RedirectedSoon, true, $("#login-card"));
           }
         });
-        
+
         this.isPageLoading = false;
       });
     });
@@ -128,15 +129,12 @@ export class LoginComponent implements OnInit {
 
     // Try to activate the user
     this.subActivate = this.userService.activate(this.email, this.verificationCode).subscribe((resp: any) => {
-      // Activation was succesfull
-      this.loginIsOk(resp.infoMessage + ". " + this.translations.RedirectedSoon, true, $("#verify-code-card"));
-    },
-
-      (errorResp) => {
-        this.checkButton.icon = "";
-        console.log(errorResp);
-        console.log("Error!");
-      });
+      this.activateIsOk();
+    }, (errorResp) => {
+      this.checkButton.icon = "";
+      console.log(errorResp);
+      console.log("Error!");
+    });
   }
 
 
@@ -168,17 +166,26 @@ export class LoginComponent implements OnInit {
     this.userService.submitLoginChange();
   }
 
+  private activateIsOk() {
+    $("#verify-code-card").html("<p><i class='fa fa-spinner fa-spin'></i> " + this.translations.ActivatedSuccess + "</p>");
+
+    // After 3 seconds
+    var timeout = setTimeout(() => {
+      // Reset all subscriptions
+      this.unsubscribeAll();
+
+      // Refresh all page
+      location.reload()
+
+      // Stop calling yourself!
+      clearTimeout(timeout);
+    }, 8000);
+  }
+
   private unsubscribeAll() {
     if (this.subGetLoggedInStatus) this.subGetLoggedInStatus.unsubscribe();
     if (this.subLogin) this.subLogin.unsubscribe();
     if (this.subActivate) this.subActivate.unsubscribe();
   }
-
-
-  private openDialog(title: string, text: string, type: SimpleDialogType, isAlterEnabled: boolean, mainButtonText: string) {
-
-
-  }
-
 
 }

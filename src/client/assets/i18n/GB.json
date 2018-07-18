@@ -77,7 +77,8 @@
         "LoginErrorMessage": "There was an error during the login phase.",
         "Login": "Login",
         "ToCheckMessage": "You just need to type here your activation code, sent to you at your mail.",
-        "Check": "Check activation code"
+        "Check": "Check activation code",
+        "ActivatedSuccess": "Activation was succesfull! To preserve your account security, please login again. You will be redirected soon."
     },
 
     "NotFound": {

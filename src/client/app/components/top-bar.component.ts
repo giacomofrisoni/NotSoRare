@@ -45,6 +45,7 @@ export class TopBarComponent implements OnInit {
         this.isUserLoggedIn = userID.loggedIn ? true : false;
         this.isUserNotLoggedIn = !this.isUserLoggedIn;
         this.userID = userID.loggedIn;
+        console.log("user logged: " + this.isUserLoggedIn);
       });
     });
 
