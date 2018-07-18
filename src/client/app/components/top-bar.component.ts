@@ -119,8 +119,15 @@ export class TopBarComponent implements OnInit {
   }
 
   onLogoutClick() {
-    this.userService.logout();
-    this.location.go("/home");
+    console.log("logout");
+    this.userService.logout().subscribe((resp: any) => {
+      this.router.navigate(['./home']);
+      this.userService.submitLoginChange();
+      location.reload();
+    }, (errorResp) => {
+      console.log(errorResp);
+      this.userService.submitLoginChange();
+    });
   }
 
 }

@@ -254,5 +254,10 @@
         "Error": "Wystąpił problem podczas fazy ładowania",
         "UserNotLoggedIn": "Uzytkownik nie jest zalogowany",
         "Empty": "Brak nowych powiadomien"
+    },
+
+    "Moderator": {
+        "Error": "Wystapil blad podczas logowania",
+        "NotLoggedIn": "Brak dostepu"
     }
 }

@@ -255,5 +255,10 @@
         "Error": "c'è stato un problema durante il caricamento delle notifiche",
         "UserNotLoggedIn": "Soltanto gli utenti registrati possono accedere alle notifiche",
         "Empty": "Nessuna nuova notifica"
+    },
+
+    "Moderator": {
+        "Error": "Un errore ha impedito il corretto caricamento della pagina",
+        "NotLoggedIn": "Accesso negato"
     }
 }

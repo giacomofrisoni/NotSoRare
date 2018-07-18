@@ -254,5 +254,10 @@
         "Error": "An error occurred during loading of notifications",
         "UserNotLoggedIn": "Only registered users can show notification center",
         "Empty": "No new notifications"
+    },
+
+    "Moderator": {
+        "Error": "An error occurred during loading of management page",
+        "NotLoggedIn": "Access denied"
     }
 }

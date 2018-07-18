@@ -9,7 +9,7 @@
     <!-- ERROR -->
     <div *ngIf="isAnyErrorPresent" class="page-card flex">
         <i class='fa fa-times'></i>
-        <span [innerHTML]="'Forum.Error' | translate"></span>
+        <span [innerHTML]="'Moderator.Error' | translate"></span>
     </div>
 
     <!-- EMPTY -->
@@ -19,14 +19,14 @@
 
     <!-- User not logged -->
     <div *ngIf="!isUserLoggedIn && isThreadsLoaded" class="page-card flex">
-        <span [innerHTML]="'Forum.UserNotLoggedIn' | translate"></span>
+        <span [innerHTML]="'Moderator.NotLoggedIn' | translate"></span>
     </div>
 
     <!-- ALL OK -->
     <div *ngIf="!isThreadsEmpty && !isAnyErrorPresent && isThreadsLoaded">
         <div *ngFor="let thread of threads">
             <app-forum-thread-view [isAnonymous]="thread.author.is_anonymous" [image]="thread.author.photoURL" [author]="thread.author.fullname"
-                [title]="thread.title" [content]="thread.description" [threadID]="thread.code" routerLink="../moderatorPageDetail/{{thread.code}}">
+                [title]="thread.title" [content]="thread.description" routerLink="../moderatorPageDetail/{{thread.code}}">
             </app-forum-thread-view>
         </div>
     </div>

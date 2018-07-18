@@ -8,12 +8,12 @@
     <!-- ERROR -->
     <div *ngIf="isAnyErrorPresent" class="page-card centered">
         <i class='fa fa-times'></i>
-        <span [innerHTML]="'ForumThread.Error' | translate"></span>
+        <span [innerHTML]="'Moderator.Error' | translate"></span>
     </div>
 
     <!-- User not logged -->
     <div *ngIf="!isUserLoggedIn && isThreadLoaded" class="page-card centered">
-        <span [innerHTML]="'ForumThread.UserNotLoggedIn' | translate"></span>
+        <span [innerHTML]="'Moderator.NotLoggedIn' | translate"></span>
     </div>
 
     <!-- ALL OK -->
