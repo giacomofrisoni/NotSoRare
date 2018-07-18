@@ -13,9 +13,6 @@ import { MatCheckboxModule, MatAutocompleteModule, MatInputModule } from '@angul
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-
-
 // Custom Components
 import { HomeComponent } from './pages/home.component';
 import { TopBarComponent } from './components/top-bar.component';
@@ -28,12 +25,6 @@ import { CountriesSelectorComponent } from './components/countries-selector.comp
 import { LoginComponent } from './pages/login.component';
 import { ProfileComponent } from './pages/profile.component';
 import { SimpleDialogComponent } from './dialogs/simple-dialog.component';
-
-import { UserService } from './services/user.service';
-import { DiseaseService } from './services/disease.service';
-import { CookiesUtilsService } from './services/cookies-utils.service';
-import { GlobalUtilsService } from './services/global-utils.service';
-import { LanguageService } from './services/language.service';
 import { DiseaseSearchComponent } from './pages/disease-search.component';
 import { DiseaseComponent } from './pages/disease.component';
 import { NotFoundComponent } from './pages/not-found.component';
@@ -42,31 +33,39 @@ import { ExperiencesComponent } from './pages/disease-pages/experiences.componen
 import { ExpertCentresComponent } from './pages/disease-pages/expert-centres.component';
 import { ForumComponent } from './pages/disease-pages/forum.component';
 import { ReferencesComponent } from './pages/disease-pages/references.component';
-import { DiseaseHolderService } from './services/disease-holder.service';
 import { SearchBarComponent } from './components/search-bar.component';
-import { ExperiencesService } from './services/experiences.service';
 import { ExperienceComponent } from './pages/disease-pages/experience.component';
 import { ExperiencePreviewComponent } from './components/experience-preview.component';
-import { ExpertCentresService } from './services/expert-centres.service';
-import { ReferencesService } from './services/references.service';
-import { ForumService } from './services/forum.service';
 import { ForumThreadComponent } from './pages/disease-pages/forum-thread.component';
 import { ForumThreadViewComponent } from './components/forum-thread-view.component';
 import { ProfileFollowedDiseasesComponent } from './pages/profile-pages/profile-followed-diseases.component';
 import { ProfileThreadsComponent } from './pages/profile-pages/profile-threads.component';
 import { ProfileExperiencesComponent } from './pages/profile-pages/profile-experiences.component';
-import { ProfileHolderService } from './services/profile-holder.service';
 import { NewExperienceComponent } from './pages/disease-pages/new-experience.component';
 import { NewThreadComponent } from './pages/disease-pages/new-thread.component';
+import { ModeratorLoginComponent } from './pages/moderator-login.component';
+
+// Custom services
+import { UserService } from './services/user.service';
+import { DiseaseService } from './services/disease.service';
+import { CookiesUtilsService } from './services/cookies-utils.service';
+import { GlobalUtilsService } from './services/global-utils.service';
+import { LanguageService } from './services/language.service';
+import { DiseaseHolderService } from './services/disease-holder.service';
+import { ExperiencesService } from './services/experiences.service';
+import { ExpertCentresService } from './services/expert-centres.service';
+import { ReferencesService } from './services/references.service';
+import { ForumService } from './services/forum.service';
+import { ProfileHolderService } from './services/profile-holder.service';
 import { NotificatorService } from './services/notificator.service';
 
-const config: SocketIoConfig = { url: 'http://127.0.0.1:3000/', options: {} };
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'moderatorLogin', component: ModeratorLoginComponent },
   {
     path: 'profile/:id', component: ProfileComponent,
     children: [
@@ -129,6 +128,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileExperiencesComponent,
     NewExperienceComponent,
     NewThreadComponent,
+    ModeratorLoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -143,7 +143,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatInputModule,
     MatDialogModule,
     ReactiveFormsModule,
-    SocketIoModule.forRoot(config),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

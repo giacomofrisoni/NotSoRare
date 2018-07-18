@@ -1,22 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
+import * as io from "socket.io-client";
 
 @Injectable()
 export class NotificatorService {
 
-  constructor(private socket: Socket) {
+  constructor() {
 
   }
 
   sendRequest(codUser: number) {
-    this.socket.emit("add-user", codUser, (data) => {
+    io.Socket.emit("add-user", codUser, (data) => {
       console.log("response from server")
       console.log(data);
     })
   }
 
   getNotificationsForEvent(event: string) {
-    return this.socket.fromEvent(event);
+    return io.Socket.addEventListener(event, (data) => {
+      console.log(data);
+    });
   }
 
 }

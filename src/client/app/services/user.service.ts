@@ -87,6 +87,15 @@ export class UserService {
       });
   }
 
+  moderatorLogin(email: string, password: string) {
+    return this.http.post(`${this.globalUtils.apiPath}/login` + this.globalUtils.createLanguageParameter(), {
+      email: email,
+      password: password
+    }, {
+        withCredentials: true,
+      });
+  }
+
   getLoggedInStatus(who: string) {
     return this.http.get(`${this.globalUtils.apiPath}/login` + this.globalUtils.createLanguageParameter(), {
       withCredentials: true,

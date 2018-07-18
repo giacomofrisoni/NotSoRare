@@ -6,8 +6,8 @@ import { Subject, Subscription } from 'rxjs';
 import { CookiesUtilsService } from '../services/cookies-utils.service';
 import { Languages } from '../models/languages.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '../../../../node_modules/@angular/router';
-import { Location } from '../../../../node_modules/@angular/common';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { NotificatorService } from '../services/notificator.service';
 
 @Component({
@@ -73,23 +73,10 @@ export class TopBarComponent implements OnInit {
 
       if (this.isUserLoggedIn) {
         this.notificator.sendRequest(userID.loggedIn);
-
         /*
-        this.notificator.getNotificationsForEvent("add-user").subscribe(data => {
-          console.log("add user");
-          console.log(data);
-        }, error => {
-          console.log("add user");
-          console.log(error);
-        });
-
-        this.notificator.getNotificationsForEvent("forumReplyNotification").subscribe(data => {
-          console.log("froum");
-          console.log(data);
-        }, error => {
-          console.log("froum");
-          console.log(error);
-        });*/
+        this.notificator.getNotificationsForEvent("add-user");
+        this.notificator.getNotificationsForEvent("forumReplyNotification");
+        */
       }
     });
   }

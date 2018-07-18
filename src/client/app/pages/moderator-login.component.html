@@ -8,6 +8,7 @@
 
     <div class="container" *ngIf="!isPageLoading">
         <h3>
+            <span>Moderator </span>
             <span [innerHTML]="'Login.Login' | translate"></span>
         </h3>
 
@@ -26,19 +27,10 @@
 
             <div class="flex vertical">
                 <div class="login-button">
-                    <app-divbutton #loginButton [text]="'Login.Login' | translate" (click)="onLogin($event)"></app-divbutton>
+                    <app-divbutton #loginButton isBordered="true" [text]="'Login.Login' | translate" (click)="onLogin($event)"></app-divbutton>
                 </div>
             </div>
         </div>
 
-        <div *ngIf="isToVerify" id="verify-code-card" class="page-card flex vertical">
-            <p [innerHTML]="'Login.ToCheckMessage' | translate"></p>
-
-            <input class="verification-code" type="text" maxlength="6" [(ngModel)]="verificationCode" />
-
-            <div class="login-button">
-                <app-divbutton #checkButton [text]="'Login.Check' | translate" (click)="onCodeCheck($event)"></app-divbutton>
-            </div>
-        </div>
     </div>
 </div>
