@@ -72,11 +72,21 @@ export class TopBarComponent implements OnInit {
       this.userID = userID.loggedIn;
 
       if (this.isUserLoggedIn) {
-        this.notificator.getNotificationsForEvent("forumReplyNotification").subscribe(data => {
-          console.log("data");
+        this.notificator.sendRequest(userID.loggedIn);
+
+        this.notificator.getNotificationsForEvent("add-user").subscribe(data => {
+          console.log("add user");
           console.log(data);
         }, error => {
-          console.log("data");
+          console.log("add user");
+          console.log(error);
+        });
+
+        this.notificator.getNotificationsForEvent("forumReplyNotification").subscribe(data => {
+          console.log("froum");
+          console.log(data);
+        }, error => {
+          console.log("froum");
           console.log(error);
         });
       }
