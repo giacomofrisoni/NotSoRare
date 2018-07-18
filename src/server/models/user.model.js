@@ -50,6 +50,18 @@ UserSchema
     foreignField: '_authorId'
 });
 
+/**
+ * Specifies a virtual with a 'ref' property in order to enable virtual population,
+ * mantaining the document small.
+ * Link: http://thecodebarbarian.com/mongoose-virtual-populate.
+ */
+UserSchema
+.virtual('notifications', {
+    ref: 'Notification',
+    localField: '_id',
+    foreignField: '_recipientId'
+});
+
 // Compiles model from schema
 const User = mongoose.model('User', UserSchema);
 

@@ -158,6 +158,7 @@ function postForumMessage(req, res) {
                                                                 user.fullname,
                                                                 forumThread.title,
                                                                 diseaseName,
+                                                                forumThread._authorId,
                                                                 forumThread._authorId.code,
                                                                 (error) => {
                                                                     console.log("Real-time notification sent failed.");
@@ -674,6 +675,7 @@ function reportForumMessage(req, res) {
                         forumMessage.content,
                         forumThread.title,
                         diseaseName,
+                        user._id,
                         user.code,
                         (error) => {
                             console.log("Real-time notification sent failed.");
