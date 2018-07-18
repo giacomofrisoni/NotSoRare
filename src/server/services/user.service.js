@@ -228,8 +228,8 @@ function putUser(req, res) {
                                 };
                                 if (req.body.photoContentType && req.body.photoData) {
                                     // Converts base64 photo encoding into buffer
-                                    updatedUser.photo.contentType = req.body.photoContentType;
-                                    updatedUser.photo.data = Buffer.from(req.body.photoData, "base64");
+                                    updatedUser.photoContentType = req.body.photoContentType;
+                                    updatedUser.photoData = Buffer.from(req.body.photoData, "base64");
                                 }
                                 User.findOne({ code: id }, (error, user) => {
                                     // Checks server error
@@ -256,7 +256,8 @@ function putUser(req, res) {
                                             user.birth_date = updatedUser.birth_date;
                                             user.is_anonymous = updatedUser.is_anonymous;
                                             if (req.body.photoContentType && req.body.photoData) {
-                                                user.photo = updatedUser.photo;
+                                                user.photo.contentType = updatedUser.photoContentType;
+                                                user.photo.data = updatedUser.photoData;
                                             }
                                             user.save(error => {
                                                 if (error) {
