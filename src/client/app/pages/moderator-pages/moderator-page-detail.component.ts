@@ -47,6 +47,8 @@ export class ModeratorPageDetailComponent implements OnInit {
               this.forumService.getThread(this.codDisease, codThread).subscribe((result: any) => {
                 if (result) {
                   this.thread = result;
+                  console.log(this.thread);
+                  console.log(result);
                 } else {
                   this.isAnyErrorPresent = true;
                   console.log("unexpected value");

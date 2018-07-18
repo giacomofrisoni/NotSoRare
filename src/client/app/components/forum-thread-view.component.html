@@ -11,8 +11,9 @@
             </div>
         </div>
 
-        <div *ngIf="isModerator" class="flex moderator" (click)="onModerateClick($event)">
-            <i class="fa fa-flag not-spaced" aria-hidden="true"></i>
+        <div *ngIf="moderatedSection >= 0" class="flex moderator" (click)="onModerateClick($event)">
+            <i *ngIf="!isLoading" class="fa fa-flag not-spaced" aria-hidden="true"></i>
+            <i *ngIf="isLoading" class="fa fa-spinner fa-spin" aria-hidden="true"></i>
         </div>
     </div>
 

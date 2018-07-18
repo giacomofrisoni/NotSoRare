@@ -26,6 +26,8 @@
             [author]="message._authorId.fullname" [pastTime]="message.past_time" [content]="message.content" isMessage="true">
         </app-forum-thread-view>
 
+        <!-- [messageID]="message.codMessage"-->
+
         <div class="page-card reply">
             <span [innerHTML]="'ForumThread.InsertReplyHere' | translate"></span>
             <textarea [(ngModel)]="replyContent"></textarea>

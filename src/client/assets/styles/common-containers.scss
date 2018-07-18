@@ -127,21 +127,6 @@ html, body {
     padding: 30px;
 }
 
-
-$notify-badge-size: 12px;
-.notify-badge {
-    position: relative;
-    background: $accent-dark-color;
-    border-radius: $notify-badge-size;
-    width: $notify-badge-size;
-    height: $notify-badge-size;
-    font-size: $notify-badge-size - 4;
-    text-align: center;
-    color: white;
-    top: -38px;
-    left: 5px;
-}
-
 hr {
     display: block;
     height: 1px;

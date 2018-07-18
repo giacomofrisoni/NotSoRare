@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NotificatorService } from '../services/notificator.service';
+import { ForumService } from '../services/forum.service';
 
 @Component({
   selector: 'app-forum-thread-view',
@@ -16,15 +18,28 @@ export class ForumThreadViewComponent implements OnInit {
   @Input() content: string;
   @Input() isMessage: boolean = false;
   @Input() isAnonymous: boolean = false;
-  @Input() isModerator: boolean = false;
+  @Input() moderatedSection: number = -1;
 
-  constructor() { }
+  isLoading = false;
+
+  constructor(private forumService: ForumService) { }
 
   ngOnInit() {
   }
 
   onModerateClick(event: any) {
-    console.log("moderate this shit" + this.messageID + " / " + this.threadID);
+    if (!this.isLoading) {
+      this.isLoading = true;
+      this.forumService.moderateMessage(this.moderatedSection, this.threadID, this.messageID).subscribe(data => {
+        console.log(data);
+        this.isLoading = false;
+        location.reload();
+      }, error => {
+        this.isLoading = false;
+        console.log(error);
+      })
+    }
+
     event.stopPropagation();
   }
 

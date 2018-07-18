@@ -26,7 +26,7 @@
     <div *ngIf="!isThreadsEmpty && !isAnyErrorPresent && isThreadsLoaded">
         <div *ngFor="let thread of threads">
             <app-forum-thread-view [isAnonymous]="thread.author.is_anonymous" [image]="thread.author.photoURL" [author]="thread.author.fullname"
-                [title]="thread.title" [content]="thread.description" [threadID]="thread.code" [isModerator]="true" routerLink="../moderatorPageDetail/{{thread.code}}">
+                [title]="thread.title" [content]="thread.description" [threadID]="thread.code" routerLink="../moderatorPageDetail/{{thread.code}}">
             </app-forum-thread-view>
         </div>
     </div>

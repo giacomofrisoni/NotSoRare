@@ -29,4 +29,14 @@ export class ForumService {
       withCredentials: true,
     });
   }
+
+  moderateMessage(diseaseID: number, threadID: number, messageID: number) {
+    return this.http.post(this.globalUtils.apiPath + "/reports/" + this.globalUtils.createLanguageParameter(), {
+      codDisease: diseaseID,
+      codForumThread: threadID,
+      codForumMessage: messageID
+    }, {
+      withCredentials: true,
+    });
+  }
 }

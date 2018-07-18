@@ -24,7 +24,7 @@
 
         <app-forum-thread-view *ngFor="let message of thread.messages" [isAnonymous]="message._authorId.is_anonymous" [image]="message._authorId.photoURL"
             [author]="message._authorId.fullname" [pastTime]="message.past_time" [content]="message.content" isMessage="true"
-            [messageID]="message.id" [isModerator]="true">
+            [messageID]="message.code" [threadID]="thread.code" [moderatedSection]="codDisease">
         </app-forum-thread-view>
     </div>
 </div>
