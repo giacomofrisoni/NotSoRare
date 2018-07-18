@@ -60,7 +60,7 @@ import { NewExperienceComponent } from './pages/disease-pages/new-experience.com
 import { NewThreadComponent } from './pages/disease-pages/new-thread.component';
 import { NotificatorService } from './services/notificator.service';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://127.0.0.1:3000/', options: {} };
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
