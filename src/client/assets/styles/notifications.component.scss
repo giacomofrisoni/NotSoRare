@@ -1,0 +1,20 @@
+@import 'common-values';
+
+.page-card {
+    margin-bottom: 10px;
+    box-shadow: none;
+}
+
+h4 {
+    margin: 0;
+    padding: 0;
+}
+
+.small-detail {
+    display: inline-block;
+    font-size: 0.7em;
+
+    .colored {
+        color: $accent-dark-color;
+    }
+}

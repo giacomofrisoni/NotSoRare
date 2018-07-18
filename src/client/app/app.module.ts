@@ -60,6 +60,7 @@ import { ProfileHolderService } from './services/profile-holder.service';
 import { NotificatorService } from './services/notificator.service';
 import { ModeratorPageComponent } from './pages/moderator-pages/moderator-page.component';
 import { ModeratorPageDetailComponent } from './pages/moderator-pages/moderator-page-detail.component';
+import { NotificationsComponent } from './pages/notifications.component';
 
 
 const appRoutes: Routes = [
@@ -67,6 +68,7 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'notifications', component: NotificationsComponent },
   { path: 'moderatorLogin', component: ModeratorLoginComponent },
   { path: 'moderatorPage', component: ModeratorPageComponent },
   { path: 'moderatorPageDetail/:id', component: ModeratorPageDetailComponent },
@@ -135,6 +137,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ModeratorLoginComponent,
     ModeratorPageComponent,
     ModeratorPageDetailComponent,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,

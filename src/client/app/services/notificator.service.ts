@@ -12,7 +12,7 @@ export class NotificatorService {
     this.socket = io(this.url);
   }
 
-  sendRequest(codUser: number) {
+  registerToNotificator(codUser: number) {
     this.socket.emit("add-user", codUser, (data) => {
       console.log("response from server")
       console.log(data);
@@ -43,6 +43,10 @@ export class NotificatorService {
       };
     })
     return observable;
+  }
+
+  getAllNotifications(userID: number) {
+    return new Observable();
   }
 
 }

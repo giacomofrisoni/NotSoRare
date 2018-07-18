@@ -10,6 +10,7 @@ import { SimpleDialogComponent } from '../dialogs/simple-dialog.component';
 import { SimpleDialogType } from '../dialogs/simple-dialog-type.enum';
 import { LanguageService } from '../services/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import { NotificatorService } from '../services/notificator.service';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +40,13 @@ export class LoginComponent implements OnInit {
   // Translations
   translations: any = {};
 
-  constructor(private userService: UserService, private router: Router, private dialog: MatDialog, private languageService: LanguageService, private translate: TranslateService) { }
+  constructor(
+    private userService: UserService, 
+    private router: Router, 
+    private dialog: MatDialog, 
+    private languageService: LanguageService, 
+    private translate: TranslateService,
+    private notificator: NotificatorService) { }
 
   ngOnInit() {
     this.languageService.getCurrentLanguage().subscribe(language => {
@@ -56,10 +63,11 @@ export class LoginComponent implements OnInit {
         }
 
         // Get the login status of the user
-        this.userService.getLoggedInStatus("Login").subscribe((userID: any) => {
-          if (userID.loggedIn) {
+        this.userService.getLoggedInStatus("Login").subscribe((user: any) => {
+          if (user.loggedIn) {
             // Ok, all is clear
             this.loginIsOk(this.translations.LoggedInSuccesfull + " " + this.translations.RedirectedSoon, true, $("#login-card"));
+            this.notificator.registerToNotificator(user.codUser);
           }
         });
 
@@ -84,6 +92,8 @@ export class LoginComponent implements OnInit {
     this.subLogin = this.userService.login(this.email, this.password).subscribe((resp: any) => {
       // Ok, all is clear
       this.loginIsOk(this.translations.LoggedInSuccesfull + " " + this.translations.RedirectedSoon, true, $("#login-card"));
+      this.notificator.registerToNotificator(resp.codUser);
+      console.log(resp);
     },
 
       // ERROR or NEED ACTIVATION

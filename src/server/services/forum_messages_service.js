@@ -152,7 +152,7 @@ function postForumMessage(req, res) {
                                                          * If the author of the message is different from the author of the forum thread,
                                                          * sends a runtime notification.
                                                          */
-                                                        if (user._id != forumThread._authorId.code) {
+                                                        if (user.code != forumThread._authorId.code) {
                                                             socketNotification.sendForumReplyNotification(
                                                                 req.i18n,
                                                                 user.fullname,

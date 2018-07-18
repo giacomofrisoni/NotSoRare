@@ -61,6 +61,7 @@ export class ModeratorPageComponent implements OnInit {
 
       } else {
         this.isUserLoggedIn = false;
+        this.isThreadsLoaded = true;
         console.log("User not logged in");
       }
     }, error => {

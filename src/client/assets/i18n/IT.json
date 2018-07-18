@@ -246,5 +246,9 @@
         "ThreadsEmpty": "Ancora nessuna esperienza",
         "ThreadsCreationDate": "Data creazione",
         "ThreadsUpdateDate": "Data aggiornamento"
+    },
+
+    "Notifications": {
+        "Title": "Centro notifiche"
     }
 }

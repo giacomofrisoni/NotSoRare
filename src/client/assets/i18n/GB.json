@@ -245,5 +245,9 @@
         "ThreadsEmpty": "No threads yet",
         "ThreadsCreationDate": "Creation date",
         "ThreadsUpdateDate": "Update date"
+    },
+
+    "Notifications": {
+        "Title": "Notification center"
     }
 }

@@ -1,0 +1,8 @@
+<div class="container">
+    <h2 [innerHTML]="'Notifications.Title' | translate"></h2>
+    <div class="page-card" *ngFor="let notification of notifications">
+        <h4>{{notification.title}}</h4>
+        <span class="small-detail colored">{{notification.creation_date}}</span><br/>
+        <p>{{notification.description}}</p>
+    </div>
+</div>

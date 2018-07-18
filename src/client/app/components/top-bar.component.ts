@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { LanguageService } from '../services/language.service';
 
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 import { CookiesUtilsService } from '../services/cookies-utils.service';
 import { Languages } from '../models/languages.enum';
 import { TranslateService } from '@ngx-translate/core';
@@ -24,7 +24,12 @@ export class TopBarComponent implements OnInit {
   avaiableTranslations: Subject<any> = new Subject<any>();
   isModerator = false;
 
+  notificationsNumber: number = 0;
+
   userID: number;
+
+  subNotificatorReply: any;
+  subNotoficatorReporting: any;
 
   constructor(
     private userService: UserService,
@@ -41,6 +46,8 @@ export class TopBarComponent implements OnInit {
     this.userService.getWatcherOfLoginChange().subscribe(refreshedStatus => {
       this.getLoginStatus();
     });
+
+    //this.userService.submitLoginChange();
 
     // Take the translation
     this.languageService.getAvaiableTranslations(data => {
@@ -79,13 +86,24 @@ export class TopBarComponent implements OnInit {
         this.isModerator = false;
       }
 
-      if (this.isUserLoggedIn) {
-        this.notificator.sendRequest(user.loggedIn);
-        /*
-        this.notificator.getNotificationsForEvent("add-user");
-        this.notificator.getNotificationsForEvent("forumReplyNotification");
-        */
+      if (!this.subNotificatorReply) {
+        this.subNotificatorReply = this.notificator.getForumReplyNotifications().subscribe(data => {
+          this.notificationsNumber++;
+          console.log("Reply" + this.notificationsNumber)
+          console.log(data);
+        });
       }
+
+      if (!this.subNotoficatorReporting) {
+        this.subNotoficatorReporting = this.notificator.getMessageReportingNotifications().subscribe(data => {
+          this.notificationsNumber++;
+          console.log("Report" + this.notificationsNumber)
+          console.log(data);
+        });
+      }
+
+      // Send a request to notificator, hey, I'm here!
+      this.notificator.registerToNotificator(this.userID);
     });
   }
 
@@ -101,7 +119,8 @@ export class TopBarComponent implements OnInit {
   }
 
   onLogoutClick() {
-    
+    this.userService.logout();
+    this.location.go("/home");
   }
 
 }
