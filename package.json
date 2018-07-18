@@ -44,9 +44,11 @@
     "mongoose": "^5.1.7",
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-type-email": "^1.0.9",
+    "ngx-socket-io": "^1.1.1",
     "nodemailer": "^4.6.7",
     "rxjs": "^6.2.1",
     "socket.io": "^2.1.1",
+    "rxjs-compat": "^6.2.2",
     "tedious": "^2.6.2",
     "uuid": "^3.3.0",
     "zone.js": "^0.8.19"

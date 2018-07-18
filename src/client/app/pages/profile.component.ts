@@ -73,6 +73,7 @@ export class ProfileComponent implements OnInit {
               this.isProfileLoaded = true;
             }, error => {
               this.isProfileLoaded = true;
+              this.isAnyErrorPresent = true;
               this.isUserLoggedIn = false;
               console.log(error);
             });

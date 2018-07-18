@@ -25,6 +25,7 @@ h5 {
 }
 
 img {
+    border: 1px solid lightgray;
     border-radius: 50%;
     @include setWidth(40px);
     @include setHeight(40px);

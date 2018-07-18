@@ -8,6 +8,7 @@ import { Languages } from '../models/languages.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '../../../../node_modules/@angular/router';
 import { Location } from '../../../../node_modules/@angular/common';
+import { NotificatorService } from '../services/notificator.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -24,29 +25,20 @@ export class TopBarComponent implements OnInit {
 
   userID: number;
 
-
   constructor(
     private userService: UserService, 
     private languageService: LanguageService,
     private cookiesUtils: CookiesUtilsService,
     private location: Location,
-    private router: Router) {
+    private router: Router,
+    private notificator: NotificatorService) {
   }
 
   ngOnInit() {
-    this.userService.getLoggedInStatus("TopBar").subscribe((userID: any) => {
-      this.isUserLoggedIn = userID.loggedIn ? true : false;
-      this.isUserNotLoggedIn = !this.isUserLoggedIn;
-      this.userID = userID.loggedIn;
-    });
+    this.getLoginStatus();
 
     this.userService.getWatcherOfLoginChange().subscribe(refreshedStatus => {
-      this.userService.getLoggedInStatus("TopBar").subscribe((userID: any) => {
-        this.isUserLoggedIn = userID.loggedIn ? true : false;
-        this.isUserNotLoggedIn = !this.isUserLoggedIn;
-        this.userID = userID.loggedIn;
-        console.log("user logged: " + this.isUserLoggedIn);
-      });
+      this.getLoginStatus();
     });
 
     // Take the translation
@@ -70,6 +62,34 @@ export class TopBarComponent implements OnInit {
     }, error => {
       console.log("Reading translations was unsuccesfull");
       console.log(error);
+    });
+  }
+
+  private getLoginStatus() {
+    this.userService.getLoggedInStatus("TopBar").subscribe((userID: any) => {
+      this.isUserLoggedIn = userID.loggedIn ? true : false;
+      this.isUserNotLoggedIn = !this.isUserLoggedIn;
+      this.userID = userID.loggedIn;
+
+      if (this.isUserLoggedIn) {
+        this.notificator.sendRequest(userID.loggedIn);
+
+        this.notificator.getNotificationsForEvent("add-user").subscribe(data => {
+          console.log("add user");
+          console.log(data);
+        }, error => {
+          console.log("add user");
+          console.log(error);
+        });
+
+        this.notificator.getNotificationsForEvent("forumReplyNotification").subscribe(data => {
+          console.log("froum");
+          console.log(data);
+        }, error => {
+          console.log("froum");
+          console.log(error);
+        });
+      }
     });
   }
 

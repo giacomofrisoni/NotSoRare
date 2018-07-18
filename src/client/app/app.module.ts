@@ -13,6 +13,8 @@ import { MatCheckboxModule, MatAutocompleteModule, MatInputModule } from '@angul
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
 
 // Custom Components
 import { HomeComponent } from './pages/home.component';
@@ -56,6 +58,9 @@ import { ProfileExperiencesComponent } from './pages/profile-pages/profile-exper
 import { ProfileHolderService } from './services/profile-holder.service';
 import { NewExperienceComponent } from './pages/disease-pages/new-experience.component';
 import { NewThreadComponent } from './pages/disease-pages/new-thread.component';
+import { NotificatorService } from './services/notificator.service';
+
+const config: SocketIoConfig = { url: 'http://127.0.0.1:3000/', options: {} };
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -138,6 +143,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatInputModule,
     MatDialogModule,
     ReactiveFormsModule,
+    SocketIoModule.forRoot(config),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -161,7 +167,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ExperiencesService,
     ExpertCentresService,
     ReferencesService,
-    ForumService
+    ForumService,
+    NotificatorService
   ],
   bootstrap: [RootComponent],
   entryComponents: [SimpleDialogComponent]    // Material Angular Dialog

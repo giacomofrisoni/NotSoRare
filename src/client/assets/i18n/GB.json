@@ -231,6 +231,7 @@
         "Save": "Save",
         "Saving": "Saving your profile...",
         "SavingError": "An error occurred during saving",
+        "AnonymousUser": "Anonymous User",
 
         "ExperiencesLoading": "Loading experiences...",
         "ExperiencesError": "An error occurred during experiences loading",
