@@ -4,7 +4,7 @@
         "Login": "Zaloguj",
         "Email": "Adres Mailowy",
         "Password": "Hasło",
-        "ModeratorCannot": "Moderator cannot access this section"
+        "ModeratorCannot": "Moderator nie ma dostępu do tej strony"
     },
 
     "Home": {
@@ -26,15 +26,15 @@
         "RequiredFieldsInfo": "Wszystkie pola oznaczone <span class='highlight'>(*)</span> są wymagane",
         "AccountType": "Typ konta",
         "AccountTypePatient": "Pacjent",
-        "AccountTypeFamily": "Rodzina",
+        "AccountTypeFamily": "Rodzinne",
         "AccountTypePatientDescription": "Rachunek typu 'Pacjent' dotyczy chorego. Można go porównać bezpośrednio do wszystkiego, co dostępne na stronie.",
         "AccountTypeFamilyDescription": "Konto 'Rodzina' ma na celu umożliwienie dostępu do platformy rodzinie pacjenta, tak aby, jeśli bezpośrednio nie można, uzyskać pomoc od społeczności.",
         "PersonalData": "Dane osobowe",
         "Name": "Nazwa",
         "Surname": "Nazwisko",
-        "Gender": "Seks",
+        "Gender": "Płeć",
         "Male": "Mężczyzna",
-        "Female": "Zeński",
+        "Female": "Kobieta",
         "BirthDate": "Data urodzenia",
         "Nationality": "Narodowość",
         "Biography": "Biografia",
@@ -45,14 +45,14 @@
         "PasswordMinLength": " (minimalna długość to 8)",
         "RepeatPassword": "Powtórz hasło",
         "PatientData": "Dane pacjenta",
-        "PatientDataDescription": "Zarejestrowany jako opiekun lub lekarz również wprowadź dane osoby, do której się odsyłasz",
+        "PatientDataDescription": "Jako że jesteś zarejestrowany jako opiekun lub lekarz, wprowadź również dane osoby, do której się odsyłasz",
         "PatientName": "Imię pacjenta",
         "PatientSurname": "Nazwisko pacjenta",
         "PatientBirthDate": "Data urodzenia pacjenta",
-        "PatientGender": "Pacjenta płci",
+        "PatientGender": "Płeć pacjenta",
         "PatientNationality": "Narodowość pacjenta",
-        "RegisterInfo": "Naciśnięcie przycisku <span class='highlight'>rejestru</span> który akceptujesz dla całego <a href='#'>warunki i zasady</a> naszego portalu. NotSoRare bardzo ostrożnie podchodzi do twoich danych: nie udostępnimy niczego dla nikogo, w każdej chwili. <br/> Używamy najnowszych protokołów bezpieczeństwa, aby zagwarantować Ci prywatność, na którą zasługujesz.",
-        "RegisterButton": "Akceptuję regulamin - Rejestr",
+        "RegisterInfo": "Naciskając przycisk <span class='highlight'>zarejestruj</span>, akceptujesz cały <a href='#'>regulamin</a> naszego portalu. NotSoRare bardzo ostrożnie podchodzi do twoich danych: nie udostępnimy niczego dla nikogo. <br/> Używamy najnowszych protokołów bezpieczeństwa, aby zagwarantować Ci prywatność, na którą zasługujesz.",
+        "RegisterButton": "Akceptuję regulamin - Zarejestruj",
         "ErrorTitle": "Błąd podczas fazy rejestracji",
         "ErrorInvalidData": "Niektóre dane są nieprawidłowe. Popraw i spróbuj ponownie",
         "ErrorGeneric": "Podczas fazy rejestracji wystąpił problem. Spróbuj ponownie później.",
@@ -60,15 +60,15 @@
         "ErrorPhotoformat": "Nieprawidłowy format zdjęcia.",
         "ConfirmRegistrationTitle": "Rejestracja zakończona!",
         "ConfirmRegistrationText": "Sprawdź swoją skrzynkę e-mail: powinieneś otrzymać kod potwierdzający, który należy wprowadzić przy pierwszym logowaniu na platformie!",
-        "ErrorName": "To nie jest poprawna nazwa",
+        "ErrorName": "To nie jest poprawne imię",
         "ErrorSurname": "To nie jest poprawne nazwisko",
-        "ErrorBirthDate": "To nie jest ważna data urodzenia",
-        "ErrorNationality": "To nie jest ważne obywatelstwo",
+        "ErrorBirthDate": "To nie jest poprawna data urodzenia",
+        "ErrorNationality": "To nie jest poprawne obywatelstwo",
         "ErrorGender": "To nie jest poprawna płeć",
-        "ErrorBiography": "To nie jest ważna biografia",
+        "ErrorBiography": "To nie jest poprawna biografia",
         "ErrorPassword": "To hasło jest niepoprawne",
         "ErrorPasswordConfirm": "Hasła nie są takie same!",
-        "ErrorEmail": "To nie jest poprawna wiadomość e-mail"
+        "ErrorEmail": "To nie jest poprawny adres e-mail"
     },
 
     "Login": {
@@ -100,11 +100,11 @@
         "Experiences": "Doświadczenia",
         "ExpertCentres": "Wyspecjalizowane ośrodki",
         "Forum": "Forum",
-        "References": "Przydatne referencje"
+        "References": "Przydatne linki"
     },
 
     "DiseaseSearch": {
-        "Loading": "Szukaj <b>wszystkich<b> chorób w toku ...",
+        "Loading": "Wyszukiwanie <b>wszystkich<b> chorób w toku ...",
         "Error": "Podczas wyszukiwania chorób wystąpił problem. Spróbuj jeszcze raz.",
         "NoData": "Żadna choroba nie odpowiada kryteriom wyszukiwania",
         "DiseaseList": "Lista wszystkich chorób"
@@ -134,14 +134,14 @@
 
     "NewExperience": {
         "Loading": "Laduje...",
-        "PageError": "Errore durante il caricamento della pagina",
-        "UserNotLoggedIn": "Soltanto gli utenti registrati possono creare nuove espeirenze",
-        "Title": "New experience",
-        "WriteHere": "Write here your experience",
-        "Submit": "submit",
-        "Submitting": "Submitting new experience...",
-        "SubmitError": "An error occurred when submitting new experience",
-        "TooShort": "Experience cannot be empty and must be at least 100 characters long"
+        "PageError": "Błąd podczas ładowania strony",
+        "UserNotLoggedIn": "Tylko zarejestrowani użytkownicy mogą publikować nowe doświadczenia",
+        "Title": "Nowe doświadczenie",
+        "WriteHere": "Opisz swoje doświadczenie",
+        "Submit": "Wyślij",
+        "Submitting": "Wysyłanie w toku...",
+        "SubmitError": "Błąd podczas wysyłania",
+        "TooShort": "Doświadczenie nie może być puste i musi mieć co najmniej 100 znaków"
     },
 
     "ExpertCentres": {
@@ -151,41 +151,41 @@
     },
 
     "Forum": {
-        "Loading": "Loading threads...",
-        "Error": "A problem occurred during loading of threads",
-        "NoData": "No threads yet",
-        "UserNotLoggedIn": "Only registered users can show and get involved on threads discussions",
-        "AllThreads": "All threads",
-        "NewThread": "New thread",
-        "Author": "Author",
-        "LastActivity": "Last activity",
-        "Anonymous": "Anonymous user"
+        "Loading": "Ładowanie tematów...",
+        "Error": "Problem podczas ładowania strony",
+        "NoData": "Brak tematów",
+        "UserNotLoggedIn": "Tylko zarejestrowani użytkownicy mogą publikować nowe doświadczenia",
+        "AllThreads": "Wszystkie tematy",
+        "NewThread": "Nowy temat",
+        "Author": "Autor",
+        "LastActivity": "Ostatnia aktywność",
+        "Anonymous": "Użytkownin Anonimowy"
     },
 
     "ForumThread": {
-        "Loading": "Loading thread...",
-        "Error": "A problem occurred during loading of thread",
-        "UserNotLoggedIn": "Only registered users can show and get involved on threads discussions",
-        "Reply": "Reply",
-        "Author": "Author",
-        "LastActivity": "Last activity",
-        "Anonymous": "Anonymous user",
-        "InsertReplyHere": "Inserisci qui la tua risposta",
-        "ReplyEmpty": "La risposta non può essere vuota",
-        "ReplyPosting": "Pubblicando la risposta...",
-        "ReplyPostingError": "Errore nella pubblicazione della risposta"
+        "Loading": "Trwa ładowanie...",
+        "Error": "Problem podczas ładowania strony",
+        "UserNotLoggedIn": "Tylko zarejestrowani użytkownicy mogą publikować nowe doświadczenia",
+        "Reply": "Odpowiedz",
+        "Author": "Autor",
+        "LastActivity": "Ostatnia aktywność",
+        "Anonymous": "Użytkownin Anonimowy",
+        "InsertReplyHere": "Wpisz tu odpowiedź",
+        "ReplyEmpty": "Odpowiedź nie może być pusta",
+        "ReplyPosting": "Publikowanie...",
+        "ReplyPostingError": "Błąd podczas wysyłania"
     },
 
     "NewThread": {
-        "PageLoading": "Loading page...",
-        "PageLoadingError": "An error occurred during page loading",
-        "Title": "Create new thread",
-        "TitleText": "Title",
-        "Content": "Text",
-        "Submit": "submit",
-        "Submitting": "Invio in corso...",
-        "SubmitError": "An error occured when submitting new thread",
-        "Empty": "Creation of new thread doesn't allow empty fields"
+        "PageLoading": "Trwa ładowanie...",
+        "PageLoadingError": "Problem podczas ładowania strony",
+        "Title": "Nowy temat",
+        "TitleText": "Tytuł",
+        "Content": "Tekst",
+        "Submit": "Wyślij",
+        "Submitting": "Wysyłanie...",
+        "SubmitError": "Wystąpił bład podczas wysyłania",
+        "Empty": "Nie można wysłać nowego tematu bez wypełniania wszystkich okienek"
     },
 
     "References": {
@@ -213,39 +213,39 @@
     },
 
     "Profile": {
-        "Loading": "Caricamento del profilo utente...",
-        "Error": "C'è stato un problema durante il caricamento del profilo utente",
-        "UserNotLoggedIn": "Soltanto gli utenti registrati possono vedere il proprio profilo.",
-        "RegisteredDate": "Iscritto il",
-        "RareDiseasesCount": "malattie rare",
-        "ExperiencesCount": "esperienze",
-        "FollowedDiseases": "Malattie Rare Seguite",
-        "Threads": "Discussioni",
-        "Experiences": "Esperienze",
+        "Loading": "Trwa ładowanie",
+        "Error": "Wystąpił bład podczas ładowania",
+        "UserNotLoggedIn": "Tylko zarejestrowani użytkownicy mogą publikować nowe doświadczenia",
+        "RegisteredDate": "Zarejestrowany dnia",
+        "RareDiseasesCount": "rzadkie choroby",
+        "ExperiencesCount": "doświadczenia",
+        "FollowedDiseases": "Interesują go",
+        "Threads": "Tematy",
+        "Experiences": "Doświadczenia",
         "Logout": "Wyloguj",
         "Nationality": "Narodowosc",
-        "RegisteredInNameOf": "Registered in name of",
-        "BirthOn": "birth on",
-        "AccountPublic": "Account pubblico",
-        "AccountPrivate": "Account privato",
-        "AccountPublicInfo": "Un account pubblico è visibile a tutti.",
-        "AccountPrivateInfo": "Un account privato nasconde tutti i dati sensibili. Tutti i tuoi post ed esperienze saranno ancora visibli, ma a nome di <b>Utente Anonimo</b>",
+        "RegisteredInNameOf": "Zarejestrowany w imię",
+        "BirthOn": "urodzony",
+        "AccountPublic": "Konto publiczne",
+        "AccountPrivate": "Konto prywatne",
+        "AccountPublicInfo": "Konto publiczne jest widoczne dla wszystkich",
+        "AccountPrivateInfo": "Konto prywatne chowa wszystkie dane osobiste. Wszystkie twoje tematy i doświadczenia są widoczne jako <b>Anonimowy Użytkownik</b>",
         "Save": "Zapisz",
-        "Saving": "Saving your profile...",
-        "SavingError": "An error occurred during saving",
-        "AnonymousUser": "Utente Anonimo",
+        "Saving": "Zapisjuę...",
+        "SavingError": "Wystąpił błąd podczas zapisywania",
+        "AnonymousUser": "Anonimowy Użytkownik",
 
-        "ExperiencesLoading": "Carico le esperienze...",
-        "ExperiencesError": "C'è stato un problema con il caricamento delle esperienze",
-        "ExperiencesEmpty": "Ancora nessuna esperienza",
-        "ExperiencesCreatedAt": "Creata il",
-        "ExperiencesUpdatedAt": "Aggiornata il",
+        "ExperiencesLoading": "Ładuję...",
+        "ExperiencesError": "Błąd podczas ładowania",
+        "ExperiencesEmpty": "Brak doświadczeń",
+        "ExperiencesCreatedAt": "Dodano dnia",
+        "ExperiencesUpdatedAt": "Odświeżona dnia",
 
-        "ThreadsLoading": "Carico le esperienze...",
-        "ThreadsError": "C'è stato un problema con il caricamento delle esperienze",
-        "ThreadsEmpty": "Ancora nessuna esperienza",
-        "ThreadsCreationDate": "Data creazione",
-        "ThreadsUpdateDate": "Data aggiornamento"
+        "ThreadsLoading": "Ładuję...",
+        "ThreadsError": "Błąd podczas ładowania",
+        "ThreadsEmpty": "Brak tematów",
+        "ThreadsCreationDate": "Dodano dnia",
+        "ThreadsUpdateDate": "Odświeżona dnia"
     },
 
     "Notifications": {
