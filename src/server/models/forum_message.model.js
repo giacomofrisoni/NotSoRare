@@ -68,7 +68,7 @@ ForumMessageSchema
  * @param {*} next 
  */
 function autoPopulateComments(next) {
-    this.populate({
+    this.populate('_authorId').populate({
         path: 'comments',
         populate: {
             path: '_authorId',
