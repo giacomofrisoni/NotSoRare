@@ -27,6 +27,8 @@ export class ForumThreadComponent implements OnInit {
   isReplyEmpty = false;
   isReplyPosting = false;
   isReplyPostingError = false;
+  isModerator = false;
+  isModeratorOfThis = false;
 
   // Binding
   disease: Disease;
@@ -48,6 +50,12 @@ export class ForumThreadComponent implements OnInit {
           if (user.loggedIn) {
             this.isUserLoggedIn = true;
             this.userID = user.loggedIn;
+
+            // Check if he's an admin of this disease
+            if (user.codDisease) {
+              this.isModerator = true;
+              this.isModeratorOfThis = user.codDisease == this.disease.general.CodDisease;
+            }
 
             // Reset variables
             this.isThreadLoaded = false;

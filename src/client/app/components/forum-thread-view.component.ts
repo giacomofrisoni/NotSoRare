@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ForumThreadViewComponent implements OnInit {
 
+  @Input() messageID: number;
   @Input() image: any;
   @Input() author: string;
   @Input() pastTime: any;
@@ -14,11 +15,16 @@ export class ForumThreadViewComponent implements OnInit {
   @Input() content: string;
   @Input() isMessage: boolean = false;
   @Input() isAnonymous: boolean = false;
+  @Input() isModerator: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
     console.log(this.author);
+  }
+
+  onModerateClick() {
+    console.log("moderate this shit" + this.messageID);
   }
 
 }

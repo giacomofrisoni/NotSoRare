@@ -1,12 +1,18 @@
 <div class="page-card" [ngClass]="{'message': isMessage}">
-    <div class=" flex start-aligned">
-        <img *ngIf="isAnonymous || !image" src="../../assets/images/default-user.png"/>
-        <img *ngIf="!isAnonymous && image" [src]="image"/>
-        <div class="right-title-items">
-            <span *ngIf="!isAnonymous">{{author}}</span>
-            <span *ngIf="isAnonymous" [innerHTML]="'Forum.Anonymous' | translate"></span>
-            <br/>
-            <div class="small-detail">{{pastTime.duration}} {{pastTime.unit}}</div>
+    <div class="flex spaced">
+        <div class=" flex start-aligned">
+            <img *ngIf="isAnonymous || !image" src="../../assets/images/default-user.png" />
+            <img *ngIf="!isAnonymous && image" [src]="image" />
+            <div class="right-title-items">
+                <span *ngIf="!isAnonymous">{{author}}</span>
+                <span *ngIf="isAnonymous" [innerHTML]="'Forum.Anonymous' | translate"></span>
+                <br/>
+                <div class="small-detail">{{pastTime.duration}} {{pastTime.unit}}</div>
+            </div>
+        </div>
+
+        <div *ngIf="isModerator" class="flex moderator" (click)="onModerateClick()">
+            <i class="fa fa-flag not-spaced" aria-hidden="true"></i>
         </div>
     </div>
 

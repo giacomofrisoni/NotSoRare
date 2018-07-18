@@ -186,10 +186,21 @@ img {
 }
 
 .moderator {
-    border: 1px dashed $accent-dark-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    background: $accent-dark-color;
+    color: white;
+    border-radius: 5px;
     cursor: pointer;
+    text-align: center;
 
     &:hover {
-        background: #f8f8f8;
+        background: $accent-color;
+    }
+
+    * {
+        padding: 5px;
     }
 }

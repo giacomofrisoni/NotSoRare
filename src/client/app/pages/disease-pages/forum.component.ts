@@ -19,6 +19,7 @@ export class ForumComponent implements OnInit {
   isThreadsEmpty = false;
   isUserLoggedIn = false;
   isModerator = false;
+  isModeratorOfThis = false,
 
   // Binding
   disease: Disease;
@@ -43,9 +44,10 @@ export class ForumComponent implements OnInit {
           if (user.loggedIn) {
             this.isUserLoggedIn = true;
             
-            // Check if he's an admin
+            // Check if he's an admin of this disease
             if (user.codDisease) {
-              this.isModerator = user.codDisease == this.disease.general.CodDisease;
+              this.isModerator = true;
+              this.isModeratorOfThis = user.codDisease == this.disease.general.CodDisease;
             }
 
             // Reset variables
@@ -98,8 +100,9 @@ export class ForumComponent implements OnInit {
     this.router.navigate(['./' + threadCode], {relativeTo: this.activatedRoute});
   }
 
-  onModeratorClick(threadCode: number) {
+  onModeratorClick(threadCode: number, event: any) {
     console.log("moderate this shit!");
+    event.stopPropagation();
   }
 
 }

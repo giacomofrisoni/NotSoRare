@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isThreadsLoaded" class="add-button">
+    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isThreadsLoaded && !isModerator" class="add-button">
         <app-divbutton icon="fa fa-plus-circle" [text]="'Forum.NewThread' | translate"  routerLink="../newForumThread"></app-divbutton>
     </div>
 
@@ -63,8 +63,8 @@
                             {{thread.messages_count}}
                         </div>
 
-                        <div class="moderator" *ngIf="isModerator" class="fixed-width" (click)="onModeratorClick(thread.code)">
-                            <i class="fa fa-flag accent" aria-hidden="true"></i>
+                        <div class="moderator" *ngIf="isModeratorOfThis" (click)="onModeratorClick(thread.code, $event)">
+                            <i class="fa fa-flag not-spaced" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>

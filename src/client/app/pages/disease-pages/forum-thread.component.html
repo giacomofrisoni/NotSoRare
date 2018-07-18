@@ -23,10 +23,10 @@
         </app-forum-thread-view>
 
         <app-forum-thread-view *ngFor="let message of thread.messages" [isAnonymous]="message._authorId.is_anonymous" [image]="message._authorId.photoURL" [author]="message._authorId.fullname" [pastTime]="message.past_time"
-            [content]="message.content" isMessage="true">
+            [content]="message.content" isMessage="true" [messageID]="message.id" [isModerator]="isModeratorOfThis">
         </app-forum-thread-view>
 
-        <div class="page-card reply">
+        <div *ngIf="!isModerator" class="page-card reply">
             <span [innerHTML]="'ForumThread.InsertReplyHere' | translate"></span>
             <textarea [(ngModel)]="replyContent"></textarea>
             <span *ngIf="isReplyEmpty" class="info small-text" [innerHTML]="'ForumThread.ReplyEmpty' | translate"></span>
