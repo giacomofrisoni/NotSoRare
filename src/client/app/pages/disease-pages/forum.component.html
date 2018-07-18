@@ -33,7 +33,7 @@
             <div class="flex start-aligned thread" *ngFor="let thread of threads" (click)="onThreadClick(thread.code)">
                 <!--<div class="img"></div>-->
                 <img *ngIf="!thread.author.is_anonymous && thread.author.photoURL" [src]="thread.author.photoURL"/>
-                <img *ngIf="thread.author.is_anonymous || thread.author.photoURL" src="../../../assets/images/default-user.png"/>
+                <img *ngIf="thread.author.is_anonymous || !thread.author.photoURL" src="../../../assets/images/default-user.png"/>
 
                 <div class="flex start-aligned bordered">
                     <div class="middle-elements">

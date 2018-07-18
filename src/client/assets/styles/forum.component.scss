@@ -36,10 +36,10 @@ h5 {
 img {
     margin: 5px;
     margin-left: 40px;
-    background: gray;
     border-radius: 50%;
     @include setWidth(70px);
     @include setHeight(70px);
+    border: 1px solid lightgray;
 }
 
 .small-detail {

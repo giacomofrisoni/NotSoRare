@@ -232,6 +232,7 @@
         "Save": "Salva",
         "Saving": "Salvando il tuo profilo...",
         "SavingError": "Non è stato possibile salvare il profilo dell'utente",
+        "AnonymousUser": "Utente Anonimo",
 
         "ExperiencesLoading": "Carico le esperienze...",
         "ExperiencesError": "C'è stato un problema con il caricamento delle esperienze",

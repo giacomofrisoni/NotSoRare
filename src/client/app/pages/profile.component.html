@@ -12,13 +12,14 @@
     </div>
 
     <!-- User not logged -->
-    <div *ngIf="!isUserLoggedIn && isProfileLoaded" class="page-card centered">
+    <div *ngIf="!isUserLoggedIn && isProfileLoaded && !isAnyErrorPresent" class="page-card centered">
         <span [innerHTML]="'Profile.UserNotLoggedIn' | translate"></span>
     </div>
 
     <div *ngIf="isUserLoggedIn && isProfileLoaded && !isAnyErrorPresent">
         <div class="page-card top-margined">
-            <img [src]="user.Photo" />
+            <img *ngIf="!user.IsAnonymous || (user.IsAnonymous && isProfileMine && user.Photo)" [src]="user.Photo" />
+            <img *ngIf="(user.IsAnonymous && !isProfileMine) || !user.Photo" src="../../assets/images/default-user.png" />
 
             <div class="flex end-aligned top-unmargined">
                 <div class="spaced-elem" *ngIf="user.RareDiseasesCount >= 0">
@@ -33,21 +34,22 @@
             </div>
 
             <div>
-                <h3 [ngClass]="{'male': user.Gender=='M', 'female': user.Gender=='F'}">{{user.Name}} {{user.Surname}}</h3>
+                <h3 *ngIf="!user.IsAnonymous || isProfileMine" [ngClass]="{'male': user.Gender=='M', 'female': user.Gender=='F'}">{{user.Name}} {{user.Surname}}</h3>
+                <h3 *ngIf="user.IsAnonymous && !isProfileMine" [innerHTML]="'Profile.AnonymousUser' | translate"></h3>
                 <div class="minor">
                     <i class="fa fa-calendar"></i>
                     <span [innerHTML]="'Profile.RegisteredDate' | translate"></span>
                     <span> {{user.RegistrationDate | date : 'dd/MM/yyyy'}}</span>
                 </div>
 
-                <div class="minor">
+                <div *ngIf="!user.IsAnonymous || isProfileMine" class="minor">
                     <i class="fa fa-flag"></i>
                     <span [innerHTML]="'Profile.Nationality' | translate"></span>
                     <span>: {{user.Nationality}}</span>
                 </div>
             </div>
 
-            <div>
+            <div *ngIf="!user.IsAnonymous || isProfileMine" >
                 <p>{{user.Biography}}</p>
             </div>
 
