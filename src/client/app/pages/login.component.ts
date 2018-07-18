@@ -93,7 +93,6 @@ export class LoginComponent implements OnInit {
       // Ok, all is clear
       this.loginIsOk(this.translations.LoggedInSuccesfull + " " + this.translations.RedirectedSoon, true, $("#login-card"));
       this.notificator.registerToNotificator(resp.codUser);
-      console.log(resp);
     },
 
       // ERROR or NEED ACTIVATION
