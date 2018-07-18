@@ -46,6 +46,7 @@
     "mongoose-type-email": "^1.0.9",
     "nodemailer": "^4.6.7",
     "rxjs": "^6.2.1",
+    "socket.io": "^2.1.1",
     "tedious": "^2.6.2",
     "uuid": "^3.3.0",
     "zone.js": "^0.8.19"
