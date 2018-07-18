@@ -38,6 +38,7 @@ export class DiseaseComponent implements OnInit {
   subLanguageService: Subscription;
   subParams: Subscription;
   subUserService: Subscription;
+  subDiseaseService: Subscription;
 
   constructor(
     private diseaseService: DiseaseService,
@@ -66,7 +67,7 @@ export class DiseaseComponent implements OnInit {
 
       if (!isNaN(id)) {
         // Try to get the data
-        this.diseaseService.getDisease(params['id']).subscribe((disease: Disease) => {
+        this.subDiseaseService = this.diseaseService.getDisease(params['id']).subscribe((disease: Disease) => {
           // Data are ok, set it!
           this.disease = disease;
 
@@ -142,9 +143,10 @@ export class DiseaseComponent implements OnInit {
   }
 
   unsubscribeAll() {
-    this.subLanguageService.unsubscribe();
-    this.subParams.unsubscribe();
-    this.subUserService.unsubscribe();
+    if (this.subLanguageService) this.subLanguageService.unsubscribe();
+    if (this.subParams) this.subParams.unsubscribe();
+    if (this.subUserService) this.subUserService.unsubscribe();
+    if (this.subDiseaseService) this.subDiseaseService.unsubscribe();
   }
 
   onFollow() {
