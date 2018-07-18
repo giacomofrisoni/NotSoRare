@@ -53,7 +53,7 @@ img {
     border-radius: 50%;
 }
 
-.logout-button {
+.button {
     margin-top: 15px;
     min-width: 150px;
     max-width: 400px;
@@ -98,4 +98,12 @@ img {
             background: #f8f8f8;
         }
     }
+}
+
+.male {
+    color: #1c5db3;
+}
+
+.female {
+    color: $accent-color;
 }

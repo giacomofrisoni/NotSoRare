@@ -5,6 +5,7 @@ import { SignupData } from '../models/signup-data';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { GlobalUtilsService } from './global-utils.service';
 import { CookiesUtilsService } from './cookies-utils.service';
+import { User } from '../models/user';
 
 @Injectable()
 export class UserService {
@@ -58,6 +59,23 @@ export class UserService {
         });
     }
 
+  }
+
+  changeProfileVisibility(user: User, isAnonymous: boolean) {
+    return this.http.put(`${this.globalUtils.apiPath}/users/${user.id}/` + this.globalUtils.createLanguageParameter(), {
+      email: user.Email,
+      name: user.Name,
+      surname: user.Surname,
+      gender: user.Gender,
+      birthDate: user.BirthDate,
+      biography: user.Biography,
+      nationality: user.Nationality,
+      isAnonymous: isAnonymous? 1 : 0,
+      photoContentType: this.getPhotoContentType(user.Photo),
+      photoData: this.getPhotoContentData(user.Photo),
+    }, {
+        withCredentials: true,
+      });
   }
 
   login(email: string, password: string) {
@@ -121,5 +139,13 @@ export class UserService {
     return this.http.get(`${this.globalUtils.apiPath}/users/${userID}/experiences/${this.globalUtils.createLanguageParameter()}`, {
       withCredentials: true
     });
+  }
+
+  private getPhotoContentType(photo: any) {
+    return photo.split(/:|;/)[1];
+  }
+
+  private getPhotoContentData(photo: any) {
+    return photo.split(',')[1];
   }
 }

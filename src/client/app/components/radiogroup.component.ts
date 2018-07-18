@@ -8,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class RadiogroupComponent implements OnInit {
 
   @Input() radiobuttons: any[];
+  @Input() amIchecked: number = 0;
   @Output() onSelected: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
