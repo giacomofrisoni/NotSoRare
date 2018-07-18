@@ -92,7 +92,7 @@ function loginModerator(req, res) {
      * Prepares the SQL statement with parameters for SQL-injection avoidance,
      * in order to get the stored hashed user password if already exists an account with the specified email address.
      */
-   checkRequest = new Request("SELECT CodModerator, Password FROM Moderator WHERE Email = @Email;", (queryError, rowCount, rows) => {
+   checkRequest = new Request("SELECT CodModerator, Password, CodDisease FROM Moderator WHERE Email = @Email;", (queryError, rowCount, rows) => {
        if (queryError) {
            res.status(500).send({
                errorMessage: req.i18n.__("Err_Login_DataRetrieving", queryError)
@@ -109,7 +109,7 @@ function loginModerator(req, res) {
                });
            } else {
 
-               var userData = [];
+               var moderatorData = [];
 
                // Parses the data from each of the row and populate the user data json array 
                queryResultHandler.fillArrayFromRows(userData, rowCount, rows, null, true, () => {
@@ -119,16 +119,17 @@ function loginModerator(req, res) {
                });
 
                // Checks for password mathing
-               bcrypt.compare(req.body.password, userData[0].Password, (bcryptError, match) => {
+               bcrypt.compare(req.body.password, moderatorData[0].Password, (bcryptError, match) => {
                    if (bcryptError) {
                        res.status(500).send({
                            errorMessage: bcryptError
                        });
                    } else {
                        if (match) {
-                           req.session.user = userData[0].CodModerator; // Stores the code of the logged user into the session
+                           req.session.user = moderatorData[0].CodModerator; // Stores the code of the logged user into the session
                            res.status(200).send({
-                               CodModerator: userData[0].CodModerator,
+                               codModerator: moderatorData[0].CodModerator,
+                               codDisease: moderatorData[0].CodDisease,
                                infoMessage: req.i18n.__("Login_Completed", userData[0].CodUser)
                            });
                        } else {
