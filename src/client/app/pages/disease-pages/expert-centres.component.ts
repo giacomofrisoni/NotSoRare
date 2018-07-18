@@ -35,7 +35,6 @@ export class ExpertCentresComponent implements OnInit {
             // If something is inside
             if (results.length > 0) {
               this.expertCentres = results;
-              console.log(this.expertCentres);
             }
             // Collection is empty
             else {

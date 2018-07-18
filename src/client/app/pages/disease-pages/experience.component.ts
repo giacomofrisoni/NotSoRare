@@ -42,7 +42,6 @@ export class ExperienceComponent implements OnInit {
             this.experiencesService.getExperience(this.disease.general.CodDisease, codUser).subscribe((result: any) => {
               if (result) {
                 this.experience = result;
-                console.log(this.experience);
               } else {
                 this.setOnErroStatus("Not valid type");
               }

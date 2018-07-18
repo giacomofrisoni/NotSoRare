@@ -60,7 +60,6 @@ export class ForumComponent implements OnInit {
               if (results) {
                 if (results.length > 0) {
                   this.threads = results;
-                  console.log(this.threads);
                 }
                 else {
                   this.isThreadsEmpty = true;

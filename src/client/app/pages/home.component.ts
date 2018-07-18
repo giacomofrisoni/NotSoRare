@@ -53,7 +53,6 @@ export class HomeComponent implements OnInit {
           if (results) {
             // Save them
             this.followedDiseases = results;
-            console.log(results);
           } else {
             // Error when retriving diseases
             this.isFollowedDiseasesError = true;
@@ -116,7 +115,6 @@ export class HomeComponent implements OnInit {
   }
 
   isLoadingChanged(value: boolean) {
-    console.log("changed to:" + value);
     this.isLoading = value;
   }
 }

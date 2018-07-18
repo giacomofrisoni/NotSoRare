@@ -40,7 +40,6 @@ export class NewExperienceComponent implements OnInit {
 
         // Check for user login
         this.userService.getLoggedInStatus("NewExperience").subscribe((user: any) => {
-          console.log(user.loggedIn);
           if (user.loggedIn) {
             this.isUserLoggedIn = true;
             this.userID = user.loggedIn;
@@ -72,7 +71,6 @@ export class NewExperienceComponent implements OnInit {
         this.isSubmitting = true;
         this.experiencesService.addNewExperience(this.disease.general.CodDisease, this.userID, this.experienceText).subscribe(result => {
           // All ok
-          console.log(result);
           this.router.navigate(["/disease/" + this.disease.general.CodDisease + "/experiences"]);
         }, error => {
           // Something wrong

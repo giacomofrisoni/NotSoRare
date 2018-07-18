@@ -31,7 +31,6 @@ export class ReferencesComponent implements OnInit {
         this.referencesService.getAllReferences(this.disease.general.CodDisease).subscribe((result: any) => {
           if (result) {
             this.references = result;
-            console.log(this.references);
           } else {
             this.setOnErroStatus("Not valid type");
           }

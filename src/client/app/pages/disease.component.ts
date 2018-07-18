@@ -142,7 +142,6 @@ export class DiseaseComponent implements OnInit {
       this.isDiseaseFollowed = true;
       this.followButton.icon = "fa fa-plus-circle";
       this.followButton.text = "Segui";
-      console.log(results);
     }, error => {
       this.followButton.icon = "fa fa-plus-circle";
       this.followButton.text = "Segui";
@@ -159,7 +158,6 @@ export class DiseaseComponent implements OnInit {
       this.isDiseaseFollowed = false;
       this.unfollowButton.icon = "fa fa-minus-circle";
       this.unfollowButton.text = "Smetti di seguire";
-      console.log(results);
     }, error => {
       this.unfollowButton.icon = "fa fa-minus-circle";
       this.unfollowButton.text = "Smetti di seguire";

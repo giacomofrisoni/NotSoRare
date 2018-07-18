@@ -88,9 +88,6 @@ export class LoginComponent implements OnInit {
 
       // ERROR or NEED ACTIVATION
       (errorResp) => {
-        console.log(errorResp);
-        console.log(errorResp.error.inactive);
-
         // If is inactive, need activation!
         if (errorResp.error.inactive) {
           // Inform that login is OK

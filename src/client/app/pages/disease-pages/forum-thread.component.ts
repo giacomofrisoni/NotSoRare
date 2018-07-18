@@ -74,7 +74,6 @@ export class ForumThreadComponent implements OnInit {
                 this.forumService.getThread(this.disease.general.CodDisease, codThread).subscribe((result: ForumThreadDetails) => {
                   if (result) {
                     this.thread = result;
-                    console.log(result);
                   } else {
                     this.setOnErroStatus("Invalid format");
                   }
@@ -140,10 +139,6 @@ export class ForumThreadComponent implements OnInit {
         this.isReplyPosting = true;
 
         // Try to send reply
-        console.log(this.userID);
-        console.log(this.disease.general.CodDisease);
-        console.log(this.threadID);
-        console.log(this.replyContent);
         this.forumService.postReplyToThread(this.userID, this.disease.general.CodDisease, this.threadID, this.replyContent).subscribe(result => {
           if (result) {
             window.location.reload();
@@ -152,7 +147,6 @@ export class ForumThreadComponent implements OnInit {
             console.log("Post wasn't published");
           }
 
-          console.log(result);
           this.isReplyPosting = false;
         }, error => {
           this.isReplyPosting = false;

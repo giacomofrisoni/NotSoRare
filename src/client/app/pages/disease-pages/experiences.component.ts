@@ -51,7 +51,6 @@ export class ExperiencesComponent implements OnInit {
             // If something is inside
             if (results.length > 0) {
               this.experiences = results;
-              console.log(this.experiences);
             }
             // Collection is empty
             else {
@@ -102,7 +101,6 @@ export class ExperiencesComponent implements OnInit {
         // If something is inside
         if (results.length > 0) {
           this.experiences = results;
-          console.log(this.experiences);
         }
         // Collection is empty
         else {

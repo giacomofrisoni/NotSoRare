@@ -41,7 +41,6 @@ export class NewThreadComponent implements OnInit {
 
         // Check for user login
         this.userService.getLoggedInStatus("NewThread").subscribe((user: any) => {
-          console.log(user.loggedIn);
           if (user.loggedIn) {
             this.isUserLoggedIn = true;
             this.userID = user.loggedIn;
@@ -73,7 +72,6 @@ export class NewThreadComponent implements OnInit {
         this.isSubmitting = true;
         this.experiencesService.addNewThread(this.disease.general.CodDisease, this.userID, this.threadTitle, this.threadText).subscribe(result => {
           // All ok
-          console.log(result);
           this.router.navigate(["/disease/" + this.disease.general.CodDisease + "/forum"]);
         }, error => {
           // Something wrong

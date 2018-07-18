@@ -58,7 +58,6 @@ export class ProfileComponent implements OnInit {
               if (result) {
                 this.user = result;
                 this.user.id = user.loggedIn;
-                console.log(this.user);
 
                 // If i'm owner of this account
                 if (this.isProfileMine) {
@@ -117,7 +116,6 @@ export class ProfileComponent implements OnInit {
 
     this.userService.changeProfileVisibility(this.user, !this.isPublicSelected).subscribe(data => {
       location.reload();
-      console.log(data);
     }, error => {
       this.isSavingProfile = false;
       this.isSavingProfileError = true;
