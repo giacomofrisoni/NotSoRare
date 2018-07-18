@@ -81,5 +81,7 @@
     "Err_UserInterests_InterestNotPresent": "The interest of the user for the specified rare disease is not present",
     "Interest_Removed": "User interest removed successfully",
     "Err_UserInterests_GettingInterests": "An error occurred during the user interests retrieving. %s",
-    "Err_UserInterests_CheckingInterest": "An error occurred during the user interest existance control. %s"
+    "Err_UserInterests_CheckingInterest": "An error occurred during the user interest existance control. %s",
+    "ForumReplyNotification_Title": "Response received",
+    "ForumReplyNotification_Description": "%s has replied to your discussion \"%s\" on the \"%s\" disease forum"
 }

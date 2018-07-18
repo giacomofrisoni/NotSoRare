@@ -47,6 +47,7 @@
     "ngx-socket-io": "^1.1.1",
     "nodemailer": "^4.6.7",
     "rxjs": "^6.2.1",
+    "socket.io": "^2.1.1",
     "rxjs-compat": "^6.2.2",
     "tedious": "^2.6.2",
     "uuid": "^3.3.0",

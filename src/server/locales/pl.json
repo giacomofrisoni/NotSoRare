@@ -81,5 +81,7 @@
 	"Err_UserInterests_InterestNotPresent": "Brak zainteresowania użytkownika określoną rzadką chorobą",
 	"Interest_Removed": "Zainteresowanie użytkowników zostały pomyślnie usunięte",
 	"Err_UserInterests_GettingInterests": "Wystąpił błąd podczas pobierania zainteresowań użytkownika. %s",
-	"Err_UserInterests_CheckingInterest": "Wystąpił błąd podczas kontroli istnienia zainteresowania użytkownika. %s"
+	"Err_UserInterests_CheckingInterest": "Wystąpił błąd podczas kontroli istnienia zainteresowania użytkownika. %s",
+    "ForumReplyNotification_Title": "Otrzymano odpowiedź",
+    "ForumReplyNotification_Description": "%s odpowiedział na twoją dyskusję \"%s\" na forum o chorobie \"%s\""
 }

@@ -81,5 +81,7 @@
 	"Err_UserInterests_InterestNotPresent": "L'interesse dell'utente nei confronti della malattia rara specificata non è presente",
 	"Interest_Removed": "Interesse dell'utente rimosso con successo",
 	"Err_UserInterests_GettingInterests": "Si è verificato un errore durante l'ottenimento degli interessi dell'utente. %s",
-	"Err_UserInterests_CheckingInterest": "Si è verificato un errore durante il controllo della presenza di un interesse per l'utente. %s"
+	"Err_UserInterests_CheckingInterest": "Si è verificato un errore durante il controllo della presenza di un interesse per l'utente. %s",
+    "ForumReplyNotification_Title": "Risposta ricevuta",
+    "ForumReplyNotification_Description": "%s ha risposto alla tua discussione \"%s\" sul forum della malattia \"%s\""
 }

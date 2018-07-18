@@ -4,6 +4,13 @@ const RareDisease = require('../models/rare_disease.model');
 const ForumThread = require('../models/forum_thread.model');
 const ForumMessage = require('../models/forum_message.model');
 
+// Module for translation handling
+const translationEnv = require('../env/translation_environment');
+
+// Imports notification module
+const socketNotification = require('../../server/socket_notification');
+
+
 
 function searchForumMessage(codDisease, codForumThread, codForumMessage,
     errorCallback, diseaseNotFoundCallback, forumThreadNotFoundCallback, forumMessageNotFoundCallback, doneCallback) {
@@ -92,39 +99,74 @@ function postForumMessage(req, res) {
                                 /**
                                  * Searches the forum thread with the specified code.
                                  */
-                                ForumThread.findOne({ _forumId: disease._forumId, code: req.body.codForumThread }, (error, forumThread) => {
-                                    if (error) {
-                                        res.status(500).send({
-                                            errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
-                                        });
-                                    } else {
-                                        if (!forumThread) {
-                                            res.status(404).send({
-                                                errorMessage: req.i18n.__("Err_ForumMessages_ThreadNotFound")
+                                ForumThread.findOne({ _forumId: disease._forumId, code: req.body.codForumThread })
+                                    .populate('_authorId', 'code')
+                                    .exec((error, forumThread) => {
+                                        if (error) {
+                                            res.status(500).send({
+                                                errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
                                             });
                                         } else {
-                                            // Adds the forum message
-                                            var originalMessage = {
-                                                content: req.body.content,
-                                                _authorId: user._id,
-                                                _forumThreadId: forumThread._id
-                                            }
-                                            if (req.body.parent) {
-                                                originalMessage._parentMessageId = req.body.parent;
-                                            }
-                                            const forumMessage = new ForumMessage(originalMessage);
-                                            forumMessage.save(error => {
-                                                if (error) {
-                                                    res.status(500).send({
-                                                        errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
-                                                    });
-                                                } else {
-                                                    res.status(201).json(forumMessage);
+                                            if (!forumThread) {
+                                                res.status(404).send({
+                                                    errorMessage: req.i18n.__("Err_ForumMessages_ThreadNotFound")
+                                                });
+                                            } else {
+                                                // Adds the forum message
+                                                var originalMessage = {
+                                                    content: req.body.content,
+                                                    _authorId: user._id,
+                                                    _forumThreadId: forumThread._id
                                                 }
-                                            });
+                                                if (req.body.parent) {
+                                                    originalMessage._parentMessageId = req.body.parent;
+                                                }
+                                                const forumMessage = new ForumMessage(originalMessage);
+                                                forumMessage.save(error => {
+                                                    if (error) {
+                                                        res.status(500).send({
+                                                            errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
+                                                        });
+                                                    } else {
+                                                        /**
+                                                         * Handles the translation of the disease name.
+                                                         * If the current language is not available, it use the default one.
+                                                         */
+                                                        var diseaseName;
+                                                        var translationLanguages = disease.names.map(item => item.language);
+                                                        var reqLanguageIndex = translationLanguages.indexOf(req.i18n.getLocale());
+                                                        var defaultLanguageIndex = translationLanguages.indexOf(translationEnv.defaultLanguage);
+                                                        if (reqLanguageIndex >= 0) {
+                                                            diseaseName = disease.names[reqLanguageIndex].name;
+                                                        } else {
+                                                            if (defaultLanguageIndex >= 0) {
+                                                                diseaseName = disease.names[defaultLanguageIndex].name;
+                                                            } else {
+                                                                res.status(500).send({
+                                                                    errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", "Not found translation for default language")
+                                                                });
+                                                            }
+                                                        }
+
+                                                        socketNotification.sendForumReplyNotification(
+                                                            user.fullName,
+                                                            forumThread.title,
+                                                            diseaseName,
+                                                            forumThread._authorId.code,
+                                                            (error) => {
+                                                                res.status(500).send({
+                                                                    errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
+                                                                });
+                                                            },
+                                                            () => {
+                                                                res.status(201).json(forumMessage);
+                                                            }
+                                                        );
+                                                    }
+                                                });
+                                            }
                                         }
-                                    }
-                                });
+                                    });
 
                             }
                         }

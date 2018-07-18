@@ -21,6 +21,12 @@ require('./mongo').connect();
 const app = express();
 
 /**
+ * Configures socket.io for real-time notification.
+ */
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+/**
  * Attaches the i18n property to the express request object.
  */
 i18n.expressBind(app, {
@@ -100,3 +106,8 @@ app.use((err, req, res, next) => {
  * Listening on port.
  */
 app.listen(port, () => console.log(`API running on localhost:${port}`));
+
+/**
+ * Starts socket connection.
+ */
+require('../server/socket_notification').connect(io);
