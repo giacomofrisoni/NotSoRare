@@ -56,6 +56,7 @@ function loginUser(req, res) {
                         } else {
                             if (match) {
                                 req.session.user = userData[0].CodUser; // Stores the code of the logged user into the session
+                                req.session.disease = null;
                                 res.status(200).send({
                                     codUser: userData[0].CodUser,
                                     infoMessage: req.i18n.__("Login_Completed", userData[0].CodUser)
@@ -127,6 +128,7 @@ function loginModerator(req, res) {
                    } else {
                        if (match) {
                            req.session.user = moderatorData[0].CodModerator; // Stores the code of the logged user into the session
+                           req.session.disease = moderatorData[0].CodDisease;
                            res.status(200).send({
                                codModerator: moderatorData[0].CodModerator,
                                codDisease: moderatorData[0].CodDisease,
@@ -154,7 +156,8 @@ function loginModerator(req, res) {
 
 function isLoggedIn(req, res) {
     res.status(200).send({
-        loggedIn: req.session.user
+        loggedIn: req.session.user,
+        codDisease: req.session.disease
     });
 }
 
