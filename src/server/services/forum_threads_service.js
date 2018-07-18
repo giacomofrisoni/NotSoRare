@@ -416,6 +416,7 @@ function getRareDiseaseForumThreads(req, res) {
                         .populate('_authorId')
                         .populate('messages', 'update_date')
                         .select('code title description views messages_count last_activity_date')
+                        .sort({ update_date: -1 })
                         .exec((error, forumThreads) => {
                             if (error) {
                                 res.status(500).send({
@@ -436,12 +437,15 @@ function getRareDiseaseForumThreads(req, res) {
                                     forumThread["last_activity_date"] = forumThreads[i].last_activity_date;
                                     forumThread["author"] = {
                                         "code": forumThreads[i]._authorId.code,
-                                        "is_anonymous": forumThreads[i]._authorId.is_anonymous,
-                                        "first_name": forumThreads[i]._authorId.first_name,
-                                        "last_name": forumThreads[i]._authorId.last_name,
-                                        "fullname": forumThreads[i]._authorId.fullname,
-                                        "photoURL": forumThreads[i]._authorId.photoURL
+                                        "is_anonymous": forumThreads[i]._authorId.is_anonymous
                                     };
+                                    // Returns profile info only if the user is not anonymous
+                                    if (!forumThreads[i]._authorId.is_anonymous) {
+                                        forumThread["author"]["first_name"] = forumThreads[i]._authorId.first_name;
+                                        forumThread["author"]["last_name"] = forumThreads[i]._authorId.last_name;
+                                        forumThread["author"]["fullname"] = forumThreads[i]._authorId.fullname;
+                                        forumThread["author"]["photoURL"] = forumThreads[i]._authorId.photoURL;
+                                    }
                                     parsedForumThreads.push(forumThread);
                                 }
                                 res.status(200).json(parsedForumThreads);
@@ -473,6 +477,7 @@ function getUserForumThreads(req, res) {
         User.findOne({ code: id })
             .populate({
                 path: 'forumThreads',
+                options: { sort: { 'update_date': -1 } },
                 populate: {
                     path: '_forumId',
                     model: 'Forum',
@@ -541,6 +546,22 @@ function getUserForumThreads(req, res) {
 }
 
 
+function anonymizeMessagesAuthor(messages){
+    for (var messageIndex = 0; messageIndex < messages.length; messageIndex++) {
+        if (messages[messageIndex]._authorId.is_anonymous) {
+            messages[messageIndex]._authorId.first_name = null;
+            messages[messageIndex]._authorId.last_name = null;
+            messages[messageIndex]._authorId.fullname = null;
+            messages[messageIndex]._authorId.photoURL = null;
+            messages[messageIndex]._authorId.gender = null;
+            messages[messageIndex]._authorId.birth_date = null;
+            messages[messageIndex]._authorId.age = null;
+        }
+        anonymizeMessagesAuthor(messages[messageIndex].comments);
+    }
+ }
+
+
 function getForumThread(req, res) {
     
     const idDisease = parseInt(req.params.idDisease, 10);
@@ -574,9 +595,10 @@ function getForumThread(req, res) {
                         .populate({
                             path: 'messages',
                             match: { _parentMessageId: { $exists: false } },
+                            options: { sort: { 'update_date': -1 } },
                             populate: {
                                 path: '_authorId',
-                                select: 'code is_anonymous first_name last_name fullname photo gender birth_date age'
+                                select: 'code is_anonymous first_name last_name fullname photoURL gender birth_date age'
                             }
                         })
                         .select('code title description views creation_date update_date past_time')
@@ -586,43 +608,53 @@ function getForumThread(req, res) {
                                     errorMessage: req.i18n.__("Err_ForumThreads_GettingThreads", error)
                                 });
                             } else {
-                                /**
-                                 * Increments the forum views number.
-                                 */
-                                forumThread.views++;
-                                forumThread.save(error => {
-                                    if (error) {
-                                        res.status(500).send({
-                                            errorMessage: req.i18n.__("Err_ForumThreads_ThreadUpdate", error)
-                                        });
-                                    } else {
-                                        /**
-                                         * Parses the resulting json.
-                                         */
-                                        var parsedForumThread = {};
-                                        parsedForumThread["code"] = forumThread.code;
-                                        parsedForumThread["title"] = forumThread.title;
-                                        parsedForumThread["description"] = forumThread.description;
-                                        parsedForumThread["views"] = forumThread.views;
-                                        parsedForumThread["creation_date"] = forumThread.creation_date;
-                                        parsedForumThread["update_date"] = forumThread.update_date;
-                                        parsedForumThread["past_time"] = forumThread.past_time;
-                                        parsedForumThread["author"] = {
-                                            "code": forumThread._authorId.code,
-                                            "is_anonymous": forumThread._authorId.is_anonymous,
-                                            "first_name": forumThread._authorId.first_name,
-                                            "last_name": forumThread._authorId.last_name,
-                                            "fullname": forumThread._authorId.fullname,
-                                            "photoURL": forumThread._authorId.photoURL,
-                                            "gender": forumThread._authorId.gender,
-                                            "birth_date": forumThread._authorId.birth_date,
-                                            "age": forumThread._authorId.age
-                                        };
-                                        parsedForumThread["messages"] = forumThread.messages;
+                                if (!forumThread) {
+                                    res.status(404).send({
+                                        errorMessage: req.i18n.__("Err_ForumThreads_ThreadNotFound")
+                                    });
+                                } else {
+                                    /**
+                                     * Increments the forum views number.
+                                     */
+                                    forumThread.views++;
+                                    forumThread.save(error => {
+                                        if (error) {
+                                            res.status(500).send({
+                                                errorMessage: req.i18n.__("Err_ForumThreads_ThreadUpdate", error)
+                                            });
+                                        } else {
+                                            /**
+                                             * Parses the resulting json.
+                                             */
+                                            var parsedForumThread = {};
+                                            parsedForumThread["code"] = forumThread.code;
+                                            parsedForumThread["title"] = forumThread.title;
+                                            parsedForumThread["description"] = forumThread.description;
+                                            parsedForumThread["views"] = forumThread.views;
+                                            parsedForumThread["creation_date"] = forumThread.creation_date;
+                                            parsedForumThread["update_date"] = forumThread.update_date;
+                                            parsedForumThread["past_time"] = forumThread.past_time;
+                                            parsedForumThread["author"] = {
+                                                "code": forumThread._authorId.code,
+                                                "is_anonymous": forumThread._authorId.is_anonymous,
+                                            };
+                                            // Returns profile info only if the user is not anonymous
+                                            if (!forumThread._authorId.is_anonymous) {
+                                                parsedForumThread["author"]["first_name"] = forumThread._authorId.first_name;
+                                                parsedForumThread["author"]["last_name"] = forumThread._authorId.last_name;
+                                                parsedForumThread["author"]["fullname"] = forumThread._authorId.fullname;
+                                                parsedForumThread["author"]["photoURL"] = forumThread._authorId.photoURL;
+                                                parsedForumThread["author"]["gender"] = forumThread._authorId.gender;
+                                                parsedForumThread["author"]["birth_date"] = forumThread._authorId.birth_date;
+                                                parsedForumThread["author"]["age"] = forumThread._authorId.age;
+                                            }
+                                            anonymizeMessagesAuthor(forumThread.messages);
+                                            parsedForumThread["messages"] = forumThread.messages;
 
-                                        res.status(200).json(parsedForumThread);
-                                    }
-                                });
+                                            res.status(200).json(parsedForumThread);
+                                        }
+                                    });
+                                }
                             }
                         });
 

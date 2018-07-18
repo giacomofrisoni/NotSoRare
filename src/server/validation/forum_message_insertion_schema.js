@@ -6,7 +6,7 @@ module.exports = {
         codUser: Joi.number().required(),
         codDisease: Joi.number().required(),
         codForumThread: Joi.number().required(),
-        content: Joi.string().min(10).max(2000).required(),
+        content: Joi.string().max(2000).required(),
         parent: Joi.objectId()
     })
 };
