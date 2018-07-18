@@ -15,26 +15,49 @@ export class UserService {
   }
 
   signUp(signupData: SignupData) {
-    return this.http.post(`${this.globalUtils.apiPath}/signup` + this.globalUtils.createLanguageParameter(), {
-      email: signupData.email,
-      password: signupData.password,
-      passwordConfirm: signupData.passwordConfirm,
-      name: signupData.name,
-      surname: signupData.surname,
-      gender: signupData.gender,
-      birthDate: signupData.birthDate,
-      biography: signupData.biography,
-      photoContentType: signupData.photoContentType,
-      photoData: signupData.photoData,
-      nationality: signupData.nationality,
-      patientYN: signupData.isPatient ? "1" : "0",
-      patientName: signupData.patientName,
-      patientSurname: signupData.patientSurname,
-      patientBirthDate: signupData.patientBirthDate,
-      patientNationality: signupData.patientNationality
-    }, {
-        withCredentials: true,
-      });
+    if (signupData.biography && signupData.biography != "") {
+      return this.http.post(`${this.globalUtils.apiPath}/signup` + this.globalUtils.createLanguageParameter(), {
+        email: signupData.email,
+        password: signupData.password,
+        passwordConfirm: signupData.passwordConfirm,
+        name: signupData.name,
+        surname: signupData.surname,
+        gender: signupData.gender,
+        birthDate: signupData.birthDate,
+        biography: signupData.biography,
+        photoContentType: signupData.photoContentType,
+        photoData: signupData.photoData,
+        nationality: signupData.nationality,
+        patientYN: signupData.isPatient ? "1" : "0",
+        patientName: signupData.patientName,
+        patientSurname: signupData.patientSurname,
+        patientBirthDate: signupData.patientBirthDate,
+        patientNationality: signupData.patientNationality
+      }, {
+          withCredentials: true,
+        });
+    } else {
+      return this.http.post(`${this.globalUtils.apiPath}/signup` + this.globalUtils.createLanguageParameter(), {
+        email: signupData.email,
+        password: signupData.password,
+        passwordConfirm: signupData.passwordConfirm,
+        name: signupData.name,
+        surname: signupData.surname,
+        gender: signupData.gender,
+        birthDate: signupData.birthDate,
+        photoContentType: signupData.photoContentType,
+        photoData: signupData.photoData,
+        nationality: signupData.nationality,
+        patientYN: signupData.isPatient ? "1" : "0",
+        patientName: signupData.patientName,
+        patientSurname: signupData.patientSurname,
+        patientBirthDate: signupData.patientBirthDate,
+        patientNationality: signupData.patientNationality
+      }, {
+          withCredentials: true,
+        });
+    }
+
   }
 
   login(email: string, password: string) {

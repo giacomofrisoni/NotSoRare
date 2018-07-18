@@ -77,7 +77,8 @@
         "LoginErrorMessage": "C'è stato un errore durante la fase di login",
         "Login": "Accedi",
         "ToCheckMessage": "Ti manca solo un passo da fare: dovresti aver ricevuto una mail con un codice da inserire qui sotto, per verificare il tuo account.",
-        "Check": "Verifica"
+        "Check": "Verifica",
+        "ActivatedSuccess": "Attivazione avvenuta con successo! Per la sicurezza del tuo account rieffettua il login. Sarai reindirizzato tra poco."
     },
 
     "NotFound": {

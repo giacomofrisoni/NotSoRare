@@ -21,12 +21,12 @@
             <img [src]="user.Photo" />
 
             <div class="flex end-aligned top-unmargined">
-                <div class="spaced-elem" *ngIf="user.RareDiseasesCount">
+                <div class="spaced-elem" *ngIf="user.RareDiseasesCount >= 0">
                     <div class="major">{{user.RareDiseasesCount}}</div>
                     <div [innerHTML]="'Profile.RareDiseasesCount' | translate"></div>
                 </div>
 
-                <div class="spaced-elem last" *ngIf="user.ExperiencesCount">
+                <div class="spaced-elem last" *ngIf="user.ExperiencesCount >= 0">
                     <div class="major">{{user.ExperiencesCount}}</div>
                     <div [innerHTML]="'Profile.ExperiencesCount' | translate"></div>
                 </div>
