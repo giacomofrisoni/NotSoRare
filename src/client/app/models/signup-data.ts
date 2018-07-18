@@ -7,7 +7,8 @@ export class SignupData {
     gender: String = null;
     birthDate: Date = null;
     biography: String = null;
-    photo: ByteString;
+    photoData: String = null;
+    photoContentType: String = null; 
     nationality: String = null;
     isPatient: Boolean = null;
     patientName: String = null;
@@ -15,5 +16,4 @@ export class SignupData {
     patientGender: String = null;
     patientBirthDate: Date = null;
     patientNationality: String = null;
-
 }

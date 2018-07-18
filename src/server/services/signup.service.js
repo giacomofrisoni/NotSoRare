@@ -147,9 +147,10 @@ function signup(req, res) {
                                                                         is_anonymous: false
                                                                     }
                                                                     const user = new User(originalUser);
-                                                                    if (req.body.photo) {
+                                                                    if (req.body.photoContentType && req.body.photoData) {
                                                                         // Converts base64 photo encoding into buffer
-                                                                        user.photo.data = Buffer.from(req.body.photo, "base64");
+                                                                        user.photo.contentType = req.body.photoContentType;
+                                                                        user.photo.data = Buffer.from(req.body.photoData, "base64");
                                                                     }
                                                                     user.save(error => {
                                                                         if (error) {

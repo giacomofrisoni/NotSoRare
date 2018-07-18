@@ -86,7 +86,9 @@ export class RegisterComponent implements OnInit {
       var reader = new FileReader();
     
       reader.onloadend = (event:any) => {
-        this.signupData.photo = event.target.result;
+        this.photoUrl = event.target.result;
+        this.signupData.photoContentType = event.target.result.split(/:|;/)[1];
+        this.signupData.photoData = event.target.result.split(',')[1];
       }
 
       const file = event.target.files[0];
@@ -119,7 +121,8 @@ export class RegisterComponent implements OnInit {
 
   onResetUrl(event: any){
     this.photoUrl = "../..//assets/images/default-user.png";
-    this.signupData.photo = null;
+    this.signupData.photoContentType = null;
+    this.signupData.photoData = null;
   }
 
   onRegister(event: any) {

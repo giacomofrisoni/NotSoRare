@@ -31,6 +31,13 @@ UserSchema
     return this.birth_date ? Math.floor((Date.now() - this.birth_date.getTime()) / (1000 * 3600 * 24 * 365)) : null;
 });
 
+// Virtual for user's photo url
+UserSchema
+.virtual('photoURL')
+.get(function() {
+    return (this.photo.contentType && this.photo.data) ? ("data:" + this.photo.contentType + ";base64," + this.photo.data.toString('base64')) : null;
+});
+
 /**
  * Specifies a virtual with a 'ref' property in order to enable virtual population,
  * mantaining the document small.

@@ -14,5 +14,5 @@ interface Author {
     first_name: string;
     last_name: string;
     fullname: string;
-    photo: string;
+    photoURL: string;
 }

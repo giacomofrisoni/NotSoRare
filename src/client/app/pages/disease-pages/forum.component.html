@@ -31,7 +31,8 @@
         <!-- ALL OK -->
         <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isThreadsLoaded">
             <div class="flex start-aligned thread" *ngFor="let thread of threads" (click)="onThreadClick(thread.code)">
-                <div class="img"></div>
+                <!--<div class="img"></div>-->
+                <img [src]="thread.author.photoURL"/>
 
                 <div class="flex start-aligned bordered">
                     <div class="middle-elements">
