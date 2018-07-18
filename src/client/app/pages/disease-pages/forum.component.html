@@ -47,7 +47,7 @@
                             <div class="last-activity-date" *ngIf="thread.last_activity_date != null">
                                 <span [innerHTML]="'Forum.LastActivity' | translate"></span>
                                 <span>: </span>
-                                <span class="colored">{{thread.last_activity_date}}</span>
+                                <span class="colored">{{thread.last_activity_date | date : 'dd/MM/yyyy HH:mm'}}</span>
                             </div>
                         </div>
                     </div>

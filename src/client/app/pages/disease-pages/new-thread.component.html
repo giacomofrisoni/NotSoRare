@@ -21,7 +21,11 @@
             <label [innerHTML]="'NewThread.Content' | translate"></label>
             <textarea [(ngModel)]="threadText"></textarea>
 
-            <span *ngIf="isSubmitting" [innerHTML]="'NewThread.Submitting' | translate"></span>
+            <span *ngIf="isSubmitting">
+                <i class='fa fa-spinner fa-spin'></i>
+                <span [innerHTML]="'NewThread.Submitting' | translate"></span>
+            </span>
+            
             <span *ngIf="isAnyErrorPresent" [innerHTML]="'NewThread.SubmitError' | translate"></span>
             <span *ngIf="isEmpty" [innerHTML]="'NewThread.TooShort' | translate"></span>
 
