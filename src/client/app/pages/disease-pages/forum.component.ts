@@ -12,14 +12,13 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['../../../assets/styles/forum.component.scss']
 })
 export class ForumComponent implements OnInit {
-  
+
   // Loading
   isThreadsLoaded = false;
   isAnyErrorPresent = false;
   isThreadsEmpty = false;
   isUserLoggedIn = false;
   isModerator = false;
-  isModeratorOfThis = false
 
   // Binding
   disease: Disease;
@@ -41,42 +40,44 @@ export class ForumComponent implements OnInit {
 
         // Check for user login
         this.userService.getLoggedInStatus("Forum").subscribe((user: any) => {
-          if (user.loggedIn) {
-            this.isUserLoggedIn = true;
-            
-            // Check if he's an admin of this disease
-            if (user.codDisease) {
-              this.isModerator = true;
-              this.isModeratorOfThis = user.codDisease == this.disease.general.CodDisease;
-            }
+          if (!user.codDisease) {
+            if (user.loggedIn) {
+              this.isUserLoggedIn = true;
 
-            // Reset variables
-            this.isThreadsLoaded = false;
-            this.isAnyErrorPresent = false;
-            this.isThreadsEmpty = false;
 
-            // Try to get all threads
-            this.forumService.getAllThreads(this.disease.general.CodDisease).subscribe((results: ForumThread[]) => {
-              if (results) {
-                if (results.length > 0) {
-                  this.threads = results;
+              // Reset variables
+              this.isThreadsLoaded = false;
+              this.isAnyErrorPresent = false;
+              this.isThreadsEmpty = false;
+
+              // Try to get all threads
+              this.forumService.getAllThreads(this.disease.general.CodDisease).subscribe((results: ForumThread[]) => {
+                if (results) {
+                  if (results.length > 0) {
+                    this.threads = results;
+                  }
+                  else {
+                    this.isThreadsEmpty = true;
+                  }
+                } else {
+                  this.isAnyErrorPresent = true;
                 }
-                else {
-                  this.isThreadsEmpty = true;
-                }
-              } else {
+
+                this.isThreadsLoaded = true;
+              }, error => {
+                this.isThreadsLoaded = true;
                 this.isAnyErrorPresent = true;
-              }
-
+                console.log(error);
+              });
+            } else {
+              this.isUserLoggedIn = false;
               this.isThreadsLoaded = true;
-            }, error => {
-              this.isThreadsLoaded = true;
-              this.isAnyErrorPresent = true;
-              console.log(error);
-            });
+            }
           } else {
+            //Admin cannot
             this.isUserLoggedIn = false;
             this.isThreadsLoaded = true;
+            this.isModerator = true;
           }
         }, error => {
           this.isAnyErrorPresent = true;
@@ -96,12 +97,7 @@ export class ForumComponent implements OnInit {
 
 
   onThreadClick(threadCode: number) {
-    this.router.navigate(['./' + threadCode], {relativeTo: this.activatedRoute});
-  }
-
-  onModeratorClick(threadCode: number, event: any) {
-    console.log("moderate this shit!");
-    event.stopPropagation();
+    this.router.navigate(['./' + threadCode], { relativeTo: this.activatedRoute });
   }
 
 }

@@ -1,21 +1,30 @@
 <div class="flex spaced card top-bar">
     <!-- Left -->
-    <div class="flex left-components" routerLink="/home">
+    <div *ngIf="!isModerator" class="flex left-components" routerLink="/home">
         <img class="logo" src="../../assets/images/logo.png">
         <h1>Not So <b>Rare</b></h1>
     </div>
 
+    <div *ngIf="isModerator" class="flex left-components" routerLink="/moderatorPage">
+        <img class="logo" src="../../assets/images/logo.png">
+        <h1>Not So <b>Rare</b> - <span class="info">MODERATION</span></h1>
+    </div>
+
     <div class="flex right-components margined">
         <!-- Right REGISTERED -->
-        <div class="flex margined" *ngIf="isUserLoggedIn">
+        <div class="flex margined" *ngIf="isUserLoggedIn && !isModerator">
             <app-menubutton icon="fa fa-bell" badge="9"></app-menubutton>
             <app-menubutton icon="fa fa-user" (click)="onUserClick()"></app-menubutton>
         </div>
 
         <!-- Right UNREGISTERED -->
-        <div class="flex margined" *ngIf="isUserNotLoggedIn">
+        <div class="flex margined" *ngIf="isUserNotLoggedIn && !isModerator">
             <app-divbutton [text]="'Common.Signup' | translate" isBordered="true" routerLink="/register"></app-divbutton>
             <app-divbutton [text]="'Common.Login' | translate" routerLink="/login"></app-divbutton>
+        </div>
+
+        <div class="flex margined" *ngIf="isModerator">
+            <app-divbutton [text]="'Profile.Logout' | translate" (click)="onLogoutClick()"></app-divbutton>
         </div>
 
         <!-- Right Common for all -->

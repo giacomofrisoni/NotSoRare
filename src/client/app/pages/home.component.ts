@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   isValueNotFound: boolean = false;
   isErrorPresent: boolean = false;
   isValueSearching: boolean = false;
+  isModerator = false;
 
   isFollowedDiseasesLoaded: boolean = false;
   isFollowedDiseasesError: boolean = false;
@@ -41,36 +42,43 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getLoggedInStatus("home").subscribe((userID: any) => {
-      // Is user logged in?
-      this.isUserLoggedIn = (userID.loggedIn ? true : false);
+    this.userService.getLoggedInStatus("home").subscribe((user: any) => {
+      // Admin cannot access
+      if (!user.codDisease) {
+        // Is user logged in?
+        this.isUserLoggedIn = (user.loggedIn ? true : false);
 
-      // If it's loggedin
-      if (this.isUserLoggedIn) {
-        // Get his followed diseases
-        this.userService.getFollowingDiseases(userID.loggedIn).subscribe((results: any[]) => {
-          // If results are correct
-          if (results) {
-            // Save them
-            this.followedDiseases = results;
-          } else {
+        if (this.isUserLoggedIn) {
+          // Get his followed diseases
+          this.userService.getFollowingDiseases(user.loggedIn).subscribe((results: any[]) => {
+            // If results are correct
+            if (results) {
+              // Save them
+              this.followedDiseases = results;
+            } else {
+              // Error when retriving diseases
+              this.isFollowedDiseasesError = true;
+            }
+
+            //Anyway, you've finished
+            this.isFollowedDiseasesLoaded = true;
+
+          }, error => {
             // Error when retriving diseases
-            this.isFollowedDiseasesError = true;
-          }
+            console.log(error);
+            this.isFollowedDiseasesLoaded = true;
+          });
 
-          //Anyway, you've finished
-          this.isFollowedDiseasesLoaded = true;
-        }, error => {
-          // Error when retriving diseases
-          console.log(error);
-          this.isFollowedDiseasesLoaded = true;
-        });
-
-        // Finally, tell that is finished loading
-        this.isPageLoading = false;
+          // Finally, tell that is finished loading
+          this.isPageLoading = false;
+        } else {
+          // Not logged, default one
+          this.isPageLoading = false;
+        }
       } else {
-        // Not logged, default one
         this.isPageLoading = false;
+        this.isUserLoggedIn = false;
+        this.isModerator = true;
       }
     });
   }

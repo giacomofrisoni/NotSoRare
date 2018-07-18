@@ -3,7 +3,8 @@
         "Signup": "Iscriviti",
         "Login": "Accedi",
         "Email": "Indirizzo E-Mail",
-        "Password": "Password"
+        "Password": "Password",
+        "ModeratorCannot": "I moderatori non possono accedere a questa sezione"
     },
     
     "Home": {

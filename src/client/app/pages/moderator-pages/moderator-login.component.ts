@@ -1,19 +1,21 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { UserService } from '../services/user.service';
+
 import * as $ from 'jquery';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { DivbuttonComponent } from '../components/divbutton.component';
-import { MatDialog, MatDialogConfig } from "@angular/material";
-import { SimpleDialogComponent } from '../dialogs/simple-dialog.component';
-import { SimpleDialogType } from '../dialogs/simple-dialog-type.enum';
-import { LanguageService } from '../services/language.service';
-import { TranslateService } from '@ngx-translate/core';
+import { DivbuttonComponent } from '../../components/divbutton.component';
+import { UserService } from '../../services/user.service';
+import { MatDialog, MatDialogConfig } from '../../../../../node_modules/@angular/material';
+import { LanguageService } from '../../services/language.service';
+import { TranslateService } from '../../../../../node_modules/@ngx-translate/core';
+import { SimpleDialogType } from '../../dialogs/simple-dialog-type.enum';
+import { SimpleDialogComponent } from '../../dialogs/simple-dialog.component';
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './moderator-login.component.html',
-  styleUrls: ['../../assets/styles/login.component.scss']
+  styleUrls: ['../../../assets/styles/login.component.scss']
 })
 export class ModeratorLoginComponent implements OnInit {
 

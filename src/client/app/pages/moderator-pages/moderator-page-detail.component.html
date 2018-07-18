@@ -23,25 +23,8 @@
         </app-forum-thread-view>
 
         <app-forum-thread-view *ngFor="let message of thread.messages" [isAnonymous]="message._authorId.is_anonymous" [image]="message._authorId.photoURL"
-            [author]="message._authorId.fullname" [pastTime]="message.past_time" [content]="message.content" isMessage="true">
+            [author]="message._authorId.fullname" [pastTime]="message.past_time" [content]="message.content" isMessage="true"
+            [messageID]="message.id" [isModerator]="true">
         </app-forum-thread-view>
-
-        <div class="page-card reply">
-            <span [innerHTML]="'ForumThread.InsertReplyHere' | translate"></span>
-            <textarea [(ngModel)]="replyContent"></textarea>
-            <span *ngIf="isReplyEmpty" class="info small-text" [innerHTML]="'ForumThread.ReplyEmpty' | translate"></span>
-            <span *ngIf="isReplyPosting" class="info small-text">
-                <i class='fa fa-spinner fa-spin'></i>
-                <span [innerHTML]="'ForumThread.ReplyPosting' | translate"></span>
-            </span>
-            <span *ngIf="isReplyPostingError" class="info small-text" [innerHTML]="'ForumThread.ReplyPostingError' | translate"></span>
-
-            <div class="flex end-aligned">
-                <div class="reply-button">
-                    <app-divbutton icon="fa fa-reply" [text]="'ForumThread.Reply' | translate" (click)="onReplyClick()"></app-divbutton>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>

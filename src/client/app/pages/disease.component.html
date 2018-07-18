@@ -11,8 +11,13 @@
         <span [innerHTML]="'Disease.Error' | translate"></span>
     </div>
 
+    <!-- MODERATOR -->
+    <div *ngIf="isModerator" class="container page-card centered">
+        <span [innerHTML]="'Common.ModeratorCannot' | translate"></span>
+    </div>
+
     <!-- LOADED -->
-    <div *ngIf="isDiseaseLoaded && !isAnyErrorPresent">
+    <div *ngIf="isDiseaseLoaded && !isAnyErrorPresent && !isModerator">
 
         <div class="general-box">
             <!-- Menu -->
@@ -44,9 +49,11 @@
                         </div>
                     </div>
 
-                    <div class="follow-button" *ngIf="(userLoggedIn >= 0) && isDiseaseFollowedLoaded">
-                        <app-divbutton #followButton *ngIf="!isDiseaseFollowed" icon="fa fa-plus-circle" [text]="'Disease.Follow' | translate" isBordered="true" (click)="onFollow()"></app-divbutton>
-                        <app-divbutton #unfollowButton *ngIf="isDiseaseFollowed" icon="fa fa-minus-circle" [text]="'Disease.Unfollow' | translate" isBordered="true" (click)="onUnfollow()"></app-divbutton>
+                    <div class="follow-button" *ngIf="(userLoggedIn >= 0) && isDiseaseFollowedLoaded && !isModerator">
+                        <app-divbutton #followButton *ngIf="!isDiseaseFollowed" icon="fa fa-plus-circle" [text]="'Disease.Follow' | translate" isBordered="true"
+                            (click)="onFollow()"></app-divbutton>
+                        <app-divbutton #unfollowButton *ngIf="isDiseaseFollowed" icon="fa fa-minus-circle" [text]="'Disease.Unfollow' | translate"
+                            isBordered="true" (click)="onUnfollow()"></app-divbutton>
                     </div>
                 </div>
 
@@ -56,11 +63,11 @@
                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                         <span [innerHTML]="'Disease.Information' | translate"></span>
                     </li>
-                    <li routerLink="./experiences" routerLinkActive="selected">
+                    <li *ngIf="!isModerator" routerLink="./experiences" routerLinkActive="selected">
                         <i class="fa fa-commenting" aria-hidden="true"></i>
                         <span [innerHTML]="'Disease.Experiences' | translate"></span>
                     </li>
-                    <li routerLink="./expert-centres" routerLinkActive="selected">
+                    <li *ngIf="!isModerator" routerLink="./expert-centres" routerLinkActive="selected">
                         <i class="fa fa-hospital-o" aria-hidden="true"></i>
                         <span [innerHTML]="'Disease.ExpertCentres' | translate"></span>
                     </li>
@@ -68,7 +75,7 @@
                         <i class="fa fa-comments" aria-hidden="true"></i>
                         <span [innerHTML]="'Disease.Forum' | translate"></span>
                     </li>
-                    <li routerLink="./references" routerLinkActive="selected">
+                    <li *ngIf="!isModerator" routerLink="./references" routerLinkActive="selected">
                         <i class="fa fa-link" aria-hidden="true"></i>
                         <span [innerHTML]="'Disease.References' | translate"></span>
                     </li>

@@ -7,11 +7,11 @@
                 <span *ngIf="!isAnonymous">{{author}}</span>
                 <span *ngIf="isAnonymous" [innerHTML]="'Forum.Anonymous' | translate"></span>
                 <br/>
-                <div class="small-detail">{{pastTime.duration}} {{pastTime.unit}}</div>
+                <div *ngIf="pastTime" class="small-detail">{{pastTime.duration}} {{pastTime.unit}}</div>
             </div>
         </div>
 
-        <div *ngIf="isModerator" class="flex moderator" (click)="onModerateClick()">
+        <div *ngIf="isModerator" class="flex moderator" (click)="onModerateClick($event)">
             <i class="fa fa-flag not-spaced" aria-hidden="true"></i>
         </div>
     </div>

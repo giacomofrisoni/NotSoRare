@@ -55,7 +55,6 @@ export class SearchBarComponent implements OnInit {
           // Check for emptyness
           if (results[0]) {
             this.diseases.next(results);
-            console.log(results);
           } else {
             this.diseases.next([]);
             this.isResultEmpty = true;
@@ -103,7 +102,6 @@ export class SearchBarComponent implements OnInit {
         // Check for emptyness
         if (results[0]) {
           this.diseases.next(results);
-          console.log(results);
         } else {
           this.diseases.next([]);
           this.isResultEmpty = true;
@@ -144,7 +142,6 @@ export class SearchBarComponent implements OnInit {
 
 
   searchClicked() {
-    console.log(this.searchedDisease);
     this.onSearchClicked.emit([this.searchedDisease]);
   }
 

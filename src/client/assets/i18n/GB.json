@@ -3,7 +3,8 @@
         "Signup": "Signup",
         "Login": "Login",
         "Email": "E-Mail Address",
-        "Password": "Password"
+        "Password": "Password",
+        "ModeratorCannot": "Moderator cannot access this section"
     },
 
     "Home": {

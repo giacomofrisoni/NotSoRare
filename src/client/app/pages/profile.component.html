@@ -16,6 +16,11 @@
         <span [innerHTML]="'Profile.UserNotLoggedIn' | translate"></span>
     </div>
 
+    <!-- MODERATOR -->
+    <div *ngIf="isModerator" class="page-card centered">
+        <span [innerHTML]="'Common.ModeratorCannot' | translate"></span>
+    </div>
+
     <div *ngIf="isUserLoggedIn && isProfileLoaded && !isAnyErrorPresent">
         <div class="page-card top-margined">
             <img *ngIf="!user.IsAnonymous || (user.IsAnonymous && isProfileMine && user.Photo)" [src]="user.Photo" />
@@ -49,7 +54,7 @@
                 </div>
             </div>
 
-            <div *ngIf="!user.IsAnonymous || isProfileMine" >
+            <div *ngIf="!user.IsAnonymous || isProfileMine">
                 <p>{{user.Biography}}</p>
             </div>
 

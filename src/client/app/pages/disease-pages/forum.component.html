@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isThreadsLoaded && !isModerator" class="add-button">
+    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isThreadsLoaded" class="add-button">
         <app-divbutton icon="fa fa-plus-circle" [text]="'Forum.NewThread' | translate"  routerLink="../newForumThread"></app-divbutton>
     </div>
 
@@ -27,6 +27,11 @@
         <div *ngIf="!isUserLoggedIn && isThreadsLoaded" class="error centered">
             <span [innerHTML]="'Forum.UserNotLoggedIn' | translate"></span>
         </div>
+
+                <!-- User not logged -->
+                <div *ngIf="isModerator" class="error centered">
+                        <span [innerHTML]="'Common.ModeratorCannot' | translate"></span>
+                    </div>
 
         <!-- ALL OK -->
         <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isThreadsLoaded">
@@ -61,10 +66,6 @@
                         <div class="fixed-width">
                             <i class="fa fa-comment" aria-hidden="true"></i>
                             {{thread.messages_count}}
-                        </div>
-
-                        <div class="moderator" *ngIf="isModeratorOfThis" (click)="onModeratorClick(thread.code, $event)">
-                            <i class="fa fa-flag not-spaced" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>

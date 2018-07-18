@@ -35,7 +35,7 @@ export class ReferencesComponent implements OnInit {
             this.setOnErroStatus("Not valid type");
           }
 
-          this.setWindowStatus(true, false, false, "Success!");
+          this.setWindowStatus(true, false, false);
         }, error => {
           this.setOnErroStatus("Error retriving reference");
           console.log(error);

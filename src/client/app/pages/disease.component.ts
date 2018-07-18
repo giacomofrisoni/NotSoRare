@@ -28,6 +28,7 @@ export class DiseaseComponent implements OnInit {
   isDiseaseFollowed: boolean = false;
   isDiseaseFollowedLoaded: boolean = false;
   isAnyErrorPresent: boolean = false;
+  isModerator = false;
   loadingTimes: number = 0;
 
   // Disease object
@@ -74,31 +75,43 @@ export class DiseaseComponent implements OnInit {
           this.isAnyErrorPresent = false;
 
           // Load more data!
-          this.subUserService = this.userService.getLoggedInStatus("Disease").subscribe((userID: any) => {
-            // Check if user is logged in
-            this.userLoggedIn = userID.loggedIn ? userID.loggedIn : -1;
+          this.subUserService = this.userService.getLoggedInStatus("Disease").subscribe((user: any) => {
+            // Admin cannot access
+            if (!user.codDisease) {
+              // Check if user is logged in
+              this.userLoggedIn = user.loggedIn ? user.loggedIn : -1;
 
-            if (this.userLoggedIn >= 0) {
-              // If it's logged check if he's following this disease
-              this.userService.getFollowingDiseases(this.userLoggedIn).subscribe((results: any[]) => {
-                results.forEach(result => {
-                  if (result.CodDisease == id) {
-                    this.isDiseaseFollowed = true;
-                  }
+              // Check if he's an admin
+              if (user.codDisease) {
+                this.isModerator = true;
+              }
+
+              if (this.userLoggedIn >= 0) {
+                // If it's logged check if he's following this disease
+                this.userService.getFollowingDiseases(this.userLoggedIn).subscribe((results: any[]) => {
+                  results.forEach(result => {
+                    if (result.CodDisease == id) {
+                      this.isDiseaseFollowed = true;
+                    }
+                  });
+
+                  //Finally all is loaded
+                  this.isDiseaseFollowedLoaded = true;
+                  this.diseaseHolder.setDisease(this.disease);
+                }, error => {
+                  console.log("Error during getting following diseases:");
+                  console.log(error);
+                  this.isDiseaseFollowedLoaded = false;
                 });
-
+              } else {
                 //Finally all is loaded
                 this.isDiseaseFollowedLoaded = true;
                 this.diseaseHolder.setDisease(this.disease);
-              }, error => {
-                console.log("Error during getting following diseases:");
-                console.log(error);
-                this.isDiseaseFollowedLoaded = false;
-              });
+              }
             } else {
-              //Finally all is loaded
-              this.isDiseaseFollowedLoaded = true;
-              this.diseaseHolder.setDisease(this.disease);
+              this.isModerator = true;
+              this.userLoggedIn = -1;
+              this.isDiseaseLoaded = true;
             }
           }, error => {
             console.log("Error during check user logged in: " + error);

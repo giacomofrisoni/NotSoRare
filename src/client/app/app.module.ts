@@ -43,7 +43,7 @@ import { ProfileThreadsComponent } from './pages/profile-pages/profile-threads.c
 import { ProfileExperiencesComponent } from './pages/profile-pages/profile-experiences.component';
 import { NewExperienceComponent } from './pages/disease-pages/new-experience.component';
 import { NewThreadComponent } from './pages/disease-pages/new-thread.component';
-import { ModeratorLoginComponent } from './pages/moderator-login.component';
+import { ModeratorLoginComponent } from './pages/moderator-pages/moderator-login.component';
 
 // Custom services
 import { UserService } from './services/user.service';
@@ -58,6 +58,8 @@ import { ReferencesService } from './services/references.service';
 import { ForumService } from './services/forum.service';
 import { ProfileHolderService } from './services/profile-holder.service';
 import { NotificatorService } from './services/notificator.service';
+import { ModeratorPageComponent } from './pages/moderator-pages/moderator-page.component';
+import { ModeratorPageDetailComponent } from './pages/moderator-pages/moderator-page-detail.component';
 
 
 const appRoutes: Routes = [
@@ -66,6 +68,8 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'moderatorLogin', component: ModeratorLoginComponent },
+  { path: 'moderatorPage', component: ModeratorPageComponent },
+  { path: 'moderatorPageDetail/:id', component: ModeratorPageDetailComponent },
   {
     path: 'profile/:id', component: ProfileComponent,
     children: [
@@ -129,6 +133,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NewExperienceComponent,
     NewThreadComponent,
     ModeratorLoginComponent,
+    ModeratorPageComponent,
+    ModeratorPageDetailComponent,
   ],
   imports: [
     BrowserModule,

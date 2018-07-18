@@ -1,0 +1,33 @@
+<div class="container">
+
+    <!-- LOADING -->
+    <div *ngIf="!isThreadsLoaded" class="page-card flex">
+        <i class='fa fa-spinner fa-spin'></i>
+        <span [innerHTML]="'Forum.Loading' | translate"></span>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="isAnyErrorPresent" class="page-card flex">
+        <i class='fa fa-times'></i>
+        <span [innerHTML]="'Forum.Error' | translate"></span>
+    </div>
+
+    <!-- EMPTY -->
+    <div *ngIf="isThreadsEmpty" class="page-card flex">
+        <span [innerHTML]="'Forum.NoData' | translate"></span>
+    </div>
+
+    <!-- User not logged -->
+    <div *ngIf="!isUserLoggedIn && isThreadsLoaded" class="page-card flex">
+        <span [innerHTML]="'Forum.UserNotLoggedIn' | translate"></span>
+    </div>
+
+    <!-- ALL OK -->
+    <div *ngIf="!isThreadsEmpty && !isAnyErrorPresent && isThreadsLoaded">
+        <div *ngFor="let thread of threads">
+            <app-forum-thread-view [isAnonymous]="thread.author.is_anonymous" [image]="thread.author.photoURL" [author]="thread.author.fullname"
+                [title]="thread.title" [content]="thread.description" [threadID]="thread.code" [isModerator]="true" routerLink="../moderatorPageDetail/{{thread.code}}">
+            </app-forum-thread-view>
+        </div>
+    </div>
+</div>

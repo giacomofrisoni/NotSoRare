@@ -7,8 +7,14 @@
         </h2>
     </div>
 
+    <!-- MODERATOR -->
+    <div *ngIf="isModerator" class="page-card centered">
+        <span [innerHTML]="'Common.ModeratorCannot' | translate"></span>
+    </div>
+
+
     <!-- Not logged status -->
-    <div *ngIf="!isPageLoading && !isUserLoggedIn" class="middle">
+    <div *ngIf="!isPageLoading && !isUserLoggedIn && !isModerator" class="middle">
 
         <h2 [innerHTML]="'Home.Title' | translate"></h2>
 

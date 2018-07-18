@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
   isAnyErrorPresent: boolean = false;
   isUserLoggedIn: boolean = false;
   isProfileMine: boolean = false;
+  isModerator = false;
 
   isPublicSelected: boolean = false;
   itemChecked: number = 0;
@@ -47,40 +48,48 @@ export class ProfileComponent implements OnInit {
       if (!isNaN(requestedUserId)) {
         // Now try to get logged in status
         this.userService.getLoggedInStatus("Profile").subscribe((user: any) => {
-          if (user.loggedIn) {
-            // Ok, logged in
-            this.isUserLoggedIn = true;
-            this.isProfileMine = requestedUserId == user.loggedIn;
-            this.profileHolder.setCurrentProfileData(user.loggedIn, requestedUserId);
+          // Admin cannot access
+          if (!user.codDisease) {
+            if (user.loggedIn) {
+              // Ok, logged in
+              this.isUserLoggedIn = true;
+              this.isProfileMine = requestedUserId == user.loggedIn;
+              this.profileHolder.setCurrentProfileData(user.loggedIn, requestedUserId);
 
-            // Get data of user
-            this.userService.getUserData(requestedUserId).subscribe((result: User) => {
-              if (result) {
-                this.user = result;
-                this.user.id = user.loggedIn;
+              // Get data of user
+              this.userService.getUserData(requestedUserId).subscribe((result: User) => {
+                if (result) {
+                  this.user = result;
+                  this.user.id = user.loggedIn;
 
-                // If i'm owner of this account
-                if (this.isProfileMine) {
-                  this.isPublicSelected = !this.user.IsAnonymous;
-                  this.itemChecked = this.isPublicSelected ? 0 : 1;
+                  // If i'm owner of this account
+                  if (this.isProfileMine) {
+                    this.isPublicSelected = !this.user.IsAnonymous;
+                    this.itemChecked = this.isPublicSelected ? 0 : 1;
+                  }
+                } else {
+                  this.isAnyErrorPresent = true;
+                  console.log("Unexpected type");
                 }
-              } else {
+
+                this.isProfileLoaded = true;
+              }, error => {
+                this.isProfileLoaded = true;
                 this.isAnyErrorPresent = true;
-                console.log("Unexpected type");
-              }
+                this.isUserLoggedIn = false;
+                console.log(error);
+              });
 
+            } else {
               this.isProfileLoaded = true;
-            }, error => {
-              this.isProfileLoaded = true;
-              this.isAnyErrorPresent = true;
               this.isUserLoggedIn = false;
-              console.log(error);
-            });
-
+              console.log("user not logged in");
+            }
           } else {
             this.isProfileLoaded = true;
             this.isUserLoggedIn = false;
-            console.log("user not logged in");
+            this.isModerator = true;
+            console.log("moderator cannot into profile");
           }
         }, error => {
           this.isProfileLoaded = true;

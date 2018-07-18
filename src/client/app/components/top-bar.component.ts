@@ -22,11 +22,12 @@ export class TopBarComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   isUserNotLoggedIn: boolean = false;
   avaiableTranslations: Subject<any> = new Subject<any>();
+  isModerator = false;
 
   userID: number;
 
   constructor(
-    private userService: UserService, 
+    private userService: UserService,
     private languageService: LanguageService,
     private cookiesUtils: CookiesUtilsService,
     private location: Location,
@@ -66,13 +67,20 @@ export class TopBarComponent implements OnInit {
   }
 
   private getLoginStatus() {
-    this.userService.getLoggedInStatus("TopBar").subscribe((userID: any) => {
-      this.isUserLoggedIn = userID.loggedIn ? true : false;
+    this.userService.getLoggedInStatus("TopBar").subscribe((user: any) => {
+      this.isUserLoggedIn = user.loggedIn ? true : false;
       this.isUserNotLoggedIn = !this.isUserLoggedIn;
-      this.userID = userID.loggedIn;
+      this.userID = user.loggedIn;
+
+      // Admin cannot access
+      if (user.codDisease) {
+        this.isModerator = true;
+      } else {
+        this.isModerator = false;
+      }
 
       if (this.isUserLoggedIn) {
-        this.notificator.sendRequest(userID.loggedIn);
+        this.notificator.sendRequest(user.loggedIn);
         /*
         this.notificator.getNotificationsForEvent("add-user");
         this.notificator.getNotificationsForEvent("forumReplyNotification");
@@ -90,6 +98,10 @@ export class TopBarComponent implements OnInit {
     //this.router.navigate(['/profile', this.userID]);
     this.location.go("/profile/" + this.userID);
     window.location.reload();
+  }
+
+  onLogoutClick() {
+    
   }
 
 }
