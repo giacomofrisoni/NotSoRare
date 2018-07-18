@@ -12,7 +12,7 @@ const sql = require('../sql');
 const queryResultHandler = require('../utilities/tedious_query_result_util');
 
 
-function login(req, res) {
+function loginUser(req, res) {
 
      /**
       * Prepares the SQL statement with parameters for SQL-injection avoidance,
@@ -86,6 +86,71 @@ function login(req, res) {
 }
 
 
+function loginModerator(req, res) {
+
+    /**
+     * Prepares the SQL statement with parameters for SQL-injection avoidance,
+     * in order to get the stored hashed user password if already exists an account with the specified email address.
+     */
+   checkRequest = new Request("SELECT CodModerator, Password FROM Moderator WHERE Email = @Email;", (queryError, rowCount, rows) => {
+       if (queryError) {
+           res.status(500).send({
+               errorMessage: req.i18n.__("Err_Login_DataRetrieving", queryError)
+           });
+       } else {
+
+           /**
+            * The operation concerns a single row.
+            * If zero rows are affected, it means that there is no user with the specified email.
+            */
+           if (rowCount == 0) {
+               res.status(401).send({
+                   errorMessage: req.i18n.__("Err_Login_InvalidEmailPassword")
+               });
+           } else {
+
+               var userData = [];
+
+               // Parses the data from each of the row and populate the user data json array 
+               queryResultHandler.fillArrayFromRows(userData, rowCount, rows, null, true, () => {
+                   return res.status(500).send({
+                       errorMessage: req.i18n.__("Err_Login_DataRetrieving", "Invalid data")
+                   });
+               });
+
+               // Checks for password mathing
+               bcrypt.compare(req.body.password, userData[0].Password, (bcryptError, match) => {
+                   if (bcryptError) {
+                       res.status(500).send({
+                           errorMessage: bcryptError
+                       });
+                   } else {
+                       if (match) {
+                           req.session.user = userData[0].CodModerator; // Stores the code of the logged user into the session
+                           res.status(200).send({
+                               CodModerator: userData[0].CodModerator,
+                               infoMessage: req.i18n.__("Login_Completed", userData[0].CodUser)
+                           });
+                       } else {
+                           res.status(401).send({
+                               errorMessage: req.i18n.__("Err_Login_InvalidEmailPassword")
+                           });
+                       }
+                   }
+               });
+
+           }
+
+       }
+   });
+   checkRequest.addParameter('Email', TYPES.NVarChar, req.body.email);
+
+   // Performs the password retrieval operation on the relational database
+   sql.connection.execSql(checkRequest);
+
+}
+
+
 function isLoggedIn(req, res) {
     res.status(200).send({
         loggedIn: req.session.user
@@ -109,7 +174,8 @@ function logout(req, res) {
 
 
 module.exports = {
-    login,
+    loginUser,
+    loginModerator,
     isLoggedIn,
     logout
 };

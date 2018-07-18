@@ -25,6 +25,8 @@ const app = express();
  */
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+io.set('origins', 'http://localhost:3000');
+
 
 /**
  * Attaches the i18n property to the express request object.
@@ -80,6 +82,13 @@ app.use((req, res, next) => {
     } else {
         req.i18n.setLocaleFromCookie();
     }
+    next();
+});
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept-Type');
+    res.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
 

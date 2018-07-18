@@ -74,6 +74,7 @@ export class TopBarComponent implements OnInit {
       if (this.isUserLoggedIn) {
         this.notificator.sendRequest(userID.loggedIn);
 
+        /*
         this.notificator.getNotificationsForEvent("add-user").subscribe(data => {
           console.log("add user");
           console.log(data);
@@ -88,7 +89,7 @@ export class TopBarComponent implements OnInit {
         }, error => {
           console.log("froum");
           console.log(error);
-        });
+        });*/
       }
     });
   }
