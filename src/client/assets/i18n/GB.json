@@ -10,7 +10,8 @@
     "Home": {
         "PageLoading": "Loading...",
         "Loading": "Searching the rare diseases in our database...",
-        "NoData": "No matches found. <a href='#' routerLink='/disease-search'>Go to the complete list</a>",
+        "NoData": "No matches found. ",
+        "GoToFullList": "Go to full disease list",
         "Title": "Rare diseases are not so rare if we face them <b>together</b>",
         "Subtitle": "Follow your diseases and inquire about particular ones, discover the best organisations and medics for your disease and speak with others, share your experience, get involved and much more",
         "Placeholder": "Type the name of the disease here"
@@ -94,7 +95,7 @@
         "ExperiencesCounter": "experiences",
         "ThreadsCounter": "threads",
         "Follow": "Follow",
-        "Unfollow": "Stop follow",
+        "Unfollow": "Unfollow",
         "Information": "Information",
         "Experiences": "Experiences",
         "ExpertCentres": "Expert centres",

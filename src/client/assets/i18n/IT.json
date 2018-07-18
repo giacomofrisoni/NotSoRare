@@ -10,7 +10,8 @@
     "Home": {
         "PageLoading": "Caricamento...",
         "Loading": "Ricerca della malattia inserita...",
-        "NoData": "Nessuna corrispondenza trovata. <a href='#' routerLink='/disease-search'>Vai all'elenco completo</a>",
+        "NoData": "Nessuna corrispondenza trovata. ",
+        "GoToFullList": "Vai alla lista completa delle malattie",
         "Title": "Le malattie rare non sono così rare se affrontate <b>insieme</b>",
         "Subtitle": "Segui le malattine di tuo interesse e informati su un particolare disturbo, scopri i migliori centri specializzati e i medici di riferimento per la tua patologia, entra in contatto con altri malati rari, condividi la tua esperienza, partecipa alle discussioni e tanto altro ancora.",
         "Placeholder": "Inserisci il nome della malattia"

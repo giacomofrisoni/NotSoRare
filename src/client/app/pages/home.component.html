@@ -29,8 +29,8 @@
 
         <div class="searching" [ngClass]="{'hidden': !isValueNotFound}">
             <i class='fa fa-times accent'></i>
-            <span>LOL</span>
-            <a href="#" routerLink="/disease-search">Vai all'elenco completo</a>
+            <span [innerHTML]="'Home.NoData' | translate"></span>
+            <a href="#" routerLink="/disease-search" [innerHTML]="'Home.GoToFullList' | translate"> Vai all'elenco completo</a>
         </div>
     </div>
 
@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <h4 [innerHTML]="'HomeLoggedIn.Research' | translate"></h4>
+        <h4 class="top-margined" [innerHTML]="'HomeLoggedIn.Research' | translate"></h4>
 
         <app-search-bar (onResultClicked)="openDisease($event[0])" (onSearchClicked)="onSearchClick($event[0])" (isLoadingStatus)="isLoadingChanged($event[0])"></app-search-bar>
 
@@ -67,8 +67,8 @@
 
         <div class="searching" [ngClass]="{'hidden': !isValueNotFound}">
             <i class='fa fa-times accent'></i>
-            <span>LOL</span>
-            <a href="#" routerLink="/disease-search">Vai all'elenco completo</a>
+            <span [innerHTML]="'Home.NoData' | translate"></span>
+            <a href="#" routerLink="/disease-search" [innerHTML]="'Home.GoToFullList' | translate"></a>
         </div>
     </div>
 </div>

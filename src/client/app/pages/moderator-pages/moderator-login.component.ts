@@ -117,7 +117,7 @@ export class ModeratorLoginComponent implements OnInit {
         this.unsubscribeAll();
 
         // Navigate to the home page
-        this.router.navigate(['./home']);
+        this.router.navigate(['./moderatorPage']);
 
         // For everyone that watches the login status I'm going to refresh it!
         this.userService.getLoggedInStatus("login");
