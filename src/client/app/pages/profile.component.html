@@ -83,7 +83,7 @@
                     <span class="centered" *ngIf="isPublicSelected" [innerHTML]="'Profile.AccountPublicInfo' | translate"></span>
                     <span class="centered" *ngIf="!isPublicSelected" [innerHTML]="'Profile.AccountPrivateInfo' | translate"></span>
 
-                    <div class="button">
+                    <div *ngIf="!isSavingProfile" class="button">
                         <app-divbutton isBordered="true" [text]="'Profile.Save' | translate" (click)="onSaveAccountType()"></app-divbutton>
                     </div>
 
