@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Disease } from '../../models/disease';
 import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { ReferencesService } from '../../services/references.service';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-references',
@@ -19,16 +20,19 @@ export class ReferencesComponent implements OnInit {
   references: any[];
   disease: Disease;
 
+  subDiseaseHolder: Subscription;
+  subReferencesService: Subscription;
+
   constructor(private referencesService: ReferencesService, private diseaseHolder: DiseaseHolderService) { }
 
   ngOnInit() {
-    this.diseaseHolder.getDisease().subscribe(disease => {
+    this.subDiseaseHolder = this.diseaseHolder.getDisease().subscribe(disease => {
       //Save for future reference
       if (disease != null) {
         this.disease = disease;
 
         // Get the experience
-        this.referencesService.getAllReferences(this.disease.general.CodDisease).subscribe((result: any) => {
+        this.subReferencesService = this.referencesService.getAllReferences(this.disease.general.CodDisease).subscribe((result: any) => {
           if (result) {
             this.references = result;
           } else {
@@ -58,5 +62,15 @@ export class ReferencesComponent implements OnInit {
 
   setOnErroStatus(message) {
     this.setWindowStatus(true, false, true, message);
+  }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subDiseaseHolder) this.subDiseaseHolder.unsubscribe()
+    if (this.subReferencesService) this.subReferencesService.unsubscribe()
   }
 }

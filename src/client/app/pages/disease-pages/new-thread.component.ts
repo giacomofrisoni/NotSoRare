@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { UserService } from '../../services/user.service';
 import { Disease } from '../../models/disease';
-import { ExperiencesService } from '../../services/experiences.service';
 import { Router } from '@angular/router';
+import { Subscription } from '../../../../../node_modules/rxjs';
+import { ForumService } from '../../services/forum.service';
 
 @Component({
   selector: 'app-new-thread',
@@ -26,21 +27,27 @@ export class NewThreadComponent implements OnInit {
   disease: Disease;
   userID: number;
 
+  // Subscriptions
+  subDiseaseHolder: Subscription;
+  subUserService: Subscription;
+  subForumService: Subscription;
+
+
   constructor(
     private diseaseHolder: DiseaseHolderService,
     private userService: UserService,
-    private experiencesService: ExperiencesService,
+    private forumService: ForumService,
     private router: Router) { }
 
   ngOnInit() {
     // Try to get disease, when ready
-    this.diseaseHolder.getDisease().subscribe(disease => {
+    this.subDiseaseHolder = this.diseaseHolder.getDisease().subscribe(disease => {
       if (disease != null) {
         // Save for future reference
         this.disease = disease;
 
         // Check for user login
-        this.userService.getLoggedInStatus("NewThread").subscribe((user: any) => {
+        this.subUserService = this.userService.getLoggedInStatus("NewThread").subscribe((user: any) => {
           if (user.loggedIn) {
             this.isUserLoggedIn = true;
             this.userID = user.loggedIn;
@@ -70,7 +77,7 @@ export class NewThreadComponent implements OnInit {
       if (this.threadText != "" && this.threadTitle != "") {
         // Yes! Sending
         this.isSubmitting = true;
-        this.experiencesService.addNewThread(this.disease.general.CodDisease, this.userID, this.threadTitle, this.threadText).subscribe(result => {
+        this.subForumService = this.forumService.addNewThread(this.disease.general.CodDisease, this.userID, this.threadTitle, this.threadText).subscribe(result => {
           // All ok
           this.router.navigate(["/disease/" + this.disease.general.CodDisease + "/forum"]);
         }, error => {
@@ -93,5 +100,16 @@ export class NewThreadComponent implements OnInit {
       this.isEmpty = true;
       this.isSubmitting = false;
     }
+  }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subDiseaseHolder) this.subDiseaseHolder.unsubscribe();
+    if (this.subForumService) this.subForumService.unsubscribe();
+    if (this.subUserService) this.subUserService.unsubscribe();
   }
 }

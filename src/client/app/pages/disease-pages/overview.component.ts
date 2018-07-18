@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Disease } from '../../models/disease';
 import { DiseaseHolderService } from '../../services/disease-holder.service';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -16,12 +17,15 @@ export class OverviewComponent implements OnInit {
   // Binding disease
   disease: Disease;
 
+  // Subscriptions
+  subDiseaseHolder: Subscription;
+
   constructor(private diseaseHolder: DiseaseHolderService) {
-    this.diseaseHolder.getDisease().subscribe((disease: Disease) => {
+    this.subDiseaseHolder = this.diseaseHolder.getDisease().subscribe((disease: Disease) => {
       if (disease != null) {
         this.disease = disease;
         this.isDiseaseLoaded = true;
-      } 
+      }
     }, error => {
       this.isDiseaseLoaded = true;
       this.isAnyErrorPresent = true;
@@ -35,6 +39,15 @@ export class OverviewComponent implements OnInit {
 
   scrollToTop() {
     window.scrollTo(0, 0);
+  }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subDiseaseHolder) this.subDiseaseHolder.unsubscribe();
   }
 
 }

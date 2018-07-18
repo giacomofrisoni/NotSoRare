@@ -3,6 +3,7 @@ import { Disease } from '../../models/disease';
 import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { ExperiencesService } from '../../services/experiences.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-experience',
@@ -20,6 +21,11 @@ export class ExperienceComponent implements OnInit {
   experience: any = {};
   disease: Disease;
 
+  // Subscriptions
+  subDiseaseHolder: Subscription;
+  subRoute: Subscription;
+  subExperiencesService: Subscription;
+
   constructor(
     private diseaseHolder: DiseaseHolderService, 
     private experiencesService: ExperiencesService, 
@@ -28,25 +34,25 @@ export class ExperienceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.diseaseHolder.getDisease().subscribe(disease => {
+    this.subDiseaseHolder = this.diseaseHolder.getDisease().subscribe(disease => {
       if (disease != null) {
         //Save for future reference
         this.disease = disease;
 
-        this.route.params.subscribe(params => {
+        this.subRoute = this.route.params.subscribe(params => {
           let codUser: number = Number(params['codUser']);
 
           // Convert to number
           if (!isNaN(codUser)) {
             // Get the experience
-            this.experiencesService.getExperience(this.disease.general.CodDisease, codUser).subscribe((result: any) => {
+            this.subExperiencesService = this.experiencesService.getExperience(this.disease.general.CodDisease, codUser).subscribe((result: any) => {
               if (result) {
                 this.experience = result;
               } else {
                 this.setOnErroStatus("Not valid type");
               }
 
-              this.setWindowStatus(true, false, false, "Success!");
+              this.setWindowStatus(true, false, false);
             }, error => {
               console.log(error);
               this.setOnErroStatus("Error retriving experience");
@@ -65,8 +71,9 @@ export class ExperienceComponent implements OnInit {
     });
   }
 
-  openProfile() {
+  openProfile(event: any) {
     this.router.navigate(["profile/" + this.experience.CodUser]);
+    event.stopPropagation();
   }
 
   setWindowStatus(isExperienceLoaded, isExperienceEmpty, isAnyErrorPresent, message?) {
@@ -79,6 +86,17 @@ export class ExperienceComponent implements OnInit {
 
   setOnErroStatus(message) {
     this.setWindowStatus(true, false, true, message);
+  }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subDiseaseHolder) this.subDiseaseHolder.unsubscribe();
+    if (this.subExperiencesService) this.subExperiencesService.unsubscribe();
+    if (this.subRoute) this.subRoute.unsubscribe();
   }
 
 }

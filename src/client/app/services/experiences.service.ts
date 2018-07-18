@@ -34,15 +34,4 @@ export class ExperiencesService {
       withCredentials: true,
     });
   }
-
-  addNewThread(diseaseID: number, userID: number, threadTitle: string, threadText) {
-    return this.http.post(this.globalUtils.apiPath + "/forumThreads/" + this.globalUtils.createLanguageParameter(), {
-      codDisease: diseaseID,
-      codUser: userID,
-      title: threadTitle,
-      description: threadText
-    },{
-      withCredentials: true,
-    });
-  }
 }

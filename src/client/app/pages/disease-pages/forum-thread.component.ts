@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Disease } from '../../models/disease';
 import { ForumThreadDetails } from '../../models/forum-thread-details';
 import { ForumService } from '../../services/forum.service';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-forum-thread',
@@ -37,16 +38,22 @@ export class ForumThreadComponent implements OnInit {
   thread: ForumThreadDetails;
   replyContent: string;
 
+  // Subscriptions
+  subDiseaseHolder: Subscription;
+  subRoute: Subscription;
+  subForumService: Subscription;
+  subUserService: Subscription;
+
 
   ngOnInit() {
     // Try to get disease, when ready
-    this.diseaseHolder.getDisease().subscribe(disease => {
+    this.subDiseaseHolder = this.diseaseHolder.getDisease().subscribe(disease => {
       if (disease != null) {
         // Save for future reference
         this.disease = disease;
 
         // Check for user login
-        this.userService.getLoggedInStatus("Forum").subscribe((user: any) => {
+        this.subUserService = this.userService.getLoggedInStatus("Forum").subscribe((user: any) => {
           if (user.loggedIn) {
             this.isUserLoggedIn = true;
             this.userID = user.loggedIn;
@@ -62,7 +69,7 @@ export class ForumThreadComponent implements OnInit {
             this.isAnyErrorPresent = false;
 
             // Try to get the param
-            this.route.params.subscribe(params => {
+            this.subRoute = this.route.params.subscribe(params => {
               let codThread: number = Number(params['codThread']);
 
               // Convert to number
@@ -71,7 +78,7 @@ export class ForumThreadComponent implements OnInit {
                 this.threadID = codThread;
 
                 // Try to get details for the thread
-                this.forumService.getThread(this.disease.general.CodDisease, codThread).subscribe((result: ForumThreadDetails) => {
+                this.subForumService = this.forumService.getThread(this.disease.general.CodDisease, codThread).subscribe((result: ForumThreadDetails) => {
                   if (result) {
                     this.thread = result;
                   } else {
@@ -160,6 +167,18 @@ export class ForumThreadComponent implements OnInit {
     } else {
       this.isReplyEmpty = true;
     }
+  }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subDiseaseHolder) this.subDiseaseHolder.unsubscribe();
+    if (this.subForumService) this.subForumService.unsubscribe();
+    if (this.subRoute) this.subRoute.unsubscribe();
+    if (this.subUserService) this.subUserService.unsubscribe();
   }
 
 

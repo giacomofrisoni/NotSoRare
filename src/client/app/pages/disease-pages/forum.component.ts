@@ -5,6 +5,7 @@ import { Disease } from '../../models/disease';
 import { ForumThread } from '../../models/forum-thread';
 import { UserService } from '../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-forum',
@@ -24,6 +25,12 @@ export class ForumComponent implements OnInit {
   disease: Disease;
   threads: ForumThread[];
 
+  // Subscriptions
+  subDiseaseHolder: Subscription;
+  subForumService: Subscription;
+  subUserService: Subscription;
+
+
   constructor(
     private forumService: ForumService,
     private diseaseHolder: DiseaseHolderService,
@@ -33,13 +40,13 @@ export class ForumComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.diseaseHolder.getDisease().subscribe(disease => {
+    this.subDiseaseHolder = this.diseaseHolder.getDisease().subscribe(disease => {
       if (disease != null) {
         // Save for future reference
         this.disease = disease;
 
         // Check for user login
-        this.userService.getLoggedInStatus("Forum").subscribe((user: any) => {
+        this.subUserService = this.userService.getLoggedInStatus("Forum").subscribe((user: any) => {
           if (!user.codDisease) {
             if (user.loggedIn) {
               this.isUserLoggedIn = true;
@@ -51,7 +58,7 @@ export class ForumComponent implements OnInit {
               this.isThreadsEmpty = false;
 
               // Try to get all threads
-              this.forumService.getAllThreads(this.disease.general.CodDisease).subscribe((results: ForumThread[]) => {
+              this.subForumService = this.forumService.getAllThreads(this.disease.general.CodDisease).subscribe((results: ForumThread[]) => {
                 if (results) {
                   if (results.length > 0) {
                     this.threads = results;
@@ -99,5 +106,17 @@ export class ForumComponent implements OnInit {
   onThreadClick(threadCode: number) {
     this.router.navigate(['./' + threadCode], { relativeTo: this.activatedRoute });
   }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subDiseaseHolder) this.subDiseaseHolder.unsubscribe();
+    if (this.subForumService) this.subForumService.unsubscribe();
+    if (this.subUserService) this.subUserService.unsubscribe();
+  }
+
 
 }

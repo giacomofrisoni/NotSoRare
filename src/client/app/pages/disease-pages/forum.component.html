@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isThreadsLoaded" class="add-button">
+    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isThreadsLoaded && isUserLoggedIn" class="add-button">
         <app-divbutton icon="fa fa-plus-circle" [text]="'Forum.NewThread' | translate"  routerLink="../newForumThread"></app-divbutton>
     </div>
 

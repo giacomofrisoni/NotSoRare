@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { Disease } from '../../models/disease';
 import { ExperiencesService } from '../../services/experiences.service';
 import { Router } from '@angular/router';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-new-experience',
@@ -25,6 +26,11 @@ export class NewExperienceComponent implements OnInit {
   disease: Disease;
   userID: number;
 
+  // Subscriptions
+  subDiseaseHolder: Subscription;
+  subUserService: Subscription;
+  subExperiencesService: Subscription;
+
   constructor(
     private diseaseHolder: DiseaseHolderService,
     private userService: UserService,
@@ -33,13 +39,13 @@ export class NewExperienceComponent implements OnInit {
 
   ngOnInit() {
     // Try to get disease, when ready
-    this.diseaseHolder.getDisease().subscribe(disease => {
+    this.subDiseaseHolder = this.diseaseHolder.getDisease().subscribe(disease => {
       if (disease != null) {
         // Save for future reference
         this.disease = disease;
 
         // Check for user login
-        this.userService.getLoggedInStatus("NewExperience").subscribe((user: any) => {
+        this.subUserService = this.userService.getLoggedInStatus("NewExperience").subscribe((user: any) => {
           if (user.loggedIn) {
             this.isUserLoggedIn = true;
             this.userID = user.loggedIn;
@@ -69,7 +75,7 @@ export class NewExperienceComponent implements OnInit {
       if (this.experienceText != "") {
         // Yes! Sending
         this.isSubmitting = true;
-        this.experiencesService.addNewExperience(this.disease.general.CodDisease, this.userID, this.experienceText).subscribe(result => {
+        this.subExperiencesService = this.experiencesService.addNewExperience(this.disease.general.CodDisease, this.userID, this.experienceText).subscribe(result => {
           // All ok
           this.router.navigate(["/disease/" + this.disease.general.CodDisease + "/experiences"]);
         }, error => {
@@ -92,6 +98,17 @@ export class NewExperienceComponent implements OnInit {
       this.isEmpty = true;
       this.isSubmitting = false;
     }
+  }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subDiseaseHolder) this.subDiseaseHolder.unsubscribe();
+    if (this.subExperiencesService) this.subExperiencesService.unsubscribe();
+    if (this.subUserService) this.subUserService.unsubscribe();
   }
 
 }

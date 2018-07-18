@@ -4,6 +4,8 @@ import { ExperiencesService } from '../../services/experiences.service';
 import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { Disease } from '../../models/disease';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-experiences',
@@ -16,9 +18,9 @@ export class ExperiencesComponent implements OnInit {
   isExperiencesLoaded: boolean = false;
   isExperiencesEmpty: boolean = false;
   isAnyErrorPresent: boolean = false;
+  isUserLoggedIn = false;
 
   // Binding
-
   experiences: ExperiencePreview[] = new Array();
   disease: Disease;
   selectedItem: any;
@@ -35,39 +37,58 @@ export class ExperiencesComponent implements OnInit {
     }
   ];
 
+  //Subscribes
+  subDiseaseHolder: Subscription;
+  subRoute: Subscription;
+  subExperiencesService: Subscription;
+  subUserService: Subscription;
 
-  constructor(private diseaseHolder: DiseaseHolderService, private experiencesService: ExperiencesService, private router: Router) { }
+
+  constructor(
+    private diseaseHolder: DiseaseHolderService,
+    private experiencesService: ExperiencesService,
+    private router: Router,
+    private userService: UserService) { }
 
   ngOnInit() {
-    this.diseaseHolder.getDisease().subscribe(disease => {
+    this.subDiseaseHolder = this.diseaseHolder.getDisease().subscribe(disease => {
       if (disease != null) {
         //Save for future reference
         this.disease = disease;
 
         //Try to get all experiences
-        this.experiencesService.getAllExperiences(this.disease.general.CodDisease).subscribe((results: ExperiencePreview[]) => {
-          // If the type is ok
-          if (results) {
-            // If something is inside
-            if (results.length > 0) {
-              this.experiences = results;
+        this.subExperiencesService = this.experiencesService.getAllExperiences(this.disease.general.CodDisease).subscribe((results: ExperiencePreview[]) => {
+
+          this.subUserService = this.userService.getLoggedInStatus("Experiences").subscribe((user: any) => {
+            this.isUserLoggedIn = user.loggedIn ? true : false;
+
+            // If the type is ok
+            if (results) {
+              // If something is inside
+              if (results.length > 0) {
+                this.experiences = results;
+              }
+              // Collection is empty
+              else {
+                this.experiences = [];
+                this.isExperiencesEmpty = true;
+              }
             }
-            // Collection is empty
+
+            // Wrong type
             else {
-              this.experiences = [];
-              this.isExperiencesEmpty = true;
+              this.isAnyErrorPresent = true;
+              console.log("Results non era del tipo previsto");
             }
-          }
 
-          // Wrong type
-          else {
+            // Anyway, finish to load
+            this.isExperiencesLoaded = true;
+          }, error => {
             this.isAnyErrorPresent = true;
-            console.log("Results non era del tipo previsto");
-          }
-
-          // Anyway, finish to load
-          this.isExperiencesLoaded = true;
-
+            this.isExperiencesLoaded = true;
+            this.isUserLoggedIn = false;
+            console.log(error);
+          });
         }, error => {
           // Error when getting experiences
           this.isAnyErrorPresent = true;
@@ -124,5 +145,17 @@ export class ExperiencesComponent implements OnInit {
       this.isExperiencesLoaded = true;
       console.log(error);
     });
+  }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subDiseaseHolder) this.subDiseaseHolder.unsubscribe();
+    if (this.subExperiencesService) this.subExperiencesService.unsubscribe();
+    if (this.subRoute) this.subRoute.unsubscribe();
+    if (this.subUserService) this.subUserService.unsubscribe();
   }
 }

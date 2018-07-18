@@ -19,6 +19,17 @@ export class ForumService {
     });
   }
 
+  addNewThread(diseaseID: number, userID: number, threadTitle: string, threadText) {
+    return this.http.post(this.globalUtils.apiPath + "/forumThreads/" + this.globalUtils.createLanguageParameter(), {
+      codDisease: diseaseID,
+      codUser: userID,
+      title: threadTitle,
+      description: threadText
+    },{
+      withCredentials: true,
+    });
+  }
+
   postReplyToThread(userID: number, diseaseID: number, threadID: number, message: string) {
     return this.http.post(this.globalUtils.apiPath + "/forumMessages/" + this.globalUtils.createLanguageParameter(), {
       codUser: userID,

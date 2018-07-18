@@ -3,6 +3,7 @@ import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { Disease } from '../../models/disease';
 import { ExpertCentre } from '../../models/expert-centre';
 import { ExpertCentresService } from '../../services/expert-centres.service';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-expert-centres',
@@ -20,16 +21,20 @@ export class ExpertCentresComponent implements OnInit {
   disease: Disease;
   expertCentres: ExpertCentre[];
 
+  //Subscribes
+  subDiseaseHolder: Subscription;
+  subExpertCentresService: Subscription;
+
   constructor(private diseaseHolder: DiseaseHolderService, private expertCentresService: ExpertCentresService) { }
 
   ngOnInit() {
-    this.diseaseHolder.getDisease().subscribe(disease => {
+    this.subDiseaseHolder = this.diseaseHolder.getDisease().subscribe(disease => {
       if (disease != null) {
         //Save for future reference
         this.disease = disease;
 
         //Try to get all experiences
-        this.expertCentresService.getAllExpertCentres(this.disease.general.CodDisease).subscribe((results: ExpertCentre[]) => {
+        this.subExpertCentresService = this.expertCentresService.getAllExpertCentres(this.disease.general.CodDisease).subscribe((results: ExpertCentre[]) => {
           // If the type is ok
           if (results) {
             // If something is inside
@@ -65,6 +70,16 @@ export class ExpertCentresComponent implements OnInit {
       this.isExpertCentresLoaded = true;
       console.log(error);
     })
+  }
+
+  ngOnDestroy() {
+    // Reset all subscriptions
+    this.unsubscribeAll();
+  }
+
+  private unsubscribeAll() {
+    if (this.subDiseaseHolder) this.subDiseaseHolder.unsubscribe();
+    if (this.subExpertCentresService) this.subExpertCentresService.unsubscribe();
   }
 
 }
