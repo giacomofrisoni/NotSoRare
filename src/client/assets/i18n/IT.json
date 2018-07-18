@@ -174,9 +174,15 @@
     },
 
     "NewThread": {
+        "PageLoading": "Caricamento pagina...",
+        "PageLoadingError": "Errore durante il caricamento della pagina",
         "Title": "Crea nuova discussione",
         "TitleText": "Titolo",
-        "Content": "Testo"
+        "Content": "Testo",
+        "Submit": "Invia",
+        "Submitting": "Invio in corso...",
+        "SubmitError": "C'è stato un problema durante l'invio della nuova discussione.",
+        "Empty": "La creazione della discussione non ammette campi vuoti."
     },
 
 

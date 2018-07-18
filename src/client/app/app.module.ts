@@ -81,11 +81,9 @@ const appRoutes: Routes = [
       { path: 'experiences', component: ExperiencesComponent },
       { path: "newExperience", component: NewExperienceComponent },
       { path: 'experiences/:codUser', component: ExperienceComponent },
-      {
-        path: 'forum', component: ForumComponent, children: [
-          { path: 'newThread', component: NewThreadComponent }]
-      },
+      { path: 'forum', component: ForumComponent },
       { path: 'forum/:codThread', component: ForumThreadComponent },
+      { path: 'newForumThread', component: NewThreadComponent },
       { path: 'references', component: ReferencesComponent }]
   },
   { path: '**', component: NotFoundComponent }

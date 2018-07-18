@@ -174,9 +174,15 @@
     },
 
     "NewThread": {
+        "PageLoading": "Loading page...",
+        "PageLoadingError": "An error occurred during page loading",
         "Title": "Create new thread",
         "TitleText": "Title",
-        "Content": "Text"
+        "Content": "Text",
+        "Submit": "submit",
+        "Submitting": "Invio in corso...",
+        "SubmitError": "An error occured when submitting new thread",
+        "Empty": "Creation of new thread doesn't allow empty fields"
     },
 
     "References": {

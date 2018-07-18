@@ -1,10 +1,35 @@
 <div class="container">
     <h3 [innerHTML]="'NewThread.Title' | translate"></h3>
-    <div class="page-card">
-        <span [innerHTML]="'NewThread.TitleText' | translate"></span>
-        <input type="text"/>
+    <div *ngIf="isPageLoading" class="page-card centered">
+        <i class='fa fa-spinner fa-spin'></i>
+        <span [innerHTML]="'NewThread.Loading' | translate"></span>
+    </div>
 
-        <span [innerHTML]="'NewThread.Content' | translate"></span>
-        <textarea></textarea>
+    <div *ngIf="!isPageLoading && !isUserLoggedIn" class="page-card centered">
+        <span [innerHTML]="'NewThread.UserNotLoggedIn' | translate"></span>
+    </div>
+
+    <div *ngIf="!isPageLoading && isPageErrorPresent && isUserLoggedIn" class="page-card centered">
+        <span [innerHTML]="'NewThread.PageError' | translate"></span>
+    </div>
+
+    <div *ngIf="!isPageLoading && !isPageErrorPresent && isUserLoggedIn">
+        <div class="page-card">
+            <label [innerHTML]="'NewThread.TitleText' | translate"></label>
+            <input type="text" [(ngModel)]="threadTitle"/>
+
+            <label [innerHTML]="'NewThread.Content' | translate"></label>
+            <textarea [(ngModel)]="threadText"></textarea>
+
+            <span *ngIf="isSubmitting" [innerHTML]="'NewThread.Submitting' | translate"></span>
+            <span *ngIf="isAnyErrorPresent" [innerHTML]="'NewThread.SubmitError' | translate"></span>
+            <span *ngIf="isEmpty" [innerHTML]="'NewThread.TooShort' | translate"></span>
+
+            <div class="flex end-aligned">
+                <div class="submit-button">
+                    <app-divbutton icon="fa fa-pencil" [text]="'NewThread.Submit' | translate" (click)="onSubmit()"></app-divbutton>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

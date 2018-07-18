@@ -14,7 +14,9 @@
     <!-- EMPTY -->
     <div *ngIf="isExperiencesEmpty" class="page-card centered">
         <span [innerHTML]="'Experiences.NoData' | translate"></span>
-        <app-divbutton text="Condividi la tua esperienza"></app-divbutton>
+        <div class="flex">
+            <app-divbutton icon="fa fa-pencil" [text]="'Experiences.NewExperience' | translate" routerLink="../newExperience"></app-divbutton>
+        </div>
     </div>
 
     <!-- Something-->

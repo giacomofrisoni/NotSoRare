@@ -1,0 +1,23 @@
+@import 'common-values';
+
+.container {
+    padding: 0px;
+}
+
+input {
+    @include setWidth(100%);
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+}
+
+textarea {
+    @include setWidth(100%);
+    min-height: 500px;
+}
+
+.submit-button {
+    margin-top: 10px;
+}

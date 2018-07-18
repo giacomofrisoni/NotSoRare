@@ -1,6 +1,6 @@
 <div class="container">
-    <div class="add-button">
-        <app-divbutton icon="fa fa-plus-circle" [text]="'Forum.NewThread' | translate"></app-divbutton>
+    <div *ngIf="!isExperiencesEmpty && !isAnyErrorPresent && isThreadsLoaded" class="add-button">
+        <app-divbutton icon="fa fa-plus-circle" [text]="'Forum.NewThread' | translate"  routerLink="../newForumThread"></app-divbutton>
     </div>
 
     <div class="page-card">
