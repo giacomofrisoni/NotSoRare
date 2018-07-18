@@ -79,7 +79,7 @@ export class UserService {
   }
 
   login(email: string, password: string) {
-    return this.http.post(`${this.globalUtils.apiPath}/login` + this.globalUtils.createLanguageParameter(), {
+    return this.http.post(`${this.globalUtils.apiPath}/loginUser` + this.globalUtils.createLanguageParameter(), {
       email: email,
       password: password
     }, {
@@ -88,7 +88,7 @@ export class UserService {
   }
 
   moderatorLogin(email: string, password: string) {
-    return this.http.post(`${this.globalUtils.apiPath}/login` + this.globalUtils.createLanguageParameter(), {
+    return this.http.post(`${this.globalUtils.apiPath}/loginModerator` + this.globalUtils.createLanguageParameter(), {
       email: email,
       password: password
     }, {
