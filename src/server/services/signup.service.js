@@ -87,7 +87,7 @@ function signup(req, res) {
                                          */
                                         insertRequest = new Request(
                                             "INSERT StandardUser (Id, Email, Password, Name, Surname, Gender, BirthDate, Nationality, RegistrationDate, PatientYN, " + (req.body.patientYN ? "" : "PatientName, PatientSurname, PatientGender, PatientBirthDate, PatientNationality, ") + "ActivationCode, Photo, Biography) " +
-                                            "VALUES (@Id, @Email, @Password, @Name, @Surname, @Gender, @BirthDate, @Nationality, CURRENT_TIMESTAMP, @PatientYN, " + (req.body.patientYN ? "" : "@PatientName, @PatientSurname, @PatientGender, @PatientBirthDate, @PatientNationality, ") + "@ActivationCode, " + (req.body.photo ? "@Photo" : "NULL") + ", " + (req.body.biography ? "@Biography" : "NULL") + ");", (queryError, rowCount) => {
+                                            "VALUES (@Id, @Email, @Password, @Name, @Surname, @Gender, @BirthDate, @Nationality, CURRENT_TIMESTAMP, @PatientYN, " + (req.body.patientYN ? "" : "@PatientName, @PatientSurname, @PatientGender, @PatientBirthDate, @PatientNationality, ") + "@ActivationCode, " + ((req.body.photoContentType && req.body.photoData) ? "@Photo" : "NULL") + ", " + (req.body.biography ? "@Biography" : "NULL") + ");", (queryError, rowCount) => {
                                             if (queryError) {
                                                 done(null, () => {
                                                     res.status(500).send({
@@ -219,9 +219,9 @@ function signup(req, res) {
                                             insertRequest.addParameter('PatientNationality', TYPES.NVarChar, req.body.patientNationality);
                                         }
                                         insertRequest.addParameter('ActivationCode', TYPES.NChar, activationCode);
-                                        if (req.body.photo) {
-                                            const url = "data:" + req.body.photoContentType + ";base64," + req.body.photoData;
-                                            insertRequest.addParameter('Photo', TYPES.VarBinary, url);
+                                        if (req.body.photoContentType && req.body.photoData) {
+                                            const url = "data:" + req.body.photoContentType + ";base64," + req.body.photoData.toString('base64');
+                                            insertRequest.addParameter('Photo', TYPES.NVarChar, url);
                                         }
                                         if (req.body.biography) {
                                             insertRequest.addParameter('Biography', TYPES.NVarChar, req.body.biography);
