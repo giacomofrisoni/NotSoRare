@@ -125,7 +125,20 @@
         "ShareYourExp": "Share your experience",
         "Filter": "Filter",
         "Ordering": "Select an ordering criteria",
-        "PublicationDate": "Publication date"
+        "PublicationDate": "Publication date",
+        "NewExperience": "Write your experience"
+    },
+
+    "NewExperience": {
+        "Loading": "Loading...",
+        "PageError": "An error occurred during loading the page",
+        "UserNotLoggedIn": "Only registered users can create new experiences",
+        "Title": "New experience",
+        "WriteHere": "Write here your experience",
+        "Submit": "submit",
+        "Submitting": "Submitting new experience...",
+        "SubmitError": "An error occurred when submitting new experience",
+        "TooShort": "Experience cannot be empty and must be at least 100 characters long"
     },
 
     "ExpertCentres": {
@@ -158,6 +171,12 @@
         "ReplyEmpty": "Reply message cannot be empty",
         "ReplyPosting": "Posting reply...",
         "ReplyPostingError": "An error occurred when posting the reply"
+    },
+
+    "NewThread": {
+        "Title": "Create new thread",
+        "TitleText": "Title",
+        "Content": "Text"
     },
 
     "References": {

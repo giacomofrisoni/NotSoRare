@@ -8,8 +8,7 @@ h4 {
     font-size: 1.2em;
 }
 
-.img {
-    background: gray;
+img {
     border-radius: 50%;
     @include setWidth(40px);
     @include setHeight(40px);

@@ -54,6 +54,8 @@ import { ProfileFollowedDiseasesComponent } from './pages/profile-pages/profile-
 import { ProfileThreadsComponent } from './pages/profile-pages/profile-threads.component';
 import { ProfileExperiencesComponent } from './pages/profile-pages/profile-experiences.component';
 import { ProfileHolderService } from './services/profile-holder.service';
+import { NewExperienceComponent } from './pages/disease-pages/new-experience.component';
+import { NewThreadComponent } from './pages/disease-pages/new-thread.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -77,8 +79,12 @@ const appRoutes: Routes = [
       { path: 'overview', component: OverviewComponent },
       { path: 'expert-centres', component: ExpertCentresComponent },
       { path: 'experiences', component: ExperiencesComponent },
+      { path: "newExperience", component: NewExperienceComponent },
       { path: 'experiences/:codUser', component: ExperienceComponent },
-      { path: 'forum', component: ForumComponent },
+      {
+        path: 'forum', component: ForumComponent, children: [
+          { path: 'newThread', component: NewThreadComponent }]
+      },
       { path: 'forum/:codThread', component: ForumThreadComponent },
       { path: 'references', component: ReferencesComponent }]
   },
@@ -118,6 +124,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileFollowedDiseasesComponent,
     ProfileThreadsComponent,
     ProfileExperiencesComponent,
+    NewExperienceComponent,
+    NewThreadComponent,
   ],
   imports: [
     BrowserModule,

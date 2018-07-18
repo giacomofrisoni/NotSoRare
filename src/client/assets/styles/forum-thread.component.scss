@@ -24,8 +24,7 @@ h5 {
     font-size: 0.9em;
 }
 
-.img {
-    background: gray;
+img {
     border-radius: 50%;
     @include setWidth(40px);
     @include setHeight(40px);

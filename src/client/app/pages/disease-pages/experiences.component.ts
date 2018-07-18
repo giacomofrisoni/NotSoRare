@@ -127,5 +127,4 @@ export class ExperiencesComponent implements OnInit {
       console.log(error);
     });
   }
-
 }

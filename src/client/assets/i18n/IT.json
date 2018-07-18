@@ -125,7 +125,20 @@
         "ShareYourExp": "Condividi la tua esperienza",
         "Filter": "Filtro",
         "Ordering": "Seleziona un ordinamento",
-        "PublicationDate": "Data pubblicazione"
+        "PublicationDate": "Data pubblicazione",
+        "NewExperience": "Scrivi la tua esperienza"
+    },
+
+    "NewExperience": {
+        "Loading": "Caricamento in corso...",
+        "PageError": "Errore durante il caricamento della pagina",
+        "UserNotLoggedIn": "Soltanto gli utenti registrati possono creare nuove espeirenze",
+        "Title": "Nuova esperienza",
+        "WriteHere": "Descrivi qui la tua esperienza",
+        "Submit": "Invia",
+        "Submitting": "Invio in corso...",
+        "SubmitError": "C'è stato un problema durante l'invio della nuova esperienza.",
+        "TooShort": "L'esperienza non può essere vuota e deve contenere almeno 100 caratteri"
     },
 
     "ExpertCentres": {
@@ -159,6 +172,13 @@
         "ReplyPosting": "Pubblicando la risposta...",
         "ReplyPostingError": "Errore nella pubblicazione della risposta"
     },
+
+    "NewThread": {
+        "Title": "Crea nuova discussione",
+        "TitleText": "Titolo",
+        "Content": "Testo"
+    },
+
 
     "References": {
         "Loading": "Caricamento dei riferimenti...",

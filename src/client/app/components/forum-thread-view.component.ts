@@ -13,6 +13,7 @@ export class ForumThreadViewComponent implements OnInit {
   @Input() title: string = "";
   @Input() content: string;
   @Input() isMessage: boolean = false;
+  @Input() isAnonymous: boolean = false;
 
   constructor() { }
 

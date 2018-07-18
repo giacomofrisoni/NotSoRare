@@ -18,11 +18,11 @@
 
     <!-- ALL OK -->
     <div *ngIf="isUserLoggedIn && !isAnyErrorPresent && isThreadLoaded">
-        <app-forum-thread-view class="thread-title" [image]="" [author]="thread.author.fullname" [pastTime]="thread.past_time" [title]="thread.title"
+        <app-forum-thread-view class="thread-title" [isAnonymous]="thread.author.is_anonymous" [image]="thread.author.photoURL" [author]="thread.author.fullname" [pastTime]="thread.past_time" [title]="thread.title"
             [content]="thread.description">
         </app-forum-thread-view>
 
-        <app-forum-thread-view *ngFor="let message of thread.messages" [image]="" [author]="message._authorId.fullname" [pastTime]="message.past_time"
+        <app-forum-thread-view *ngFor="let message of thread.messages" [isAnonymous]="message._authorId.is_anonymous" [image]="message._authorId.photoURL" [author]="message._authorId.fullname" [pastTime]="message.past_time"
             [content]="message.content" isMessage="true">
         </app-forum-thread-view>
 

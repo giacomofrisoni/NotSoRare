@@ -24,4 +24,14 @@ export class ExperiencesService {
       withCredentials: true,
     });
   }
+
+  addNewExperience(diseaseID: number, userID: number, experienceText: string) {
+    return this.http.post(this.globalUtils.apiPath + "/experiences/" + this.globalUtils.createLanguageParameter(), {
+      codDisease: diseaseID,
+      codUser: userID,
+      description: experienceText
+    },{
+      withCredentials: true,
+    });
+  }
 }

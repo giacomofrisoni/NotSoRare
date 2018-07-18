@@ -1,5 +1,10 @@
 @import 'common-values';
 
+.add-button {
+    max-width: 300px;
+    @include setHeight(38px);
+}
+
 .container {
     margin: 30px;
 }

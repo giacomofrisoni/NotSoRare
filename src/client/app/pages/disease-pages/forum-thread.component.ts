@@ -66,7 +66,7 @@ export class ForumThreadComponent implements OnInit {
                 this.forumService.getThread(this.disease.general.CodDisease, codThread).subscribe((result: ForumThreadDetails) => {
                   if (result) {
                     this.thread = result;
-                    console.log(this.thread);
+                    console.log(result);
                   } else {
                     this.setOnErroStatus("Invalid format");
                   }

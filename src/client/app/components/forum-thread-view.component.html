@@ -1,8 +1,10 @@
 <div class="page-card" [ngClass]="{'message': isMessage}">
     <div class=" flex start-aligned">
-        <div class="img"></div>
+        <img *ngIf="isAnonymous" src="../../assets/images/default-user.png"/>
+        <img *ngIf="!isAnonymous" [src]="image"/>
         <div class="right-title-items">
-            {{author}}
+            <span *ngIf="!isAnonymous">{{author}}</span>
+            <span *ngIf="isAnonymous" [innerHTML]="'Forum.Anonymous' | translate"></span>
             <br/>
             <div class="small-detail">{{pastTime.duration}} {{pastTime.unit}}</div>
         </div>

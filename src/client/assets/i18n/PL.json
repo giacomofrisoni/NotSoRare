@@ -125,7 +125,20 @@
         "ShareYourExp": "Podziel się wrażeniami",
         "Filter": "Filtr",
         "Ordering": "Wybierz sortowanie",
-        "PublicationDate": "Data publikacji"
+        "PublicationDate": "Data publikacji",
+        "NewExperience": "Opisz swoje doswiadczenia"
+    },
+
+    "NewExperience": {
+        "Loading": "Laduje...",
+        "PageError": "Errore durante il caricamento della pagina",
+        "UserNotLoggedIn": "Soltanto gli utenti registrati possono creare nuove espeirenze",
+        "Title": "New experience",
+        "WriteHere": "Write here your experience",
+        "Submit": "submit",
+        "Submitting": "Submitting new experience...",
+        "SubmitError": "An error occurred when submitting new experience",
+        "TooShort": "Experience cannot be empty and must be at least 100 characters long"
     },
 
     "ExpertCentres": {
@@ -158,6 +171,12 @@
         "ReplyEmpty": "La risposta non può essere vuota",
         "ReplyPosting": "Pubblicando la risposta...",
         "ReplyPostingError": "Errore nella pubblicazione della risposta"
+    },
+
+    "NewThread": {
+        "Title": "Create new thread",
+        "TitleText": "Title",
+        "Content": "Text"
     },
 
     "References": {
