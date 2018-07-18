@@ -5,3 +5,28 @@ button {
     min-height: 48px;
     border: none;
 }
+
+.experience {
+    background: white;
+    box-shadow: 2px 2px 5px 1px #8a8a8a;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 15px;
+    min-width: 350px;
+    padding: 20px;
+    cursor: pointer;
+
+    &:hover {
+        background: #ffffffda;
+        border: 1px solid $accent-dark-color; 
+    }
+}
+
+.small-detail {
+    font-size: 0.8em;
+
+    .colored {
+        color: $accent-dark-color;
+    }
+}

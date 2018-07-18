@@ -86,16 +86,16 @@ export class DiseaseComponent implements OnInit {
                     this.isDiseaseFollowed = true;
                   }
                 });
+
+                //Finally all is loaded
+                this.isDiseaseFollowedLoaded = true;
+                this.diseaseHolder.setDisease(this.disease);
               }, error => {
                 console.log("Error during getting following diseases:");
                 console.log(error);
                 this.isDiseaseFollowedLoaded = false;
               });
             }
-
-            //Finally all is loaded
-            this.isDiseaseFollowedLoaded = true;
-            this.diseaseHolder.setDisease(this.disease);
           }, error => {
             console.log("Error during check user logged in: " + error);
             this.userLoggedIn = -1;

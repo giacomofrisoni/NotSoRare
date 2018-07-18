@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileHolderService } from '../../services/profile-holder.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-profile-threads',
@@ -8,12 +9,19 @@ import { ProfileHolderService } from '../../services/profile-holder.service';
 })
 export class ProfileThreadsComponent implements OnInit {
 
+  // Loading
   isThreadsLoaded: boolean = false;
   isAnyErrorPresent: boolean = false;
   isThreadsEmpty: boolean = false;
 
+  // Binding
+  threads: any[];
+
   constructor(
-    private profileHolder: ProfileHolderService) { }
+    private profileHolder: ProfileHolderService,
+    private userService: UserService) {
+
+  }
 
   ngOnInit() {
     // Try to get params for user id
@@ -22,7 +30,22 @@ export class ProfileThreadsComponent implements OnInit {
       /*      currentUserID: currentUserID,
       requestedUserID: requestedUserID*/
       if (data != null) {
-        
+        // Try to get data
+        this.userService.getUserThreads(data.requestedUserID).subscribe((data: any[]) => {
+          if (data) {
+            if (data.length > 0) {
+              this.threads = data;
+            } else {
+              this.isThreadsEmpty = true;
+            }
+          } else {
+            this.isAnyErrorPresent = true;
+          }
+
+          this.isThreadsLoaded = true;
+        }, error => {
+          this.setPageStatus(true, true, false, "Error during retriving threads", error)
+        });
       }
     }, error => {
       this.setPageStatus(true, true, false, "Error during retriving cached data", error)

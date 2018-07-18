@@ -16,7 +16,21 @@
         <span [innerHTML]="'Profile.ExperiencesEmpty' | translate"></span>
     </div>
 
-    <div class="" *ngIf="isExperiencesLoaded && !isAnyErrorPresent && !isExperiencesEmpty">
-
+    <div *ngIf="isExperiencesLoaded && !isAnyErrorPresent && !isExperiencesEmpty">
+        <div class="flex wrapped start-aligned">
+            <div class="experience" *ngFor="let experience of experiences" (click)="openExperience(experience.CodDisease, experience.CodUser)">
+                <h5>{{experience.DiseaseName}}</h5>
+                <div class="small-detail">
+                    <span [innerHTML]="'Profile.ExperiencesCreatedAt' | translate"></span>
+                    <span>: </span>
+                    <span class="colored">{{experience.CreatedAt | date : 'dd/MM/yyyy HH:mm'}}</span>
+                </div>
+                <div class="small-detail">
+                    <span [innerHTML]="'Profile.ExperiencesUpdatedAt' | translate"></span>
+                    <span>: </span>
+                    <span class="colored">{{experience.UpdatedAt | date : 'dd/MM/yyyy HH:mm'}}</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -5,3 +5,26 @@ button {
     min-height: 48px;
     border: none;
 }
+
+.disease {
+    @include setWidth(170px);
+    @include setHeight(170px);
+    cursor: pointer;
+    margin: 20px;
+    padding: 20px;
+    background: white;
+    border: 1px solid lightgray;
+    box-shadow: $card-light-shadow;
+    border-radius: 5px;
+
+    img {
+        @include setWidth(60px);
+        @include setHeight(60px);
+        object-fit: scale-down;
+    }
+
+    &:hover {
+        background: #ffffffda;
+        border: 1px solid $accent-dark-color; 
+    }
+}

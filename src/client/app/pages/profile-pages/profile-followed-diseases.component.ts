@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileHolderService } from '../../services/profile-holder.service';
+import { UserService } from '../../services/user.service';
+import { Router } from '../../../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-profile-followed-diseases',
@@ -8,12 +10,18 @@ import { ProfileHolderService } from '../../services/profile-holder.service';
 })
 export class ProfileFollowedDiseasesComponent implements OnInit {
 
+  // Loading
   isFollowedDiseasesLoaded: boolean = false;
   isAnyErrorPresent: boolean = false;
   isFollowedDiseasesEmpty: boolean = false;
+  
+  // Binding
+  followedDiseases: any[];
 
   constructor(
-    private profileHolder: ProfileHolderService) { }
+    private profileHolder: ProfileHolderService,
+    private userService: UserService,
+    private router: Router) { }
 
   ngOnInit() {
     // Try to get params for user id
@@ -22,13 +30,35 @@ export class ProfileFollowedDiseasesComponent implements OnInit {
       /*      currentUserID: currentUserID,
       requestedUserID: requestedUserID*/
       if (data != null) {
-        
+        // Try to get the followed diseases
+        this.userService.getFollowingDiseases(data.requestedUserID).subscribe((data: any[]) => {
+          if (data) {
+            if (data.length > 0) {
+              // Data ok
+              this.followedDiseases = data;
+            } else {
+              // Data ok but empty
+              this.isFollowedDiseasesEmpty = true;
+            }
+          } else {
+            // Error!
+            this.isAnyErrorPresent = true;
+          }
+
+          this.isFollowedDiseasesLoaded = true;
+        }, error =>{
+          // Error!
+          this.setPageStatus(true, true, false, "Error during retriving followed diseases", error)
+        });
       }
     }, error => {
       this.setPageStatus(true, true, false, "Error during retriving cached data", error)
     })
   }
 
+  openDisease(value: any) {
+    this.router.navigate(['./disease/' + value]);
+  }
 
   setPageStatus(ready: boolean, error: boolean, empty: boolean, message?: string, printError?: any) {
     this.isFollowedDiseasesLoaded = ready;
