@@ -112,7 +112,7 @@ function loginModerator(req, res) {
                var moderatorData = [];
 
                // Parses the data from each of the row and populate the user data json array 
-               queryResultHandler.fillArrayFromRows(userData, rowCount, rows, null, true, () => {
+               queryResultHandler.fillArrayFromRows(moderatorData, rowCount, rows, null, true, () => {
                    return res.status(500).send({
                        errorMessage: req.i18n.__("Err_Login_DataRetrieving", "Invalid data")
                    });
@@ -130,7 +130,7 @@ function loginModerator(req, res) {
                            res.status(200).send({
                                codModerator: moderatorData[0].CodModerator,
                                codDisease: moderatorData[0].CodDisease,
-                               infoMessage: req.i18n.__("Login_Completed", userData[0].CodUser)
+                               infoMessage: req.i18n.__("Login_Completed", moderatorData[0].CodModerator)
                            });
                        } else {
                            res.status(401).send({
