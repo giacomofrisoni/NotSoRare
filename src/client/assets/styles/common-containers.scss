@@ -184,3 +184,12 @@ fieldset {
 img {
     background: white;
 }
+
+.moderator {
+    border: 1px dashed $accent-dark-color;
+    cursor: pointer;
+
+    &:hover {
+        background: #f8f8f8;
+    }
+}

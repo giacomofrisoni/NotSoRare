@@ -62,6 +62,10 @@
                             <i class="fa fa-comment" aria-hidden="true"></i>
                             {{thread.messages_count}}
                         </div>
+
+                        <div class="moderator" *ngIf="isModerator" class="fixed-width" (click)="onModeratorClick(thread.code)">
+                            <i class="fa fa-flag accent" aria-hidden="true"></i>
+                        </div>
                     </div>
                 </div>
             </div>
