@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Disease } from '../../models/disease';
 import { DiseaseHolderService } from '../../services/disease-holder.service';
 import { ExperiencesService } from '../../services/experiences.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-experience',
@@ -23,7 +23,8 @@ export class ExperienceComponent implements OnInit {
   constructor(
     private diseaseHolder: DiseaseHolderService, 
     private experiencesService: ExperiencesService, 
-    private route: ActivatedRoute) { 
+    private route: ActivatedRoute,
+    private router: Router) { 
   }
 
   ngOnInit() {
@@ -48,6 +49,7 @@ export class ExperienceComponent implements OnInit {
 
               this.setWindowStatus(true, false, false, "Success!");
             }, error => {
+              console.log(error);
               this.setOnErroStatus("Error retriving experience");
             });
           } else {
@@ -60,6 +62,10 @@ export class ExperienceComponent implements OnInit {
     }, error => {
       this.setOnErroStatus("Disease not found");
     });
+  }
+
+  openProfile() {
+    this.router.navigate(["profile/" + this.experience.CodUser]);
   }
 
   setWindowStatus(isExperienceLoaded, isExperienceEmpty, isAnyErrorPresent, message?) {

@@ -80,6 +80,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['./disease/' + value]);
   }
 
+  openAllDiseases() {
+    this.router.navigate(['./disease-search']);
+  }
+
   onSearchClick(value: any) {
     this.isValueNotFound = false;
 

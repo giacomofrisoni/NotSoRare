@@ -14,7 +14,7 @@
     <!-- Something-->
     <div *ngIf="!isExperienceEmpty && !isAnyErrorPresent && isExperienceLoaded">
         <app-experience-preview [isAnonymous]="experience.IsAnonymous" [name]="experience.Name" [surname]=experience.Surname [nationality]="experience.Nationality"
-            [birthDate]="experience.BirthDate" [photo]="experience.UserPhoto" [gender]="experience.Gender" isProfileButtonEnabled="true">
+            [birthDate]="experience.BirthDate" [photo]="experience.UserPhoto" [gender]="experience.Gender" isProfileButtonEnabled="true" (click)="openProfile()">
         </app-experience-preview>
 
         <div class="page-card">
