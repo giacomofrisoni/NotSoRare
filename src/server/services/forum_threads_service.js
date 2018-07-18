@@ -508,6 +508,7 @@ function getUserForumThreads(req, res) {
                             forumThread["code"] = user.forumThreads[i].code;
                             forumThread["title"] = user.forumThreads[i].title;
                             forumThread["description"] = user.forumThreads[i].description;
+                            forumThread["disease_code"] = user.forumThreads[i]._forumId._diseaseId.code;
 
                             /**
                              * Handles the translation of the disease name.

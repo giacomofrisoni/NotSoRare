@@ -10,7 +10,8 @@ module.exports = {
         gender: Joi.string().only('M', 'F').required(),
         birthDate: Joi.date().min('01-01-1900').max('now').required(),
         biography: Joi.string().min(10).max(4000),
-        photo: Joi.binary().encoding('base64').max(1*1024*1024).allow(null),
+        photoContentType: Joi.string(),
+        photoData: Joi.binary().encoding('base64').max(1*1024*1024).allow(null),
         nationality: Joi.string().country().required(),
         isAnonymous: Joi.number().only(0, 1).required()
     })
