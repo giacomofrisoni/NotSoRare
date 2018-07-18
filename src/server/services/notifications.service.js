@@ -52,6 +52,45 @@ function getAllUserNotifications(req, res) {
 }
 
 
+function getUserUnreadNotificationsCount(req, res) {
+
+    const id = parseInt(req.params.id, 10);
+    
+    /**
+     * Only a logged user with the same code of the request can access to notifications.
+     */
+    if (req.session.user == id) {
+
+        User.findOne({ code: id })
+            .populate({
+                path: 'notifications',
+                select: 'unread'
+            })
+            .exec((error, user) => {
+                if (error) {
+                    res.status(500).send({
+                        errorMessage: req.i18n.__("Err_Notifications_GettingUnreadUserNotifications", error)
+                    });
+                } else {
+                    if (!user) {
+                        res.status(404).send({
+                            errorMessage: req.i18n.__("Err_Notifications_UserNotFound")
+                        });
+                    } else {
+                        res.status(200).json(user.notifications.filter(function(n) { return n.unread == 1 }).length);
+                    }
+                }
+            });
+    } else {
+        res.status(401).send({
+            errorMessage: req.i18n.__("Err_UnauthorizedUser")
+        });
+    }
+
+}
+
+
 module.exports = {
-    getAllUserNotifications
+    getAllUserNotifications,
+    getUserUnreadNotificationsCount
 };

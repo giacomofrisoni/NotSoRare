@@ -359,10 +359,17 @@ router.get('/users/:idUser/interests/:idDisease', (req, res) => {
  */
 
 /**
- * Gets the registered rare disease interests for a user.
+ * Gets all the registered notifications for a user.
  */
 router.get('/users/:id/notifications', (req, res) => {
     notificationsService.getAllUserNotifications(req, res);
+});
+
+/**
+ * Gets the number of unread notifications for a user.
+ */
+router.get('/users/:id/unreadNotificationsCount', (req, res) => {
+    notificationsService.getUserUnreadNotificationsCount(req, res);
 });
 
 
