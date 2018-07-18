@@ -57,10 +57,12 @@ export class ExperienceComponent implements OnInit {
           }
         }, error => {
           this.setOnErroStatus("Error retriving param");
+          console.log(error);
         });
       }
     }, error => {
       this.setOnErroStatus("Disease not found");
+      console.log(error);
     });
   }
 

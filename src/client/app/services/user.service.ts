@@ -88,12 +88,6 @@ export class UserService {
     });
   }
 
-  getUserDiseases(userID: number) {
-    return this.http.get(`${this.globalUtils.apiPath}/users/${userID}/interests/${this.globalUtils.createLanguageParameter()}`, {
-      withCredentials: true
-    });
-  }
-
   getUserThreads(userID: number) {
     return this.http.get(`${this.globalUtils.apiPath}/users/${userID}/forumThreads/${this.globalUtils.createLanguageParameter()}`, {
       withCredentials: true

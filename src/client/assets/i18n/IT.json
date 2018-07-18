@@ -224,6 +224,14 @@
 
         "ExperiencesLoading": "Carico le esperienze...",
         "ExperiencesError": "C'è stato un problema con il caricamento delle esperienze",
-        "ExperiencesEmpty": "Ancora nessuna esperienza"
+        "ExperiencesEmpty": "Ancora nessuna esperienza",
+        "ExperiencesCreatedAt": "Creata il",
+        "ExperiencesUpdatedAt": "Aggiornata il",
+
+        "ThreadsLoading": "Carico le esperienze...",
+        "ThreadsError": "C'è stato un problema con il caricamento delle esperienze",
+        "ThreadsEmpty": "Ancora nessuna esperienza",
+        "ThreadsCreationDate": "Data creazione",
+        "ThreadsUpdateDate": "Data aggiornamento"
     }
 }

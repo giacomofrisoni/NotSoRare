@@ -223,6 +223,14 @@
 
         "ExperiencesLoading": "Loading experiences...",
         "ExperiencesError": "An error occurred during experiences loading",
-        "ExperiencesEmpty": "No experiences yet"
+        "ExperiencesEmpty": "No experiences yet",
+        "ExperiencesCreatedAt": "Created at",
+        "ExperiencesUpdatedAt": "Updated at",
+
+        "ThreadsLoading": "Loading threads...",
+        "ThreadsError": "An error occurred during threads loading",
+        "ThreadsEmpty": "No threads yet",
+        "ThreadsCreationDate": "Creation date",
+        "ThreadsUpdateDate": "Update date"
     }
 }
