@@ -73,9 +73,10 @@ export class TopBarComponent implements OnInit {
 
       if (this.isUserLoggedIn) {
         this.notificator.sendRequest(userID.loggedIn);
-
+        /*
         this.notificator.getNotificationsForEvent("add-user");
         this.notificator.getNotificationsForEvent("forumReplyNotification");
+        */
       }
     });
   }

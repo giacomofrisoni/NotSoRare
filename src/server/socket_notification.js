@@ -1,5 +1,5 @@
 // Imports mongoose model
-const Notification = require('../models/notification.model');
+const Notification = require('../server/models/notification.model');
 
 var clients = {};
 
@@ -8,6 +8,7 @@ var socket;
 function connect(socketIo) {
     // Opens socket connection on this server
     socketIo.on('connection', (socket) => {
+        console.log('user connected');
         this.socket = socket;
 
         socket.on('add-user', (codUser) => {
