@@ -179,7 +179,7 @@ export class LoginComponent implements OnInit {
 
       // Stop calling yourself!
       clearTimeout(timeout);
-    }, 8000);
+    }, 6000);
   }
 
   private unsubscribeAll() {

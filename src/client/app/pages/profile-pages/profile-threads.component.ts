@@ -35,6 +35,7 @@ export class ProfileThreadsComponent implements OnInit {
           if (data) {
             if (data.length > 0) {
               this.threads = data;
+              console.log(this.threads);
             } else {
               this.isThreadsEmpty = true;
             }
@@ -50,6 +51,10 @@ export class ProfileThreadsComponent implements OnInit {
     }, error => {
       this.setPageStatus(true, true, false, "Error during retriving cached data", error)
     })
+  }
+
+  onThreadClick() {
+
   }
 
 

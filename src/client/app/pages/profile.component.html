@@ -33,16 +33,31 @@
             </div>
 
             <div>
-              <h3>{{user.Name}} {{user.Surname}}</h3> 
-              <span class="minor">
-                  <i class="fa fa-calendar"></i>
-                  <span [innerHTML]="'Profile.RegisteredDate' | translate"></span>
-                  <span> {{user.RegistrationDate | date : 'dd/MM/yyyy'}}</span>
-              </span>
+                <h3 [ngClass]="{'male': user.Gender=='M', 'female': user.Gender=='F'}">{{user.Name}} {{user.Surname}}</h3>
+                <div class="minor">
+                    <i class="fa fa-calendar"></i>
+                    <span [innerHTML]="'Profile.RegisteredDate' | translate"></span>
+                    <span> {{user.RegistrationDate | date : 'dd/MM/yyyy'}}</span>
+                </div>
+
+                <div class="minor">
+                    <i class="fa fa-flag"></i>
+                    <span [innerHTML]="'Profile.Nationality' | translate"></span>
+                    <span>: {{user.Nationality}}</span>
+                </div>
             </div>
 
             <div>
                 <p>{{user.Biography}}</p>
+            </div>
+
+            <div *ngIf="!user.PatientYN">
+                <p>
+                    <b [innerHTML]="'Profile.RegisteredInNameOf' | translate"></b>
+                    <br/>
+                    <span [ngClass]="{'male': user.Gender=='M', 'female': user.Gender=='F'}">{{user.PatientName}} {{user.PatientSurname}} </span> ({{user.PatientNationality}}),
+                    <span [innerHTML]="'Profile.BirthOn' | translate"></span> {{user.BirthDate | date : 'dd/MM/yyyy'}}
+                </p>
             </div>
         </div>
 
@@ -56,9 +71,36 @@
             <router-outlet></router-outlet>
         </div>
 
-        <div class="page-card">
-            <div class="flex">
-                <div class="logout-button">
+        <div *ngIf="isProfileMine">
+            <div class="page-card">
+                <app-radiogroup #radioGroup [radiobuttons]="[
+                    { key: 'public', value: 'Profile.AccountPublic' | translate },
+                    { key: 'private', value: 'Profile.AccountPrivate' | translate }
+                ]" (onSelected)="onAccountTypeSelected($event[0])" [amIchecked]="itemChecked">
+                </app-radiogroup>
+
+                <div class="flex vertical">
+                    <span class="centered" *ngIf="isPublicSelected" [innerHTML]="'Profile.AccountPublicInfo' | translate"></span>
+                    <span class="centered" *ngIf="!isPublicSelected" [innerHTML]="'Profile.AccountPrivateInfo' | translate"></span>
+
+                    <div class="button">
+                        <app-divbutton isBordered="true" [text]="'Profile.Save' | translate" (click)="onSaveAccountType()"></app-divbutton>
+                    </div>
+
+                    <div *ngIf="isSavingProfile">
+                        <i class='fa fa-spinner fa-spin'></i>
+                        <span [innerHTML]="'Profile.Saving' | translate"></span>
+                    </div>
+
+                    <div *ngIf="isSavingProfileError">
+                        <span [innerHTML]="'Profile.SavingError' | translate"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="page-card flex">
+                <div class="button">
                     <app-divbutton text="Logout" (click)="onLogout($event)"></app-divbutton>
                 </div>
             </div>

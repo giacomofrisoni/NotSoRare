@@ -17,5 +17,5 @@ export class User {
     PatientNationality: string;
     RareDiseasesCount: number;
     ExperiencesCount: number;
-    _sanitizedPhoto: string;
+    IsAnonymous: boolean;
 }

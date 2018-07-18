@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../models/user';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ProfileHolderService } from '../services/profile-holder.service';
+import { RadiogroupComponent } from '../components/radiogroup.component';
 
 @Component({
   selector: 'app-profile',
@@ -12,11 +12,20 @@ import { ProfileHolderService } from '../services/profile-holder.service';
 })
 export class ProfileComponent implements OnInit {
 
+  // View
+  @ViewChild('radioGroup') radioGroup: RadiogroupComponent;
+
   // Loading
   isProfileLoaded: boolean = false;
   isAnyErrorPresent: boolean = false;
   isUserLoggedIn: boolean = false;
   isProfileMine: boolean = false;
+
+  isPublicSelected: boolean = false;
+  itemChecked: number = 0;
+
+  isSavingProfile: boolean = false;
+  isSavingProfileError: boolean = false;
 
   // Binding
   user: User = new User();
@@ -43,12 +52,19 @@ export class ProfileComponent implements OnInit {
             this.isUserLoggedIn = true;
             this.isProfileMine = requestedUserId == user.loggedIn;
             this.profileHolder.setCurrentProfileData(user.loggedIn, requestedUserId);
-            
+
             // Get data of user
             this.userService.getUserData(requestedUserId).subscribe((result: User) => {
               if (result) {
                 this.user = result;
+                this.user.id = user.loggedIn;
                 console.log(this.user);
+
+                // If i'm owner of this account
+                if (this.isProfileMine) {
+                  this.isPublicSelected = !this.user.IsAnonymous;
+                  this.itemChecked = this.isPublicSelected ? 0 : 1;
+                }
               } else {
                 this.isAnyErrorPresent = true;
                 console.log("Unexpected type");
@@ -78,8 +94,6 @@ export class ProfileComponent implements OnInit {
     }, error => {
       this.setPageStatus(true, false, false, "Requested id is not a number", error);
     });
-
-
   }
 
   onLogout() {
@@ -89,6 +103,24 @@ export class ProfileComponent implements OnInit {
     }, (errorResp) => {
       console.log(errorResp);
       this.userService.submitLoginChange();
+    });
+  }
+
+  onAccountTypeSelected(value: any) {
+    this.isPublicSelected = value.key == "public";
+  }
+
+  onSaveAccountType() {
+    this.isSavingProfile = true;
+    this.isSavingProfileError = false;
+
+    this.userService.changeProfileVisibility(this.user, !this.isPublicSelected).subscribe(data => {
+      location.reload();
+      console.log(data);
+    }, error => {
+      this.isSavingProfile = false;
+      this.isSavingProfileError = true;
+      console.log(error);
     });
   }
 
