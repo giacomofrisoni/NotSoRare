@@ -220,7 +220,8 @@ function signup(req, res) {
                                         }
                                         insertRequest.addParameter('ActivationCode', TYPES.NChar, activationCode);
                                         if (req.body.photo) {
-                                            insertRequest.addParameter('Photo', TYPES.VarBinary, req.body.photo);
+                                            const url = "data:" + req.body.photoContentType + ";base64," + req.body.photoData;
+                                            insertRequest.addParameter('Photo', TYPES.VarBinary, url);
                                         }
                                         if (req.body.biography) {
                                             insertRequest.addParameter('Biography', TYPES.NVarChar, req.body.biography);
