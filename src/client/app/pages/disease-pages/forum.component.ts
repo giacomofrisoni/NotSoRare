@@ -19,7 +19,7 @@ export class ForumComponent implements OnInit {
   isThreadsEmpty = false;
   isUserLoggedIn = false;
   isModerator = false;
-  isModeratorOfThis = false,
+  isModeratorOfThis = false
 
   // Binding
   disease: Disease;
