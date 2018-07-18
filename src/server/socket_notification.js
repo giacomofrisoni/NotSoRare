@@ -2,16 +2,20 @@
 const Notification = require('../server/models/notification.model');
 
 var clients = {};
+var serverSocketIo;
+var serverSocket;
 
-var socket;
 
 function connect(socketIo) {
-    // Opens socket connection on this server
-    socketIo.on('connection', (socket) => {
-        console.log('user connected');
-        this.socket = socket;
+    // Saves the io
+    serverSocketIo = socketIo;
 
-        socket.on('add-user', (codUser) => {
+    // Opens socket connection on this server
+    socketIo.sockets.on('connection', (socket) => {
+        serverSocket = socket;
+
+        // Records for loaded user events
+        serverSocket.on('add-user', (codUser) => {
             clients[codUser] = {
                 "socket": socket.id
             };
@@ -19,17 +23,18 @@ function connect(socketIo) {
     });
 }
 
-function sendForumReplyNotification(fullNameAuthor, forumThread, diseaseName, codRecipient, errorCallback, successfulCallback) {
-    if (socket) {
+
+function sendForumReplyNotification(i18n, fullNameAuthor, forumThreadTitle, diseaseName, codRecipient, errorCallback, successfulCallback) {
+    if (serverSocket) {
         const body = {
-            title: "Qualcuno ti ha risposto",
-            description: "L'utente X ha risposto alla tua discussione Y sul forum della malattia Z"
+            title: i18n.__("ForumReplyNotification_Title"),
+            description: i18n.__("ForumReplyNotification_Description", fullNameAuthor, forumThreadTitle, diseaseName)
         };
         Notification(body).save((error, data) => {
             if (error) {
                 errorCallback(error);
             } else {
-                clients[codRecipient].socket.emit('forumReplyNotification', data);
+                serverSocketIo.sockets.connected[clients[codRecipient].socket].emit('forumReplyNotification', data);
                 successfulCallback();
             }
         });
@@ -38,7 +43,42 @@ function sendForumReplyNotification(fullNameAuthor, forumThread, diseaseName, co
     }
 }
 
+
+function sendMessageReportNotification(i18n, messageContent, forumThreadTitle, diseaseName, codRecipient, errorCallback, successfulCallback) {
+    if (serverSocket) {
+        const body = {
+            title: i18n.__("MessageReportNotification_Title"),
+            description: i18n.__("MessageReportNotification_Description", messageContent, forumThreadTitle, diseaseName)
+        };
+        Notification(body).save((error, data) => {
+            if (error) {
+                errorCallback(error);
+            } else {
+                serverSocketIo.sockets.connected[clients[codRecipient].socket].emit('messageReportedNotification', data);
+                successfulCallback();
+            }
+        });
+    } else {
+        errorCallback(new Error("Socket connection not opened"));
+    }
+}
+
+
+function disconnect() {
+    serverSocket.on('disconnect', () => {
+        for (var codUser in lients) {
+            if (clients[codUser].socket === serverSocket.id) {
+                delete clients[codUser];
+                break;
+            }
+        }
+    });
+}
+
+
 module.exports = {
     connect,
-    sendForumReplyNotification
+    sendForumReplyNotification,
+    sendMessageReportNotification,
+    disconnect
 }

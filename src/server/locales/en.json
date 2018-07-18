@@ -60,6 +60,7 @@
     "Err_ForumMessages_UtilityVoteDeletion": "An error occurred during the utility vote deletion. %s",
     "Err_ForumMessages_DuplicateUtilityVote": "An user has voted more than once",
     "Err_ForumMessages_NoUserUtilityVote": "There is no utility vote for the specified user in the message",
+    "Err_ForumMessages_MessageReporting": "An error occurred during the reporting of the message. %s",
     "ForumMessageDeletion_Completed": "Forum message removed successfully",
     "Experience_Added": "Experience added successfully",
     "Experience_Updated": "Experience updated successfully",
@@ -83,5 +84,7 @@
     "Err_UserInterests_GettingInterests": "An error occurred during the user interests retrieving. %s",
     "Err_UserInterests_CheckingInterest": "An error occurred during the user interest existance control. %s",
     "ForumReplyNotification_Title": "Response received",
-    "ForumReplyNotification_Description": "%s has replied to your discussion \"%s\" on the \"%s\" disease forum"
+    "ForumReplyNotification_Description": "%s has replied to your tread \"%s\" on the \"%s\" disease forum",
+	"MessageReportNotification_Title": "Message reported",
+	"MessageReportNotification_Description": "Your message with content \"%s\", as reply for thread \"%s\" on the \"%s\" disease forum, has been reported"
 }

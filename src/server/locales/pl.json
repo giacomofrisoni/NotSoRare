@@ -60,6 +60,7 @@
     "Err_ForumMessages_UtilityVoteDeletion": "Wystąpił błąd podczas usuwania głosu z narzędzia. %s",
     "Err_ForumMessages_DuplicateUtilityVote": "Użytkownik głosował więcej niż jeden raz",
     "Err_ForumMessages_NoUserUtilityVote": "Nie ma głosowania użytkowego dla określonego użytkownika w wiadomości",
+    "Err_ForumMessages_MessageReporting": "Wystąpił błąd podczas raportowania wiadomości. %s",
     "ForumMessageDeletion_Completed": "Wiadomość na forum została pomyślnie usunięta",
 	"Experience_Added": "Doświadczenie zostało dodane pomyślnie",
 	"Experience_Updated": "Doświadczenie zaktualizowane pomyślnie",
@@ -83,5 +84,7 @@
 	"Err_UserInterests_GettingInterests": "Wystąpił błąd podczas pobierania zainteresowań użytkownika. %s",
 	"Err_UserInterests_CheckingInterest": "Wystąpił błąd podczas kontroli istnienia zainteresowania użytkownika. %s",
     "ForumReplyNotification_Title": "Otrzymano odpowiedź",
-    "ForumReplyNotification_Description": "%s odpowiedział na twoją dyskusję \"%s\" na forum o chorobie \"%s\""
+    "ForumReplyNotification_Description": "%s odpowiedział na twoją dyskusję \"%s\" na forum o chorobie \"%s\"",
+	"MessageReportNotification_Title": "Wiadomość zgłoszona",
+	"MessageReportNotification_Description": "Zgłoszono twoją wiadomość z treścią \"%s\", jako odpowiedzią na wątek \"%s\" na forum \"%s\" chorób"
 }

@@ -16,6 +16,7 @@ const utilityVoteInsertionSchema = require('./validation/utility_vote_insertion_
 const utilityVoteUpdateSchema = require('./validation/utility_vote_update_schema');
 const userUpdateSchema = require('./validation/user_update_schema');
 const interestInsertionSchema = require('./validation/interest_insertion_schema');
+const reportSchema = require('./validation/report_schema');
 
 const signupService = require('./services/signup.service');
 const authenticationService = require('./services/authentication.service');
@@ -252,6 +253,13 @@ router.put('/rareDiseases/:idDisease/forumThreads/:idForumThread/forumMessages/:
  */
 router.delete('/rareDiseases/:idDisease/forumThreads/:idForumThread/forumMessages/:idForumMessage/utilityVotes', (req, res) => {
     forumMessagesService.removeUtilityVote(req, res);
+});
+
+/**
+ * Adds a new report to a user for a published forum message.
+ */
+router.post('/reports', validatePayloadMiddleware, validate(reportSchema), (req, res) => {
+    forumMessagesService.reportForumMessage(req, res);
 });
 
 

@@ -45,7 +45,7 @@ function searchForumMessage(codDisease, codForumThread, codForumMessage,
                                     if (!forumMessage) {
                                         forumMessageNotFoundCallback();
                                     } else {
-                                        doneCallback(forumMessage);
+                                        doneCallback(disease, forumThread, forumMessage);
                                     }
                                 }
                             });
@@ -148,20 +148,27 @@ function postForumMessage(req, res) {
                                                             }
                                                         }
 
-                                                        socketNotification.sendForumReplyNotification(
-                                                            user.fullName,
-                                                            forumThread.title,
-                                                            diseaseName,
-                                                            forumThread._authorId.code,
-                                                            (error) => {
-                                                                res.status(500).send({
-                                                                    errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
-                                                                });
-                                                            },
-                                                            () => {
-                                                                res.status(201).json(forumMessage);
-                                                            }
-                                                        );
+                                                        /**
+                                                         * If the author of the message is different from the author of the forum thread,
+                                                         * sends a runtime notification.
+                                                         */
+                                                        if (user._id != forumThread._authorId.code) {
+                                                            socketNotification.sendForumReplyNotification(
+                                                                req.i18n,
+                                                                user.fullname,
+                                                                forumThread.title,
+                                                                diseaseName,
+                                                                forumThread._authorId.code,
+                                                                (error) => {
+                                                                    res.status(500).send({
+                                                                        errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
+                                                                    });
+                                                                },
+                                                                () => {
+                                                                    res.status(201).json(forumMessage);
+                                                                }
+                                                            );
+                                                        }
                                                     }
                                                 });
                                             }
@@ -215,7 +222,7 @@ function putForumMessage(req, res) {
                 errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
             });
         },
-        (forumMessage) => {
+        (disease, forumThread, forumMessage) => {
             /**
              * Only a logged user with the same code of the request can update the data.
              */
@@ -243,19 +250,74 @@ function putForumMessage(req, res) {
 }
 
 
+function removeMessageUtility(loggedUser, codDisease, codForumThread, codForumMessage,
+    errorCallback, unauthorizedCallback, diseaseNotFoundCallback, forumThreadNotFoundCallback, forumMessageNotFoundCallback, doneCallback) {
+
+    searchForumMessage(
+        codDisease,
+        codForumThread,
+        codForumMessage,
+        (error) => { errorCallback(error); },
+        () => { diseaseNotFoundCallback(); },
+        () => { forumThreadNotFoundCallback(); },
+        () => { forumMessageNotFoundCallback(); },
+        (disease, forumThread, forumMessage) => {
+            /**
+             * Only a logged user with the same code of the request can delete the data.
+             */
+            if (loggedUser == forumMessage._authorId.code) {
+
+                // Deletes the specified message
+                ForumMessage.findByIdAndRemove(forumMessage._id)
+                    .then(forumMessage => {
+                        // Checks that the forum message has been found
+                        if (!forumMessage) {
+                            forumMessageNotFoundCallback();
+                        } else {
+                            // Deletes child messages
+                            ForumMessage.remove({ _parentMessageId: forumMessage._id }, (error) => {
+                                if (error) {
+                                    errorCallback(error);
+                                } else {
+                                    doneCallback(disease, forumThread, forumMessage);
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        if (error) {
+                            errorCallback(error);
+                        }
+                    });
+                
+            } else {
+                unauthorizedCallback();
+            }
+        }
+    );
+
+}
+
+
 function deleteForumMessage(req, res) {
 
     const idDisease = parseInt(req.params.idDisease, 10);
     const idForumThread = parseInt(req.params.idForumThread, 10);
     const idForumMessage = parseInt(req.params.idForumMessage, 10);
 
-    searchForumMessage(
+    removeMessageUtility(
+        req.session.user,
         idDisease,
         idForumThread,
         idForumMessage,
         (error) => {
             res.status(500).send({
                 errorMessage: req.i18n.__("Err_ForumMessages_MessageDeletion", error)
+            });
+        },
+        () => {
+            res.status(401).send({
+                errorMessage: req.i18n.__("Err_UnauthorizedUser")
             });
         },
         () => {
@@ -273,48 +335,10 @@ function deleteForumMessage(req, res) {
                 errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
             });
         },
-        (forumMessage) => {
-            /**
-             * Only a logged user with the same code of the request can delete the data.
-             */
-            if (req.session.user == forumMessage._authorId.code) {
-
-                // Deletes the specified message
-                ForumMessage.findByIdAndRemove(forumMessage._id)
-                    .then(forumMessage => {
-                        // Checks that the forum message has been found
-                        if (!forumMessage) {
-                            res.status(404).send({
-                                errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
-                            });
-                        } else {
-                            // Deletes child messages
-                            ForumMessage.remove({ _parentMessageId: forumMessage._id }, (error) => {
-                                if (error) {
-                                    res.status(500).send({
-                                        errorMessage: req.i18n.__("Err_ForumMessages_MessageDeletion", error)
-                                    });
-                                } else {
-                                    res.status(200).send({
-                                        infoMessage: req.i18n.__("ForumMessageDeletion_Completed")
-                                    });
-                                }
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        if (error) {
-                            res.status(500).send({
-                                errorMessage: req.i18n.__("Err_ForumMessages_MessageDeletion", error)
-                            });
-                        }
-                    });
-                
-            } else {
-                res.status(401).send({
-                    errorMessage: req.i18n.__("Err_UnauthorizedUser")
-                });
-            }
+        (disease, forumThread, forumMessage) => {
+            res.status(200).send({
+                infoMessage: req.i18n.__("ForumMessageDeletion_Completed")
+            });
         }
     );
 
@@ -347,7 +371,7 @@ function postUtilityVote(req, res) {
                 errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
             });
         },
-        (forumMessage) => {
+        (disease, forumThread, forumMessage) => {
             /**
              * Only a logged user can add an utility vote to a message.
              */
@@ -435,7 +459,7 @@ function putUtilityVote(req, res) {
                 errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
             });
         },
-        (forumMessage) => {
+        (disease, forumThread, forumMessage) => {
             /**
              * Only a logged user can update an utility vote for a message.
              */
@@ -522,7 +546,7 @@ function removeUtilityVote(req, res) {
                 errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
             });
         },
-        (forumMessage) => {
+        (disease, forumThread, forumMessage) => {
             /**
              * Only a logged user can delete an utility vote for a message.
              */
@@ -579,11 +603,95 @@ function removeUtilityVote(req, res) {
 }
 
 
+function reportForumMessage(req, res) {
+
+    const idDisease = parseInt(req.body.codDisease, 10);
+    const idForumThread = parseInt(req.body.codForumThread, 10);
+    const idForumMessage = parseInt(req.body.codForumMessage, 10);
+
+    removeMessageUtility(
+        idDisease,
+        idForumThread,
+        idForumMessage,
+        (error) => {
+            res.status(500).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_MessageReporting", error)
+            });
+        },
+        () => {
+            res.status(401).send({
+                errorMessage: req.i18n.__("Err_UnauthorizedUser")
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_DiseaseNotFound")
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_ThreadNotFound")
+            });
+        },
+        () => {
+            res.status(404).send({
+                errorMessage: req.i18n.__("Err_ForumMessages_MessageNotFound")
+            });
+        },
+        (disease, forumThread, forumMessage) => {
+
+            /**
+             * Handles the translation of the disease name.
+             * If the current language is not available, it use the default one.
+             */
+            var diseaseName;
+            var translationLanguages = disease.names.map(item => item.language);
+            var reqLanguageIndex = translationLanguages.indexOf(req.i18n.getLocale());
+            var defaultLanguageIndex = translationLanguages.indexOf(translationEnv.defaultLanguage);
+            if (reqLanguageIndex >= 0) {
+                diseaseName = disease.names[reqLanguageIndex].name;
+            } else {
+                if (defaultLanguageIndex >= 0) {
+                    diseaseName = disease.names[defaultLanguageIndex].name;
+                } else {
+                    res.status(500).send({
+                        errorMessage: req.i18n.__("Err_ForumMessages_MessageReporting", "Not found translation for default language")
+                    });
+                }
+            }
+
+            // Sends runtime message to the author
+            socketNotification.sendMessageReportNotification(
+                req.i18n,
+                forumMessage.content,
+                forumThread.title,
+                diseaseName,
+                forumMessage._authorId.code,
+                (error) => {
+                    res.status(500).send({
+                        errorMessage: req.i18n.__("Err_ForumMessages_MessageInsertion", error)
+                    });
+                },
+                () => {
+                    res.status(201).json(forumMessage);
+                }
+            );
+
+            res.status(200).send({
+                infoMessage: req.i18n.__("ForumMessageDeletion_Completed")
+            });
+        }
+    );
+    
+}
+
+
 module.exports = {
     postForumMessage,
     putForumMessage,
     deleteForumMessage,
     postUtilityVote,
     putUtilityVote,
-    removeUtilityVote
+    removeUtilityVote,
+    reportForumMessage
 };

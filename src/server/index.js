@@ -24,9 +24,12 @@ const app = express();
  * Configures socket.io for real-time notification.
  */
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
-io.set('origins', 'http://localhost:3000');
+const io = require("socket.io")(server);
 
+/**
+ * Listening on port.
+ */
+server.listen(3000);
 
 /**
  * Attaches the i18n property to the express request object.
@@ -86,8 +89,7 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept-Type');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
@@ -110,11 +112,6 @@ app.use((err, req, res, next) => {
         return res.status(500);
     }
 });
-
-/**
- * Listening on port.
- */
-app.listen(port, () => console.log(`API running on localhost:${port}`));
 
 /**
  * Starts socket connection.

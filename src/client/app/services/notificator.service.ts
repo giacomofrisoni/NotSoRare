@@ -1,24 +1,48 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import * as io from "socket.io-client";
 
 @Injectable()
 export class NotificatorService {
 
-  constructor() {
+  private url = 'http://127.0.0.1:3000';
+  private socket;
 
+  constructor() {
+    this.socket = io(this.url);
   }
 
   sendRequest(codUser: number) {
-    io.Socket.emit("add-user", codUser, (data) => {
+    this.socket.emit("add-user", codUser, (data) => {
       console.log("response from server")
       console.log(data);
     })
   }
 
-  getNotificationsForEvent(event: string) {
-    return io.Socket.addEventListener(event, (data) => {
-      console.log(data);
-    });
+  getForumReplyNotifications() {
+    let observable = new Observable(observer => {
+      this.socket.on('forumReplyNotification', (data) => {
+        console.log(data);
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    })
+    return observable;
+  }
+
+  getMessageReportingNotifications() {
+    let observable = new Observable(observer => {
+      this.socket.on('messageReportedNotification', (data) => {
+        console.log(data);
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    })
+    return observable;
   }
 
 }

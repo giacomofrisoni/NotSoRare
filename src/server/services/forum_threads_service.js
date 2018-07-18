@@ -596,7 +596,7 @@ function getForumThread(req, res) {
                         .populate({
                             path: 'messages',
                             match: { _parentMessageId: { $exists: false } },
-                            options: { sort: { 'update_date': -1 } },
+                            options: { sort: { 'update_date': 1 } },
                             populate: {
                                 path: '_authorId',
                                 select: 'code is_anonymous first_name last_name fullname photoURL gender birth_date age'

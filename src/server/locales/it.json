@@ -60,6 +60,7 @@
     "Err_ForumMessages_UtilityVoteDeletion": "Si è verificato un errore durante la cancellazione del voto di utilità per il messaggio. %s. %s",
     "Err_ForumMessages_DuplicateUtilityVote": "Un utente ha votato più di una volta",
     "Err_ForumMessages_NoUserUtilityVote": "Non è stato trovato alcun voto di utilità per l'utente specificato",
+    "Err_ForumMessages_MessageReporting": "Si è verificato un errore durante la segnalazione del messaggio. %s",
 	"ForumMessageDeletion_Completed": "Messaggio cancellato con successo",
 	"Experience_Added": "Esperienza aggiunta con successo",
 	"Experience_Updated": "Esperienza aggiornata con successo",
@@ -83,5 +84,7 @@
 	"Err_UserInterests_GettingInterests": "Si è verificato un errore durante l'ottenimento degli interessi dell'utente. %s",
 	"Err_UserInterests_CheckingInterest": "Si è verificato un errore durante il controllo della presenza di un interesse per l'utente. %s",
     "ForumReplyNotification_Title": "Risposta ricevuta",
-    "ForumReplyNotification_Description": "%s ha risposto alla tua discussione \"%s\" sul forum della malattia \"%s\""
+	"ForumReplyNotification_Description": "%s ha risposto alla tua discussione \"%s\" sul forum della malattia \"%s\"",
+	"MessageReportNotification_Title": "Messaggio segnalato",
+	"MessageReportNotification_Description": "Il tuo messaggio con contenuto \"%s\", in risposta alla discussione \"%s\" sul forum della malattia \"%s\", è stato segnalato"
 }
