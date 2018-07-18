@@ -2,6 +2,7 @@
 
 .page-card {
     margin-bottom: 10px;
+    padding: 20px;
     box-shadow: none;
 }
 
@@ -12,7 +13,7 @@ h4 {
 
 .small-detail {
     display: inline-block;
-    font-size: 0.7em;
+    font-size: 0.8em;
 
     .colored {
         color: $accent-dark-color;

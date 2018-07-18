@@ -1,18 +1,9 @@
 <div class="menubutton">
     <div class="menubutton-overlay">
         <i id="icon" class="{{icon}} not-spaced">
-            <span *ngIf="badgeCount >= 0 && badgeCount <= 9" class="notify-badge">{{badgeCount}}</span>
+            <span *ngIf="badgeCount > 0 && badgeCount <= 9" class="notify-badge">{{badgeCount}}</span>
             <span *ngIf="badgeCount > 9" class="notify-badge">9+</span>
         </i>
-
-        <!--
-        <div id="badge" >
-            <span>{{badgeCount}}</span>
-        </div>
-
-        <div id="badge" *ngIf="badgeCount > 9" class="notify-badge">
-            <span>9+</span>
-        </div>-->
     </div>
 </div>
     

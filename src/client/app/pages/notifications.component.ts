@@ -14,6 +14,7 @@ export class NotificationsComponent implements OnInit {
   isNotificationsEmpty = false;
   isAnyErrorPresent = false;
   isUserLoggedIn = false;
+  isModerator = false;
 
   // Binding
   notifications: any[];
@@ -22,36 +23,40 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getLoggedInStatus("Notifications").subscribe((user: any) => {
-      // Only if logged in
-      if (user.loggedIn) {
-        this.isUserLoggedIn = true;
+      //Moderator cannot
+      if (!user.codDisease) {
+        // Only if logged in
+        if (user.loggedIn) {
+          this.isUserLoggedIn = true;
 
-        // Take all notifications
-        this.notificator.getAllNotifications(user.loggedIn).subscribe((notifications: any[]) => {
-          if (notifications) {
-            if (notifications.length > 0) {
-              // Data ok
-              this.notifications = notifications;
+          // Take all notifications
+          this.notificator.getAllNotifications(user.loggedIn).subscribe((notifications: any[]) => {
+            if (notifications) {
+              if (notifications.length > 0) {
+                // Data ok
+                this.notifications = notifications;
+                console.log(notifications);
+              } else {
+                // Data empty
+                this.isNotificationsEmpty = true;
+              }
             } else {
-              // Data empty
-              this.isNotificationsEmpty = true;
+              // Unexpected data
+              this.isAnyErrorPresent = true;
             }
-          } else {
-            // Unexpected data
-            this.isAnyErrorPresent = true;
-          }
 
+            this.isNotificationsLoaded = true;
+          }, error => {
+            // Error when retriving notifications
+            this.isNotificationsLoaded = true;
+            this.isAnyErrorPresent = true;
+            console.log(error);
+          });
+        } else {
+          // User not logged in
+          this.isUserLoggedIn = false;
           this.isNotificationsLoaded = true;
-        }, error => {
-          // Error when retriving notifications
-          this.isNotificationsLoaded = true;
-          this.isAnyErrorPresent = true;
-          console.log(error);
-        });
-      } else {
-        // User not logged in
-        this.isUserLoggedIn = false;
-        this.isNotificationsLoaded = true;
+        }
       }
     }, error => {
       // Error getting user login status

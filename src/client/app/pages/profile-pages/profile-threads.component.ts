@@ -35,7 +35,6 @@ export class ProfileThreadsComponent implements OnInit {
           if (data) {
             if (data.length > 0) {
               this.threads = data;
-              console.log(this.threads);
             } else {
               this.isThreadsEmpty = true;
             }

@@ -249,6 +249,10 @@
     },
 
     "Notifications": {
-        "Title": "Centro notifiche"
+        "Title": "Centro notifiche",
+        "Loading": "Caricamento delle notifiche",
+        "Error": "c'è stato un problema durante il caricamento delle notifiche",
+        "UserNotLoggedIn": "Soltanto gli utenti registrati possono accedere alle notifiche",
+        "Empty": "Nessuna nuova notifica"
     }
 }

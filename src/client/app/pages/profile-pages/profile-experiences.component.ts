@@ -36,7 +36,6 @@ export class ProfileExperiencesComponent implements OnInit {
           if (results) {
             if (results.length > 0) {
               this.experiences = results;
-              console.log(this.experiences);
             } else {
               this.isExperiencesEmpty = true;
             }

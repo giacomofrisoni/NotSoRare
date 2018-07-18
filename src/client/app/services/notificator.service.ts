@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import * as io from "socket.io-client";
+import { HttpClient } from '../../../../node_modules/@angular/common/http';
+import { GlobalUtilsService } from './global-utils.service';
 
 @Injectable()
 export class NotificatorService {
@@ -8,7 +10,7 @@ export class NotificatorService {
   private url = 'http://127.0.0.1:3000';
   private socket;
 
-  constructor() {
+  constructor(private http: HttpClient, private globalUtils: GlobalUtilsService) {
     this.socket = io(this.url);
   }
 
@@ -46,7 +48,9 @@ export class NotificatorService {
   }
 
   getAllNotifications(userID: number) {
-    return new Observable();
+    return this.http.get(this.globalUtils.apiPath + "/users/" + userID + "/notifications/" + this.globalUtils.createLanguageParameter(), {
+      withCredentials: true,
+    });
   }
 
 }

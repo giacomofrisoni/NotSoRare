@@ -248,6 +248,10 @@
     },
 
     "Notifications": {
-        "Title": "Centrum powiadomien"
+        "Title": "Centrum powiadomien",
+        "Loading": "Ladowanie powiadomien",
+        "Error": "Wystąpił problem podczas fazy ładowania",
+        "UserNotLoggedIn": "Uzytkownik nie jest zalogowany",
+        "Empty": "Brak nowych powiadomien"
     }
 }

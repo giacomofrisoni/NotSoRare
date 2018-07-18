@@ -248,6 +248,10 @@
     },
 
     "Notifications": {
-        "Title": "Notification center"
+        "Title": "Notification center",
+        "Loading": "Loading notifications...",
+        "Error": "An error occurred during loading of notifications",
+        "UserNotLoggedIn": "Only registered users can show notification center",
+        "Empty": "No new notifications"
     }
 }

@@ -1,8 +1,37 @@
 <div class="container">
     <h2 [innerHTML]="'Notifications.Title' | translate"></h2>
-    <div class="page-card" *ngFor="let notification of notifications">
-        <h4>{{notification.title}}</h4>
-        <span class="small-detail colored">{{notification.creation_date}}</span><br/>
-        <p>{{notification.description}}</p>
+
+    <!-- LOADING -->
+    <div *ngIf="!isNotificationsLoaded" class="page-card">
+        <i class='fa fa-spinner fa-spin'></i>
+        <span [innerHTML]="'Notifications.Loading' | translate"></span>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="isAnyErrorPresent" class="page-card">
+        <i class='fa fa-times accent'></i>
+        <span [innerHTML]="'Notifications.Error' | translate"></span>
+    </div>
+
+    <!-- EMPY -->
+    <div *ngIf="isNotificationsEmpty" class="page-card">
+        <span [innerHTML]="'Notifications.Empty' | translate"></span>
+    </div>
+
+    <!-- MODERATOR -->
+    <div *ngIf="isModerator" class="container page-card centered">
+        <span [innerHTML]="'Common.ModeratorCannot' | translate"></span>
+    </div>
+
+    <div *ngIf="isNotificationsLoaded && !isAnyErrorPresent && !isModerator && !isNotificationsEmpty">
+        <div class="page-card" *ngFor="let notification of notifications">
+            <div class="flex spaced">
+                <h4>{{notification.title}}</h4>
+                <div class="small-detail colored">{{notification.creation_date | date : 'dd/MM/yyyy HH:mm'}}</div>
+            </div>
+
+
+            <div>{{notification.description}}</div>
+        </div>
     </div>
 </div>
