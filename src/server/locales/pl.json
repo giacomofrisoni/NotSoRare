@@ -87,5 +87,8 @@
     "ForumReplyNotification_Title": "Otrzymano odpowiedź",
     "ForumReplyNotification_Description": "%s odpowiedział na twoją dyskusję \"%s\" na forum o chorobie \"%s\"",
 	"MessageReportNotification_Title": "Wiadomość zgłoszona",
-	"MessageReportNotification_Description": "Zgłoszono twoją wiadomość z treścią \"%s\", jako odpowiedzią na wątek \"%s\" na forum \"%s\" chorób"
+	"MessageReportNotification_Description": "Zgłoszono twoją wiadomość z treścią \"%s\", jako odpowiedzią na wątek \"%s\" na forum \"%s\" chorób",
+	"Err_Notifications_GettingUserNotifications": "Wystąpił błąd podczas otrzymywania powiadomień. %s",
+    "Err_Notifications_GettingUnreadUserNotifications": "Wystąpił błąd podczas uzyskiwania liczby nieprzeczytanych powiadomień. %s",
+    "Err_Notifications_UserNotFound": "Nie ma jednej zarejestrowanej choroby z określonym kodem"
 }

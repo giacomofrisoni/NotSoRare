@@ -1,5 +1,6 @@
 // Imports mongoose model
 const User = require('../models/user.model');
+const Notification = require('../models/notification.model');
 
 
 function getAllUserNotifications(req, res) {
@@ -30,6 +31,7 @@ function getAllUserNotifications(req, res) {
                         /**
                          * Parses the resulting json.
                          */
+                        var updates = [];
                         var notifications = [];
                         for (var i = 0; i < user.notifications.length; i++) {
                             var notification = {};
@@ -37,9 +39,17 @@ function getAllUserNotifications(req, res) {
                             notification["description"] = user.notifications[i].description;
                             notification["unread"] = user.notifications[i].unread;
                             notification["creation_date"] = user.notifications[i].creation_date;
+
                             notifications.push(notification);
+
+                            // Sets notification as read
+                            const updatePromise = Notification.update({ '_id': user.notifications[i]._id }, { 'unread': false });
+                            updates.push(updatePromise);
                         }
-                        res.status(200).json(notifications);
+
+                        Promise.all(updates).then(() => {  
+                            res.status(200).json(notifications);
+                        });
                     }
                 }
             });

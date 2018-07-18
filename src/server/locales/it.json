@@ -87,5 +87,8 @@
     "ForumReplyNotification_Title": "Risposta ricevuta",
 	"ForumReplyNotification_Description": "%s ha risposto alla tua discussione \"%s\" sul forum della malattia \"%s\"",
 	"MessageReportNotification_Title": "Messaggio segnalato",
-	"MessageReportNotification_Description": "Il tuo messaggio con contenuto \"%s\", in risposta alla discussione \"%s\" sul forum della malattia \"%s\", è stato segnalato"
+	"MessageReportNotification_Description": "Il tuo messaggio con contenuto \"%s\", in risposta alla discussione \"%s\" sul forum della malattia \"%s\", è stato segnalato",
+    "Err_Notifications_GettingUserNotifications": "Si è verificato un errore durante l'ottenimento delle notifiche. %s",
+    "Err_Notifications_GettingUnreadUserNotifications": "Si è verificato un errore durante l'ottenimento del numero di notifiche non lette. %s",
+    "Err_Notifications_UserNotFound": "Utente non trovato: non vi è alcun utente registrato col codice specificato"
 }
