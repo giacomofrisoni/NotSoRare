@@ -26,6 +26,7 @@ const forumThreadsService = require('./services/forum_threads_service');
 const forumMessagesService = require('./services/forum_messages_service');
 const userService = require('./services/user.service');
 const userRareDiseasesService = require('./services/user_rarediseases.service');
+const notificationsService = require('./services/notifications.service');
 
 
 /**
@@ -350,6 +351,18 @@ router.get('/users/:id/interests/', (req, res) => {
  */
 router.get('/users/:idUser/interests/:idDisease', (req, res) => {
     userRareDiseasesService.isUserInterested(req, res);
+});
+
+
+/**
+ * NOTIFICATIONS
+ */
+
+/**
+ * Gets the registered rare disease interests for a user.
+ */
+router.get('/users/:id/notifications', (req, res) => {
+    notificationsService.getAllUserNotifications(req, res);
 });
 
 

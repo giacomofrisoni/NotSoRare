@@ -24,11 +24,12 @@ function connect(socketIo) {
 }
 
 
-function sendForumReplyNotification(i18n, fullNameAuthor, forumThreadTitle, diseaseName, codRecipient, errorCallback, successfulCallback) {
+function sendForumReplyNotification(i18n, fullNameAuthor, forumThreadTitle, diseaseName, recipientId, codRecipient, errorCallback, successfulCallback) {
     if (serverSocket) {
         const body = {
             title: i18n.__("ForumReplyNotification_Title"),
-            description: i18n.__("ForumReplyNotification_Description", fullNameAuthor, forumThreadTitle, diseaseName)
+            description: i18n.__("ForumReplyNotification_Description", fullNameAuthor, forumThreadTitle, diseaseName),
+            _recipientId: recipientId
         };
         Notification(body).save((error, data) => {
             if (error) {
@@ -48,11 +49,12 @@ function sendForumReplyNotification(i18n, fullNameAuthor, forumThreadTitle, dise
 }
 
 
-function sendMessageReportNotification(i18n, messageContent, forumThreadTitle, diseaseName, codRecipient, errorCallback, successfulCallback) {
+function sendMessageReportNotification(i18n, messageContent, forumThreadTitle, diseaseName, recipientId, codRecipient, errorCallback, successfulCallback) {
     if (serverSocket) {
         const body = {
             title: i18n.__("MessageReportNotification_Title"),
-            description: i18n.__("MessageReportNotification_Description", messageContent, forumThreadTitle, diseaseName)
+            description: i18n.__("MessageReportNotification_Description", messageContent, forumThreadTitle, diseaseName),
+            _recipientId: recipientId
         };
         Notification(body).save((error, data) => {
             if (error) {
