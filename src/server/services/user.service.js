@@ -196,7 +196,7 @@ function putUser(req, res) {
                  */
                 updateRequest = new Request(
                     "UPDATE StandardUser " +
-                    "SET Email = @Email, Name = @Name, Surname = @Surname, Gender = @Gender, BirthDate = @BirthDate, Nationality = @Nationality, IsAnonymous = @IsAnonymous, Photo = " + (req.body.photo ? "@Photo" : "NULL") + ", Biography = " + (req.body.biography ? "@Biography" : "NULL") + " " +
+                    "SET Email = @Email, Name = @Name, Surname = @Surname, Gender = @Gender, BirthDate = @BirthDate, Nationality = @Nationality, IsAnonymous = @IsAnonymous, Photo = " + ((req.body.photoContentType && req.body.photoData) ? "@Photo" : "NULL") + ", Biography = " + (req.body.biography ? "@Biography" : "NULL") + " " +
                     "WHERE CodUser = @CodUser;", (queryError, rowCount) => {
                         if (queryError) {
                             res.status(500).send({
@@ -226,8 +226,10 @@ function putUser(req, res) {
                                     birth_date: req.body.birthDate,
                                     is_anonymous: req.body.isAnonymous
                                 };
-                                if (req.body.photo) {
-                                    updatedUser.photo = req.body.photo;
+                                if (req.body.photoContentType && req.body.photoData) {
+                                    // Converts base64 photo encoding into buffer
+                                    updatedUser.photo.contentType = req.body.photoContentType;
+                                    updatedUser.photo.data = Buffer.from(req.body.photoData, "base64");
                                 }
                                 User.findOne({ code: id }, (error, user) => {
                                     // Checks server error
@@ -253,7 +255,7 @@ function putUser(req, res) {
                                             user.gender = updatedUser.gender;
                                             user.birth_date = updatedUser.birth_date;
                                             user.is_anonymous = updatedUser.is_anonymous;
-                                            if (req.body.photo) {
+                                            if (req.body.photoContentType && req.body.photoData) {
                                                 user.photo = updatedUser.photo;
                                             }
                                             user.save(error => {
@@ -288,8 +290,9 @@ function putUser(req, res) {
                 updateRequest.addParameter('BirthDate', TYPES.Date, req.body.birthDate);
                 updateRequest.addParameter('Nationality', TYPES.NVarChar, req.body.nationality);
                 updateRequest.addParameter('IsAnonymous', TYPES.Bit, req.body.isAnonymous);
-                if (req.body.photo) {
-                    updateRequest.addParameter('Photo', TYPES.VarBinary, req.body.photo);
+                if (req.body.photoContentType && req.body.photoData) {
+                    const url = "data:" + req.body.photoContentType + ";base64," + req.body.photoData.toString('base64');
+                    updateRequest.addParameter('Photo', TYPES.NVarChar, url);
                 }
                 if (req.body.biography) {
                     updateRequest.addParameter('Biography', TYPES.NVarChar, req.body.biography);
