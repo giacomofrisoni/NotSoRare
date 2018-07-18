@@ -28,8 +28,9 @@ export class TopBarComponent implements OnInit {
 
   userID: number;
 
+  subNotificatorStart: any;
   subNotificatorReply: any;
-  subNotoficatorReporting: any;
+  subNotificatorReporting: any;
 
   constructor(
     private userService: UserService,
@@ -86,21 +87,36 @@ export class TopBarComponent implements OnInit {
         this.isModerator = false;
       }
 
-      if (!this.subNotificatorReply) {
-        this.subNotificatorReply = this.notificator.getForumReplyNotifications().subscribe(data => {
-          this.notificationsNumber++;
-          console.log("Reply" + this.notificationsNumber)
-          console.log(data);
-        });
+      if (this.isUserLoggedIn) {
+        if (!this.subNotificatorReply) {
+          this.subNotificatorReply = this.notificator.getForumReplyNotifications().subscribe(data => {
+            this.notificationsNumber++;
+            console.log("Reply" + this.notificationsNumber)
+            console.log(data);
+          });
+        }
+
+        if (!this.subNotificatorReporting) {
+          this.subNotificatorReporting = this.notificator.getMessageReportingNotifications().subscribe(data => {
+            this.notificationsNumber++;
+            console.log("Report" + this.notificationsNumber)
+            console.log(data);
+          });
+        }
+
+        if (!this.subNotificatorStart) {
+          this.subNotificatorStart = this.notificator.getUnreadedNotificationsCount(this.userID).subscribe(data => {
+            if (data) {
+              console.log(data);
+              //this.notificationsNumber = data;
+            }
+            console.log(data);
+          }, error => {
+            console.log(error);
+          });
+        }
       }
 
-      if (!this.subNotoficatorReporting) {
-        this.subNotoficatorReporting = this.notificator.getMessageReportingNotifications().subscribe(data => {
-          this.notificationsNumber++;
-          console.log("Report" + this.notificationsNumber)
-          console.log(data);
-        });
-      }
 
       // Send a request to notificator, hey, I'm here!
       this.notificator.registerToNotificator(this.userID);
@@ -116,6 +132,10 @@ export class TopBarComponent implements OnInit {
     //this.router.navigate(['/profile', this.userID]);
     this.location.go("/profile/" + this.userID);
     window.location.reload();
+  }
+
+  onNotificationClick() {
+    this.notificationsNumber = 0;
   }
 
   onLogoutClick() {

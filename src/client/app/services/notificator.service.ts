@@ -47,6 +47,12 @@ export class NotificatorService {
     return observable;
   }
 
+  getUnreadedNotificationsCount(userID: number) {
+    return this.http.get(this.globalUtils.apiPath + "/users/" + userID + "/unreadNotificationsCount/" + this.globalUtils.createLanguageParameter(), {
+      withCredentials: true,
+    });
+  }
+
   getAllNotifications(userID: number) {
     return this.http.get(this.globalUtils.apiPath + "/users/" + userID + "/notifications/" + this.globalUtils.createLanguageParameter(), {
       withCredentials: true,

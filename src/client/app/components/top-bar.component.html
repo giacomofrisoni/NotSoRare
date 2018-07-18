@@ -13,8 +13,8 @@
     <div class="flex right-components margined">
         <!-- Right REGISTERED -->
         <div class="flex margined" *ngIf="isUserLoggedIn && !isModerator">
-            <app-menubutton *ngIf="notificationsNumber == 0" icon="fa fa-bell" badgeCount="0" routerLink="/notifications"></app-menubutton>
-            <app-menubutton *ngIf="notificationsNumber > 0" icon="fa fa-bell" [badgeCount]="notificationsNumber" routerLink="/notifications"></app-menubutton>
+            <app-menubutton *ngIf="notificationsNumber == 0" icon="fa fa-bell" badgeCount="0" routerLink="/notifications" (click)="onNotificationClick()"></app-menubutton>
+            <app-menubutton *ngIf="notificationsNumber > 0" icon="fa fa-bell" [badgeCount]="notificationsNumber" routerLink="/notifications" (click)="onNotificationClick()"></app-menubutton>
             <app-menubutton icon="fa fa-user" (click)="onUserClick()"></app-menubutton>
         </div>
 
