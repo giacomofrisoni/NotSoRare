@@ -105,10 +105,9 @@ export class TopBarComponent implements OnInit {
         }
 
         if (!this.subNotificatorStart) {
-          this.subNotificatorStart = this.notificator.getUnreadedNotificationsCount(this.userID).subscribe(data => {
+          this.subNotificatorStart = this.notificator.getUnreadedNotificationsCount(this.userID).subscribe((data: number) => {
             if (data) {
-              console.log(data);
-              //this.notificationsNumber = data;
+              this.notificationsNumber = data;
             }
             console.log(data);
           }, error => {
